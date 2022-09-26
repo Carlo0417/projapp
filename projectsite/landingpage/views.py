@@ -48,6 +48,9 @@ class RoomUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+# ===================================================
+# Functions for adding
+# ===================================================
 def add_room(request):
     if request.method == "POST":
         form = RoomForm(request.POST)
