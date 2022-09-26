@@ -22,7 +22,8 @@ class Room(BaseModel):
     room_name = models.CharField(max_length=25)
     floorlvl = models.CharField(max_length=25, verbose_name="Floor Level")
     dorm_name = models.CharField(max_length=25, choices=DORMNAME_CHOICES)
-    description = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+
 
     class Meta:
         verbose_name_plural = "Rooms"
