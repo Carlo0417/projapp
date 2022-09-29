@@ -14,7 +14,7 @@ from .models import Service
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display=("service_name","is_offered","base_amount",)
+    list_display=("service_name","status","base_amount",)
     search_fields = ("service_name","is_offered","base_amount",)
     list_filter = ("created_at",)
 

@@ -23,6 +23,7 @@ class Room(BaseModel):
     floorlvl = models.CharField(max_length=25, verbose_name="Floor Level")
     dorm_name = models.CharField(max_length=25, choices=DORMNAME_CHOICES)
     description = models.TextField(blank=True, null=True)
+    
 
 
     class Meta:
@@ -38,8 +39,9 @@ class Room(BaseModel):
 # 3	    laundry		        1		      400.00
 
 class Service(BaseModel):
+    STATUS_CHOICES = (('Available','Available'), ('Not Available','Not Available'))
     service_name = models.CharField(max_length=100)
-    is_offered = models.CharField(max_length=5, default='1', editable=False)
+    status = models.CharField(max_length=25, choices=STATUS_CHOICES)
     base_amount = models.DecimalField(default=0, max_digits=6, decimal_places=2)
 
     class Meta:
@@ -61,6 +63,7 @@ class Bed(BaseModel):
     room_id = models.CharField(max_length=25)
     bed_no = models.CharField(max_length=5)
     price = models.CharField(max_length=25)
+    bed_status = models.CharField(max_length=25, default="vacant", verbose_name="Status")
 
     class Meta:
         verbose_name_plural = "Beds"

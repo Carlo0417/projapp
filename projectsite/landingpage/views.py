@@ -4,7 +4,12 @@ from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 
+<<<<<<< HEAD
 from dormitory.models import Room, Service, Bed
+=======
+
+from dormitory.models import Room, Bed, Service
+>>>>>>> 2ef89142d150fe520988c5e2f591be7cbaa468d2
 from django import forms
 from dormitory.forms import RoomForm, ServiceForm, BedForm
 from django.contrib import messages
@@ -17,6 +22,9 @@ class HomePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['available_bed'] = Bed.objects.filter(bed_status__icontains='vacant').count()
+        context['occupied_bed'] = Bed.objects.filter(bed_status__icontains='occupied').count()
+        
         return context
 
 
