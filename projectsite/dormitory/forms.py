@@ -12,7 +12,7 @@ class RoomForm(ModelForm):
 class BedForm(ModelForm):
     class Meta:
         model = Bed
-        fields = "__all__"
+        fields = ['room_id','bed_no','price']
 
 class ServiceForm(ModelForm):
     class Meta:

@@ -39,8 +39,9 @@ class Room(BaseModel):
 # 3	    laundry		        1		      400.00
 
 class Service(BaseModel):
+    STATUS_CHOICES = (('Available','Available'), ('Not Available','Not Available'))
     service_name = models.CharField(max_length=100)
-    is_offered = models.CharField(max_length=5, default='1', editable=False)
+    status = models.CharField(max_length=25, choices=STATUS_CHOICES)
     base_amount = models.DecimalField(default=0, max_digits=6, decimal_places=2)
 
     class Meta:
