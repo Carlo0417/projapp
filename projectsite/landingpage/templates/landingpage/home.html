@@ -13,8 +13,8 @@
                       <i class="material-icons opacity-10">weekend</i>
                     </div>
                     <div class="text-end pt-1">
-                      <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                      <h4 class="mb-0">$53k</h4>
+                      <p class="text-sm mb-0 text-capitalize">Available Bed</p>
+                      <h4 class="mb-0">{% if available_bed != empty %} {{ available_bed }} {% else %} 0 {% endif %}</h4>
                     </div>
                   </div>
                   <hr class="dark horizontal my-0">
@@ -30,8 +30,8 @@
                       <i class="material-icons opacity-10">person</i>
                     </div>
                     <div class="text-end pt-1">
-                      <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                      <h4 class="mb-0">2,300</h4>
+                      <p class="text-sm mb-0 text-capitalize">Occupants</p>
+                      <h4 class="mb-0">{% if occupied_bed != empty %} {{ occupied_bed }} {% else %} 0 {% endif %}</h4>
                     </div>
                   </div>
                   <hr class="dark horizontal my-0">
