@@ -4,14 +4,9 @@ from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 
-<<<<<<< HEAD
-from dormitory.models import Room, Service, Bed
-=======
-
-from dormitory.models import Room, Bed, Service
->>>>>>> 2ef89142d150fe520988c5e2f591be7cbaa468d2
+from dormitory.models import Room, Bed, Service, Occupant
 from django import forms
-from dormitory.forms import RoomForm, ServiceForm, BedForm
+from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm
 from django.contrib import messages
 from django.db.models import Q
 
@@ -118,6 +113,35 @@ class BedUpdateView(UpdateView):
         return context
 
 
+class OccupantList(ListView):
+    model = Occupant
+    context_object_name = 'occupant'
+    template_name = 'occupant_list.html'
+    paginated_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(OccupantList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("person")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("person").filter(Q(person__icontains=query))
+        return qs
+
+class OccupantUpdateView(UpdateView):
+    model = Occupant
+    fields = "__all__"
+    context_object_name = 'occupant'
+    template_name = 'occupant_update.html'
+    success_url = "/occupant_list"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 # ===================================================
 # Functions for adding
 # ===================================================
@@ -170,4 +194,21 @@ def add_bed(request):
     else:
         form = BedForm()
         return render(request, 'bed_add.html',  {'form': form})
+
+
+def add_occupant(request):
+    if request.method == "POST":
+        form = OccupantForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Form submission successful.')
+            return redirect('OccupantAdd')
+
+        else:
+            messages.error(request, 'Please complete required field.')
+            return redirect('OccupantAdd')
+    else:
+        form = OccupantForm()
+        return render(request, 'occupant_add.html',  {'form': form})
 

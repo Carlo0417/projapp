@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from .models import Room, Bed, Service
+from .models import Room, Bed, Service, Occupant
 
 from django import forms
 
@@ -17,6 +17,11 @@ class BedForm(ModelForm):
 class ServiceForm(ModelForm):
     class Meta:
         model = Service
+        fields = "__all__"
+
+class OccupantForm(ModelForm):
+    class Meta:
+        model = Occupant
         fields = "__all__"
 
         

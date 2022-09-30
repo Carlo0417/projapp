@@ -32,9 +32,9 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display=("lastname","firstname","psu_email","username","password",
+    list_display=("lastname","firstname","username","password",
     "security_question","security_answer","recovery_email")
-    search_fields =("lastname","firstname","psu_email","username","password",
+    search_fields =("lastname","firstname","username","password",
     "security_question","security_answer","recovery_email")
     list_filter = ("created_at",)
 
@@ -43,12 +43,16 @@ from .models import Person
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    list_display=("user","office_dept","program","rank","gender",
-    "user_type","guardian","contact_no")
-    search_fields =("user","office_dept","program","rank","gender",
-    "user_type","guardian","contact_no")
+    list_display=("user","psu_email","gender","program","office_dept",
+    "contact_no","address","city","municipality","province","country",
+    "guardian_first_name","guardian_last_name","guardian_email_address",
+    "guardian_present_address","guardian_contact_no")
+    search_fields =("user","psu_email","gender","program","office_dept",
+    "contact_no","address","city","municipality","province","country",
+    "guardian_first_name","guardian_last_name","guardian_email_address",
+    "guardian_present_address","guardian_contact_no")
     list_filter = ("created_at",)
-
+    
 
 from .models import BedPriceHistory
 

@@ -24,8 +24,6 @@ class Room(BaseModel):
     dorm_name = models.CharField(max_length=25, choices=DORMNAME_CHOICES)
     description = models.TextField(blank=True, null=True)
     
-
-
     class Meta:
         verbose_name_plural = "Rooms"
 
@@ -90,7 +88,6 @@ class User(BaseModel):
     
     lastname = models.CharField(max_length=100)
     firstname = models.CharField(max_length=100)
-    psu_email = models.CharField(max_length=250)
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     security_question = models.CharField(max_length=250, choices=SECQ_CHOICES)
@@ -102,7 +99,6 @@ class User(BaseModel):
 
     def __str__(self):
         return f"{self.lastname}"
-
 
 # PERSON
 # Id	userid*		office_dept		program	    rank		    gender		user_type, guardian, contact_no
@@ -120,27 +116,31 @@ class Person(BaseModel):
 
     PROGRAM_CHOICES = (('BSIT','BSIT'),('BSCS','BSCS'),('BSM','BSM'),('BSS','BSS'),('BSPE','BSPE'),('NULL','NULL'))
 
-    RANK_CHOICES = (('Instructor I','Instructor I'),('Instructor II','Instructor II'),('Instructor III','Instructor III'),
-                    ('Instructor IV','Instructor IV'),('Instructor V','Instructor V'),('NULL','NULL'))
-
-    GENDER_CHOICES = (('Male','Male'),('Female','Female'),('Rather not to say','Rather not to say'))
-
-    USER_TYPE_CHOICES = (('Occupant','Occupant'),('Admin','Admin'))
+    GENDER_CHOICES = (('Male','Male'),('Female','Female'),('Gay','Gay'),('Lesbian','Lesbian'),('Transgender','Transgender'),)
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    office_dept = models.CharField(max_length=250, choices=OFFICE_DEPT_CHOICES)
-    program = models.CharField(max_length=250, choices=PROGRAM_CHOICES)
-    rank = models.CharField(max_length=50, choices=RANK_CHOICES)
+    psu_email = models.CharField(max_length=250, default="none", verbose_name="psu_email")
     gender = models.CharField(max_length=50, choices=GENDER_CHOICES)
-    user_type = models.CharField(max_length=50, choices=USER_TYPE_CHOICES)
-    guardian = models.CharField(max_length=250)
+    program = models.CharField(max_length=250, choices=PROGRAM_CHOICES)
+    office_dept = models.CharField(max_length=250, choices=OFFICE_DEPT_CHOICES)
     contact_no = models.CharField(max_length=20)
+    address= models.CharField(max_length=250, default="none", verbose_name="address")
+    city = models.CharField(max_length=250, default="Puerto Princesa City", verbose_name="city")
+    municipality = models.CharField(max_length=250, default="none", verbose_name="municipality")
+    province = models.CharField(max_length=250, default="Palawan", verbose_name="province")
+    country = models.CharField(max_length=250, default="Philippines", verbose_name="country")
+    guardian_first_name = models.CharField(max_length=250, default="none", verbose_name="first name")
+    guardian_last_name= models.CharField(max_length=250, default="none", verbose_name="last name")
+    guardian_email_address = models.CharField(max_length=250, default="none", verbose_name="email")
+    guardian_present_address = models.CharField(max_length=250, default="none", verbose_name="address")
+    guardian_contact_no = models.CharField(max_length=20, default="none", verbose_name="number")
 
     class Meta:
         verbose_name_plural = "Persons"
 
     def __str__(self):
         return f"{self.user}"
+
 
     # BED_PRICE_HISTORY
     # bed_id*	start_date	price
@@ -154,7 +154,7 @@ class BedPriceHistory(BaseModel):
         verbose_name_plural = "Bed Price History"
 
     def __str__(self):
-        return self.bed.room_id
+        return f"{self.bed.room_id}"
 
 
 # OCCUPANT 
