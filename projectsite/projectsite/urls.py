@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from landingpage.views import HomePageView, RoomList, RoomUpdateView, ServiceList, ServiceUpdateView
+from landingpage.views import HomePageView, RoomList, RoomUpdateView, ServiceList, ServiceUpdateView, BedList, BedUpdateView, OccupantList, OccupantUpdateView
 from landingpage import views
 
 urlpatterns = [
@@ -13,4 +13,10 @@ urlpatterns = [
     path('service_list', ServiceList.as_view(), name='ServiceList'),
     path('service_list/add', views.add_service, name='ServiceAdd'),
     path('service_list/<pk>', ServiceUpdateView.as_view(), name="ServiceUpdate"),
+    path('bed_list', BedList.as_view(), name='BedList'),
+    path('bed_list/add', views.add_room, name='BedAdd'),
+    path('bed_list/<pk>', BedUpdateView.as_view(), name="BedUpdate"),
+    path('occupant_list', OccupantList.as_view(), name='OccupantList'),
+    path('occupant_list/add', views.add_occupant, name='OccupantAdd'),
+    path('occupant_list/<pk>', OccupantUpdateView.as_view(), name="OccupantUpdate"),
 ]
