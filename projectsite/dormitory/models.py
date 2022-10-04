@@ -117,13 +117,14 @@ class Person(BaseModel):
     PROGRAM_CHOICES = (('BSIT','BSIT'),('BSCS','BSCS'),('BSM','BSM'),('BSS','BSS'),('BSPE','BSPE'),('NULL','NULL'))
 
     GENDER_CHOICES = (('Male','Male'),('Female','Female'),('Gay','Gay'),('Lesbian','Lesbian'),('Transgender','Transgender'),)
-    
+    TYPE_CHOICES = (('Local','Local'),('Foreign','Foreign'))
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     psu_email = models.CharField(max_length=250, default="none", verbose_name="PSU Email")
     last_name = models.CharField(max_length=250, default="none")
     first_name = models.CharField(max_length=250, default="none")
     middle_name = models.CharField(max_length=250, default="none", null=True, blank=True)
     gender = models.CharField(max_length=50, choices=GENDER_CHOICES)
+    boarder_type = models.CharField(max_length=50, default='Local',choices =TYPE_CHOICES)
     program = models.CharField(max_length=250, choices=PROGRAM_CHOICES)
     office_dept = models.CharField(max_length=250, choices=OFFICE_DEPT_CHOICES, verbose_name="Office / Department")
     contact_no = models.CharField(max_length=20)
@@ -206,10 +207,12 @@ class Bill(BaseModel):
 # 6     2           3                              1000.00
 
 class Bill_Details(BaseModel):
-    bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
+    # bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
+    bill_date = models.DateTimeField(default=timezone.now)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     description = models.CharField(max_length=250)
     amount = models.DecimalField(default=0, max_digits=6, decimal_places=2)
+    occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Bill Details"

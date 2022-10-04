@@ -85,8 +85,8 @@ from .models import Bill_Details
 
 @admin.register(Bill_Details)
 class Bill_DetailsAdmin(admin.ModelAdmin):
-    list_display=("bill","service","description","amount")
-    search_fields =("bill","service","description","amount")
+    list_display=("service","description","amount")
+    search_fields =("service","description","amount")
     list_filter = ("created_at",)
 
 
