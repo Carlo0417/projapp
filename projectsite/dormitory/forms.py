@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from .models import Room, Bed, Service, Occupant
+from .models import Room, Bed, Service, Occupant, Person
 
 from django import forms
 
@@ -23,6 +23,11 @@ class OccupantForm(ModelForm):
     class Meta:
         model = Occupant
         fields = ['person','bed','start_date','end_date']
+
+class RegistrationForm(ModelForm):
+    class Meta:
+        model = Person
+        fields = "__all__"
 
         
 

@@ -84,6 +84,16 @@ class Person(BaseModel):
 
     GENDER_CHOICES = (('Male','Male'),('Female','Female'),('Gay','Gay'),('Lesbian','Lesbian'),('Transgender','Transgender'),)
     TYPE_CHOICES = (('Local','Local'),('Foreign','Foreign'))
+
+    #Admission Requiremnets
+    # Field1 = models.BooleanField(default=False)
+    # Field2 = models.BooleanField(default=False)
+    # Field3 = models.BooleanField(default=False)
+    # Field4 = models.BooleanField(default=False)
+    # Field5 = models.BooleanField(default=False)
+    # Field6 = models.BooleanField(default=False)
+    # Field7 = models.BooleanField(default=False)
+
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     psu_email = models.CharField(max_length=250, default="none", verbose_name="PSU Email")
     last_name = models.CharField(max_length=250, default="none")

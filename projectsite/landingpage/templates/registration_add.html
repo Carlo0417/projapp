@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">New Registration Details</h6>
+                        </div>
+                    </div>
+                    <!-- messages & alerts -->
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <div {% if message.tags %} class="alert {{ message.tags }}" {% endif %} role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>{{ message }}
+                        </div>
+                        {% endfor%}
+                    </ul>
+                    {% endif %}
+                    <!-- /messages & alerts -->
+                    <div class="card-body">
+                    <form role="form" class="" action="" method="post" novalidate>
+                        {% csrf_token %}
+                        {% include 'includes/form.html' %}
+               
+                            <br />
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-3">
+                                    <button type='submit' class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
