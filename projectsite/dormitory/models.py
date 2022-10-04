@@ -210,7 +210,7 @@ class Bill_Details(BaseModel):
     # bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
     bill_date = models.DateTimeField(default=timezone.now)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
-    description = models.CharField(max_length=250)
+    description = models.CharField(max_length=250, null=True, blank=True)
     amount = models.DecimalField(default=0, max_digits=6, decimal_places=2)
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
 
@@ -218,7 +218,7 @@ class Bill_Details(BaseModel):
         verbose_name_plural = "Bill Details"
 
     def __str__(self):
-        return f"{self.bill}"
+        return f"{self.service}"
 
 
 # PAYMENT
