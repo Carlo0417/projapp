@@ -67,7 +67,7 @@ class Bed(BaseModel):
         verbose_name_plural = "Beds"
 
     def __str__(self):
-        return f"{self.room_id}"
+        return f"{self.bed_no}"
 
 
 # USER
@@ -118,28 +118,31 @@ class Person(BaseModel):
 
     GENDER_CHOICES = (('Male','Male'),('Female','Female'),('Gay','Gay'),('Lesbian','Lesbian'),('Transgender','Transgender'),)
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    psu_email = models.CharField(max_length=250, default="none", verbose_name="psu_email")
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    psu_email = models.CharField(max_length=250, default="none", verbose_name="PSU Email")
+    last_name = models.CharField(max_length=250, default="none")
+    first_name = models.CharField(max_length=250, default="none")
+    middle_name = models.CharField(max_length=250, default="none", null=True, blank=True)
     gender = models.CharField(max_length=50, choices=GENDER_CHOICES)
     program = models.CharField(max_length=250, choices=PROGRAM_CHOICES)
-    office_dept = models.CharField(max_length=250, choices=OFFICE_DEPT_CHOICES)
+    office_dept = models.CharField(max_length=250, choices=OFFICE_DEPT_CHOICES, verbose_name="Office / Department")
     contact_no = models.CharField(max_length=20)
     address= models.CharField(max_length=250, default="none", verbose_name="address")
     city = models.CharField(max_length=250, default="Puerto Princesa City", verbose_name="city")
     municipality = models.CharField(max_length=250, default="none", verbose_name="municipality")
     province = models.CharField(max_length=250, default="Palawan", verbose_name="province")
     country = models.CharField(max_length=250, default="Philippines", verbose_name="country")
-    guardian_first_name = models.CharField(max_length=250, default="none", verbose_name="first name")
-    guardian_last_name= models.CharField(max_length=250, default="none", verbose_name="last name")
-    guardian_email_address = models.CharField(max_length=250, default="none", verbose_name="email")
-    guardian_present_address = models.CharField(max_length=250, default="none", verbose_name="address")
-    guardian_contact_no = models.CharField(max_length=20, default="none", verbose_name="number")
+    guardian_first_name = models.CharField(max_length=250, default="none", verbose_name="Guardian's First name")
+    guardian_last_name= models.CharField(max_length=250, default="none", verbose_name="Guardian's Last name")
+    guardian_email_address = models.CharField(max_length=250, default="none", verbose_name="Guardian's email")
+    guardian_present_address = models.CharField(max_length=250, default="none", verbose_name="Guardian's address")
+    guardian_contact_no = models.CharField(max_length=20, default="none", verbose_name="Guardian's contact number")
 
     class Meta:
         verbose_name_plural = "Persons"
 
     def __str__(self):
-        return f"{self.id}"
+        return f"{self.last_name}, {self.first_name}"
 
 
     # BED_PRICE_HISTORY
@@ -164,7 +167,7 @@ class BedPriceHistory(BaseModel):
 class Occupant(BaseModel):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     bed = models.ForeignKey(Bed, on_delete=models.CASCADE)
-    bedPrice = models.ForeignKey(BedPriceHistory, on_delete=models.CASCADE)
+    bedPrice = models.DecimalField(default=0, max_digits=6, decimal_places=2)
     start_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
     end_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
 

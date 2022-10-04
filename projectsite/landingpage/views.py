@@ -10,6 +10,8 @@ from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm
 from django.contrib import messages
 from django.db.models import Q
 
+from django.db import connections
+
 class HomePageView(ListView):
     model = Room
     context_object_name = 'room'
@@ -199,10 +201,20 @@ def add_bed(request):
 def add_occupant(request):
     if request.method == "POST":
         form = OccupantForm(request.POST)
-
+        bed_id = request.POST.get("bed")
+        print(request.POST)
         if form.is_valid():
-            form.save()
+            occ = form.save(commit=False)
+            occ.pk = None
+            occ.bedPrice = Bed.objects.filter(pk=bed_id).values_list('price')
+            occ.save()
+
             messages.success(request, 'Form submission successful.')
+
+            # update BED: bed_status to occupied after adding occupant
+            cursor = connections['default'].cursor()
+            query = f"UPDATE dormitory_bed SET bed_status = 'Occupied' WHERE `id` = {bed_id}"
+            cursor.execute(query)
             return redirect('OccupantAdd')
 
         else:

@@ -22,7 +22,7 @@ class ServiceForm(ModelForm):
 class OccupantForm(ModelForm):
     class Meta:
         model = Occupant
-        fields = "__all__"
+        fields = ['person','bed','start_date','end_date']
 
         
 

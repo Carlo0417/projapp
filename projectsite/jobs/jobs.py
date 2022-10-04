@@ -14,7 +14,7 @@ def schedule_api():
 		cursor = connections['default'].cursor()
 		query = f"INSERT INTO dormitory_bill(bill_date, due_date, total, occupant_id) VALUES(now(), now(), {row.price},{occupant});"
 		print(query)
-		cursor.execute(query)
+		# cursor.execute(query)
 		
 	# print('okay')
 

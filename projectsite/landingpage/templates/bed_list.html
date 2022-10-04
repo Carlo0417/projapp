@@ -23,11 +23,15 @@
                                 <thead>
                                     <tr class="headings">
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Room ID</th>
+                                            Dorm</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Room</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Bed No.</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Price</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Status</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
@@ -36,13 +40,21 @@
                                     {% for object in object_list %}
                                     <tr>
                                         <td>
-                                            <p class="text-xs text-secondary mb-0">{{ object.room_id }}</p>
+                                            <p class="text-xs text-secondary mb-0">{{object.room.dorm_name}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs text-secondary mb-0">{{ object.room }}</p>
                                         </td>
                                         <td class="align-middle">
                                             <p class="text-xs text-secondary mb-0">{{ object.bed_no }}</p>
                                         </td>
                                         <td class="align-middle">
                                             <p class="text-xs text-secondary mb-0">{{ object.price }}</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <span class="badge badge-sm bg-gradient-success">{{ object.bed_status }}</span>
+                                            <!-- <p class="text-xs text-secondary mb-0"></p> 
+                                             <span class="badge badge-sm bg-gradient-secondary">Offline</span>-->
                                         </td>
                                         <td>
                                             <a href="bed_list/{{ object.id }}"
