@@ -2,12 +2,6 @@ from django.utils import timezone
 from tkinter import CASCADE
 from django.db import models
 
-# Create your models here.
-# ROOM
-# Id	room_name	floor	dorm_name	description
-# 1	101		1st	male dorm	4-bed spacer
-# 2	102		1st	female dorm	2-bed spacer
-# 3	103		1st	male dorm	4-bed spacer
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(
@@ -30,12 +24,6 @@ class Room(BaseModel):
     def __str__(self):
         return f"{self.room_name}"
 
-# SERVICE
-# Id	service_name	is_offered      base_amount
-# 1	    electricity		    1		      1000.00
-# 2	    water			    1		      150.00
-# 3	    laundry		        1		      400.00
-
 class Service(BaseModel):
     STATUS_CHOICES = (('Available','Available'), ('Not Available','Not Available'))
     service_name = models.CharField(max_length=100)
@@ -47,15 +35,6 @@ class Service(BaseModel):
 
     def __str__(self):
         return f"{self.service_name}"
-
-# BED
-# Id	room_id	    bed_no	   price
-# 1	      101		  1		   1500.00
-# 2	      101		  2		   1500.00
-# 3	      101		  3		   1500.00
-# 4	      102		  1		   2000.00
-# 5	      102		  2		   2000.00
-# 6	      103		  3		   1500.00
 
 class Bed(BaseModel):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
@@ -69,12 +48,6 @@ class Bed(BaseModel):
     def __str__(self):
         return f"{self.bed_no}"
 
-
-# USER
-# Id	lastname	firstname	    psu_email	     username, password, secq, seca, recovery email
-# 1	    martinez	kristine joy	kjmartinez@psu.palawan.edu.ph
-# 2	    velasco	    kobe		    kobe@psu.palawan.edu.ph
-# 3 	escurel	    carlo		    carlo@psu.palawan.edu.ph
 
 class User(BaseModel):
 
@@ -99,13 +72,6 @@ class User(BaseModel):
 
     def __str__(self):
         return f"{self.lastname}"
-
-# PERSON
-# Id	userid*		office_dept		program	    rank		    gender		user_type, guardian, contact_no
-# 1	      2		    ComStud Dept	BSIT		NULL				        occupant
-# 2	      1		    Math Dept		NULL		Instructor I			    admin
-# 3	      3		    ComStud Dept	BSIT		NULL				        occupant
-
 
 class Person(BaseModel):
 
@@ -145,10 +111,6 @@ class Person(BaseModel):
     def __str__(self):
         return f"{self.last_name}, {self.first_name}"
 
-
-    # BED_PRICE_HISTORY
-    # bed_id*	start_date	price
-
 class BedPriceHistory(BaseModel):
     bed = models.ForeignKey(Bed, on_delete=models.CASCADE)
     start_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
@@ -159,11 +121,6 @@ class BedPriceHistory(BaseModel):
 
     def __str__(self):
         return f"{self.bed.room_id}"
-
-# OCCUPANT 
-# Id person_id*     room_id  bed_id     start_date  end_date 
-# 1     2              1      1       
-# 2     3              1      2
 
 class Occupant(BaseModel):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
@@ -178,12 +135,6 @@ class Occupant(BaseModel):
     def __str__(self):
         return f"{self.person}"
 
-
-# BILL 
-# Id    bill_date   due_date    total    occupant_id* 
-# 1     2022-04-12  2022-05-25  4000        2
-# 2     2022-04-12  2022-05-25  4200        3
-
 class Bill(BaseModel):
     bill_date = models.DateTimeField(default=timezone.now)
     due_date = models.DateTimeField(default=timezone.now)
@@ -196,15 +147,6 @@ class Bill(BaseModel):
     def __str__(self):
         return f"{self.occupant}"
 
-
-# BILL_DETAILS 
-# Id    bill_id*   service_id*     description     amount 
-# 1     1           1              room            2500.00 
-# 2     1           1                              1000.00
-# 3     1           2                               500.00 
-# 4     2           1                              1500.00 
-# 5     2           2                              1700.00 
-# 6     2           3                              1000.00
 
 class Bill_Details(BaseModel):
     # bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
@@ -219,12 +161,6 @@ class Bill_Details(BaseModel):
 
     def __str__(self):
         return f"{self.service}"
-
-
-# PAYMENT
-# Id    occupant_id*    payment_date    amount      receipt_no 
-# 1     2               2022-05-20      3000        ABC10923 
-# 2     2               2022-05-25      1000        DEF12243
 
 class Payment(BaseModel):
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
