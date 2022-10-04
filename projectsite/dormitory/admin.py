@@ -43,11 +43,11 @@ from .models import Person
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    list_display=("user","psu_email","gender","program","office_dept",
+    list_display=("psu_email","gender","program","office_dept",
     "contact_no","address","city","municipality","province","country",
     "guardian_first_name","guardian_last_name","guardian_email_address",
     "guardian_present_address","guardian_contact_no")
-    search_fields =("user","psu_email","gender","program","office_dept",
+    search_fields =("psu_email","gender","program","office_dept",
     "contact_no","address","city","municipality","province","country",
     "guardian_first_name","guardian_last_name","guardian_email_address",
     "guardian_present_address","guardian_contact_no")

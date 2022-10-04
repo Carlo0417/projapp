@@ -11,14 +11,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='guardian',
-            name='user',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='dormitory.user'),
-        ),
-        migrations.AlterField(
-            model_name='person',
-            name='guardian',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='dormitory.guardian'),
-        ),
+        # migrations.AlterField(
+        #     model_name='guardian',
+        #     name='user',
+        #     field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dormitory.user'),
+        # ),
+        # migrations.AlterField(
+        #     model_name='person',
+        #     name='guardian',
+        #     field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dormitory.guardian'),
+        # ),
     ]

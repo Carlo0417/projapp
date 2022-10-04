@@ -18,12 +18,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='guardian',
             name='user',
-            field=models.ForeignKey(default='select', on_delete=django.db.models.deletion.CASCADE, to='dormitory.user'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='dormitory.user'),
         ),
         migrations.AddField(
             model_name='person',
             name='guardian',
-            field=models.ForeignKey(default='select', on_delete=django.db.models.deletion.CASCADE, to='dormitory.guardian'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='dormitory.guardian'),
         ),
         migrations.AlterField(
             model_name='person',

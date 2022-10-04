@@ -58,7 +58,7 @@ class Service(BaseModel):
 # 6	      103		  3		   1500.00
 
 class Bed(BaseModel):
-    room_id = models.CharField(max_length=25)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     bed_no = models.CharField(max_length=5)
     price = models.CharField(max_length=25)
     bed_status = models.CharField(max_length=25, default="vacant", verbose_name="Status")
@@ -139,7 +139,7 @@ class Person(BaseModel):
         verbose_name_plural = "Persons"
 
     def __str__(self):
-        return f"{self.user}"
+        return f"{self.id}"
 
 
     # BED_PRICE_HISTORY
@@ -181,8 +181,8 @@ class Occupant(BaseModel):
 # 2     2022-04-12  2022-05-25  4200        3
 
 class Bill(BaseModel):
-    bill_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
-    due_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
+    bill_date = models.DateTimeField(default=timezone.now)
+    due_date = models.DateTimeField(default=timezone.now)
     total = models.DecimalField(default=0, max_digits=6, decimal_places=2)
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
 
