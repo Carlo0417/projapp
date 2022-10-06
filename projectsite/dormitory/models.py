@@ -85,15 +85,6 @@ class Person(BaseModel):
     GENDER_CHOICES = (('Male','Male'),('Female','Female'),('Gay','Gay'),('Lesbian','Lesbian'),('Transgender','Transgender'),)
     TYPE_CHOICES = (('Local','Local'),('Foreign','Foreign'))
 
-    #Admission Requiremnets
-    Field1 = models.BooleanField(default=False, verbose_name="Two pieces 2""x2"" coloured ID pictures taken not more than six months prior to the signing of the contract")
-    Field2 = models.BooleanField(default=False, verbose_name="Medical Certificate from the University physician")
-    Field3 = models.BooleanField(default=False, verbose_name="Fully accomplished application form (form OIA-OID)")
-    Field4 = models.BooleanField(default=False, verbose_name="Special power of attorney (SPA) for guardian")
-    Field5 = models.BooleanField(default=False, verbose_name="Photocopy of the University Identification card valid on the school year enrolled")
-    Field6 = models.BooleanField(default=False, verbose_name="Certificate of Enrollment")
-    Field7 = models.BooleanField(default=False, verbose_name="Photocopy of the dormitory ID")
-
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     psu_email = models.CharField(max_length=250, default="none", verbose_name="PSU Email")
     last_name = models.CharField(max_length=250, default="none")
@@ -114,6 +105,16 @@ class Person(BaseModel):
     guardian_email_address = models.CharField(max_length=250, default="none", verbose_name="Guardian's Email")
     guardian_present_address = models.CharField(max_length=250, default="none", verbose_name="Guardian's Address")
     guardian_contact_no = models.CharField(max_length=20, default="none", verbose_name="Guardian's Contact Number")
+
+        #Admission Requiremnets
+    Field1 = models.BooleanField(default=False)
+    Field2 = models.BooleanField(default=False)
+    Field3 = models.BooleanField(default=False)
+    Field4 = models.BooleanField(default=False)
+    Field5 = models.BooleanField(default=False)
+    Field6 = models.BooleanField(default=False)
+    Field7 = models.BooleanField(default=False)
+
 
     class Meta:
         verbose_name_plural = "Persons"

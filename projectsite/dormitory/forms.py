@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 
 from .models import Room, Bed, Service, Occupant, Person
+from django.utils.translation import gettext_lazy as _
 
 from django import forms
 
@@ -25,17 +26,21 @@ class OccupantForm(ModelForm):
         fields = ['person','bed','start_date','end_date']
 
 class RegistrationForm(forms.ModelForm):
-    Field1 = forms.BooleanField()
-    Field2 = forms.BooleanField()
-    Field3 = forms.BooleanField()
-    Field4 = forms.BooleanField()
-    Field5 = forms.BooleanField()
-    Field6 = forms.BooleanField()
-    Field7 = forms.BooleanField()
-
     class Meta:
         model = Person
         fields = "__all__"
+        labels = {
+            'Field1' : _('Two pieces 2""x2"" coloured ID pictures taken not more than six months prior to the signing of the contract'),
+            'Field2' : _('Medical Certificate from the University physician'),
+            'Field3' : _('Fully accomplished application form (form OIA-OID)'),
+            'Field4' : _('Special power of attorney (SPA) for guardian'),
+            'Field5' : _('Photocopy of the University Identification card valid on the school year enrolled'),
+            'Field6' : _('Certificate of Enrollment'),
+            'Field7' : _('Photocopy'),
+        }
+        # widgets = {
+        #     'Field1' : forms.CheckboxInput(attrs={'class': 'required checkbox form-control'}),   
+        # }
 
         
 

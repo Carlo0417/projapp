@@ -135,7 +135,7 @@ class OccupantList(ListView):
 
 class OccupantUpdateView(UpdateView):
     model = Occupant
-    fields = "__all__"
+    fields = ['person','bed','start_date','end_date']
     context_object_name = 'occupant'
     template_name = 'occupant_update.html'
     success_url = "/occupant_list"
