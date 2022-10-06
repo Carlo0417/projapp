@@ -13,19 +13,21 @@
                             <h6 class="text-white text-capitalize ps-3">New Room Details</h6>
                         </div>
                     </div>
+                 
+                    <div class="card-body">
+                   
                     <!-- messages & alerts -->
                     {% if messages %}
-                    <ul class="messages">
                         {% for message in messages %}
-                        <div {% if message.tags %} class="alert {{ message.tags }}" {% endif %} role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>{{ message }}
-                        </div>
+                        <div style="color: white; font-size: 15px;" {% if message.tags %} class="alert alert-success alert-dismissible text-whitealert {{ message.tags }}" {% endif %} role="alert">
+                            <button type="button" class="btn-close text-md py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button> {{ message }}
+                        </div> <br>
                         {% endfor%}
-                    </ul>
                     {% endif %}
                     <!-- /messages & alerts -->
-                    <div class="card-body">
+
                     <form role="form" class="" action="" method="post" novalidate>
                         {% csrf_token %}
                         {% include 'includes/form.html' %}
