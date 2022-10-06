@@ -232,7 +232,7 @@ def add_occupant(request):
     if request.method == "POST":
         form = OccupantForm(request.POST)
         bed_id = request.POST.get("bed")
-        print(request.POST)
+        # print(request.POST)
         if form.is_valid():
             occ = form.save(commit=False)
             occ.pk = None
@@ -258,7 +258,7 @@ def add_occupant(request):
 def add_registration(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
-
+        print(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Registered Successfully.')
