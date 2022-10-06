@@ -9,16 +9,30 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">List of Occupants</h6>
+                            <h6 class="text-white ps-3">List of Occupants</h6>
                         </div>
                     </div>
+
                     <div class="card-body">
-                        <div class="col-sm-2">
-                            <div class="pull-right">
-                            <a href="{% url 'OccupantAdd' %}" class="btn bg-gradient-primary mt-4 w-100">Add New Occupant</a>
+                       <div class="row">
+                            <div class="col-sm-2">
+                                <div class="pull-right">
+                                    <a href="{% url 'OccupantAdd' %}" class="btn bg-gradient-primary mt-4 w-100">Add Occupant</a>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-7"></div>
+                            
+                            <div class="col-sm-3">
+                                <div class="input-group input-group-outline">
+                                    <label class="form-label">Search here...</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
                         </div>
-                        </div>
-                        <div class="table-responsive p-0">
+                    </div>
+
+                        <div class="table-responsive" style="padding: 0px 20px;">
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr class="headings">

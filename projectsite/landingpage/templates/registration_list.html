@@ -9,57 +9,45 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">List of Registered Occupants</h6>
+                            <h6 class="text-white ps-3">List of Registered Occupants</h6>
                         </div>
                     </div>
+
                     <div class="card-body">
-                        <div class="col-sm-2">
-                            <div class="pull-right">
-                            <a href="{% url 'RegistrationAdd' %}" class="btn bg-gradient-primary mt-4 w-100">Register</a>
+                       <div class="row">
+                            <div class="col-sm-2">
+                                <div class="pull-right">
+                                <a href="{% url 'RegistrationAdd' %}" class="btn bg-gradient-primary mt-4 w-100">Register</a>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-7"></div>
+                            
+                            <div class="col-sm-3">
+                                <div class="input-group input-group-outline">
+                                    <label class="form-label">Search here...</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
                         </div>
-                        </div>
-                        <div class="table-responsive p-0">
+                    </div>
+
+                        <div class="table-responsive" style="padding: 0px 20px;">
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr class="headings">
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            PSU Email</th>
+                                            Status</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Last Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            First Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Middle Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Gender</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Boarder Type</th>
+                                            Name</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Program</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Office Department</th>
+                                            Boarder Type</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Contact Number</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Address</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            City</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Municipality</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Province</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Country</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Guardian's First Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Guardian's Last Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Guardian's Email</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Guardian's Address</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Guardian's Contact Number</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
@@ -67,64 +55,30 @@
                                 <tbody>
                                     {% for object in object_list %}
                                     <tr>
-                                        <td>
-                                            <p class="text-xs text-secondary mb-0">{{ object.psu_email }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.last_name }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.first_name }}</p>
+                                        <td class="align-middle text-center text-sm">
+                                            <span {% if object.psu_email == "" %} class="badge badge-sm bg-gradient-secondary" {% else %} class="badge badge-sm bg-gradient-success" {% endif %} "> Complete </span>
                                         </td>
                                         <td>
-                                            <p class="text-xs text-secondary mb-0">{{ object.middle_name }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.gender }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.boarder_type }}</p>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{ object.first_name }} {{ object.last_name }}</h6>
+                                                <p class="text-xs text-secondary mb-0">{{ object.psu_email }}</p>
+                                            </div>
                                         </td>
                                         <td>
-                                            <p class="text-xs text-secondary mb-0">{{ object.program }}</p>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <p class="text-xs font-weight-bold mb-0">{{ object.program }}</p>
+                                                <p class="text-xs text-secondary mb-0">{{ object.office_dept }}</p>
+                                            </div>
                                         </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.office_dept }}</p>
+                                        <td class="text-center">
+                                            <p class="text-xs font-weight-bold mb-0">{{ object.boarder_type }}</p>
                                         </td>
-                                        <td class="align-middle">
+                                        <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.contact_no }}</p>
                                         </td>
                                         <td>
                                             <p class="text-xs text-secondary mb-0">{{ object.address }}</p>
                                         </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.city }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.municipality }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.province }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.country }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs text-secondary mb-0">{{ object.guardian_first_name }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.guardian_last_name }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.guardian_email_address }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.guardian_present_address }}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.guardian_contact_no }}</p>
-                                        </td>
-
                                         <td>
                                             <a href="registration_list/{{ object.id }}"
                                                 class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto"

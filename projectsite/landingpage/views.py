@@ -183,11 +183,11 @@ def add_room(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'Form submission successful.')
+            messages.success(request, 'New Room Added Successfully.')
             return redirect('RoomAdd')
 
         else:
-            messages.error(request, 'Please complete required field.')
+            messages.error(request, 'Please complete the required field.')
             return redirect('RoomAdd')
     else:
         form = RoomForm()
@@ -200,11 +200,11 @@ def add_service(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'Form submission successful.')
+            messages.success(request, 'New Service Added Successfully.')
             return redirect('ServiceAdd')
 
         else:
-            messages.error(request, 'Please complete required field.')
+            messages.error(request, 'Please complete the required field.')
             return redirect('ServiceAdd')
     else:
         form = ServiceForm()
@@ -217,11 +217,11 @@ def add_bed(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'Form submission successful.')
+            messages.success(request, 'New Bed Added Successfully.')
             return redirect('BedAdd')
 
         else:
-            messages.error(request, 'Please complete required field.')
+            messages.error(request, 'Please complete the required field.')
             return redirect('BedAdd')
     else:
         form = BedForm()
@@ -239,7 +239,7 @@ def add_occupant(request):
             occ.bedPrice = Bed.objects.filter(pk=bed_id).values_list('price')
             occ.save()
 
-            messages.success(request, 'Form submission successful.')
+            messages.success(request, 'Occupant Added Successfully.')
 
             # update BED: bed_status to occupied after adding occupant
             cursor = connections['default'].cursor()
@@ -248,7 +248,7 @@ def add_occupant(request):
             return redirect('OccupantAdd')
 
         else:
-            messages.error(request, 'Please complete required field.')
+            messages.error(request, 'Please complete the required field.')
             return redirect('OccupantAdd')
     else:
         form = OccupantForm()
@@ -261,11 +261,11 @@ def add_registration(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'Form submission successful.')
+            messages.success(request, 'Registered Successfully.')
             return redirect('RegistrationAdd')
 
         else:
-            messages.error(request, 'Please complete required field.')
+            messages.error(request, 'Please complete the required field/s.')
             return redirect('RegistrationAdd')
     else:
         form = RegistrationForm()
