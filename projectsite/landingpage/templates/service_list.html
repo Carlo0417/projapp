@@ -15,20 +15,20 @@
                     <div class="card-body">
                         <div class="col-sm-2">
                             <div class="pull-right">
-                            <a href="{% url 'ServiceAdd' %}" class="btn bg-gradient-primary mt-4 w-100">Add New Service</a>
+                                <a href="{% url 'ServiceAdd' %}" class="btn bg-gradient-primary mt-4 w-100">Add Service</a>
+                            </div>
                         </div>
-                        </div>
-                        <div class="table-responsive p-0">
+                        <div class="table-responsive" style="padding: 0px 2px;">
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr class="headings">
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Service Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Base Amount</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
                                 </thead>
@@ -36,25 +36,30 @@
                                     {% for object in object_list %}
                                     <tr>
                                         <td>
-                                            <p class="text-xs text-secondary mb-0">{{ object.service_name }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service_name }}</p>
                                         </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-white mb-0 badge badge-sm bg-gradient-success">{{ object.status }}</p>
+                                        <td  class="align-middle text-sm text-center">
+                                            <span {% if object.status == 'Not Available' %} class="badge badge-sm bg-gradient-secondary" {% else %} class="badge badge-sm bg-gradient-success" {% endif %} "> {{ object.status }} </span>
                                         </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.base_amount }}</p>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">P {{ object.base_amount }}</p>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <a href="service_list/{{ object.id }}"
-                                                class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto"
-                                                data-toggle="tooltip">Edit</a>
+                                                class="btn btn-link text-dark px-3 mb-0"
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">edit</i>Edit</a>
+                                            
+                                            <a href="service_list/{{ object.id }}"
+                                                class="btn btn-link text-danger text-gradient px-3 mb-0"
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">delete</i>Delete</a>
                                         </td>
                                     </tr>
 
                                     {% empty %}
-                                    <tr>No objects yet.</tr>
+                                    <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table.</td>
                                     {% endfor %}
-
 
                                 </tbody>
                             </table>

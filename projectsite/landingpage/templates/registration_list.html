@@ -42,13 +42,13 @@
                                             Name</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Program</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Boarder Type</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Contact Number</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Address</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Address</th> -->
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
                                 </thead>
@@ -56,11 +56,11 @@
                                     {% for object in object_list %}
                                     <tr>
                                         <td class="align-middle text-center text-sm">
-                                            <span {% if object.psu_email == "" %} class="badge badge-sm bg-gradient-secondary" {% else %} class="badge badge-sm bg-gradient-success" {% endif %} "> Complete </span>
+                                            <span {% if object.psu_email == "" %} class="badge badge-sm bg-gradient-secondary" {% else %} class="badge badge-sm bg-gradient-success" {% endif %}"> Complete </span>
                                         </td>
                                         <td>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">{{ object.first_name }} {{ object.last_name }}</h6>
+                                                <h6 class="mb-0 text-sm">{{ object.last_name }}, {{ object.first_name }}</h6>
                                                 <p class="text-xs text-secondary mb-0">{{ object.psu_email }}</p>
                                             </div>
                                         </td>
@@ -73,24 +73,32 @@
                                         <td class="text-center">
                                             <p class="text-xs font-weight-bold mb-0">{{ object.boarder_type }}</p>
                                         </td>
-                                        <td class="text-center">
+                                        <!-- <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.contact_no }}</p>
                                         </td>
                                         <td>
                                             <p class="text-xs text-secondary mb-0">{{ object.address }}</p>
-                                        </td>
-                                        <td>
+                                        </td> -->
+                                        <td class="text-center">
                                             <a href="registration_list/{{ object.id }}"
-                                                class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto"
-                                                data-toggle="tooltip">Edit</a>
+                                                class="btn btn-link text-dark px-3 mb-0"
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">edit</i>Edit</a>
+
                                             <a href="registration_list/{{ object.id }}"
-                                                class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto"
-                                                data-toggle="tooltip">View</a>
+                                                class="btn btn-link text-dark px-3 mb-0"
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">assignment</i>View</a>
+                                            
+                                            <a href="registration_list/{{ object.id }}"
+                                                class="btn btn-link text-danger text-gradient px-3 mb-0"
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">delete</i>Delete</a>
                                         </td>
                                     </tr>
 
                                     {% empty %}
-                                    <tr>No objects yet.</tr>
+                                    <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table.</td>
                                     {% endfor %}
 
 
