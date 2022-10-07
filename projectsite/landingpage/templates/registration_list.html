@@ -55,8 +55,12 @@
                                 <tbody>
                                     {% for object in object_list %}
                                     <tr>
-                                        <td class="align-middle text-center text-sm">
-                                            <span {% if object.psu_email == "" %} class="badge badge-sm bg-gradient-secondary" {% else %} class="badge badge-sm bg-gradient-success" {% endif %}"> Complete </span>
+                                        <td class="text-sm">
+                                            {% if object.Field1 == 0 or object.Field2 == 0 or object.Field3 == 0 or object.Field4 == 0 or object.Field5 == 0 or object.Field6 == 0 or object.Field7 == 0 %}
+                                                <span class="badge badge-sm bg-gradient-secondary">Incomplete</span>
+                                            {% else %} 
+                                                <span class="badge badge-sm bg-gradient-success">Complete</span>
+                                            {% endif %}
                                         </td>
                                         <td>
                                             <div class="d-flex flex-column justify-content-center">

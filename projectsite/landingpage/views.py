@@ -149,7 +149,7 @@ class RegistrationList(ListView):
     model = Person
     context_object_name = 'person'
     template_name = 'registration_list.html'
-    paginated_by = 10
+    paginated_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -213,7 +213,7 @@ def add_room(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'New Room Added Successfully.')
+            messages.success(request, 'New room added successfully!')
             return redirect('RoomAdd')
 
         else:
@@ -230,7 +230,7 @@ def add_service(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'New Service Added Successfully.')
+            messages.success(request, 'New service added successfully!')
             return redirect('ServiceAdd')
 
         else:
@@ -247,7 +247,7 @@ def add_bed(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'New Bed Added Successfully.')
+            messages.success(request, 'New bed added successfully!')
             return redirect('BedAdd')
 
         else:
@@ -269,7 +269,7 @@ def add_occupant(request):
             occ.bedPrice = Bed.objects.filter(pk=bed_id).values_list('price')
             occ.save()
 
-            messages.success(request, 'Occupant Added Successfully.')
+            messages.success(request, 'New occupant added successfully!')
 
             # update BED: bed_status to occupied after adding occupant
             cursor = connections['default'].cursor()
@@ -291,7 +291,7 @@ def add_registration(request):
         print(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Registered Successfully.')
+            messages.success(request, 'New inqury registered successfully!')
             return redirect('RegistrationAdd')
 
         else:
@@ -308,7 +308,7 @@ def add_billing(request):
         print(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Bill Added Successfully.')
+            messages.success(request, 'New bill added successfully!')
             return redirect('BillingAdd')
 
         else:
