@@ -24,10 +24,11 @@
                             <div class="col-sm-7"></div>
                             
                             <div class="col-sm-3">
-                                <div class="input-group input-group-outline">
-                                    <label class="form-label">Search here...</label>
-                                    <input type="text" class="form-control">
-                                </div>
+                                <form action="{% url 'OccupantList' %}" method="get"> 
+                                    <div class="input-group input-group-outline">
+                                        <input type="text" class="form-control" name="q" placeholder="Search for...">
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -38,15 +39,15 @@
                                     <tr class="headings">
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Person</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Bed</th>
                                         <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Bed Price</th> -->
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Start Date</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             End Date</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                        <th class=" text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                                             Action</th>
                                     </tr>
                                 </thead>
@@ -54,38 +55,35 @@
                                     {% for object in object_list %}
                                     <tr>
                                         <td>
-                                            <p class="text-xs text-secondary mb-0">{{ object.person }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.person }}</p>
                                         </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.bed }}</p>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.bed }}</p>
                                         </td>
                                         <!-- <td class="align-middle">
                                             <p class="text-xs text-secondary mb-0">{{ object.bedPrice }}</p>
                                         </td> -->
-                                        <td class="align-middle">
+                                        <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.start_date }}</p>
                                         </td>
-                                        <td class="align-middle">
+                                        <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.end_date }}</p>
                                         </td>
                                         <td class="text-center">
                                             <a href="occupant_list/{{ object.id }}"
-                                                class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto"
-                                                data-toggle="tooltip">Edit</a>
-
+                                                class="btn btn-link text-dark px-3 mb-0"
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">edit</i>Edit</a>
+                                            
                                             <a href="occupant_list/{{ object.id }}"
-                                                class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto"
-                                                data-toggle="tooltip">View</a>
-
-                                            <a href="occupant_list/{{ object.id }}"
-                                                class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto"
-                                                data-toggle="tooltip">Payment</a>
-                                        </td>
-                                        
+                                                class="btn btn-link text-danger text-gradient px-3 mb-0"
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">delete</i>Delete</a>
+                                        </td>   
                                     </tr>
 
                                     {% empty %}
-                                    <tr>No objects yet.</tr>
+                                    <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table. </td>
                                     {% endfor %}
 
 

@@ -19,11 +19,9 @@
                     <!-- messages & alerts -->
                     {% if messages %}
                         {% for message in messages %}
-                        <div style="color: white; font-size: 15px;" {% if message.tags %} class="alert alert-success alert-dismissible text-whitealert {{ message.tags }}" {% endif %} role="alert">
-                            <button type="button" class="btn-close text-md py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button> {{ message }}
-                        </div> <br>
+                        <p style="margin-top: 12px;" id="fadeout" class="text-success font-weight-bold text-sm">
+                            {{ message }}
+                        </p> <br>
                         {% endfor%}
                     {% endif %}
                     <!-- /messages & alerts -->
@@ -45,5 +43,13 @@
         </div>
     </div>
 </main>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+</script>
 
 {% endblock %}

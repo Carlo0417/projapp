@@ -17,17 +17,18 @@
                         <div class="row">
                              <div class="col-sm-2">
                                 <div class="pull-right">
-                                    <a href="{% url 'RoomAdd' %}" class="btn bg-gradient-primary mt-4 w-100">Add New Room</a>
+                                    <a href="{% url 'RoomAdd' %}" class="btn bg-gradient-primary mt-4 w-100">Add Room</a>
                                 </div>
                              </div>
  
                              <div class="col-sm-7"></div>
                              
                              <div class="col-sm-3">
-                                 <div class="input-group input-group-outline">
-                                     <label class="form-label">Search here...</label>
-                                     <input type="text" class="form-control">
-                                 </div>
+                                <form action="{% url 'RoomList' %}" method="get"> 
+                                    <div class="input-group input-group-outline">
+                                        <input type="text" class="form-control" name="q" placeholder="Search for...">
+                                    </div>
+                                </form>
                              </div>
                          </div>
                      </div>
@@ -36,42 +37,48 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr class="headings">
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Room Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Floor Level</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Dorm Name</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Description</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for object in object_list %}
                                     <tr>
-                                        <td>
-                                            <p class="text-xs text-secondary mb-0">{{ object.room_name }}</p>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.room_name }}</p>
                                         </td>
-                                        <td class="align-middle">
+                                        <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.floorlvl }}</p>
                                         </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.dorm_name }}</p>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.dorm_name }}</p>
                                         </td>
                                         <td class="align-middle">
                                             <p class="text-xs text-secondary mb-0">{{ object.description }}</p>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <a href="room_list/{{ object.id }}"
-                                                class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto"
-                                                data-toggle="tooltip">Edit</a>
-                                        </td>
+                                                class="btn btn-link text-dark px-3 mb-0"
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">edit</i>Edit</a>
+                                            
+                                            <a href="room_list/{{ object.id }}"
+                                                class="btn btn-link text-danger text-gradient px-3 mb-0"
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">delete</i>Delete</a>
+                                        </td>  
                                     </tr>
 
                                     {% empty %}
-                                    <tr>No objects yet.</tr>
+                                    <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table.</td>
                                     {% endfor %}
 
 

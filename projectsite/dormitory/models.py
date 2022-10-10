@@ -12,7 +12,7 @@ class BaseModel(models.Model):
         abstract = True
 
 class Room(BaseModel):
-    DORMNAME_CHOICES = (('Male Dorm','Male Dorm'), ('Female Dorm','Female Dorm'))
+    DORMNAME_CHOICES = (('Male Dorm','Male Dorm'), ('Female Dorm','Female Dorm'), ('Foreign Dorm','Foreign Dorm'))
     room_name = models.CharField(max_length=25)
     floorlvl = models.CharField(max_length=25, verbose_name="Floor Level")
     dorm_name = models.CharField(max_length=25, choices=DORMNAME_CHOICES)
@@ -161,11 +161,11 @@ class Bill(BaseModel):
 
 class Bill_Details(BaseModel):
     # bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
+    occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
     bill_date = models.DateTimeField(default=timezone.now)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     description = models.CharField(max_length=250, null=True, blank=True)
     amount = models.DecimalField(default=0, max_digits=6, decimal_places=2)
-    occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Bill Details"

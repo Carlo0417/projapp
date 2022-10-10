@@ -1,12 +1,14 @@
+from typing import List
 from django.shortcuts import render, redirect
 
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from dormitory.models import Room, Bed, Service, Occupant, Person
+from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details
 from django import forms
-from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm
+from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm
 from django.contrib import messages
 from django.db.models import Q
 
@@ -40,7 +42,8 @@ class RoomList(ListView):
         qs = qs.order_by("room_name")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("room_name").filter(Q(room_name__icontains=query))
+            qs = qs.order_by("room_name").filter(Q(room_name__icontains=query) | Q(floorlvl__icontains=query)
+            | Q(dorm_name__icontains=query) | Q(description__icontains=query))
         return qs
 
 class RoomUpdateView(UpdateView):
@@ -100,7 +103,8 @@ class BedList(ListView):
         qs = qs.order_by("room_id")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("room_id").filter(Q(room_id__icontains=query))
+            qs = qs.order_by("room_id").filter(Q(room__dorm_name__icontains=query) | Q(room__room_name__icontains=query)
+            | Q(bed_no__icontains=query) | Q(price__icontains=query) | Q(bed_status__icontains=query))
         return qs
 
 class BedUpdateView(UpdateView):
@@ -130,7 +134,7 @@ class OccupantList(ListView):
         qs = qs.order_by("person")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("person").filter(Q(person__icontains=query))
+            qs = qs.order_by("person").filter(Q(person__last_name__icontains=query) | Q(person__first_name__icontains=query))
         return qs
 
 class OccupantUpdateView(UpdateView):
@@ -160,7 +164,8 @@ class RegistrationList(ListView):
         qs = qs.order_by("psu_email")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query))
+            qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query) | Q(last_name__icontains=query) 
+            | Q(first_name__icontains=query) | Q(program__icontains=query) | Q(boarder_type__icontains=query))
         return qs
 
 class RegistrationUpdateView(UpdateView):
@@ -169,6 +174,37 @@ class RegistrationUpdateView(UpdateView):
     context_object_name = 'person'
     template_name = 'registration_update.html'
     success_url = "/registration_list"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class BillingList(ListView):
+    model = Bill_Details
+    context_object_name = 'occupant'
+    template_name = 'billing_list.html'
+    paginated_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(BillingList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("occupant")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("occupant").filter(Q(occupant__person__last_name__icontains=query) 
+            | Q(occupant__person__first_name__icontains=query) | Q(service__service_name__icontains=query))
+        return qs
+
+class BillingUpdateView(UpdateView):
+    model = Bill_Details
+    fields = "__all__"
+    context_object_name = 'occupant'
+    template_name = 'billing_update.html'
+    success_url = "/billing_list"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -183,7 +219,7 @@ def add_room(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'New Room Added Successfully.')
+            messages.success(request, 'New room added successfully!')
             return redirect('RoomAdd')
 
         else:
@@ -200,7 +236,7 @@ def add_service(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'New Service Added Successfully.')
+            messages.success(request, 'New service added successfully!')
             return redirect('ServiceAdd')
 
         else:
@@ -217,7 +253,7 @@ def add_bed(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'New Bed Added Successfully.')
+            messages.success(request, 'New bed added successfully!')
             return redirect('BedAdd')
 
         else:
@@ -239,7 +275,7 @@ def add_occupant(request):
             occ.bedPrice = Bed.objects.filter(pk=bed_id).values_list('price')
             occ.save()
 
-            messages.success(request, 'Occupant Added Successfully.')
+            messages.success(request, 'New occupant added successfully!')
 
             # update BED: bed_status to occupied after adding occupant
             cursor = connections['default'].cursor()
@@ -261,7 +297,7 @@ def add_registration(request):
         print(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Registered Successfully.')
+            messages.success(request, 'New inqury registered successfully!')
             return redirect('RegistrationAdd')
 
         else:
@@ -270,4 +306,21 @@ def add_registration(request):
     else:
         form = RegistrationForm()
         return render(request, 'registration_add.html',  {'form': form})
+
+
+def add_billing(request):
+    if request.method == "POST":
+        form = BillingForm(request.POST)
+        print(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'New bill added successfully!')
+            return redirect('BillingAdd')
+
+        else:
+            messages.error(request, 'Please complete the required field/s.')
+            return redirect('BillingAdd')
+    else:
+        form = BillingForm()
+        return render(request, 'billing_add.html',  {'form': form})
 
