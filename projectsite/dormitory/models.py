@@ -86,7 +86,7 @@ class Person(BaseModel):
     TYPE_CHOICES = (('Local','Local'),('Foreign','Foreign'))
 
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
-    psu_email = models.CharField(max_length=250, default="none", verbose_name="PSU Email")
+    psu_email = models.EmailField(max_length=250, default="none", verbose_name="PSU Email")
     last_name = models.CharField(max_length=250, default="none")
     first_name = models.CharField(max_length=250, default="none")
     middle_name = models.CharField(max_length=250, default="none", null=True, blank=True)
@@ -102,7 +102,7 @@ class Person(BaseModel):
     country = models.CharField(max_length=250, default="Philippines", verbose_name="country")
     guardian_first_name = models.CharField(max_length=250, default="none", verbose_name="Guardian's First name")
     guardian_last_name= models.CharField(max_length=250, default="none", verbose_name="Guardian's Last name")
-    guardian_email_address = models.CharField(max_length=250, default="none", verbose_name="Guardian's Email")
+    guardian_email_address = models.EmailField(max_length=250, default="none", verbose_name="Guardian's Email")
     guardian_present_address = models.CharField(max_length=250, default="none", verbose_name="Guardian's Address")
     guardian_contact_no = models.CharField(max_length=20, default="none", verbose_name="Guardian's Contact Number")
 
