@@ -1,5 +1,7 @@
 from typing import List
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -323,4 +325,13 @@ def add_billing(request):
     else:
         form = BillingForm()
         return render(request, 'billing_add.html',  {'form': form})
+
+
+# ===================================================
+# Functions for deleting
+# ===================================================
+def delete_occupant(request, id):
+  occupant = Occupant.objects.get(id=id)
+  occupant.delete()
+  return HttpResponseRedirect(reverse('OccupantList'))
 

@@ -19,9 +19,15 @@
                     <!-- messages & alerts -->
                     {% if messages %}
                         {% for message in messages %}
-                        <p style="margin-top: 12px;" id="fadeout" class="text-success font-weight-bold text-sm">
-                            {{ message }}
-                        </p> <br>
+                            {% if 'success' in message.tags %}
+                                <p style="margin-top: 12px;" id="fadeout" class="text-success font-weight-bold text-sm">
+                                    {{ message }}
+                                </p> <br>
+                            {% else %}
+                                <p style="margin-top: 12px;" id="fadeout" class="text-danger font-weight-bold text-sm">
+                                    {{ message }}
+                                </p> <br>
+                            {% endif %}
                         {% endfor%}
                     {% endif %}
                     <!-- /messages & alerts -->

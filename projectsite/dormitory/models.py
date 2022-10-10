@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.utils import timezone
 from tkinter import CASCADE
 from django.db import models
@@ -106,14 +107,15 @@ class Person(BaseModel):
     guardian_present_address = models.CharField(max_length=250, default="none", verbose_name="Guardian's Address")
     guardian_contact_no = models.CharField(max_length=20, default="none", verbose_name="Guardian's Contact Number")
 
-        #Admission Requiremnets
-    Field1 = models.BooleanField(default=False)
-    Field2 = models.BooleanField(default=False)
-    Field3 = models.BooleanField(default=False)
-    Field4 = models.BooleanField(default=False)
-    Field5 = models.BooleanField(default=False)
-    Field6 = models.BooleanField(default=False)
-    Field7 = models.BooleanField(default=False)
+    #Admission Requiremnets
+    Field1 = models.BooleanField(default=False, verbose_name='Two pieces 2"x2" coloured ID pictures taken not more than six months prior to the signing of the contract')
+    Field2 = models.BooleanField(default=False, verbose_name='Medical Certificate from the University physician')
+    Field3 = models.BooleanField(default=False, verbose_name='Fully accomplished application form (form OIA-OID')
+    Field4 = models.BooleanField(default=False, verbose_name='Special power of attorney (SPA) for guardian')
+    Field5 = models.BooleanField(default=False, verbose_name='Photocopy of the University Identification card valid on the school year enrolled')
+    Field6 = models.BooleanField(default=False, verbose_name='Certificate of Enrollment')
+    Field7 = models.BooleanField(default=False, verbose_name='Photocopy of the dormitory ID')
+
 
 
     class Meta:

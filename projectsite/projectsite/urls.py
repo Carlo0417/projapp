@@ -19,6 +19,7 @@ urlpatterns = [
     path('occupant_list', OccupantList.as_view(), name='OccupantList'),
     path('occupant_list/add', views.add_occupant, name='OccupantAdd'),
     path('occupant_list/<pk>', OccupantUpdateView.as_view(), name="OccupantUpdate"),
+    path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     path('registration_list', RegistrationList.as_view(), name='RegistrationList'),
     path('registration_list/add', views.add_registration, name='RegistrationAdd'),
     path('registration_list/<pk>', RegistrationUpdateView.as_view(), name="RegistrationUpdate"),
