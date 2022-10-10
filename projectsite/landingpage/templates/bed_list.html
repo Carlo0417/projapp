@@ -23,10 +23,11 @@
                              <div class="col-sm-7"></div>
                              
                              <div class="col-sm-3">
-                                 <div class="input-group input-group-outline">
-                                     <label class="form-label">Search here...</label>
-                                     <input type="text" class="form-control">
-                                 </div>
+                                <form action="{% url 'BedList' %}" method="get"> 
+                                    <div class="input-group input-group-outline">
+                                        <input type="text" class="form-control" name="q" placeholder="Search for...">
+                                    </div>
+                                </form>
                              </div>
                          </div>
                      </div>
@@ -58,7 +59,7 @@
                                             <p class="text-xs text-secondary mb-0">{{ object.room }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ object.bed_no }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.bed_no }}</p>
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">P {{ object.price }}.00</p>

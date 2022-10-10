@@ -1,8 +1,10 @@
+from typing import List
 from django.shortcuts import render, redirect
 
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details
 from django import forms
@@ -40,7 +42,8 @@ class RoomList(ListView):
         qs = qs.order_by("room_name")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("room_name").filter(Q(room_name__icontains=query))
+            qs = qs.order_by("room_name").filter(Q(room_name__icontains=query) | Q(floorlvl__icontains=query)
+            | Q(dorm_name__icontains=query) | Q(description__icontains=query))
         return qs
 
 class RoomUpdateView(UpdateView):
@@ -100,7 +103,8 @@ class BedList(ListView):
         qs = qs.order_by("room_id")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("room_id").filter(Q(room_id__icontains=query))
+            qs = qs.order_by("room_id").filter(Q(room__dorm_name__icontains=query) | Q(room__room_name__icontains=query)
+            | Q(bed_no__icontains=query) | Q(price__icontains=query) | Q(bed_status__icontains=query))
         return qs
 
 class BedUpdateView(UpdateView):
@@ -130,7 +134,7 @@ class OccupantList(ListView):
         qs = qs.order_by("person")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("person").filter(Q(person__icontains=query))
+            qs = qs.order_by("person").filter(Q(person__last_name__icontains=query) | Q(person__first_name__icontains=query))
         return qs
 
 class OccupantUpdateView(UpdateView):
@@ -149,7 +153,7 @@ class RegistrationList(ListView):
     model = Person
     context_object_name = 'person'
     template_name = 'registration_list.html'
-    paginated_by = 5
+    paginated_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -160,7 +164,8 @@ class RegistrationList(ListView):
         qs = qs.order_by("psu_email")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query))
+            qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query) | Q(last_name__icontains=query) 
+            | Q(first_name__icontains=query) | Q(program__icontains=query) | Q(boarder_type__icontains=query))
         return qs
 
 class RegistrationUpdateView(UpdateView):
@@ -190,7 +195,8 @@ class BillingList(ListView):
         qs = qs.order_by("occupant")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("occupant").filter(Q(occupant__icontains=query))
+            qs = qs.order_by("occupant").filter(Q(occupant__person__last_name__icontains=query) 
+            | Q(occupant__person__first_name__icontains=query) | Q(service__service_name__icontains=query))
         return qs
 
 class BillingUpdateView(UpdateView):
