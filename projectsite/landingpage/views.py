@@ -153,7 +153,7 @@ class RegistrationList(ListView):
     model = Person
     context_object_name = 'person'
     template_name = 'registration_list.html'
-    paginated_by = 10
+    paginate_by = 2
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
