@@ -23,8 +23,8 @@ from .models import Bed
 
 @admin.register(Bed)
 class BedAdmin(admin.ModelAdmin):
-    list_display=("room_id","bed_no","price",)
-    search_fields = ("room_id","bed_no","price",)
+    list_display=("room_id","bed_code","price",)
+    search_fields = ("room_id","bed_code","price",)
     list_filter = ("created_at",)
 
 

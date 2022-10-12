@@ -43,7 +43,7 @@
                                             Floor Level</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Dorm Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Description</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
@@ -61,7 +61,7 @@
                                         <td class="text-center">
                                             <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.dorm_name }}</p>
                                         </td>
-                                        <td class="align-middle">
+                                        <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.description }}</p>
                                         </td>
                                         <td class="text-center">
@@ -69,11 +69,11 @@
                                                 class="btn btn-link text-dark px-3 mb-0"
                                                 data-toggle="tooltip" style="font-size: 10px;">
                                                 <i class="material-icons text-sm me-2">edit</i>Edit</a>
-                                            
-                                            <a href="room_list/{{ object.id }}"
-                                                class="btn btn-link text-danger text-gradient px-3 mb-0"
+
+                                            <!-- <a href="delete_room/{{ object.id }}"
+                                                class="btn btn-link text-danger px-3 mb-0"
                                                 data-toggle="tooltip" style="font-size: 10px;">
-                                                <i class="material-icons text-sm me-2">delete</i>Delete</a>
+                                                <i class="material-icons text-sm me-2">delete</i>Delete</a> -->
                                         </td>  
                                     </tr>
 

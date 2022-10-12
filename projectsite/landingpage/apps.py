@@ -6,8 +6,8 @@ class LandingpageConfig(AppConfig):
     name = 'landingpage'
 
     def ready(self):
-    	from jobs import updater
-    	updater.start()
+        from jobs import updater
+        updater.start()
 
 # class MainConfig(AppConfig):
 #     name = 'landingpage'

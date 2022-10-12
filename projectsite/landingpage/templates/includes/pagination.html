@@ -1,30 +1,30 @@
-{% if is_paginated %}
+{% if is_paginated %} <br>
   <nav aria-label="Topics pagination" class="mb-4">
-    <ul class="pagination">
+    <ul class="pagination justify-content-end">
       {% if page_obj.number > 1 %}
         <li class="page-item">
-          <a class="page-link" href="?page=1">First</a>
+          <a class="page-link text-xs font-weight-bold" href="?page=1">First</a>
         </li>
       {% else %}
         <li class="page-item disabled">
-          <span class="page-link">First</span>
+          <span class="page-link text-xs">First</span>
         </li>
       {% endif %}
 
       {% if page_obj.has_previous %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Prev</a>
+          <a class="page-link text-xs font-weight-bold" href="?page={{ page_obj.previous_page_number }}">Prev</a>
         </li>
       {% else %}
         <li class="page-item disabled">
-          <span class="page-link">Prev</span>
+          <span class="page-link text-xs">Prev</span>
         </li>
       {% endif %}
 
       {% for page_num in paginator.page_range %}
         {% if page_obj.number == page_num %}
           <li class="page-item active">
-            <span class="page-link">
+            <span class="page-link text-white">
               {{ page_num }}
               <span class="sr-only">(current)</span>
             </span>
@@ -38,21 +38,21 @@
 
       {% if page_obj.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a class="page-link text-xs font-weight-bold" href="?page={{ page_obj.next_page_number }}">Next</a>
         </li>
       {% else %}
         <li class="page-item disabled">
-          <span class="page-link">Next</span>
+          <span class="page-link text-xs">Next</span>
         </li>
       {% endif %}
 
       {% if page_obj.number != paginator.num_pages %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ paginator.num_pages }}">Last</a>
+          <a class="page-link text-xs font-weight-bold" href="?page={{ paginator.num_pages }}">Last</a>
         </li>
       {% else %}
         <li class="page-item disabled">
-          <span class="page-link">Last</span>
+          <span class="page-link text-xs">Last</span>
         </li>
       {% endif %}
     </ul>
