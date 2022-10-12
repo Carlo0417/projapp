@@ -39,15 +39,15 @@ class Service(BaseModel):
 
 class Bed(BaseModel):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    bed_no = models.CharField(max_length=5)
+    bed_code = models.CharField(max_length=25)
     price = models.CharField(max_length=25)
-    bed_status = models.CharField(max_length=25, default="vacant", verbose_name="Status")
+    bed_status = models.CharField(max_length=25, default="Vacant", verbose_name="Status")
 
     class Meta:
         verbose_name_plural = "Beds"
 
     def __str__(self):
-        return f"{self.bed_no}"
+        return f"{self.bed_code}"
 
 
 class User(BaseModel):

@@ -31,9 +31,9 @@ class HomePageView(ListView):
 
 class RoomList(ListView):
     model = Room
-    context_object_name = 'room'
+    context_object_name = 'rooms'
     template_name = 'room_list.html'
-    paginated_by = 10
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -41,7 +41,7 @@ class RoomList(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(RoomList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("room_name")
+        qs = qs.order_by("floorlvl")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
             qs = qs.order_by("room_name").filter(Q(room_name__icontains=query) | Q(floorlvl__icontains=query)
@@ -64,7 +64,7 @@ class ServiceList(ListView):
     model = Service
     context_object_name = 'service'
     template_name = 'service_list.html'
-    paginated_by = 10
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -94,7 +94,7 @@ class BedList(ListView):
     model = Bed
     context_object_name = 'bed'
     template_name = 'bed_list.html'
-    paginated_by = 10
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -106,7 +106,7 @@ class BedList(ListView):
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
             qs = qs.order_by("room_id").filter(Q(room__dorm_name__icontains=query) | Q(room__room_name__icontains=query)
-            | Q(bed_no__icontains=query) | Q(price__icontains=query) | Q(bed_status__icontains=query))
+            | Q(bed_code__icontains=query) | Q(price__icontains=query) | Q(bed_status__icontains=query))
         return qs
 
 class BedUpdateView(UpdateView):
@@ -125,7 +125,7 @@ class OccupantList(ListView):
     model = Occupant
     context_object_name = 'occupant'
     template_name = 'occupant_list.html'
-    paginated_by = 10
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -155,7 +155,7 @@ class RegistrationList(ListView):
     model = Person
     context_object_name = 'person'
     template_name = 'registration_list.html'
-    paginated_by = 10
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -186,7 +186,7 @@ class BillingList(ListView):
     model = Bill_Details
     context_object_name = 'occupant'
     template_name = 'billing_list.html'
-    paginated_by = 10
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -330,8 +330,18 @@ def add_billing(request):
 # ===================================================
 # Functions for deleting
 # ===================================================
-def delete_occupant(request, id):
-  occupant = Occupant.objects.get(id=id)
-  occupant.delete()
-  return HttpResponseRedirect(reverse('OccupantList'))
+# def delete_occupant(request, id):
+#   occupant = Occupant.objects.get(id=id)
+#   occupant.delete()
+#   return HttpResponseRedirect(reverse('OccupantList'))
+
+# def delete_bed(request, id):
+#   bed = Bed.objects.get(id=id)
+#   bed.delete()
+#   return HttpResponseRedirect(reverse('BedList'))
+
+# def delete_room(request, id):
+#   room = Room.objects.get(id=id)
+#   room.delete()
+#   return HttpResponseRedirect(reverse('RoomList'))
 

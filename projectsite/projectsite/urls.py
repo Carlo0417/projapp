@@ -19,13 +19,14 @@ urlpatterns = [
     path('occupant_list', OccupantList.as_view(), name='OccupantList'),
     path('occupant_list/add', views.add_occupant, name='OccupantAdd'),
     path('occupant_list/<pk>', OccupantUpdateView.as_view(), name="OccupantUpdate"),
-    path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     path('registration_list', RegistrationList.as_view(), name='RegistrationList'),
     path('registration_list/add', views.add_registration, name='RegistrationAdd'),
     path('registration_list/<pk>', RegistrationUpdateView.as_view(), name="RegistrationUpdate"),
     path('billing_list', BillingList.as_view(), name='BillingList'),
     path('billing_list/add', views.add_billing, name='BillingAdd'),
     path('billing_list/<pk>', BillingUpdateView.as_view(), name="BillingUpdate"),
-
+    # path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
+    # path('delete_bed/<int:id>', views.delete_bed, name='delete_bed'),
+    # path('delete_room/<int:id>', views.delete_room, name='delete_room'),
 
 ]

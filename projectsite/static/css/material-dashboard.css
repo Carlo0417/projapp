@@ -24687,7 +24687,7 @@ body:not(.dark-version) .sidenav.bg-transparent .collapse .nav-item .nav-link.ac
   color: #7b809a;
   padding: 0;
   margin: 0 3px;
-  border-radius: 50% !important;
+  border-radius: 20% !important;
   width: 36px;
   height: 36px;
   font-size: 0.875rem;
