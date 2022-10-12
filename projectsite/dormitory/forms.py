@@ -24,6 +24,10 @@ class OccupantForm(ModelForm):
     class Meta:
         model = Occupant
         fields = ['person','bed','start_date','end_date']
+    
+    def __init__(self, user=None, **kwargs):
+        super(OccupantForm, self).__init__(**kwargs)
+        self.fields['bed'].queryset = Bed.objects.filter(bed_status__icontains='vacant')
 
 class RegistrationForm(forms.ModelForm):
     class Meta:
