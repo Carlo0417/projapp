@@ -28,8 +28,11 @@ class OccupantForm(ModelForm):
     def __init__(self, user=None, **kwargs):
         super(OccupantForm, self).__init__(**kwargs)
         self.fields['bed'].queryset = Bed.objects.filter(bed_status__icontains='vacant')
-        self.fields['person'].queryset = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
-        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1, Field7__icontains=1)
+        # self.fields['person'].queryset = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
+        # Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1, Field7__icontains=1)
+        occupants_id = Occupant.objects.all().values_list('person_id')
+        self.fields['person'].queryset = Person.objects.all().exclude(id__in=occupants_id)
+
 
 class RegistrationForm(forms.ModelForm):
     class Meta:
