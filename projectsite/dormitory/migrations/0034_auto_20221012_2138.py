@@ -10,10 +10,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='bed',
-            name='bed_no',
-        ),
+        # migrations.RemoveField(
+        #     model_name='bed',
+        #     name='bed_no',
+        # ),
         migrations.AddField(
             model_name='bed',
             name='bed_code',

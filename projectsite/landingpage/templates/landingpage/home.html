@@ -19,7 +19,20 @@
                   </div>
                   <hr class="dark horizontal my-0">
                   <div class="card-footer p-3">
-                    <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than last week</p>
+                    <div class="row">
+                      <div class="col-4">
+                        <span class="mb-0 text-link text-sm">Male Dorm: <span class="text-dark text-sm font-weight-bolder">
+                          {% if maledorm_bed != empty %} {{ maledorm_bed }} {% else %} 0 {% endif %}</span></span>
+                      </div>
+                      <div class="col-4">
+                        <span class="mb-0 text-link text-sm">Female Dorm: <span class="text-dark text-sm font-weight-bolder"> 
+                          {% if femaledorm_bed != empty %} {{ femaledorm_bed }} {% else %} 0 {% endif %}</span></span>
+                      </div>
+                      <div class="col-4">
+                        <span class="mb-0 text-link text-sm">Foreign Dorm: <span class="text-dark text-sm font-weight-bolder"> 
+                          {% if foreigndorm_bed != empty %} {{ foreigndorm_bed }} {% else %} 0 {% endif %}</span></span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -36,7 +49,16 @@
                   </div>
                   <hr class="dark horizontal my-0">
                   <div class="card-footer p-3">
-                    <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than last month</p>
+                    <div class="row">
+                      <div class="col-6">
+                        <span class="mb-0 text-link text-sm">Local: <span class="text-primary text-sm font-weight-bolder">
+                          {% if local != empty %} {{ local }} {% else %} 0 {% endif %}</span></span>
+                      </div>
+                      <div class="col-6">
+                        <span class="mb-0 text-link text-sm">Foreign: <span class="text-primary text-sm font-weight-bolder"> 
+                          {% if foreign != empty %} {{ foreign }} {% else %} 0 {% endif %}</span></span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -47,14 +69,23 @@
                       <i class="material-icons opacity-10">person</i>
                     </div>
                     <div class="text-end pt-1">
-                      <p class="text-sm mb-0 text-capitalize">New Clients</p>
-                      <h4 class="mb-0">3,462</h4>
+                      <p class="text-sm mb-0 text-capitalize">Registered</p>
+                      <h4 class="mb-0">{% if registered != empty %} {{ registered }} {% else %} 0 {% endif %}</h4>
                     </div>
                   </div>
                   <hr class="dark horizontal my-0">
                   <div class="card-footer p-3">
-                    <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p>
-                  </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <span class="mb-0 text-link text-sm">Complete: <span class="text-success text-sm font-weight-bolder">
+                            {% if complete != empty %} {{ complete }} {% else %} 0 {% endif %}</span></span>
+                        </div>
+                        <div class="col-6">
+                          <span class="mb-0 text-link text-sm">Incomplete: <span class="text-danger text-sm font-weight-bolder"> 
+                            {% if incomplete != empty %} {{ incomplete }} {% else %} 0 {% endif %}</span></span>
+                        </div>
+                      </div>
+                    </div>
                 </div>
               </div>
               <div class="col-xl-3 col-sm-6">

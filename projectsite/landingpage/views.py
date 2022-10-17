@@ -1,3 +1,4 @@
+from atexit import register
 from typing import List
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
@@ -25,6 +26,19 @@ class HomePageView(ListView):
         context = super().get_context_data(**kwargs)
         context['available_bed'] = Bed.objects.filter(bed_status__icontains='vacant').count()
         context['occupied_bed'] = Bed.objects.filter(bed_status__icontains='occupied').count()
+        context['registered'] = Person.objects.filter(psu_email__isnull=False).count()
+        context['complete'] = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
+        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
+        Field7__icontains=1).count()
+        context['incomplete'] =  Person.objects.filter(psu_email__isnull=False).count() - Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
+        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
+        Field7__icontains=1).count()
+        context['local'] = Occupant.objects.filter(person_id__boarder_type__icontains='Local').count()
+        context['foreign'] = Occupant.objects.filter(person_id__boarder_type__icontains='Foreign').count()
+        context['maledorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', 
+        room_id__dorm_name__icontains="Male Dorm").exclude(room_id__dorm_name__icontains="Female Dorm").count()
+        context['femaledorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__icontains="Female Dorm").count()
+        context['foreigndorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__icontains="Foreign Dorm").count()
         
         return context
 
