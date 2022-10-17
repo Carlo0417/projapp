@@ -40,7 +40,7 @@ class Service(BaseModel):
 class Bed(BaseModel):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     bed_code = models.CharField(max_length=25)
-    price = models.CharField(max_length=25)
+    price = models.DecimalField(default=1500, max_digits=6, decimal_places=2)
     bed_status = models.CharField(max_length=25, default="Vacant", verbose_name="Status")
 
     class Meta:
@@ -138,7 +138,7 @@ class BedPriceHistory(BaseModel):
 class Occupant(BaseModel):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     bed = models.ForeignKey(Bed, on_delete=models.CASCADE)
-    bedPrice = models.DecimalField(default=0, max_digits=6, decimal_places=2)
+    bedPrice = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2)
     start_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
     end_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
 
