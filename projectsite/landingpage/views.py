@@ -184,15 +184,11 @@ class OccupantList(ListView):
 
 class OccupantUpdateView(UpdateView):
     model = Occupant
-<<<<<<< HEAD
+
     # fields = ['person','bed','start_date','end_date']
     context_object_name = 'occupant'
     form_class = OccupantFormEdit
-=======
-    context_object_name = 'occupant'
-    form_class = OccupantForm
-    # fields = ['person','bed','start_date','end_date']
->>>>>>> 0b0ab65e3baaf2337ebd434b9ec3d6bc89193ef1
+
     template_name = 'occupant_update.html'
     success_url = "/occupant_list"
 
