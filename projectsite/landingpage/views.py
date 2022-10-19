@@ -11,7 +11,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details
 from django import forms
-from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm, OccupantFormEdit
+from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm, OccupantFormEdit, BillingFormEdit
 from django.contrib import messages
 from django.db.models import Q
 
@@ -264,7 +264,8 @@ class BillingList(ListView):
 
 class BillingUpdateView(UpdateView):
     model = Bill_Details
-    fields = "__all__"
+    # fields = "__all__"
+    form_class = BillingFormEdit
     context_object_name = 'occupant'
     template_name = 'billing_update.html'
     success_url = "/billing_list"

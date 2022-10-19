@@ -74,4 +74,19 @@ class RegistrationForm(forms.ModelForm):
 class BillingForm(ModelForm):
     class Meta:
         model = Bill_Details
-        fields = "__all__"   
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        bill = kwargs.pop('bill', None)
+        super(BillingForm, self).__init__(*args, **kwargs)
+        self.fields['service'].queryset = Service.objects.filter(status__icontains='Available').exclude(status__icontains='Not Available')
+
+class BillingFormEdit(ModelForm):
+    class Meta:
+        model = Bill_Details
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        bill = kwargs.pop('bill', None)
+        super(BillingFormEdit, self).__init__(*args, **kwargs)
+        self.fields['service'].queryset = Service.objects.filter(status__icontains='Available').exclude(status__icontains='Not Available')
