@@ -9,7 +9,7 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF9001;">
                             <h6 class="text-white text-capitalize ps-3">Update Registration Details</h6>
                         </div>
                     </div>
@@ -21,7 +21,9 @@
                             <br />
                             <div class="form-group">
                                 <div class="col-md-12 col-sm-3">
-                                    <button type='submit' class="btn btn-primary">Update</button>
+                                    <button type='submit' class="btn text-white" style="background-color: #FF9001;">Update</button>
+                                    &nbsp &nbsp &nbsp
+                                    <a class="btn text-white" style="background-color: #4b4b4b;" href="{% url 'RegistrationList' %}">Cancel</a>
                                 </div>
                             </div>
                         </div>

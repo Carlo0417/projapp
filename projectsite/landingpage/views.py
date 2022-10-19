@@ -11,7 +11,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details
 from django import forms
-from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm
+from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm, OccupantFormEdit
 from django.contrib import messages
 from django.db.models import Q
 
@@ -25,7 +25,7 @@ class HomePageView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['available_bed'] = Bed.objects.filter(bed_status__icontains='vacant').count()
-        context['occupied_bed'] = Bed.objects.filter(bed_status__icontains='occupied').count()
+        context['occupants'] = Occupant.objects.count()
         context['registered'] = Person.objects.filter(psu_email__isnull=False).count()
         context['complete'] = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
         Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
@@ -39,7 +39,6 @@ class HomePageView(ListView):
         room_id__dorm_name__icontains="Male Dorm").exclude(room_id__dorm_name__icontains="Female Dorm").count()
         context['femaledorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__icontains="Female Dorm").count()
         context['foreigndorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__icontains="Foreign Dorm").count()
-        
         return context
 
 
@@ -61,6 +60,15 @@ class RoomList(ListView):
             qs = qs.order_by("room_name").filter(Q(room_name__icontains=query) | Q(floorlvl__icontains=query)
             | Q(dorm_name__icontains=query) | Q(description__icontains=query))
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rooms'] = Room.objects.count()
+        context['maledorm'] = Room.objects.filter(dorm_name__icontains="Male Dorm").exclude(dorm_name__icontains="Female Dorm").count()
+        context['femaledorm'] = Room.objects.filter(dorm_name__icontains="Female Dorm").count()
+        context['foreigndorm'] = Room.objects.filter(dorm_name__icontains="Foreign Dorm").count()
+        return context
+
 
 class RoomUpdateView(UpdateView):
     model = Room
@@ -91,6 +99,13 @@ class ServiceList(ListView):
             query = self.request.GET.get('q')
             qs = qs.order_by("service_name").filter(Q(service_name__icontains=query))
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['services'] = Service.objects.count()
+        context['available'] = Service.objects.filter(status__icontains="Available").exclude(status__icontains="Not Available").count()
+        context['notavailable'] = Service.objects.filter(status__icontains="Not Available").count()
+        return context
 
 class ServiceUpdateView(UpdateView):
     model = Service
@@ -123,6 +138,14 @@ class BedList(ListView):
             | Q(bed_code__icontains=query) | Q(price__icontains=query) | Q(bed_status__icontains=query))
         return qs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['beds'] = Bed.objects.count()
+        context['vacant'] = Bed.objects.filter(bed_status__icontains='vacant').count()
+        context['occupied'] = Bed.objects.filter(bed_status__icontains='occupied').count()
+        return context
+        
+
 class BedUpdateView(UpdateView):
     model = Bed
     fields = "__all__"
@@ -153,10 +176,17 @@ class OccupantList(ListView):
             qs = qs.order_by("person").filter(Q(person__last_name__icontains=query) | Q(person__first_name__icontains=query))
         return qs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['occupants'] = Occupant.objects.count()
+        return context
+
+
 class OccupantUpdateView(UpdateView):
     model = Occupant
-    fields = ['person','bed','start_date','end_date']
+    # fields = ['person','bed','start_date','end_date']
     context_object_name = 'occupant'
+    form_class = OccupantFormEdit
     template_name = 'occupant_update.html'
     success_url = "/occupant_list"
 
@@ -164,13 +194,11 @@ class OccupantUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
-
 class RegistrationList(ListView):
     model = Person
     context_object_name = 'person'
     template_name = 'registration_list.html'
     paginate_by = 10
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -184,6 +212,17 @@ class RegistrationList(ListView):
             qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query) | Q(last_name__icontains=query) 
             | Q(first_name__icontains=query) | Q(program__icontains=query) | Q(boarder_type__icontains=query))
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['registered'] = Person.objects.count()
+        context['complete'] = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
+        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
+        Field7__icontains=1).count()
+        context['incomplete'] =  Person.objects.filter(psu_email__isnull=False).count() - Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
+        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
+        Field7__icontains=1).count()
+        return context
 
 class RegistrationUpdateView(UpdateView):
     model = Person
@@ -215,6 +254,11 @@ class BillingList(ListView):
             qs = qs.order_by("occupant").filter(Q(occupant__person__last_name__icontains=query) 
             | Q(occupant__person__first_name__icontains=query) | Q(service__service_name__icontains=query))
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bills'] = Bill_Details.objects.count()
+        return context
 
 class BillingUpdateView(UpdateView):
     model = Bill_Details

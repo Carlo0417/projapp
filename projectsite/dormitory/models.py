@@ -84,7 +84,7 @@ class Person(BaseModel):
 
     PROGRAM_CHOICES = (('BSIT','BSIT'),('BSCS','BSCS'),('BSM','BSM'),('BSS','BSS'),('BSPE','BSPE'),('NULL','NULL'))
 
-    GENDER_CHOICES = (('Male','Male'),('Female','Female'),('Gay','Gay'),('Lesbian','Lesbian'),('Transgender','Transgender'),)
+    GENDER_CHOICES = (('Male','Male'),('Female','Female'),('LGBTQ+','LGBTQ+'))
     TYPE_CHOICES = (('Local','Local'),('Foreign','Foreign'))
 
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -134,7 +134,7 @@ class BedPriceHistory(BaseModel):
         verbose_name_plural = "Bed Price History"
 
     def __str__(self):
-        return f"{self.bed.room_id}"
+        return f"{self.bed}"
 
 class Occupant(BaseModel):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)

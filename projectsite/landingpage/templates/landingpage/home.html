@@ -6,30 +6,34 @@
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <div class="container-fluid py-4">
             <div class="row">
-              <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+              <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
                   <div class="card-header p-3 pt-2">
-                    <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                    <div class="icon icon-lg icon-shape shadow-dark text-center border-radius-xl mt-n4 position-absolute"
+                    style="background-color: #FF4200;">
                       <i class="material-icons opacity-10">weekend</i>
                     </div>
                     <div class="text-end pt-1">
                       <p class="text-sm mb-0 text-capitalize">Available Bed</p>
-                      <h4 class="mb-0">{% if available_bed != empty %} {{ available_bed }} {% else %} 0 {% endif %}</h4>
+                      <h4 class="mb-0" style="color: #FF4200;">{% if available_bed != empty %} {{ available_bed }} {% else %} 0 {% endif %}</h4>
                     </div>
                   </div>
                   <hr class="dark horizontal my-0">
                   <div class="card-footer p-3">
                     <div class="row">
                       <div class="col-4">
-                        <span class="mb-0 text-link text-sm">Male Dorm: <span class="text-dark text-sm font-weight-bolder">
+                        <span class="mb-0 text-link text-sm">Male Dorm: <span class="text-sm font-weight-bolder"
+                          style="color: #FF4200;">
                           {% if maledorm_bed != empty %} {{ maledorm_bed }} {% else %} 0 {% endif %}</span></span>
                       </div>
                       <div class="col-4">
-                        <span class="mb-0 text-link text-sm">Female Dorm: <span class="text-dark text-sm font-weight-bolder"> 
+                        <span class="mb-0 text-link text-sm">Female Dorm: <span class="text-sm font-weight-bolder"
+                          style="color: #FF4200;"> 
                           {% if femaledorm_bed != empty %} {{ femaledorm_bed }} {% else %} 0 {% endif %}</span></span>
                       </div>
                       <div class="col-4">
-                        <span class="mb-0 text-link text-sm">Foreign Dorm: <span class="text-dark text-sm font-weight-bolder"> 
+                        <span class="mb-0 text-link text-sm">Foreign Dorm: <span class="text-sm font-weight-bolder"
+                          style="color: #FF4200;"> 
                           {% if foreigndorm_bed != empty %} {{ foreigndorm_bed }} {% else %} 0 {% endif %}</span></span>
                       </div>
                     </div>
@@ -39,23 +43,26 @@
               <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
                   <div class="card-header p-3 pt-2">
-                    <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                      <i class="material-icons opacity-10">person</i>
+                    <div class="icon icon-lg icon-shape shadow-primary text-center border-radius-xl mt-n4 position-absolute"
+                    style="background-color: #FF4200;">
+                      <i class="material-icons opacity-10">groups</i>
                     </div>
                     <div class="text-end pt-1">
                       <p class="text-sm mb-0 text-capitalize">Occupants</p>
-                      <h4 class="mb-0">{% if occupied_bed != empty %} {{ occupied_bed }} {% else %} 0 {% endif %}</h4>
+                      <h4 class="mb-0" style="color: #FF4200;">{% if occupants != empty %} {{ occupants }} {% else %} 0 {% endif %}</h4>
                     </div>
                   </div>
                   <hr class="dark horizontal my-0">
                   <div class="card-footer p-3">
                     <div class="row">
                       <div class="col-6">
-                        <span class="mb-0 text-link text-sm">Local: <span class="text-primary text-sm font-weight-bolder">
+                        <span class="mb-0 text-link text-sm">Local: <span class="text-sm font-weight-bolder"
+                        style="color: #FF4200;">
                           {% if local != empty %} {{ local }} {% else %} 0 {% endif %}</span></span>
                       </div>
                       <div class="col-6">
-                        <span class="mb-0 text-link text-sm">Foreign: <span class="text-primary text-sm font-weight-bolder"> 
+                        <span class="mb-0 text-link text-sm">Foreign: <span class="text-sm font-weight-bolder"
+                        style="color: #FF4200;"> 
                           {% if foreign != empty %} {{ foreign }} {% else %} 0 {% endif %}</span></span>
                       </div>
                     </div>
@@ -65,30 +72,33 @@
               <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
                   <div class="card-header p-3 pt-2">
-                    <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                      <i class="material-icons opacity-10">person</i>
+                    <div class="icon icon-lg icon-shape shadow-success text-center border-radius-xl mt-n4 position-absolute"
+                    style="background-color: #FF4200;">
+                      <i class="material-icons opacity-10">table_view</i>
                     </div>
                     <div class="text-end pt-1">
                       <p class="text-sm mb-0 text-capitalize">Registered</p>
-                      <h4 class="mb-0">{% if registered != empty %} {{ registered }} {% else %} 0 {% endif %}</h4>
+                      <h4 class="mb-0" style="color: #FF4200;">{% if registered != empty %} {{ registered }} {% else %} 0 {% endif %}</h4>
                     </div>
                   </div>
                   <hr class="dark horizontal my-0">
                   <div class="card-footer p-3">
                       <div class="row">
                         <div class="col-6">
-                          <span class="mb-0 text-link text-sm">Complete: <span class="text-success text-sm font-weight-bolder">
+                          <span class="mb-0 text-link text-sm">Complete: <span class="text-sm font-weight-bolder"
+                          style="color: #FF4200;">
                             {% if complete != empty %} {{ complete }} {% else %} 0 {% endif %}</span></span>
                         </div>
                         <div class="col-6">
-                          <span class="mb-0 text-link text-sm">Incomplete: <span class="text-danger text-sm font-weight-bolder"> 
+                          <span class="mb-0 text-link text-sm">Incomplete: <span class="text-sm font-weight-bolder"
+                            style="color: #FF4200;"> 
                             {% if incomplete != empty %} {{ incomplete }} {% else %} 0 {% endif %}</span></span>
                         </div>
                       </div>
                     </div>
                 </div>
               </div>
-              <div class="col-xl-3 col-sm-6">
+              <!-- <div class="col-xl-3 col-sm-6">
                 <div class="card">
                   <div class="card-header p-3 pt-2">
                     <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
@@ -104,7 +114,7 @@
                     <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than yesterday</p>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
         </div>
   </main>

@@ -1,7 +1,10 @@
+from faulthandler import disable
+from certifi import where
 from django.forms import ModelForm
 
 from .models import Room, Bed, Service, Occupant, Person, Bill_Details
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Q
 
 from django import forms
 
@@ -33,7 +36,25 @@ class OccupantForm(ModelForm):
         self.fields['person'].queryset = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
         Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
         Field7__icontains=1).exclude(id__in=occupants_id)
-        
+
+class OccupantFormEdit(ModelForm):
+    class Meta:
+        model = Occupant
+        fields = ['person','bed','start_date','end_date']
+
+    def __init__(self, *args, **kwargs):
+        occupant = kwargs.pop('occupant', None)
+        super(OccupantFormEdit, self).__init__(*args, **kwargs)
+
+        bed_id = Bed.objects.all().values_list('id')
+        occupants_id = Occupant.objects.all().values_list('person_id')
+
+        self.fields['person'].queryset = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
+        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
+        Field7__icontains=1)
+
+        self.fields['bed'].queryset = Bed.objects.filter((Q(bed_status__icontains='vacant', id__in=bed_id))).exclude((Q(id__in=occupants_id)))
+       
 
 class RegistrationForm(forms.ModelForm):
     class Meta:
