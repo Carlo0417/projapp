@@ -85,7 +85,7 @@ class Person(BaseModel):
 
     PROGRAM_CHOICES = (('BSIT','BSIT'),('BSCS','BSCS'),('BSM','BSM'),('BSS','BSS'),('BSPE','BSPE'),('NULL','NULL'))
 
-    GENDER_CHOICES = (('Male','Male'),('Female','Female'),('LGBTQ+','LGBTQ+'))
+    GENDER_CHOICES = (('Male','Male'),('Female','Female'),('LGBTQIA+','LGBTQIA+'))
     TYPE_CHOICES = (('Local','Local'),('Foreign','Foreign'))
 
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -117,8 +117,6 @@ class Person(BaseModel):
     Field5 = models.BooleanField(default=False, verbose_name='Photocopy of the University Identification card valid on the school year enrolled')
     Field6 = models.BooleanField(default=False, verbose_name='Certificate of Enrollment')
     Field7 = models.BooleanField(default=False, verbose_name='Photocopy of the dormitory ID')
-
-
 
     class Meta:
         verbose_name_plural = "Persons"

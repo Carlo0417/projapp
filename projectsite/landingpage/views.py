@@ -188,7 +188,6 @@ class OccupantUpdateView(UpdateView):
     # fields = ['person','bed','start_date','end_date']
     context_object_name = 'occupant'
     form_class = OccupantFormEdit
-
     template_name = 'occupant_update.html'
     success_url = "/occupant_list"
 
