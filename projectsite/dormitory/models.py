@@ -139,7 +139,7 @@ class BedPriceHistory(BaseModel):
 class Occupant(BaseModel):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     bed = models.ForeignKey(Bed, on_delete=models.CASCADE)
-    bedPrice = models.DecimalField(default=0, max_digits=6, decimal_places=2)
+    bedPrice = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2)
     start_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
     end_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
 

@@ -184,9 +184,15 @@ class OccupantList(ListView):
 
 class OccupantUpdateView(UpdateView):
     model = Occupant
+<<<<<<< HEAD
     # fields = ['person','bed','start_date','end_date']
     context_object_name = 'occupant'
     form_class = OccupantFormEdit
+=======
+    context_object_name = 'occupant'
+    form_class = OccupantForm
+    # fields = ['person','bed','start_date','end_date']
+>>>>>>> 0b0ab65e3baaf2337ebd434b9ec3d6bc89193ef1
     template_name = 'occupant_update.html'
     success_url = "/occupant_list"
 
@@ -328,14 +334,17 @@ def add_bed(request):
 def add_occupant(request):
     if request.method == "POST":
         form = OccupantForm(request.POST)
-        bed_id = request.POST.get("bed")
-        # print(request.POST)
+        
+        
         if form.is_valid():
+            bed_id = request.POST.get("bed")
             occ = form.save(commit=False)
             occ.pk = None
             occ.bedPrice = Bed.objects.filter(pk=bed_id).values_list('price')
+            print(request.POST)
+            print(occ.bedPrice)
             occ.save()
-
+        
             messages.success(request, 'New occupant added successfully!')
 
             # update BED: bed_status to occupied after adding occupant
@@ -345,7 +354,9 @@ def add_occupant(request):
             return redirect('OccupantAdd')
 
         else:
+            
             messages.error(request, 'Please complete the required field.')
+            # print()
             return redirect('OccupantAdd')
     else:
         form = OccupantForm()
