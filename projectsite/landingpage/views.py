@@ -331,7 +331,6 @@ def add_occupant(request):
     if request.method == "POST":
         form = OccupantForm(request.POST)
         
-        
         if form.is_valid():
             bed_id = request.POST.get("bed")
             occ = form.save(commit=False)

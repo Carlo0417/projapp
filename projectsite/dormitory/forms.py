@@ -27,14 +27,14 @@ class OccupantForm(ModelForm):
     class Meta:
         model = Occupant
         fields = ['person','bed','start_date','end_date']
-    
-    def __init__(self, user=None, **kwargs):
-        super(OccupantForm, self).__init__(**kwargs)
+
+    def __init__(self, *args, **kwargs):
+        occupant = kwargs.pop('occupant', None)
+        super(OccupantForm, self).__init__(*args, **kwargs)
         self.fields['bed'].queryset = Bed.objects.filter(bed_status__icontains='vacant')
         # self.fields['person'].queryset = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
         # Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1, Field7__icontains=1)
         occupants_id = Occupant.objects.all().values_list('person_id')
-<<<<<<< HEAD
         self.fields['person'].queryset = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
         Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
         Field7__icontains=1).exclude(id__in=occupants_id)
@@ -48,19 +48,11 @@ class OccupantFormEdit(ModelForm):
         occupant = kwargs.pop('occupant', None)
         super(OccupantFormEdit, self).__init__(*args, **kwargs)
 
-        bed_id = Bed.objects.all().values_list('id')
-        occupants_id = Occupant.objects.all().values_list('person_id')
-
         self.fields['person'].queryset = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
         Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
         Field7__icontains=1)
 
-        self.fields['bed'].queryset = Bed.objects.filter((Q(bed_status__icontains='vacant', id__in=bed_id))).exclude((Q(id__in=occupants_id)))
-       
-=======
-        self.fields['person'].queryset = Person.objects.all().exclude(id__in=occupants_id)
-
->>>>>>> 0b0ab65e3baaf2337ebd434b9ec3d6bc89193ef1
+        self.fields['bed'].queryset = Bed.objects.all()    
 
 class RegistrationForm(forms.ModelForm):
     class Meta:
