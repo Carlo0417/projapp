@@ -14,8 +14,9 @@ class BaseModel(models.Model):
 
 class Room(BaseModel):
     DORMNAME_CHOICES = (('Male Dorm','Male Dorm'), ('Female Dorm','Female Dorm'), ('Foreign Dorm','Foreign Dorm'))
+    FLOOR_CHOICES = (('1','1'), ('2','2'), ('3','3'))
     room_name = models.CharField(max_length=25)
-    floorlvl = models.CharField(max_length=25, verbose_name="Floor Level")
+    floorlvl = models.CharField(max_length=25, verbose_name="Floor Level", choices=FLOOR_CHOICES)
     dorm_name = models.CharField(max_length=25, choices=DORMNAME_CHOICES)
     description = models.TextField(blank=True, null=True)
     
