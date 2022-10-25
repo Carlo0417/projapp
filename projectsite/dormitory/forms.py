@@ -52,7 +52,7 @@ class OccupantFormEdit(ModelForm):
         Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
         Field7__icontains=1)
 
-        self.fields['bed'].queryset = Bed.objects.all()    
+        self.fields['bed'].queryset = Bed.objects.filter(bed_status__icontains='vacant')  
 
 class RegistrationForm(forms.ModelForm):
     class Meta:

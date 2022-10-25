@@ -184,7 +184,6 @@ class OccupantList(ListView):
 
 class OccupantUpdateView(UpdateView):
     model = Occupant
-
     # fields = ['person','bed','start_date','end_date']
     context_object_name = 'occupant'
     form_class = OccupantFormEdit
@@ -193,7 +192,16 @@ class OccupantUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print(f"Old Bed ID {self.object.bed_id}")
         return context
+
+    def get_success_url(self, **kwargs):
+        print(f"New Bed ID {self.object.bed_id}")
+        cursor = connections['default'].cursor()
+        query = f"UPDATE dormitory_bed SET bed_status = 'Occupied' WHERE `id` = {self.object.bed_id}"
+        cursor.execute(query)
+        return "/occupant_list"
+
 
 class RegistrationList(ListView):
     model = Person
@@ -395,18 +403,18 @@ def add_billing(request):
 # ===================================================
 # Functions for deleting
 # ===================================================
-# def delete_occupant(request, id):
-#   occupant = Occupant.objects.get(id=id)
-#   occupant.delete()
-#   return HttpResponseRedirect(reverse('OccupantList'))
+def delete_occupant(request, id):
+  occupant = Occupant.objects.get(id=id)
+  occupant.delete()
+  return HttpResponseRedirect(reverse('OccupantList'))
 
 # def delete_bed(request, id):
 #   bed = Bed.objects.get(id=id)
 #   bed.delete()
 #   return HttpResponseRedirect(reverse('BedList'))
 
-# def delete_room(request, id):
-#   room = Room.objects.get(id=id)
+# def delete_reg(request, id):
+#   room = Person.objects.get(id=id)
 #   room.delete()
-#   return HttpResponseRedirect(reverse('RoomList'))
+#   return HttpResponseRedirect(reverse('RegistrationList'))
 

@@ -39,10 +39,11 @@ class Service(BaseModel):
         return f"{self.service_name}"
 
 class Bed(BaseModel):
+    BED_STATUS_CHIOCES = (('Vacant','Vacant'), ('Occupied','Occupied'),('Under Maint.','Under Maint.'))
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     bed_code = models.CharField(max_length=25, default="none", verbose_name="Bed Code")
     price = models.DecimalField(default=0, max_digits=6, decimal_places=0)
-    bed_status = models.CharField(max_length=25, default="Vacant", verbose_name="Status")
+    bed_status = models.CharField(max_length=25, default="Vacant", verbose_name="Status",  choices=BED_STATUS_CHIOCES)
 
     class Meta:
         verbose_name_plural = "Beds"
@@ -78,15 +79,35 @@ class User(BaseModel):
 
 class Person(BaseModel):
 
-    OFFICE_DEPT_CHOICES = (('Computer Studies Department','Computer Studies Department'),
-                            ('Math Department','Math Department'),
-                            ('Science Department','Science Department'),
-                            ('Physical Education Department','Physical Education Department'))
+    OFFICE_DEPT_CHOICES = (('Electrical Engineering Department','Electrical Engineering Department'),
+                            ('Computer Studies Department','Computer Studies Department'),
+                            ('Department of Physical Education','Department of Physical Education'),
+                            ('Department of Secondary Education','Department of Secondary Education'),
+                            ('Bio-Physical Science Department','Bio-Physical Science Department'),
+                            ('Architecture Department','Architecture Department'),
+                            ('Civil Engineering Department','Civil Engineering Department'),
+                            ('Department of Elementary Education','Department of Elementary Education'),
+                            ('Petroleum Engineering Department','Petroleum Engineering Department'),
+                            ('Dapartment of Secondary Education','Dapartment of Secondary Education'),
+                            ('Mechanical Engineering Department','Mechanical Engineering Department'),
+                            ('Not yet included','Not yet included'),)
 
-    PROGRAM_CHOICES = (('BSIT','BSIT'),('BSCS','BSCS'),('BSM','BSM'),('BSS','BSS'),('BSPE','BSPE'),('NULL','NULL'))
+    PROGRAM_CHOICES = (('BAMC','BAMC'),('BSEE','BSEE'),('BSTM','BSTM'),('BSA','BSA'),('BSIT','BSIT'),('BSN','BSN'),
+    ('BPED','BPED'),('BSCrim','BSCrim'),('BSED-3','BSED-3'),('BSM','BSM'),('BSMB','BSMB'),('BSBA-ECO','BSBA-ECO'),
+    ('BSHM','BSHM'),('BSAr','BSAr'),('BSP','BSP'),('BAPolSci','BAPolSci'),('BSCE','BSCE'),('BSTM','BSTM'),('BSPA','BSPA'),
+    ('BSCS','BSCS'),('DM','DM'),('BEED','BEED'),('BSED-2','BSED-2'),('BSSW','BSSW'),('BSPE','BSPE'),('BSBA-FM','BSBA-FM'),
+    ('BSB-MB','BSB-MB'),('BSED-1','BSED-1'),('BAPS','BAPS'),('BSME','BSME'),('BSBA-MM','BSBA-MM'),('BSMA','BSMA'),('BSES','BSES'),
+    ('BSE','BSE'),('BSBA-HRDM','BSBA-HRDM'),('BSB-MD','BSB-MD'),)
 
-    GENDER_CHOICES = (('Male','Male'),('Female','Female'),('LGBTQIA+','LGBTQIA+'))
-    TYPE_CHOICES = (('Local','Local'),('Foreign','Foreign'))
+    MUNICIPALITIES_CHOICES = (('None','None'),('Aborlan','Aborlan'),('Agutaya','Agutaya'),('Araceli','Araceli'),('Balabac','Balabac'),
+    ('Batazar','Batazar'), ('Brooke''s Point','Brooke''s Point'),('Busuanga','Busuanga'),('Cagayancillo','Cagayancillo'),
+    ('Coron','Coron'),('Culion','Culion'),('Cuyo','Cuyo'),('Dumaran','Dumaran'),('El Nido','El Nido'),
+    ('Iwahig Penal Colony','Iwahig Penal Colony'),('Kalayaan','Kalayaan'),('Linapacan','Linapacan'),('Magsaysay','Magsaysay'),
+    ('Narra','Narra'),('Puerto Princesa City','Puerto Princesa City'), ('Aborlan','Aborlan'),('Quezon','Quezon'),('Roxas','Roxas'),
+    ('Rizal','Rizal'),('San Vicente','San Vicente'),('Sofronio Española','Sofronio Española'),('Taytay','Taytay'),)
+
+    GENDER_CHOICES = (('Male','Male'),('Female','Female'),('LGBTQIA+','LGBTQIA+'),)
+    TYPE_CHOICES = (('Local','Local'),('Foreign','Foreign'),)
 
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     psu_email = models.EmailField(max_length=250, default="none", verbose_name="PSU Email")
@@ -100,7 +121,7 @@ class Person(BaseModel):
     contact_no = models.CharField(max_length=20)
     address= models.CharField(max_length=250, default="none", verbose_name="address")
     city = models.CharField(max_length=250, default="Puerto Princesa City", verbose_name="city")
-    municipality = models.CharField(max_length=250, default="none", verbose_name="municipality")
+    municipality = models.CharField(max_length=250, default="None", verbose_name="municipality", choices=MUNICIPALITIES_CHOICES)
     province = models.CharField(max_length=250, default="Palawan", verbose_name="province")
     country = models.CharField(max_length=250, default="Philippines", verbose_name="country")
     guardian_first_name = models.CharField(max_length=250, default="none", verbose_name="Guardian's First name")
