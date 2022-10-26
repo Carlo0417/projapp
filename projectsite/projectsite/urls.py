@@ -25,7 +25,7 @@ urlpatterns = [
     path('billing_list', BillingList.as_view(), name='BillingList'),
     path('billing_list/add', views.add_billing, name='BillingAdd'),
     path('billing_list/<pk>', BillingUpdateView.as_view(), name="BillingUpdate"),
-    path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
+    # path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     # path('delete_bed/<int:id>', views.delete_bed, name='delete_bed'),
     # path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),
 ]

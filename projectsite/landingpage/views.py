@@ -192,15 +192,15 @@ class OccupantUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(f"Old Bed ID {self.object.bed_id}")
+        # print(f"Old Bed ID {self.object.bed_id}")
         return context
 
-    def get_success_url(self, **kwargs):
-        print(f"New Bed ID {self.object.bed_id}")
-        cursor = connections['default'].cursor()
-        query = f"UPDATE dormitory_bed SET bed_status = 'Occupied' WHERE `id` = {self.object.bed_id}"
-        cursor.execute(query)
-        return "/occupant_list"
+    # def get_success_url(self, **kwargs):
+    #     print(f"New Bed ID {self.object.bed_id}")
+    #     cursor = connections['default'].cursor()
+    #     query = f"UPDATE dormitory_bed SET bed_status = 'Occupied' WHERE `id` = {self.object.bed_id}"
+    #     cursor.execute(query)
+    #     return "/occupant_list"
 
 
 class RegistrationList(ListView):
@@ -403,10 +403,13 @@ def add_billing(request):
 # ===================================================
 # Functions for deleting
 # ===================================================
-def delete_occupant(request, id):
-  occupant = Occupant.objects.get(id=id)
-  occupant.delete()
-  return HttpResponseRedirect(reverse('OccupantList'))
+# def delete_occupant(request, id):
+#     occupant = Occupant.objects.get(id=id)
+#     occupant.delete()
+#     cursor = connections['default'].cursor()
+#     query = f"UPDATE dormitory_bed SET bed_status = 'Vacant' WHERE `id` = {id}"
+#     cursor.execute(query)
+#     return HttpResponseRedirect(reverse('OccupantList'))
 
 # def delete_bed(request, id):
 #   bed = Bed.objects.get(id=id)
