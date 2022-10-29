@@ -1,7 +1,7 @@
 from atexit import register
 from typing import List
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 from django.views.generic.base import TemplateView
@@ -127,9 +127,18 @@ class BedList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['beds'] = Bed.objects.count()
+        context['vacant'] = Bed.objects.filter(bed_status__icontains='vacant').count()
+        context['occupied'] = Bed.objects.filter(bed_status__icontains='occupied').count()
         return context
 
     def get_queryset(self, *args, **kwargs):
+
+        #Set Vacant those bed_id without occupant_id
+        cursor = connections['default'].cursor()
+        query = f"UPDATE dormitory_bed SET bed_status = 'Vacant' WHERE id NOT IN (SELECT bed_id FROM dormitory_occupant)"
+        cursor.execute(query)
+
         qs = super(BedList, self).get_queryset(*args, **kwargs)
         qs = qs.order_by("room_id")
         if self.request.GET.get("q") != None:
@@ -137,14 +146,6 @@ class BedList(ListView):
             qs = qs.order_by("room_id").filter(Q(room__dorm_name__icontains=query) | Q(room__room_name__icontains=query)
             | Q(bed_code__icontains=query) | Q(price__icontains=query) | Q(bed_status__icontains=query))
         return qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['beds'] = Bed.objects.count()
-        context['vacant'] = Bed.objects.filter(bed_status__icontains='vacant').count()
-        context['occupied'] = Bed.objects.filter(bed_status__icontains='occupied').count()
-        return context
-        
 
 class BedUpdateView(UpdateView):
     model = Bed
@@ -166,6 +167,7 @@ class OccupantList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['occupants'] = Occupant.objects.count()
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -175,11 +177,6 @@ class OccupantList(ListView):
             query = self.request.GET.get('q')
             qs = qs.order_by("person").filter(Q(person__last_name__icontains=query) | Q(person__first_name__icontains=query))
         return qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['occupants'] = Occupant.objects.count()
-        return context
 
 
 class OccupantUpdateView(UpdateView):
@@ -192,15 +189,15 @@ class OccupantUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # print(f"Old Bed ID {self.object.bed_id}")
+        print(f"Old Bed ID {self.object.bed_id}")
         return context
-
-    # def get_success_url(self, **kwargs):
-    #     print(f"New Bed ID {self.object.bed_id}")
-    #     cursor = connections['default'].cursor()
-    #     query = f"UPDATE dormitory_bed SET bed_status = 'Occupied' WHERE `id` = {self.object.bed_id}"
-    #     cursor.execute(query)
-    #     return "/occupant_list"
+    
+    def get_success_url(self, **kwargs):
+        print(f"New Bed ID {self.object.bed_id}")
+        cursor = connections['default'].cursor()
+        query1 = f"UPDATE dormitory_bed SET bed_status = 'Occupied' WHERE `id` = {self.object.bed_id}"
+        cursor.execute(query1)
+        return "/occupant_list"
 
 
 class RegistrationList(ListView):
@@ -208,19 +205,6 @@ class RegistrationList(ListView):
     context_object_name = 'person'
     template_name = 'registration_list.html'
     paginate_by = 10
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-    def get_queryset(self, *args, **kwargs):
-        qs = super(RegistrationList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("psu_email")
-        if self.request.GET.get("q") != None:
-            query = self.request.GET.get('q')
-            qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query) | Q(last_name__icontains=query) 
-            | Q(first_name__icontains=query) | Q(program__icontains=query) | Q(boarder_type__icontains=query))
-        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -232,6 +216,16 @@ class RegistrationList(ListView):
         Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
         Field7__icontains=1).count()
         return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(RegistrationList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("psu_email")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query) | Q(last_name__icontains=query) 
+            | Q(first_name__icontains=query) | Q(program__icontains=query) | Q(boarder_type__icontains=query))
+        return qs
+
 
 class RegistrationUpdateView(UpdateView):
     model = Person
@@ -253,6 +247,7 @@ class BillingList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['bills'] = Bill_Details.objects.count()
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -264,10 +259,6 @@ class BillingList(ListView):
             | Q(occupant__person__first_name__icontains=query) | Q(service__service_name__icontains=query))
         return qs
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['bills'] = Bill_Details.objects.count()
-        return context
 
 class BillingUpdateView(UpdateView):
     model = Bill_Details
@@ -420,4 +411,3 @@ def add_billing(request):
 #   room = Person.objects.get(id=id)
 #   room.delete()
 #   return HttpResponseRedirect(reverse('RegistrationList'))
-

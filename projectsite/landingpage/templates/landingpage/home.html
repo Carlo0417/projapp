@@ -7,8 +7,10 @@
         <div class="container-fluid py-4">
             <div class="row">
               <!-- Totals -->
-              <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4" id="myBtn">
+              <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
+
+                  <a href="bed_list?q=vacant" style="color: #7B809A;">
                   <div class="card-header p-3 pt-2">
                     <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
                       <i class="material-icons opacity-10">weekend</i>
@@ -18,12 +20,17 @@
                       <h4 class="mb-0 text-dark">{% if available_bed != empty %} {{ available_bed }} {% else %} 0 {% endif %}</h4>
                     </div>
                   </div>
+                  </a>
+
                   <hr class="dark horizontal my-0">
+
                   <div class="card-footer p-3">
                     <div class="row">
                       <div class="col-4">
+                        <a href="bed_list?q=vacant&bed_list?q=male dorm" style="color: #7B809A;">
                         <span class="mb-0 text-link text-sm">Male Dorm: <span class="text-sm font-weight-bolder text-dark">
                           {% if maledorm_bed != empty %} {{ maledorm_bed }} {% else %} 0 {% endif %}</span></span>
+                        </a>
                       </div>
                       <div class="col-4">
                         <span class="mb-0 text-link text-sm">Female Dorm: <span class="text-sm font-weight-bolder text-dark"> 
@@ -37,9 +44,10 @@
                   </div>
                 </div>
               </div>
-
               <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
+
+                  <a href="occupant_list" style="color: #7B809A;">
                   <div class="card-header p-3 pt-2">
                     <div class="icon icon-lg icon-shape shadow-primary text-center border-radius-xl mt-n4 position-absolute"
                     style="background-color: #FF4200;">
@@ -50,7 +58,10 @@
                       <h4 class="mb-0" style="color: #FF4200;">{% if occupants != empty %} {{ occupants }} {% else %} 0 {% endif %}</h4>
                     </div>
                   </div>
+                  </a>
+
                   <hr class="dark horizontal my-0">
+
                   <div class="card-footer p-3">
                     <div class="row">
                       <div class="col-6">
@@ -69,6 +80,8 @@
               </div>
               <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
+
+                  <a href="registration_list" style="color: #7B809A;">
                   <div class="card-header p-3 pt-2">
                     <div class="icon icon-lg icon-shape shadow-success text-center border-radius-xl mt-n4 position-absolute"
                     style="background-color: #ff9001;">
@@ -79,7 +92,10 @@
                       <h4 class="mb-0" style="color: #ff9001;">{% if registered != empty %} {{ registered }} {% else %} 0 {% endif %}</h4>
                     </div>
                   </div>
+                  </a>
+
                   <hr class="dark horizontal my-0">
+
                   <div class="card-footer p-3">
                       <div class="row">
                         <div class="col-6">
