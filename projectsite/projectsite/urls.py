@@ -1,8 +1,12 @@
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 
+
 from landingpage.views import HomePageView, RoomList, RoomUpdateView, ServiceList, ServiceUpdateView, BedList, BedUpdateView, OccupantList, OccupantUpdateView, RegistrationList, RegistrationUpdateView, BillingList, BillingUpdateView
 from landingpage import views
+
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +32,7 @@ urlpatterns = [
     # path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     # path('delete_bed/<int:id>', views.delete_bed, name='delete_bed'),
     # path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),
+
+    url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
 ]
