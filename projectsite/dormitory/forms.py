@@ -67,9 +67,14 @@ class RegistrationForm(forms.ModelForm):
             'Field6' : _('Certificate of Enrollment'),
             'Field7' : _('Photocopy of the dormitory ID'),
         }
+
+    psu_email = forms.CharField(widget=forms.TextInput(
+      attrs={'placeholder': '*******'}))
+
         # widgets = {
         #     'Field1' : forms.CheckboxInput(attrs={'class': 'required checkbox form-control'}),   
         # }
+
 
 class BillingForm(ModelForm):
     class Meta:

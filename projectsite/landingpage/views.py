@@ -1,5 +1,9 @@
 from atexit import register
 from typing import List
+
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -17,6 +21,7 @@ from django.db.models import Q
 
 from django.db import connections
 
+@method_decorator(login_required, name='dispatch')
 class HomePageView(ListView):
     model = Room
     context_object_name = 'room'
@@ -42,6 +47,7 @@ class HomePageView(ListView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class RoomList(ListView):
     model = Room
     context_object_name = 'rooms'
@@ -70,6 +76,7 @@ class RoomList(ListView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class RoomUpdateView(UpdateView):
     model = Room
     fields = "__all__"
@@ -82,6 +89,7 @@ class RoomUpdateView(UpdateView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class ServiceList(ListView):
     model = Service
     context_object_name = 'service'
@@ -107,6 +115,8 @@ class ServiceList(ListView):
         context['notavailable'] = Service.objects.filter(status__icontains="Not Available").count()
         return context
 
+
+@method_decorator(login_required, name='dispatch')
 class ServiceUpdateView(UpdateView):
     model = Service
     fields = "__all__"
@@ -119,6 +129,7 @@ class ServiceUpdateView(UpdateView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class BedList(ListView):
     model = Bed
     context_object_name = 'bed'
@@ -147,6 +158,8 @@ class BedList(ListView):
             | Q(bed_code__icontains=query) | Q(price__icontains=query) | Q(bed_status__icontains=query))
         return qs
 
+
+@method_decorator(login_required, name='dispatch')
 class BedUpdateView(UpdateView):
     model = Bed
     fields = "__all__"
@@ -159,6 +172,7 @@ class BedUpdateView(UpdateView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class OccupantList(ListView):
     model = Occupant
     context_object_name = 'occupant'
@@ -179,6 +193,7 @@ class OccupantList(ListView):
         return qs
 
 
+@method_decorator(login_required, name='dispatch')
 class OccupantUpdateView(UpdateView):
     model = Occupant
     # fields = ['person','bed','start_date','end_date']
@@ -199,7 +214,7 @@ class OccupantUpdateView(UpdateView):
         cursor.execute(query1)
         return "/occupant_list"
 
-
+@method_decorator(login_required, name='dispatch')
 class RegistrationList(ListView):
     model = Person
     context_object_name = 'person'
@@ -227,6 +242,7 @@ class RegistrationList(ListView):
         return qs
 
 
+@method_decorator(login_required, name='dispatch')
 class RegistrationUpdateView(UpdateView):
     model = Person
     fields = "__all__"
@@ -239,6 +255,7 @@ class RegistrationUpdateView(UpdateView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class BillingList(ListView):
     model = Bill_Details
     context_object_name = 'occupant'
@@ -260,6 +277,7 @@ class BillingList(ListView):
         return qs
 
 
+@method_decorator(login_required, name='dispatch')
 class BillingUpdateView(UpdateView):
     model = Bill_Details
     # fields = "__all__"
