@@ -34,9 +34,7 @@
 
                     <form role="form" class="" action="" method="post" novalidate>
                         {% csrf_token %}
-                        {% load widget_tweaks %}
-
-                        <!-- <span>Personal Information</span> -->
+                        {% include 'includes/reg_form.html' %}
 
                         {% if form.non_field_errors %}
                             <div class="alert alert-danger" role="alert">
@@ -45,29 +43,12 @@
                                 {% endfor %}
                             </div>
                         {% endif %}
-
-
-                        {% for field in form %}
-
-                        <div class="input-group input-group-outline mb-3">
-                            {% if field.field.widget.input_type == 'checkbox' %}
-                                <div class="form-check form-switch">
-                                    {% render_field field class="form-check-input ms-auto" %}
-                                    <label class="form-check-label text-body ms-3 text-truncate w-250 mb-0" for="flexSwitchCheckDefault5">{{ field.label_tag }}</label>
-                                </div>
-                            {% else %}
-                                <label class="col-form-label col-md-2 col-sm-2 label-align">{{ field.label_tag }}</label>
-                                {% render_field field class="form-control" %}
-
-                            {% endif %}
-                        </div>
+                        
 
                         {% for error in field.errors %}
                             <div class="invalid-feedback">
                                 {{ error }}
                             </div>
-                        {% endfor %}
-
                         {% endfor %}
                
                             <br />

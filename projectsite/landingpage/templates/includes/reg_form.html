@@ -1,0 +1,221 @@
+{% load widget_tweaks %}
+
+<!-- Personal Information -->
+<div class="row">
+    <div class="col-6">
+        <p class="text-sm font-weight-bold mb-0">Personal Information</p>
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+        style="margin-bottom: 0px; margin-top: 17px;">PSU Email</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.psu_email class="form-control"%}
+        </div>
+        
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+        style="margin-bottom: 0px; margin-top: 17px;">First Name</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.first_name class="form-control"%}
+        </div>                   
+    </div>
+
+    <div class="col-6">
+        <p class="text-sm font-weight-bold mb-0 hidden text-white">Personal Information</p>
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px; margin-top: 17px;">Last Name</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.last_name class="form-control"%}
+        </div>
+        
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px; margin-top: 17px;">Middle Name</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.middle_name class="form-control"%}
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-bottom: 5px;">
+    <div class="col-2">
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px;">Gender</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.gender class="form-control"%}
+        </div>
+    </div>
+
+    <div class="col-2">
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px;">Boarder Type</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.boarder_type class="form-control"%}
+        </div>
+    </div>
+                            
+    <div class="col-5">
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px;">Program</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.program class="form-control"%}
+        </div>
+    </div>
+
+    <div class="col-3">
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px;">Office / Department</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.office_dept class="form-control"%}
+        </div>
+    </div>
+</div>
+<!-- end of Personal Information -->
+
+<!-- Contact Information -->
+<div class="row">
+    <div class="col-4 my-3">
+        <p class="text-sm font-weight-bold mb-0">Contact Information</p>
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-top: 17px; margin-bottom: 0px;">Contact Number</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.contact_no class="form-control"%}
+        </div>               
+    </div>
+
+    <div class="col-8 my-3">
+        <p class="text-sm font-weight-bold mb-0 text-white">Contact Information</p>
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-top: 17px; margin-bottom: 0px;">Address</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.address class="form-control"%}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px;">City</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.city class="form-control"%}
+        </div>
+    </div>
+
+    <div class="col-3">
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px;">Municipality</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.municipality class="form-control"%}
+        </div>
+    </div>
+                            
+    <div class="col-3">
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px;">Province</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.province class="form-control"%}
+        </div>
+    </div>
+
+    <div class="col-3">
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px;">Country</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.country class="form-control"%}
+        </div>
+    </div>
+</div>
+<!-- end of Contact Information -->
+
+<!-- Guardian Information -->
+<div class="row" >
+    <div class="col-4 my-4">
+        <p class="text-sm font-weight-bold mb-0">Guardian Information</p>
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-top: 17px; margin-bottom: 0px;">Guardian's First Name</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.guardian_first_name class="form-control"%}
+        </div>               
+    </div>
+
+    <div class="col-4 my-3">
+        <p class="text-sm font-weight-bold mb-0 text-white">Guardian Information</p>
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-top: 17px; margin-bottom: 0px;">Guardian's Last Name</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.guardian_last_name class="form-control"%}
+        </div>               
+    </div>
+
+    <div class="col-4 my-3">
+        <p class="text-sm font-weight-bold mb-0 text-white">Guardian Information</p>
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-top: 17px;">Guardian's Contact Number</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.guardian_contact_no class="form-control"%}
+        </div>               
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px;">Guardian's Email Address</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.guardian_email_address class="form-control"%}
+        </div>               
+    </div>
+
+    <div class="col-8">
+        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+        style="margin-bottom: 0px;">Guardian's Address</label>
+        <div class="input-group input-group-outline">
+            {% render_field form.guardian_present_address class="form-control"%}
+        </div>               
+    </div>
+</div>
+<!-- end of Guardian Information -->
+                        
+<!-- Admission Requirements -->
+<p class="text-sm font-weight-bold mb-0 my-4">Admission Requirements</p>
+<div class="form-check form-switch ps-3" style="margin-top: 17px;">
+    {% render_field form.Field1 class="form-check-input ms-auto"%}
+    <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+    for="flexxswitchCheckDefault">Two pieces 2"x2" coloured ID pictures 
+    taken not more than six months prior to the signing of the contract</label>
+</div>
+
+<div class="form-check form-switch ps-3 my-3">
+    {% render_field form.Field2 class="form-check-input ms-auto"%}
+    <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+    for="flexxswitchCheckDefault">Medical Certificate from the University physician</label>
+</div>
+                            
+<div class="form-check form-switch ps-3 my-3">
+    {% render_field form.Field3 class="form-check-input ms-auto"%}
+    <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+    for="flexxswitchCheckDefault">Fully accomplished application form (form OIA-OID)</label>
+</div>
+
+<div class="form-check form-switch ps-3 my-3">
+    {% render_field form.Field4 class="form-check-input ms-auto"%}
+    <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+    for="flexxswitchCheckDefault">Special power of attorney (SPA) for guardian</label>
+</div>
+
+<div class="form-check form-switch ps-3 my-3">
+    {% render_field form.Field5 class="form-check-input ms-auto"%}
+    <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+    for="flexxswitchCheckDefault">Photocopy of the University Identification card 
+    valid on the school year enrolled</label>
+</div>
+
+<div class="form-check form-switch ps-3 my-3">
+    {% render_field form.Field6 class="form-check-input ms-auto"%}
+    <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+    for="flexxswitchCheckDefault">Certificate of Enrollment</label>
+</div>
+
+<div class="form-check form-switch ps-3 my-3">
+    {% render_field form.Field7 class="form-check-input ms-auto"%}
+    <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+    for="flexxswitchCheckDefault">Photocopy of the dormitory ID</label>
+</div>
+<!-- end of Admission Requirements -->

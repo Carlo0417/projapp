@@ -46,11 +46,11 @@ class PersonAdmin(admin.ModelAdmin):
     list_display=("psu_email","gender","program","office_dept",
     "contact_no","address","city","municipality","province","country",
     "guardian_first_name","guardian_last_name","guardian_email_address",
-    "guardian_present_address","guardian_contact_no")
+    "guardian_present_address","guardian_contact_no","reg_status")
     search_fields =("psu_email","gender","program","office_dept",
     "contact_no","address","city","municipality","province","country",
     "guardian_first_name","guardian_last_name","guardian_email_address",
-    "guardian_present_address","guardian_contact_no")
+    "guardian_present_address","guardian_contact_no","reg_status")
     list_filter = ("created_at",)
     
 

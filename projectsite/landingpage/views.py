@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from material import Field
 
 from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details
 from django import forms
@@ -141,15 +141,13 @@ class BedList(ListView):
         context['beds'] = Bed.objects.count()
         context['vacant'] = Bed.objects.filter(bed_status__icontains='vacant').count()
         context['occupied'] = Bed.objects.filter(bed_status__icontains='occupied').count()
-        return context
 
-    def get_queryset(self, *args, **kwargs):
-
-        #Set Vacant those bed_id without occupant_id
         cursor = connections['default'].cursor()
         query = f"UPDATE dormitory_bed SET bed_status = 'Vacant' WHERE id NOT IN (SELECT bed_id FROM dormitory_occupant)"
         cursor.execute(query)
+        return context
 
+    def get_queryset(self, *args, **kwargs):
         qs = super(BedList, self).get_queryset(*args, **kwargs)
         qs = qs.order_by("room_id")
         if self.request.GET.get("q") != None:
@@ -212,7 +210,13 @@ class OccupantUpdateView(UpdateView):
         cursor = connections['default'].cursor()
         query1 = f"UPDATE dormitory_bed SET bed_status = 'Occupied' WHERE `id` = {self.object.bed_id}"
         cursor.execute(query1)
+
+        #Set Vacant those bed_id without occupant_id
+        cursor = connections['default'].cursor()
+        query2 = f"UPDATE dormitory_bed SET bed_status = 'Vacant' WHERE id NOT IN (SELECT bed_id FROM dormitory_occupant)"
+        cursor.execute(query2)
         return "/occupant_list"
+
 
 @method_decorator(login_required, name='dispatch')
 class RegistrationList(ListView):
@@ -230,6 +234,14 @@ class RegistrationList(ListView):
         context['incomplete'] =  Person.objects.filter(psu_email__isnull=False).count() - Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
         Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
         Field7__icontains=1).count()
+
+        cursor = connections['default'].cursor()
+        query1 = f"UPDATE dormitory_person SET reg_status = 'Incomplete' WHERE Field1=0 or Field2=0 or Field3=0 or Field4=0 or Field5=0 or Field6=0 or Field7=0"
+        cursor.execute(query1)
+        
+        cursor = connections['default'].cursor()
+        query2 = f"UPDATE dormitory_person SET reg_status = 'Complete' WHERE Field1=1 and Field2=1 and Field3=1 and Field4=1 and Field5=1 and Field6=1 and Field7=1"
+        cursor.execute(query2)
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -237,17 +249,34 @@ class RegistrationList(ListView):
         qs = qs.order_by("psu_email")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query) | Q(last_name__icontains=query) 
-            | Q(first_name__icontains=query) | Q(program__icontains=query) | Q(boarder_type__icontains=query))
+            qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query) | Q(last_name__icontains=query) | Q(first_name__icontains=query) 
+            | Q(program__icontains=query) | Q(boarder_type__icontains=query)| Q(reg_status__icontains=query))
         return qs
 
 
 @method_decorator(login_required, name='dispatch')
 class RegistrationUpdateView(UpdateView):
     model = Person
-    fields = "__all__"
+    fields = ['psu_email','last_name','first_name','middle_name','gender','boarder_type','program',
+            'office_dept','contact_no','address','city','municipality','province','country',
+            'guardian_first_name','guardian_last_name','guardian_email_address',
+            'guardian_present_address','guardian_contact_no','Field1','Field2','Field3',
+            'Field4','Field5','Field6','Field7']
     context_object_name = 'person'
     template_name = 'registration_update.html'
+    success_url = "/registration_list"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+@method_decorator(login_required, name='dispatch')
+class RegistrationRegView(UpdateView):
+    model = Person
+    fields = "__all__"
+    context_object_name = 'person'
+    template_name = 'registration_view.html'
     success_url = "/registration_list"
 
     def get_context_data(self, **kwargs):
@@ -386,11 +415,11 @@ def add_registration(request):
 
         else:
             messages.error(request, 'Please complete the required field/s.')
+            # print()
             return redirect('RegistrationAdd')
     else:
         form = RegistrationForm()
         return render(request, 'registration_add.html',  {'form': form})
-
 
 def add_billing(request):
     if request.method == "POST":

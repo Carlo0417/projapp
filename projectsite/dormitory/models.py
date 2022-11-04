@@ -2,6 +2,7 @@ from tabnanny import verbose
 from django.utils import timezone
 from tkinter import CASCADE
 from django.db import models
+from pkg_resources import require
 
 
 class BaseModel(models.Model):
@@ -110,34 +111,36 @@ class Person(BaseModel):
     TYPE_CHOICES = (('Local','Local'),('Foreign','Foreign'),)
 
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
-    psu_email = models.EmailField(max_length=250, default="none", verbose_name="PSU Email")
-    last_name = models.CharField(max_length=250, default="none")
-    first_name = models.CharField(max_length=250, default="none")
-    middle_name = models.CharField(max_length=250, default="none", null=True, blank=True)
+    psu_email = models.EmailField(max_length=250, default="", verbose_name="PSU Email")
+    last_name = models.CharField(max_length=250, default="")
+    first_name = models.CharField(max_length=250, default="")
+    middle_name = models.CharField(max_length=250, default="", null=True, blank=True)
     gender = models.CharField(max_length=50, choices=GENDER_CHOICES)
-    boarder_type = models.CharField(max_length=50, default='Local',choices =TYPE_CHOICES)
+    boarder_type = models.CharField(max_length=50, default="Local", choices =TYPE_CHOICES)
     program = models.CharField(max_length=250, choices=PROGRAM_CHOICES)
     office_dept = models.CharField(max_length=250, choices=OFFICE_DEPT_CHOICES, verbose_name="Office / Department")
-    contact_no = models.CharField(max_length=20)
-    address= models.CharField(max_length=250, default="none", verbose_name="address")
-    city = models.CharField(max_length=250, default="Puerto Princesa City", verbose_name="city")
-    municipality = models.CharField(max_length=250, default="None", verbose_name="municipality", choices=MUNICIPALITIES_CHOICES)
-    province = models.CharField(max_length=250, default="Palawan", verbose_name="province")
-    country = models.CharField(max_length=250, default="Philippines", verbose_name="country")
-    guardian_first_name = models.CharField(max_length=250, default="none", verbose_name="Guardian's First name")
-    guardian_last_name= models.CharField(max_length=250, default="none", verbose_name="Guardian's Last name")
-    guardian_email_address = models.EmailField(max_length=250, default="none", verbose_name="Guardian's Email")
-    guardian_present_address = models.CharField(max_length=250, default="none", verbose_name="Guardian's Address")
-    guardian_contact_no = models.CharField(max_length=20, default="none", verbose_name="Guardian's Contact Number")
+    contact_no = models.CharField(max_length=20, default="", verbose_name="Contact Number")
+    address = models.CharField(max_length=250, default="", verbose_name="Address")
+    city = models.CharField(max_length=250, default="Puerto Princesa City", verbose_name="City")
+    municipality = models.CharField(max_length=250, default="None", verbose_name="Municipality", choices=MUNICIPALITIES_CHOICES)
+    province = models.CharField(max_length=250, default="Palawan", verbose_name="Province")
+    country = models.CharField(max_length=250, default="Philippines", verbose_name="Country")
+    guardian_first_name = models.CharField(max_length=250, default="", verbose_name="Guardian's First name")
+    guardian_last_name= models.CharField(max_length=250, default="", verbose_name="Guardian's Last name")
+    guardian_email_address = models.EmailField(max_length=250, default="", verbose_name="Guardian's Email")
+    guardian_present_address = models.CharField(max_length=250, default="", verbose_name="Guardian's Address")
+    guardian_contact_no = models.CharField(max_length=20, default="", verbose_name="Guardian's Contact Number")
 
     #Admission Requiremnets
     Field1 = models.BooleanField(default=False, verbose_name='Two pieces 2"x2" coloured ID pictures taken not more than six months prior to the signing of the contract')
     Field2 = models.BooleanField(default=False, verbose_name='Medical Certificate from the University physician')
-    Field3 = models.BooleanField(default=False, verbose_name='Fully accomplished application form (form OIA-OID')
+    Field3 = models.BooleanField(default=False, verbose_name='Fully accomplished application form (form OIA-OID)')
     Field4 = models.BooleanField(default=False, verbose_name='Special power of attorney (SPA) for guardian')
     Field5 = models.BooleanField(default=False, verbose_name='Photocopy of the University Identification card valid on the school year enrolled')
     Field6 = models.BooleanField(default=False, verbose_name='Certificate of Enrollment')
     Field7 = models.BooleanField(default=False, verbose_name='Photocopy of the dormitory ID')
+
+    reg_status = models.CharField(max_length=20, default="None", verbose_name="Status", null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Persons"
