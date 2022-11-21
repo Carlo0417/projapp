@@ -10,10 +10,10 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
-                            <h6 class="text-white text-capitalize ps-3">New Billing Details</h6>
+                            <h6 class="text-white text-capitalize ps-3">New Payment Details</h6>
                         </div>
                     </div>
-
+                   
                     <div class="card-body">
 
                     <!-- messages & alerts -->
@@ -32,7 +32,6 @@
                     {% endif %}
                     <!-- /messages & alerts -->
 
-
                     <form role="form" class="" action="" method="post" novalidate>
                         {% csrf_token %}
                         
@@ -46,47 +45,48 @@
                         </div>
                         {% endif %}
 
-                        <div class="row"> 
+
+                        <div class="row">
                             <div class="col-6">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.occupant class="form-control"%}
+                                    {% render_field form.occupant class="form-control" %}
                                 </div>
 
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.service class="form-control"%}
-                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                        style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
+                                        <div class="input-group input-group-outline">
+                                            {% render_field form.service class="form-control" %}
+                                        </div>
+                                    </div>
 
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Total Amount</label>
-                                <div class="input-group input-group-outline">
-                                    {{ object.base_amount }}
-                                    {% render_field form.amount class="form-control" %}
+                                    <div class="col-6">
+                                        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                        style="margin-bottom: 0px; margin-top: 17px;">Payment Amount</label>
+                                        <div class="input-group input-group-outline">
+                                            {% render_field form.amount class="form-control" %}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="col-6">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Bill Date</label>
+                                style="margin-bottom: 0px; margin-top: 17px;">Payment Date</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.bill_date class="form-control" type="datetime-local"%}
+                                    {% render_field form.payment_date class="form-control" type="datetime-local" %}
                                 </div>
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Quantity</label>
+                                style="margin-bottom: 0px; margin-top: 17px;">Official Receipt Number</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.quantity class="form-control "%}
-                                </div>
-
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Description</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.description class="form-control" %}
+                                    {% render_field form.receipt_no class="form-control" %}
                                 </div>
                             </div>
+
                         </div>
                
                             <br />
@@ -94,7 +94,7 @@
                                 <div class="col-md-12 col-sm-3">
                                     <button type='submit' class="btn text-white" style="background-color: #FF4200;">Save</button>
                                     &nbsp &nbsp &nbsp
-                                    <a class="btn text-white" style="background-color: #4b4b4b;" href="{% url 'BillingList' %}">Cancel</a>
+                                    <a class="btn text-white" style="background-color: #4B4B4B;" href="{% url 'PaymentList' %}">Cancel</a>
                                 </div>
                             </div>
                     </form>

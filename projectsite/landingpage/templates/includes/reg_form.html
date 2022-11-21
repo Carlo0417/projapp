@@ -1,5 +1,13 @@
 {% load widget_tweaks %}
 
+{% if form.non_field_errors %}
+<div class="alert alert-danger" role="alert">
+    {% for error in form.non_field_errors %}
+        <p{% if forloop.last %} class="mb-0" {% endif %}>{{ error }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
 <!-- Personal Information -->
 <div class="row">
     <div class="col-6">
@@ -53,8 +61,8 @@
     <div class="col-5">
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px;">Program</label>
-        <div class="input-group input-group-outline">
-            {% render_field form.program class="form-control"%}
+        <div class="input-group input-group-outline" onclick="getOfficeDept()">
+            {% render_field form.program class="form-control" id="select1"%}
         </div>
     </div>
 
@@ -67,6 +75,8 @@
     </div>
 </div>
 <!-- end of Personal Information -->
+
+<hr style="border-top: 1px solid #4b4b4b; opacity: 0.2; margin-top: 35px; margin-bottom: 10px;">
 
 <!-- Contact Information -->
 <div class="row">
@@ -124,9 +134,11 @@
 </div>
 <!-- end of Contact Information -->
 
+<hr style="border-top: 1px solid #4b4b4b; opacity: 0.2; margin-top: 35px; margin-bottom: 10px;">
+
 <!-- Guardian Information -->
 <div class="row" >
-    <div class="col-4 my-4">
+    <div class="col-4 my-3">
         <p class="text-sm font-weight-bold mb-0">Guardian Information</p>
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-top: 17px; margin-bottom: 0px;">Guardian's First Name</label>
@@ -172,6 +184,8 @@
     </div>
 </div>
 <!-- end of Guardian Information -->
+
+<hr style="border-top: 1px solid #4b4b4b; opacity: 0.2; margin-top: 35px; margin-bottom: 10px;">
                         
 <!-- Admission Requirements -->
 <p class="text-sm font-weight-bold mb-0 my-4">Admission Requirements</p>
@@ -219,3 +233,26 @@
     for="flexxswitchCheckDefault">Photocopy of the dormitory ID</label>
 </div>
 <!-- end of Admission Requirements -->
+
+<script>
+  
+    function getOfficeDept() {
+        selectElement = document.querySelector('#select1');
+        officeDept = selectElement.options[selectElement.selectedIndex].textContent;
+
+        switch(officeDept) {
+            case "Bachelor of Science in Social Work":
+            document.querySelector('.officeDept').textContent = "Department of Behavioral Science";
+            break;
+
+            // THE NUN
+            case "":
+            document.querySelector('.officeDept').textContent = "";
+            break;
+
+            default:
+            document.querySelector('.officeDept').textContent = "";
+            // end of THE NUN
+        }
+    }
+</script>

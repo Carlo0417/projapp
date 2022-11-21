@@ -3,6 +3,7 @@ from django.utils import timezone
 from tkinter import CASCADE
 from django.db import models
 from pkg_resources import require
+from datetime import timedelta
 
 
 class BaseModel(models.Model):
@@ -12,6 +13,7 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
 
 class Room(BaseModel):
     DORMNAME_CHOICES = (('Male Dorm','Male Dorm'), ('Female Dorm','Female Dorm'), ('Foreign Dorm','Foreign Dorm'))
@@ -27,6 +29,7 @@ class Room(BaseModel):
     def __str__(self):
         return f"{self.room_name}"
 
+
 class Service(BaseModel):
     STATUS_CHOICES = (('Available','Available'), ('Not Available','Not Available'))
     service_name = models.CharField(max_length=100)
@@ -39,11 +42,14 @@ class Service(BaseModel):
     def __str__(self):
         return f"{self.service_name}"
 
+
 class Bed(BaseModel):
     BED_STATUS_CHIOCES = (('Vacant','Vacant'), ('Occupied','Occupied'),('Under Maint.','Under Maint.'))
+    BED_PRICE = ((1500,1500), (4500,4500))
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    bed_code = models.CharField(max_length=25, default="none", verbose_name="Bed Code")
-    price = models.DecimalField(default=0, max_digits=6, decimal_places=0)
+    bed_code = models.CharField(max_length=25, default="", verbose_name="Bed Code")
+    bed_description = models.CharField(max_length=250, default="", verbose_name="Description")
+    price = models.DecimalField(default=0, max_digits=6, decimal_places=0, choices=BED_PRICE)
     bed_status = models.CharField(max_length=25, default="Vacant", verbose_name="Status",  choices=BED_STATUS_CHIOCES)
 
     class Meta:
@@ -80,25 +86,65 @@ class User(BaseModel):
 
 class Person(BaseModel):
 
-    OFFICE_DEPT_CHOICES = (('Electrical Engineering Department','Electrical Engineering Department'),
-                            ('Computer Studies Department','Computer Studies Department'),
-                            ('Department of Physical Education','Department of Physical Education'),
-                            ('Department of Secondary Education','Department of Secondary Education'),
+    OFFICE_DEPT_CHOICES = (('Department of Behavioral Science','Department of Behavioral Science'),
+                            ('Department of Social Sciences','Department of Social Sciences'),
+                            ('Department of Foreign Language','Department of Foreign Language'),
                             ('Bio-Physical Science Department','Bio-Physical Science Department'),
-                            ('Architecture Department','Architecture Department'),
-                            ('Civil Engineering Department','Civil Engineering Department'),
+                            ('Computer Studies Department','Computer Studies Department'),
+                            ('Mathematics Department','Mathematics Department'),
+                            ('Department of Physical Education','Department of Physical Education'),
                             ('Department of Elementary Education','Department of Elementary Education'),
-                            ('Petroleum Engineering Department','Petroleum Engineering Department'),
-                            ('Dapartment of Secondary Education','Dapartment of Secondary Education'),
-                            ('Mechanical Engineering Department','Mechanical Engineering Department'),
+                            ('Department of Secondary Education','Department of Secondary Education'),
+                            ('Department of Accountancy','Department of Accountancy'),
+                            ('Department of Marketing Management, Entrepreneurship, and Public Administration','Department of Marketing Management, Entrepreneurship, and Public Administration'),
+                            ('Department of Financial Management, Human Resource Management, and Business Economics','Department of Financial Management, Human Resource Management, and Business Economics'),
+                            ('Hospitality Management Department','Hospitality Management Department'),
+                            ('Tourism Management Department','Tourism Management Department'),
+                            ('Department of Civil Engineering','Department of Civil Engineering'),
+                            ('Department of Mechanical Engineering','Department of Mechanical Engineering'),
+                            ('Department of Electrical Engineering','Department of Electrical Engineering'),
+                            ('Department of Petroleum Engineering','Department of Petroleum Engineering'),
+                            ('Department of Architecture','Department of Architecture'),
+                            ('Department of Nursing','Department of Nursing'),
+                            ('Department of Midwifery','Department of Midwifery'),
                             ('Not yet included','Not yet included'),)
 
-    PROGRAM_CHOICES = (('BAMC','BAMC'),('BSEE','BSEE'),('BSTM','BSTM'),('BSA','BSA'),('BSIT','BSIT'),('BSN','BSN'),
-    ('BPED','BPED'),('BSCrim','BSCrim'),('BSED-3','BSED-3'),('BSM','BSM'),('BSMB','BSMB'),('BSBA-ECO','BSBA-ECO'),
-    ('BSHM','BSHM'),('BSAr','BSAr'),('BSP','BSP'),('BAPolSci','BAPolSci'),('BSCE','BSCE'),('BSTM','BSTM'),('BSPA','BSPA'),
-    ('BSCS','BSCS'),('DM','DM'),('BEED','BEED'),('BSED-2','BSED-2'),('BSSW','BSSW'),('BSPE','BSPE'),('BSBA-FM','BSBA-FM'),
-    ('BSB-MB','BSB-MB'),('BSED-1','BSED-1'),('BAPS','BAPS'),('BSME','BSME'),('BSBA-MM','BSBA-MM'),('BSMA','BSMA'),('BSES','BSES'),
-    ('BSE','BSE'),('BSBA-HRDM','BSBA-HRDM'),('BSB-MD','BSB-MD'),)
+    PROGRAM_CHOICES = (('Bachelor of Science in Social Work','Bachelor of Science in Social Work'),
+                        ('Bachelor of Science in Psychology','Bachelor of Science in Psychology'),
+                        ('Bachelor of Arts in Communication','Bachelor of Arts in Communication'),
+                        ('Bachelor of Arts in Political Science','Bachelor of Arts in Political Science'),
+                        ('Bachelor of Arts in Philippine Studies ','Bachelor of Arts in Philippine Studies '),
+                        ('Bachelor of Science in Biology Major in Medical Biology','Bachelor of Science in Biology Major in Medical Biology'),
+                        ('Bachelor of Science in Marine Biology','Bachelor of Science in Marine Biology'),
+                        ('Bachelor of Science in Environmental Science','Bachelor of Science in Environmental Science'),
+                        ('Bachelor of Science in Information Technology','Bachelor of Science in Information Technology'),
+                        ('Bachelor of Science in Computer Science','Bachelor of Science in Computer Science'),
+                        ('Bachelor of Science in Physical Education','Bachelor of Science in Physical Education'),
+                        ('Bachelor of Science in Elementary Education','Bachelor of Science in Elementary Education'),
+                        ('Bachelor of Science in Secondary Education Major in Science','Bachelor of Science in Secondary Education Major in Science'),
+                        ('Bachelor of Science in Secondary Education Major in Math','Bachelor of Science in Secondary Education Major in Math'),
+                        ('Bachelor of Science in Secondary Education Major in English','Bachelor of Science in Secondary Education Major in English'),
+                        ('Bachelor of Science in Secondary Education Major in Filipino','Bachelor of Science in Secondary Education Major in Filipino'),
+                        ('Bachelor of Science in Secondary Education Major in Social Studies','Bachelor of Science in Secondary Education Major in Social Studies'),
+                        ('Bachelor of Science in Secondary Education Major in Values','Bachelor of Science in Secondary Education Major in Values'),
+                        ('Bachelor of Science in Accountancy','Bachelor of Science in Accountancy'),
+                        ('Bachelor of Science in Management Accountancy','Bachelor of Science in Management Accountancy'),
+                        ('Bachelor of Science in Entrepreneurship','Bachelor of Science in Entrepreneurship'),
+                        ('Bachelor of Science in Business Administration  Major in Marketing Management ','Bachelor of Science in Business Administration  Major in Marketing Management '),
+                        ('Bachelor of Science in Business Administration  Major in Human Resource Management','Bachelor of Science in Business Administration  Major in Human Resource Management'),
+                        ('Bachelor of Science in Hospitality Management','Bachelor of Science in Hospitality Management'),
+                        ('Track - Culinary Arts and Kitchen Management','Track - Culinary Arts and Kitchen Management'),
+                        ('Bachelor of Science in Tourism Management','Bachelor of Science in Tourism Management'),
+                        ('Track - Hotel,Resort, and Club Management','Track - Hotel,Resort, and Club Management'),
+                        ('Bachelor of Science in Civil Engineering','Bachelor of Science in Civil Engineering'),
+                        ('Bachelor of Science in Mechanical Engineering','Bachelor of Science in Mechanical Engineering'),
+                        ('Bachelor of Science in Electrical Engineering','Bachelor of Science in Electrical Engineering'),
+                        ('Bachelor of Science in Petroleum Engineering','Bachelor of Science in Petroleum Engineering'),
+                        ('Bachelor of Science in Architecture','Bachelor of Science in Architecture'),
+                        ('Bachelor of Science in Nursing','Bachelor of Science in Nursing'),
+                        ('Diploma in Midwifery','Diploma in Midwifery'),
+                        ('Bachelor of Science in Midwifery','Bachelor of Science in Midwifery'),
+                        ('Bachelor of Science in Criminology','Bachelor of Science in Criminology'),)
 
     MUNICIPALITIES_CHOICES = (('None','None'),('Aborlan','Aborlan'),('Agutaya','Agutaya'),('Araceli','Araceli'),('Balabac','Balabac'),
     ('Batazar','Batazar'), ('Brooke''s Point','Brooke''s Point'),('Busuanga','Busuanga'),('Cagayancillo','Cagayancillo'),
@@ -148,6 +194,7 @@ class Person(BaseModel):
     def __str__(self):
         return f"{self.last_name}, {self.first_name}"
 
+
 class BedPriceHistory(BaseModel):
     bed = models.ForeignKey(Bed, on_delete=models.CASCADE)
     start_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
@@ -158,19 +205,24 @@ class BedPriceHistory(BaseModel):
 
     def __str__(self):
         return f"{self.bed}"
+        
+
+def one_month_from_today():
+    return timezone.now() + timedelta(days=30)
 
 class Occupant(BaseModel):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     bed = models.ForeignKey(Bed, on_delete=models.CASCADE)
     bedPrice = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2)
     start_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
-    end_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
+    end_date = models.DateTimeField(default=one_month_from_today, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Occupants"
 
     def __str__(self):
         return f"{self.person}"
+
 
 class Bill(BaseModel):
     bill_date = models.DateTimeField(default=timezone.now)
@@ -190,6 +242,7 @@ class Bill_Details(BaseModel):
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
     bill_date = models.DateTimeField(default=timezone.now)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    quantity = models.DecimalField(max_digits=2, default=1, decimal_places=0)
     description = models.CharField(max_length=250, null=True, blank=True)
     amount = models.DecimalField(default=0, max_digits=6, decimal_places=2)
 
@@ -199,8 +252,10 @@ class Bill_Details(BaseModel):
     def __str__(self):
         return f"{self.service}"
 
+
 class Payment(BaseModel):
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
+    service = models.ForeignKey(Bill_Details, on_delete=models.CASCADE, )
     payment_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
     amount = models.DecimalField(default=0, max_digits=6, decimal_places=2)
     receipt_no = models.CharField(max_length=250)

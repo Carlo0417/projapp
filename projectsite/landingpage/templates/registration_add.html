@@ -22,11 +22,11 @@
                             {% if 'success' in message.tags %}
                                 <p style="margin-top: 12px;" id="fadeout" class="text-success font-weight-bold text-sm">
                                     {{ message }}
-                                </p> <br>
+                                </p>
                             {% else %}
                                 <p style="margin-top: 12px;" id="fadeout" class="text-danger font-weight-bold text-sm">
                                     {{ message }}
-                                </p> <br>
+                                </p>
                             {% endif %}
                         {% endfor%}
                     {% endif %}
@@ -34,17 +34,9 @@
 
                     <form role="form" class="" action="" method="post" novalidate>
                         {% csrf_token %}
-                        {% include 'includes/reg_form.html' %}
-
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger" role="alert">
-                                {% for error in form.non_field_errors %}
-                                    <p{% if forloop.last %} class="mb-0" {% endif %}>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
                         
-
+                        {% include 'includes/reg_form.html' %}
+                        
                         {% for error in field.errors %}
                             <div class="invalid-feedback">
                                 {{ error }}

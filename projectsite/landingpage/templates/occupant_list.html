@@ -44,8 +44,8 @@
                                             Person</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Bed Code</th>
-                                        <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Bed Price</th> -->
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Bed Description</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Start Date</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -63,9 +63,9 @@
                                         <td class="text-center">
                                             <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.bed }}</p>
                                         </td>
-                                        <!-- <td class="align-middle">
-                                            <p class="text-xs text-secondary mb-0">{{ object.bedPrice }}</p>
-                                        </td> -->
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ object.bed.bed_description }}</p>
+                                        </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.start_date }}</p>
                                         </td>
@@ -83,10 +83,15 @@
                                                 data-toggle="tooltip" style="font-size: 10px;">
                                                 <i class="material-icons text-sm me-2">delete</i>Delete</a> -->
 
-                                            <a href="registration_list/{{ object.id }}"
+                                            <a href="occupant_view/{{ object.id }}"
                                                 class="btn btn-link px-3 mb-0" style="color: #4b4b4b; font-size: 10px;"     
                                                 data-toggle="tooltip" style="font-size: 10px;">
                                                 <i class="material-icons text-sm me-2">assignment</i>View</a>
+                                            
+                                            <!-- <a href="occupant_view/{{ object.id }}"
+                                                class="btn btn-link px-3 mb-0" style="color: #FF4200; font-size: 10px;"     
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">today</i>Renew</a> -->
                                         </td>   
                                     </tr>
 

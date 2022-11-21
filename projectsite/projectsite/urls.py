@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path
 
 
-from landingpage.views import HomePageView, RoomList, RoomUpdateView, ServiceList, ServiceUpdateView, BedList, BedUpdateView, OccupantList, OccupantUpdateView, RegistrationList, RegistrationUpdateView, RegistrationRegView, BillingList, BillingUpdateView
+from landingpage.views import HomePageView, RoomList, RoomUpdateView, ServiceList, ServiceUpdateView, BedList, BedUpdateView, OccupantList, OccupantUpdateView, RegistrationList, RegistrationUpdateView, RegistrationRegView, BillingList, BillingUpdateView, OccupantView, PaymentList, PaymentUpdateView
 from landingpage import views
 
 from django.contrib.auth import views as auth_views
@@ -23,14 +23,20 @@ urlpatterns = [
     path('occupant_list', OccupantList.as_view(), name='OccupantList'),
     path('occupant_list/add', views.add_occupant, name='OccupantAdd'),
     path('occupant_list/<pk>', OccupantUpdateView.as_view(), name="OccupantUpdate"),
+    path('occupant_view/<pk>', OccupantView.as_view(), name="OccupantView"),
+    path('occupant_view/occupant_list/<pk>', OccupantUpdateView.as_view(), name="OccupantUpdate"),
     path('registration_list', RegistrationList.as_view(), name='RegistrationList'),
     path('registration_list/add', views.add_registration, name='RegistrationAdd'),
     path('registration_list/<pk>', RegistrationUpdateView.as_view(), name="RegistrationUpdate"),
     path('registration_view/registration_list/<pk>', RegistrationUpdateView.as_view(), name="RegistrationUpdate"),
     path('registration_view/<pk>', RegistrationRegView.as_view(), name="RegistrationView"),
+    path('occupant_view/registration_view/<pk>', RegistrationRegView.as_view(), name="RegistrationView"),
     path('billing_list', BillingList.as_view(), name='BillingList'),
     path('billing_list/add', views.add_billing, name='BillingAdd'),
     path('billing_list/<pk>', BillingUpdateView.as_view(), name="BillingUpdate"),
+    path('payment_list', PaymentList.as_view(), name='PaymentList'),
+    path('payment_list/add', views.add_payment, name='PaymentAdd'),
+    path('payment_list/<pk>', PaymentUpdateView.as_view(), name="PaymentUpdate"),
     # path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     # path('delete_bed/<int:id>', views.delete_bed, name='delete_bed'),
     # path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),

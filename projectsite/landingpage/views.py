@@ -13,15 +13,15 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from material import Field
 
-from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details
+from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment
 from django import forms
-from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm, OccupantFormEdit, BillingFormEdit
+from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm, OccupantFormEdit, BillingFormEdit, PaymentForm
 from django.contrib import messages
 from django.db.models import Q
 
 from django.db import connections
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class HomePageView(ListView):
     model = Room
     context_object_name = 'room'
@@ -47,7 +47,7 @@ class HomePageView(ListView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class RoomList(ListView):
     model = Room
     context_object_name = 'rooms'
@@ -76,7 +76,7 @@ class RoomList(ListView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class RoomUpdateView(UpdateView):
     model = Room
     fields = "__all__"
@@ -89,7 +89,7 @@ class RoomUpdateView(UpdateView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class ServiceList(ListView):
     model = Service
     context_object_name = 'service'
@@ -116,7 +116,7 @@ class ServiceList(ListView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class ServiceUpdateView(UpdateView):
     model = Service
     fields = "__all__"
@@ -129,7 +129,7 @@ class ServiceUpdateView(UpdateView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class BedList(ListView):
     model = Bed
     context_object_name = 'bed'
@@ -142,9 +142,9 @@ class BedList(ListView):
         context['vacant'] = Bed.objects.filter(bed_status__icontains='vacant').count()
         context['occupied'] = Bed.objects.filter(bed_status__icontains='occupied').count()
 
-        cursor = connections['default'].cursor()
-        query = f"UPDATE dormitory_bed SET bed_status = 'Vacant' WHERE id NOT IN (SELECT bed_id FROM dormitory_occupant)"
-        cursor.execute(query)
+        # cursor = connections['default'].cursor()
+        # query = f"UPDATE dormitory_bed SET bed_status = 'Vacant' WHERE id NOT IN (SELECT bed_id FROM dormitory_occupant)"
+        # cursor.execute(query)
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -157,7 +157,7 @@ class BedList(ListView):
         return qs
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class BedUpdateView(UpdateView):
     model = Bed
     fields = "__all__"
@@ -170,7 +170,7 @@ class BedUpdateView(UpdateView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class OccupantList(ListView):
     model = Occupant
     context_object_name = 'occupant'
@@ -191,7 +191,7 @@ class OccupantList(ListView):
         return qs
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class OccupantUpdateView(UpdateView):
     model = Occupant
     # fields = ['person','bed','start_date','end_date']
@@ -203,6 +203,7 @@ class OccupantUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         print(f"Old Bed ID {self.object.bed_id}")
+        
         return context
     
     def get_success_url(self, **kwargs):
@@ -218,7 +219,26 @@ class OccupantUpdateView(UpdateView):
         return "/occupant_list"
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
+class OccupantView(UpdateView):
+    model = Occupant
+    fields = "__all__"
+    context_object_name = 'occupant'
+    template_name = 'occupant_view.html'
+    success_url = "/occupant_list"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # cursor = connections['default'].cursor()
+        # query = f"SELECT dormitory_bill_details.bill_date, dormitory_bill_details.description, dormitory_bill_details.service_id, dormitory_bill_details.quantity, dormitory_bill_details.amount FROM dormitory_bill_details INNER JOIN dormitory_occupant ON dormitory_bill_details.occupant_id=dormitory_occupant.id WHERE dormitory_occupant.id = {self.object.id}"
+        # cursor.execute(query)
+
+        # context['billing'] = Bill_Details.objects.raw('SELECT dormitory_bill_details.bill_date, dormitory_bill_details.description, dormitory_bill_details.service_id, dormitory_bill_details.quantity, dormitory_bill_details.amount FROM dormitory_bill_details INNER JOIN dormitory_occupant ON dormitory_bill_details.occupant_id=dormitory_occupant.id WHERE dormitory_occupant.id=dormitory_occupant.id')
+
+        return context
+
+
+# @method_decorator(login_required, name='dispatch')
 class RegistrationList(ListView):
     model = Person
     context_object_name = 'person'
@@ -254,7 +274,7 @@ class RegistrationList(ListView):
         return qs
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class RegistrationUpdateView(UpdateView):
     model = Person
     fields = ['psu_email','last_name','first_name','middle_name','gender','boarder_type','program',
@@ -271,7 +291,7 @@ class RegistrationUpdateView(UpdateView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class RegistrationRegView(UpdateView):
     model = Person
     fields = "__all__"
@@ -284,7 +304,7 @@ class RegistrationRegView(UpdateView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class BillingList(ListView):
     model = Bill_Details
     context_object_name = 'occupant'
@@ -306,7 +326,7 @@ class BillingList(ListView):
         return qs
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class BillingUpdateView(UpdateView):
     model = Bill_Details
     # fields = "__all__"
@@ -318,6 +338,43 @@ class BillingUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class PaymentList(ListView):
+    model = Payment
+    context_object_name = 'payment'
+    template_name = 'payment_list.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['payment'] = Payment.objects.count()
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(PaymentList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("occupant")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("occupant").filter(Q(occupant__person__last_name__icontains=query) 
+            | Q(occupant__person__first_name__icontains=query) | Q(payment_date__icontains=query)
+            | Q(amount__icontains=query) | Q(receipt_no__icontains=query))
+        return qs
+
+
+# @method_decorator(login_required, name='dispatch')
+class PaymentUpdateView(UpdateView):
+    model = Payment
+    fields = "__all__"
+    context_object_name = 'payment'
+    template_name = 'payment_update.html'
+    success_url = "/payment_list"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 # ===================================================
 # Functions for adding
@@ -379,6 +436,7 @@ def add_occupant(request):
         
         if form.is_valid():
             bed_id = request.POST.get("bed")
+            occ_id = request.POST.get("occupant")
             occ = form.save(commit=False)
             occ.pk = None
             occ.bedPrice = Bed.objects.filter(pk=bed_id).values_list('price')
@@ -390,8 +448,15 @@ def add_occupant(request):
 
             # update BED: bed_status to occupied after adding occupant
             cursor = connections['default'].cursor()
-            query = f"UPDATE dormitory_bed SET bed_status = 'Occupied' WHERE `id` = {bed_id}"
-            cursor.execute(query)
+            query1 = f"UPDATE dormitory_bed SET bed_status = 'Occupied' WHERE `id` = {bed_id}"
+            cursor.execute(query1)
+
+            # adding Bills to occupant
+            # cursor = connections['default'].cursor()
+            # id, created_at, updated_at, description, amount, service_id, bill_date, occupant_id, status, quantity
+            # query2 = f"INSERT INTO dormitory_bill_details (now(), now(), description, amount, service_id, bill_date, occupant_id, status, quantity) VALUES ('None', '1500', (SELECT id FROM dormitory_service WHERE service_name = 'Deposit'), now(), {occ_id}, 'None', '0')"
+            # cursor.execute(query2)
+
             return redirect('OccupantAdd')
 
         else:
@@ -437,17 +502,30 @@ def add_billing(request):
         form = BillingForm()
         return render(request, 'billing_add.html',  {'form': form})
 
+def add_payment(request):
+    if request.method == "POST":
+        form = PaymentForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'New payment added successfully!')
+            return redirect('PaymentAdd')
+
+        else:
+            messages.error(request, 'Please complete the required field.')
+            return redirect('PaymentAdd')
+    else:
+        form = PaymentForm()
+        return render(request, 'payment_add.html',  {'form': form})
+
 
 # ===================================================
 # Functions for deleting
 # ===================================================
 # def delete_occupant(request, id):
-#     occupant = Occupant.objects.get(id=id)
-#     occupant.delete()
-#     cursor = connections['default'].cursor()
-#     query = f"UPDATE dormitory_bed SET bed_status = 'Vacant' WHERE `id` = {id}"
-#     cursor.execute(query)
-#     return HttpResponseRedirect(reverse('OccupantList'))
+#   occupant = Occupant.objects.get(id=id)
+#   occupant.delete()
+#   return HttpResponseRedirect(reverse('OccupantList'))
 
 # def delete_bed(request, id):
 #   bed = Bed.objects.get(id=id)

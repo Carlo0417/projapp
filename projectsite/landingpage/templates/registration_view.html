@@ -356,7 +356,7 @@
                                         &nbsp &nbsp &nbsp &nbsp 
                                         <a href="registration_list/{{ object.id }}" class="btn text-white" style="background-color: #FF9001;"> Edit </a>
                                         &nbsp &nbsp &nbsp &nbsp
-                                        <a class="btn text-white" style="background-color: #4b4b4b;" href="{% url 'RegistrationList' %}">Back</a>
+                                        <a class="btn text-white" style="background-color: #4b4b4b;" href="{{request.META.HTTP_REFERER}}">Back</a>
                                     </div>
                                 </div>
                             </div>
@@ -368,13 +368,4 @@
         </div>
     </div>
 </main>
-
-<!-- Script to disable checkbox -->
-<script>
-    function dis() {
-         var g = document.getElementById("AR").disabled
-            = false;
-    }
-</script>
-
 {% endblock %}

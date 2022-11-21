@@ -22,11 +22,11 @@
                             {% if 'success' in message.tags %}
                                 <p style="margin-top: 12px;" id="fadeout" class="text-success font-weight-bold text-sm">
                                     {{ message }}
-                                </p> <br>
+                                </p>
                             {% else %}
                                 <p style="margin-top: 12px;" id="fadeout" class="text-danger font-weight-bold text-sm">
                                     {{ message }}
-                                </p> <br>
+                                </p>
                             {% endif %}
                         {% endfor%}
                     {% endif %}
@@ -34,7 +34,47 @@
 
                     <form role="form" class="" action="" method="post" novalidate>
                         {% csrf_token %}
-                        {% include 'includes/form.html' %}
+
+                        {% load widget_tweaks %}
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                <p{% if forloop.last %} class="mb-0" {% endif %}>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Room Name</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.room_name class="form-control" %}
+                                </div>
+
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Floor Level</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.floorlvl class="form-control" %}
+                                </div>
+
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Dorm Name</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.dorm_name class="form-control" %}
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Description</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.description class="form-control" %}
+                                </div>
+                            </div>
+                        </div>
                
                             <br />
                             <div class="form-group">

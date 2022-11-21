@@ -16,14 +16,16 @@
                     <div class="card-body">
                     <form class="" action="" method="post" novalidate>
                         {% csrf_token %}
+
                         {% include 'includes/reg_form.html' %}
+                        
                         <div class="ln_solid">
                             <br />
                             <div class="form-group">
                                 <div class="col-md-12 col-sm-3">
                                     <button type='submit' class="btn text-white" style="background-color: #FF9001;">Update</button>
                                     &nbsp &nbsp &nbsp
-                                    <a class="btn text-white" style="background-color: #4b4b4b;" href="{% url 'RegistrationList' %}">Cancel</a>
+                                    <a class="btn text-white" style="background-color: #4b4b4b;" href="{{request.META.HTTP_REFERER}}">Cancel</a>
                                 </div>
                             </div>
                         </div>

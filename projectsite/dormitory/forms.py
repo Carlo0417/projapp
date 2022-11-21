@@ -2,7 +2,7 @@ from faulthandler import disable
 from certifi import where
 from django.forms import ModelForm
 
-from .models import Room, Bed, Service, Occupant, Person, Bill_Details
+from .models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 
@@ -16,7 +16,7 @@ class RoomForm(ModelForm):
 class BedForm(ModelForm):
     class Meta:
         model = Bed
-        fields = ['room','bed_code','price']
+        fields = ['room','bed_code','bed_description', 'price', 'bed_status']
 
 class ServiceForm(ModelForm):
     class Meta:
@@ -47,7 +47,9 @@ class OccupantFormEdit(ModelForm):
         super(OccupantFormEdit, self).__init__(*args, **kwargs)
         self.fields['person'].queryset = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
         Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,Field7__icontains=1)
-        self.fields['bed'].queryset = Bed.objects.filter(bed_status__icontains='vacant')  
+
+        # self.fields['bed'] = Bed.objects.raw('SELECT dormitory_bed.bed_code FROM dormitory_bed WHERE dormitory_bed.bed_code="MF1R1-AU" UNION SELECT dormitory_bed.bed_code FROM dormitory_bed WHERE dormitory_bed.bed_status="Vacant"')
+        # self.fields['bed'].queryset = Bed.objects.filter(bed_code='MF1R1-AU')
 
 class RegistrationForm(forms.ModelForm):
     class Meta:
@@ -91,3 +93,9 @@ class BillingFormEdit(ModelForm):
         bill = kwargs.pop('bill', None)
         super(BillingFormEdit, self).__init__(*args, **kwargs)
         self.fields['service'].queryset = Service.objects.filter(status__icontains='Available').exclude(status__icontains='Not Available')
+
+
+class PaymentForm(ModelForm):
+    class Meta:
+        model = Payment
+        fields = "__all__"
