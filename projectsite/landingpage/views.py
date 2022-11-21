@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
-from material import Field
+# from material import Field
 
 from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment
 from django import forms
@@ -202,6 +202,7 @@ class OccupantUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         print(f"Old Bed ID {self.object.bed_id}")
         
         return context
@@ -229,6 +230,8 @@ class OccupantView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['billing_details'] = Bill_Details.objects.filter(occupant=1)
+      
         # cursor = connections['default'].cursor()
         # query = f"SELECT dormitory_bill_details.bill_date, dormitory_bill_details.description, dormitory_bill_details.service_id, dormitory_bill_details.quantity, dormitory_bill_details.amount FROM dormitory_bill_details INNER JOIN dormitory_occupant ON dormitory_bill_details.occupant_id=dormitory_occupant.id WHERE dormitory_occupant.id = {self.object.id}"
         # cursor.execute(query)

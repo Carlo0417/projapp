@@ -7,3 +7,5 @@ def start():
 	scheduler.add_job(add_billing, 'interval', seconds=5)
 	scheduler.add_job(add_rent_bill, 'interval', hours=0)
 	scheduler.start()
+
+	

@@ -1,10 +1,12 @@
 APScheduler==3.9.1
 asgiref==3.5.2
 backports.zoneinfo==0.2.1
+certifi==2022.9.24
 Django==3.2.15
 django-apscheduler==0.6.2
 django-widget-tweaks==1.4.12
 mysqlclient==2.1.1
+PyMySQL==1.0.2
 pytz==2022.2.1
 pytz-deprecation-shim==0.1.0.post0
 six==1.16.0

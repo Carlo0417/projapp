@@ -205,8 +205,16 @@
                     <p class="text-sm text-secondary text-center font-weight-bold opacity-6 my-7">Nothing yet to show</p>
 
                     <!-- end of Demerits Information -->
-
-
+                    test
+                    {% for object in billing_details %}
+                        {{ object.bill_date }}
+                        {{ object.description }}
+                        {{ object.service.service_name }}
+                        {{ object.quantity }}
+                        {{ object.amount }}
+                        <br>
+                    {% endfor %}
+                    
                     
                         <div class="ln_solid">
                             <br />
