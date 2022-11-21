@@ -138,54 +138,48 @@
                     <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Billing Information</p>
                     <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">  
 
-                    {% for object in billing %}
-                    <div class="row">
-                        <div class="col-2 my-1">
-                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                            style="margin-bottom: 0px;">Bill Date</label>
-                            <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bill_date }}</h6>
-                            </div>  
-                        </div>
+                    <div class="table-responsive" style="padding: 0px 20px;">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Bill Date</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Service Name</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Quantity</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Total Amount</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in billing_details %}
+                                <tr>
+                                    <td class="">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.bill_date }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.quantity }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.description }}</p>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <td class="text-xs" style="color: rgba(163, 167, 185, 0.8);"> <br> Nothing yet to show</td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
 
-                        <div class="col-2 my-1">
-                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                            style="margin-bottom: 0px;">Service Name</label>
-                            <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.service }}</h6> 
-                            </div>  
-                        </div>
-
-                        <div class="col-2 my-1">
-                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                            style="margin-bottom: 0px;">Quantity</label>
-                            <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.quantity }}</h6> 
-                            </div>  
-                        </div>
-
-                        <div class="col-2 my-1">
-                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                            style="margin-bottom: 0px;">Total Amount</label>
-                            <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">P {{ object.amount }}</h6> 
-                            </div>  
-                        </div>
-
-                        <div class="col-2 my-1">
-                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                            style="margin-bottom: 0px;">Description</label>
-                            <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.description }}</h6> 
-                            </div>  
-                        </div>
                     </div>
-
-                    {% empty %}
-                    <p class="text-sm text-secondary text-center font-weight-bold opacity-6 my-7">Nothing yet to show</p>
-
-                    {% endfor %}
-
 
                     <!-- end of Billing Information -->
 
@@ -205,16 +199,6 @@
                     <p class="text-sm text-secondary text-center font-weight-bold opacity-6 my-7">Nothing yet to show</p>
 
                     <!-- end of Demerits Information -->
-                    test
-                    {% for object in billing_details %}
-                        {{ object.bill_date }}
-                        {{ object.description }}
-                        {{ object.service.service_name }}
-                        {{ object.quantity }}
-                        {{ object.amount }}
-                        <br>
-                    {% endfor %}
-                    
                     
                         <div class="ln_solid">
                             <br />

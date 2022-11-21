@@ -230,14 +230,7 @@ class OccupantView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['billing_details'] = Bill_Details.objects.filter(occupant=1)
-      
-        # cursor = connections['default'].cursor()
-        # query = f"SELECT dormitory_bill_details.bill_date, dormitory_bill_details.description, dormitory_bill_details.service_id, dormitory_bill_details.quantity, dormitory_bill_details.amount FROM dormitory_bill_details INNER JOIN dormitory_occupant ON dormitory_bill_details.occupant_id=dormitory_occupant.id WHERE dormitory_occupant.id = {self.object.id}"
-        # cursor.execute(query)
-
-        # context['billing'] = Bill_Details.objects.raw('SELECT dormitory_bill_details.bill_date, dormitory_bill_details.description, dormitory_bill_details.service_id, dormitory_bill_details.quantity, dormitory_bill_details.amount FROM dormitory_bill_details INNER JOIN dormitory_occupant ON dormitory_bill_details.occupant_id=dormitory_occupant.id WHERE dormitory_occupant.id=dormitory_occupant.id')
-
+        context['billing_details'] = Bill_Details.objects.filter(occupant=self.object.id)
         return context
 
 
