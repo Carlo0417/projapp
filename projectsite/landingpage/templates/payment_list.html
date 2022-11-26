@@ -60,7 +60,7 @@
                                             <p class="text-xs text-secondary mb-0">{{ object.payment_date }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.amount }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount }}</p>
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.receipt_no }}</p>
@@ -84,7 +84,7 @@
                             <span class="mb-0 text-link text-xs ">Total Number of 
                             <span class="text-sm font-weight-bolder" style="color: #FF4200;">
                             {% if payment != empty %} {{ payment }} {% else %} 0 {% endif %}</span>
-                            Bills.</span>
+                            Payments.</span>
                             {% include 'includes/pagination.html' %}
 
                         </div>

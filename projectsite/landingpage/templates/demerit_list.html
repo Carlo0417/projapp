@@ -9,14 +9,14 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
-                            <h6 class="text-white ps-3">List of Billings</h6>
+                            <h6 class="text-white ps-3">List of Beds</h6>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
                              <div class="col-sm-2">
                                  <div class="pull-right">
-                                     <a href="{% url 'BillingAdd' %}" class="btn text-white mt-4 w-100" style="background-color: #FF4200;">Add Bill</a>
+                                     <a href="{% url 'DemeritAdd' %}" class="btn text-white mt-4 w-100" style="background-color: #FF4200;">Add Demerit</a>
                                  </div>
                              </div>
  
@@ -25,9 +25,9 @@
                              {% include 'includes/search_style.html' %}
                              
                              <div class="col-sm-3">
-                                <form action="{% url 'BillingList' %}" method="get"> 
+                                <form action="{% url 'DemeritList' %}" method="get"> 
                                     <div class="input-group input-group-outline">
-                                        <label class="form-label">Search bill...</label>
+                                        <label class="form-label">Search bed...</label>
                                         <input type="text" class="form-control" name="q">
                                     </div>
                                 </form>
@@ -39,15 +39,9 @@
                                 <thead>
                                     <tr class="headings">
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Occupant</th>
+                                            Demerit</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Bill Date</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Service</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Description</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Amount</th>
+                                            Points</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
@@ -56,25 +50,21 @@
                                     {% for object in object_list %}
                                     <tr>
                                         <td>
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.occupant }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{object.demerit_name|truncatechars:100 }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ object.bill_date }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.demerit_points }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service }}</p>
-                                        </td>
-                                        <td class="text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ object.description|truncatechars:25 }}</p>
-                                        </td>
-                                        <td class="text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount }}</p>
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="billing_list/{{ object.id }}"
+                                            <a href="demerit_list/{{ object.id }}"
                                                 class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
                                                 data-toggle="tooltip">
                                                 <i class="material-icons text-sm me-2">edit</i>Edit</a>
+
+                                            <!-- <a href="delete_bed/{{ object.id }}"
+                                                class="btn btn-link text-danger px-3 mb-0"
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">delete</i>Delete</a>     -->
                                         </td>
                                     </tr>
 
@@ -82,12 +72,13 @@
                                     <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table.</td>
                                     {% endfor %}
 
+
                                 </tbody>
                             </table>
                             <span class="mb-0 text-link text-xs ">Total Number of 
-                            <span class="text-sm font-weight-bolder" style="color: #FF4200;">
-                            {% if bills != empty %} {{ bills }} {% else %} 0 {% endif %}</span>
-                            Bills.</span>
+                                <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                                    {% if demerit != empty %} {{ demerit }} {% else %} 0 {% endif %}</span>Demerits.
+                            </span>  
                             {% include 'includes/pagination.html' %}
 
                         </div>

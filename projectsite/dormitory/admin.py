@@ -97,3 +97,12 @@ class PaymentAdmin(admin.ModelAdmin):
     list_display=("occupant","payment_date","amount","receipt_no")
     search_fields =("occupant","payment_date","amount","receipt_no")
     list_filter = ("created_at",)
+
+
+from .models import Demerit
+
+@admin.register(Demerit)
+class DemeritAdmin(admin.ModelAdmin):
+    list_display=("demerit_name","demerit_points")
+    search_fields =("demerit_name","demerit_points")
+    list_filter = ("created_at",)

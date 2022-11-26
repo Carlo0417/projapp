@@ -36,6 +36,12 @@
                         </div>
                     </div>
 
+                    <style>
+                        .tooltip {
+                            font-size: 11px;
+                        }  
+                    </style>
+
                         <div class="table-responsive" style="padding: 0px 20px;">
                             <table class="table align-items-center mb-0">
                                 <thead>
@@ -43,9 +49,9 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Person</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Bed Code</th>
+                                            Boarder Type</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Bed Description</th>
+                                            Bed Code</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Start Date</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -61,10 +67,11 @@
                                             <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.person }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.bed }}</p>
+                                            <p class="text-xs text-secondary mb-0">{{ object.person.boarder_type }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ object.bed.bed_description }}</p>
+                                            <p data-toggle="tooltip" data-placement="center" title="{{ object.bed.bed_description }}" 
+                                            class="text-xs text-secondary font-weight-bold mb-0">{{ object.bed }}</p>
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.start_date }}</p>
@@ -103,9 +110,13 @@
                                 </tbody>
                             </table>
                             <span class="mb-0 text-link text-xs ">Total Number of 
-                            <span class="text-sm font-weight-bolder" style="color: #FF4200;">
-                            {% if occupants != empty %} {{ occupants }} {% else %} 0 {% endif %}</span>
-                            Occupants.</span>
+                                <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                                    {% if occupants != empty %} {{ occupants }} {% else %} 0 {% endif %}</span>Occupants.
+                                <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                                    {% if local != empty %} {{ local }} {% else %} 0 {% endif %}</span>Local and 
+                                <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                                    {% if foreign != empty %} {{ foreign }} {% else %} 0 {% endif %}</span>Foreign. 
+                            </span>
                             {% include 'includes/pagination.html' %}
                             
                         </div>
@@ -114,4 +125,11 @@
             </div>
         </div>
 </main>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+
 {% endblock content%}

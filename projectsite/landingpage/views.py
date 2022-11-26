@@ -12,10 +12,12 @@ from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 # from material import Field
+from django.db.models import Sum
 
-from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment
+from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit
 from django import forms
-from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm, OccupantFormEdit, BillingFormEdit, PaymentForm
+from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm
+from dormitory.forms import BillingForm, OccupantFormEdit, BillingFormEdit, PaymentForm, DemeritForm
 from django.contrib import messages
 from django.db.models import Q
 
@@ -32,18 +34,52 @@ class HomePageView(ListView):
         context['available_bed'] = Bed.objects.filter(bed_status__icontains='vacant').count()
         context['occupants'] = Occupant.objects.count()
         context['registered'] = Person.objects.filter(psu_email__isnull=False).count()
-        context['complete'] = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
-        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
-        Field7__icontains=1).count()
-        context['incomplete'] =  Person.objects.filter(psu_email__isnull=False).count() - Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
-        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
-        Field7__icontains=1).count()
+        context['complete'] = Person.objects.filter(reg_status__iexact="complete").count()
+        context['incomplete'] = Person.objects.filter(reg_status__iexact="incomplete").count()
         context['local'] = Occupant.objects.filter(person_id__boarder_type__icontains='Local').count()
         context['foreign'] = Occupant.objects.filter(person_id__boarder_type__icontains='Foreign').count()
-        context['maledorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', 
-        room_id__dorm_name__icontains="Male Dorm").exclude(room_id__dorm_name__icontains="Female Dorm").count()
-        context['femaledorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__icontains="Female Dorm").count()
-        context['foreigndorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__icontains="Foreign Dorm").count()
+        context['maledorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__iexact="Male Dorm").count()
+        context['femaledorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__iexact="Female Dorm").count()
+        context['foreigndorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__iexact="Foreign Dorm").count()
+        return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class MaleDormVacantBedList(ListView):
+    model = Bed
+    context_object_name = 'bed'
+    template_name = 'male_vacantbed.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['male_vacant'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__iexact="Male Dorm").count()
+        context['vacant_maledorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__iexact="Male Dorm")
+        return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class FemaleDormVacantBedList(ListView):
+    model = Bed
+    context_object_name = 'bed'
+    template_name = 'female_vacantbed.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['female_vacant'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__iexact="Female Dorm").count()
+        context['vacant_femaledorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__iexact="Female Dorm")
+        return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class ForeignDormVacantBedList(ListView):
+    model = Bed
+    context_object_name = 'bed'
+    template_name = 'foreign_vacantbed.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['foreign_vacant'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__iexact="Foreign Dorm").count()
+        context['vacant_foreigndorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__iexact="Foreign Dorm")
         return context
 
 
@@ -70,9 +106,9 @@ class RoomList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['rooms'] = Room.objects.count()
-        context['maledorm'] = Room.objects.filter(dorm_name__icontains="Male Dorm").exclude(dorm_name__icontains="Female Dorm").count()
-        context['femaledorm'] = Room.objects.filter(dorm_name__icontains="Female Dorm").count()
-        context['foreigndorm'] = Room.objects.filter(dorm_name__icontains="Foreign Dorm").count()
+        context['maledorm'] = Room.objects.filter(dorm_name__iexact="Male Dorm").count()
+        context['femaledorm'] = Room.objects.filter(dorm_name__iexact="Female Dorm").count()
+        context['foreigndorm'] = Room.objects.filter(dorm_name__iexact="Foreign Dorm").count()
         return context
 
 
@@ -111,8 +147,8 @@ class ServiceList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['services'] = Service.objects.count()
-        context['available'] = Service.objects.filter(status__icontains="Available").exclude(status__icontains="Not Available").count()
-        context['notavailable'] = Service.objects.filter(status__icontains="Not Available").count()
+        context['available'] = Service.objects.filter(status__iexact="Available").count()
+        context['notavailable'] = Service.objects.filter(status__iexact="Not Available").count()
         return context
 
 
@@ -141,6 +177,7 @@ class BedList(ListView):
         context['beds'] = Bed.objects.count()
         context['vacant'] = Bed.objects.filter(bed_status__icontains='vacant').count()
         context['occupied'] = Bed.objects.filter(bed_status__icontains='occupied').count()
+        context['vacant_maledorm_bed'] = Bed.objects.filter(bed_status__icontains='vacant', room_id__dorm_name__iexact="Male Dorm")
 
         # cursor = connections['default'].cursor()
         # query = f"UPDATE dormitory_bed SET bed_status = 'Vacant' WHERE id NOT IN (SELECT bed_id FROM dormitory_occupant)"
@@ -180,6 +217,8 @@ class OccupantList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['occupants'] = Occupant.objects.count()
+        context['local'] = Occupant.objects.filter(person__boarder_type__iexact="Local").count()
+        context['foreign'] = Occupant.objects.filter(person__boarder_type__iexact="Foreign").count()
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -187,7 +226,8 @@ class OccupantList(ListView):
         qs = qs.order_by("person")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("person").filter(Q(person__last_name__icontains=query) | Q(person__first_name__icontains=query))
+            qs = qs.order_by("person").filter(Q(person__last_name__icontains=query) | Q(person__first_name__icontains=query)
+            | Q(bed__bed_code__icontains=query) | Q(person__boarder_type__icontains=query))
         return qs
 
 
@@ -202,9 +242,7 @@ class OccupantUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
         print(f"Old Bed ID {self.object.bed_id}")
-        
         return context
     
     def get_success_url(self, **kwargs):
@@ -231,7 +269,44 @@ class OccupantView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['billing_details'] = Bill_Details.objects.filter(occupant=self.object.id)
+        context['total_bills_amount'] = Bill_Details.objects.filter(occupant=self.object.id).aggregate(Sum('amount'))['amount__sum'] or 0
+        context['payment'] = Payment.objects.filter(occupant=self.object.id)
+        context['total_payment_amount'] = Payment.objects.filter(occupant=self.object.id).aggregate(Sum('amount'))['amount__sum'] or 0
+        context['remaining_balance'] = (Bill_Details.objects.filter(occupant=self.object.id).aggregate(Sum('amount'))['amount__sum'] or 0) - (Payment.objects.filter(occupant=self.object.id).aggregate(Sum('amount'))['amount__sum'] or 0)
         return context
+        
+
+# @method_decorator(login_required, name='dispatch')
+class OccupantViewBillingUpdate(UpdateView):
+    model = Bill_Details
+    # fields = "__all__"
+    form_class = BillingFormEdit
+    context_object_name = 'occupant'
+    template_name = 'billing_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # print(f"ID {self.object.occupant_id}")
+        return context
+
+    def get_success_url(self):
+        return reverse('OccupantView', kwargs={'pk': self.object.occupant_id})
+
+
+# @method_decorator(login_required, name='dispatch')
+class OccupantViewPaymentUpdate(UpdateView):
+    model = Payment
+    fields = "__all__"
+    context_object_name = 'occupant'
+    template_name = 'payment_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # print(f"ID {self.object.occupant_id}")
+        return context
+
+    def get_success_url(self):
+        return reverse('OccupantView', kwargs={'pk': self.object.occupant_id})
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -244,12 +319,8 @@ class RegistrationList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['registered'] = Person.objects.count()
-        context['complete'] = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
-        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
-        Field7__icontains=1).count()
-        context['incomplete'] =  Person.objects.filter(psu_email__isnull=False).count() - Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
-        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
-        Field7__icontains=1).count()
+        context['complete'] = Person.objects.filter(reg_status__iexact="complete").count()
+        context['incomplete'] =  Person.objects.filter(reg_status__iexact="incomplete").count()
 
         cursor = connections['default'].cursor()
         query1 = f"UPDATE dormitory_person SET reg_status = 'Incomplete' WHERE Field1=0 or Field2=0 or Field3=0 or Field4=0 or Field5=0 or Field6=0 or Field7=0"
@@ -266,7 +337,7 @@ class RegistrationList(ListView):
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
             qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query) | Q(last_name__icontains=query) | Q(first_name__icontains=query) 
-            | Q(program__icontains=query) | Q(boarder_type__icontains=query)| Q(reg_status__icontains=query))
+            | Q(program__icontains=query) | Q(boarder_type__icontains=query)| Q(reg_status__iexact=query))
         return qs
 
 
@@ -318,7 +389,8 @@ class BillingList(ListView):
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
             qs = qs.order_by("occupant").filter(Q(occupant__person__last_name__icontains=query) 
-            | Q(occupant__person__first_name__icontains=query) | Q(service__service_name__icontains=query))
+            | Q(occupant__person__first_name__icontains=query) | Q(service__service_name__icontains=query)
+            | Q(description__icontains=query) | Q(amount__icontains=query))
         return qs
 
 
@@ -355,7 +427,7 @@ class PaymentList(ListView):
             query = self.request.GET.get('q')
             qs = qs.order_by("occupant").filter(Q(occupant__person__last_name__icontains=query) 
             | Q(occupant__person__first_name__icontains=query) | Q(payment_date__icontains=query)
-            | Q(amount__icontains=query) | Q(receipt_no__icontains=query))
+            | Q(amount__icontains=query) | Q(receipt_no__iexact=query))
         return qs
 
 
@@ -371,6 +443,41 @@ class PaymentUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+
+# @method_decorator(login_required, name='dispatch')
+class DemeritList(ListView):
+    model = Demerit
+    context_object_name = 'demerit'
+    template_name = 'demerit_list.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['demerit'] = Demerit.objects.count()
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(DemeritList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("demerit_points")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("-demerit_points").filter(Q(occupant__person__last_name__icontains=query) 
+            | Q(occupant__person__first_name__icontains=query) | Q(payment_date__icontains=query)
+            | Q(amount__icontains=query) | Q(receipt_no__iexact=query))
+        return qs
+
+
+# @method_decorator(login_required, name='dispatch')
+class DemeritUpdateView(UpdateView):
+    model = Demerit
+    fields = "__all__"
+    context_object_name = 'demerit'
+    template_name = 'demerit_update.html'
+    success_url = "/demerit_list"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 # ===================================================
 # Functions for adding
@@ -432,7 +539,6 @@ def add_occupant(request):
         
         if form.is_valid():
             bed_id = request.POST.get("bed")
-            occ_id = request.POST.get("occupant")
             occ = form.save(commit=False)
             occ.pk = None
             occ.bedPrice = Bed.objects.filter(pk=bed_id).values_list('price')
@@ -450,7 +556,7 @@ def add_occupant(request):
             # adding Bills to occupant
             # cursor = connections['default'].cursor()
             # id, created_at, updated_at, description, amount, service_id, bill_date, occupant_id, status, quantity
-            # query2 = f"INSERT INTO dormitory_bill_details (now(), now(), description, amount, service_id, bill_date, occupant_id, status, quantity) VALUES ('None', '1500', (SELECT id FROM dormitory_service WHERE service_name = 'Deposit'), now(), {occ_id}, 'None', '0')"
+            # query2 = f"INSERT INTO dormitory_bill_details (now(), now(), description, amount, service_id, bill_date, occupant_id, status, quantity) VALUES ('None', '1500', , now(), {occ_id}, 'None', '0')"
             # cursor.execute(query2)
 
             return redirect('OccupantAdd')
@@ -513,6 +619,22 @@ def add_payment(request):
     else:
         form = PaymentForm()
         return render(request, 'payment_add.html',  {'form': form})
+
+def add_demerit(request):
+    if request.method == "POST":
+        form = DemeritForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'New demerit added successfully!')
+            return redirect('DemeritAdd')
+
+        else:
+            messages.error(request, 'Please complete the required field.')
+            return redirect('DemeritAdd')
+    else:
+        form = DemeritForm()
+        return render(request, 'demerit_add.html',  {'form': form})
 
 
 # ===================================================

@@ -2,7 +2,7 @@ from faulthandler import disable
 from certifi import where
 from django.forms import ModelForm
 
-from .models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment
+from .models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 
@@ -93,9 +93,14 @@ class BillingFormEdit(ModelForm):
         bill = kwargs.pop('bill', None)
         super(BillingFormEdit, self).__init__(*args, **kwargs)
         self.fields['service'].queryset = Service.objects.filter(status__icontains='Available').exclude(status__icontains='Not Available')
-
+        self.fields['amount'].queryset = Service.objects.filter(service=self.object.id)
 
 class PaymentForm(ModelForm):
     class Meta:
         model = Payment
+        fields = "__all__"
+
+class DemeritForm(ModelForm):
+    class Meta:
+        model = Demerit
         fields = "__all__"

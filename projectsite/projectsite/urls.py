@@ -3,7 +3,11 @@ from django.contrib import admin
 from django.urls import path
 
 
-from landingpage.views import HomePageView, RoomList, RoomUpdateView, ServiceList, ServiceUpdateView, BedList, BedUpdateView, OccupantList, OccupantUpdateView, RegistrationList, RegistrationUpdateView, RegistrationRegView, BillingList, BillingUpdateView, OccupantView, PaymentList, PaymentUpdateView
+from landingpage.views import HomePageView, RoomList, RoomUpdateView, ServiceList, ServiceUpdateView, BedList 
+from landingpage.views import BedUpdateView, OccupantList, OccupantUpdateView, RegistrationList, RegistrationUpdateView
+from landingpage.views import RegistrationRegView, BillingList, BillingUpdateView, OccupantView, PaymentList
+from landingpage.views import PaymentUpdateView, OccupantViewBillingUpdate, MaleDormVacantBedList, FemaleDormVacantBedList
+from landingpage.views import ForeignDormVacantBedList, OccupantViewPaymentUpdate, DemeritList, DemeritUpdateView
 from landingpage import views
 
 from django.contrib.auth import views as auth_views
@@ -18,6 +22,9 @@ urlpatterns = [
     path('service_list/add', views.add_service, name='ServiceAdd'),
     path('service_list/<pk>', ServiceUpdateView.as_view(), name="ServiceUpdate"),
     path('bed_list', BedList.as_view(), name='BedList'),
+    path('male_vacantbed', MaleDormVacantBedList.as_view(), name='MaleDormVacantBedList'),
+    path('female_vacantbed', FemaleDormVacantBedList.as_view(), name='FemaleDormVacantBedList'),
+    path('foreign_vacantbed', ForeignDormVacantBedList.as_view(), name='ForeignDormVacantBedList'),
     path('bed_list/add', views.add_bed, name='BedAdd'),
     path('bed_list/<pk>', BedUpdateView.as_view(), name="BedUpdate"),
     path('occupant_list', OccupantList.as_view(), name='OccupantList'),
@@ -25,6 +32,7 @@ urlpatterns = [
     path('occupant_list/<pk>', OccupantUpdateView.as_view(), name="OccupantUpdate"),
     path('occupant_view/<pk>', OccupantView.as_view(), name="OccupantView"),
     path('occupant_view/occupant_list/<pk>', OccupantUpdateView.as_view(), name="OccupantUpdate"),
+    path('occupant_view/billing_list/<pk>', OccupantViewBillingUpdate.as_view(), name="OccupantViewBillingUpdate"),
     path('registration_list', RegistrationList.as_view(), name='RegistrationList'),
     path('registration_list/add', views.add_registration, name='RegistrationAdd'),
     path('registration_list/<pk>', RegistrationUpdateView.as_view(), name="RegistrationUpdate"),
@@ -37,6 +45,10 @@ urlpatterns = [
     path('payment_list', PaymentList.as_view(), name='PaymentList'),
     path('payment_list/add', views.add_payment, name='PaymentAdd'),
     path('payment_list/<pk>', PaymentUpdateView.as_view(), name="PaymentUpdate"),
+    path('occupant_view/payment_list/<pk>', OccupantViewPaymentUpdate.as_view(), name="OccupantViewPaymentUpdate"),
+    path('demerit_list', DemeritList.as_view(), name='DemeritList'),
+    path('demerit_list/add', views.add_demerit, name='DemeritAdd'),
+    path('demerit_list/<pk>', DemeritUpdateView.as_view(), name="DemeritUpdate"),
     # path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     # path('delete_bed/<int:id>', views.delete_bed, name='delete_bed'),
     # path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),

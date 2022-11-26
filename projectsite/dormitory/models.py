@@ -4,6 +4,8 @@ from tkinter import CASCADE
 from django.db import models
 from pkg_resources import require
 from datetime import timedelta
+from decimal import Decimal
+from django.core.validators import MinValueValidator
 
 
 class BaseModel(models.Model):
@@ -34,7 +36,7 @@ class Service(BaseModel):
     STATUS_CHOICES = (('Available','Available'), ('Not Available','Not Available'))
     service_name = models.CharField(max_length=100)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES)
-    base_amount = models.DecimalField(default=0, max_digits=6, decimal_places=2)
+    base_amount = models.DecimalField(default=0, max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
 
     class Meta:
         verbose_name_plural = "Services"
@@ -162,7 +164,7 @@ class Person(BaseModel):
     first_name = models.CharField(max_length=250, default="")
     middle_name = models.CharField(max_length=250, default="", null=True, blank=True)
     gender = models.CharField(max_length=50, choices=GENDER_CHOICES)
-    boarder_type = models.CharField(max_length=50, default="Local", choices =TYPE_CHOICES)
+    boarder_type = models.CharField(max_length=50, default="Local", choices=TYPE_CHOICES)
     program = models.CharField(max_length=250, choices=PROGRAM_CHOICES)
     office_dept = models.CharField(max_length=250, choices=OFFICE_DEPT_CHOICES, verbose_name="Office / Department")
     contact_no = models.CharField(max_length=20, default="", verbose_name="Contact Number")
@@ -242,9 +244,9 @@ class Bill_Details(BaseModel):
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
     bill_date = models.DateTimeField(default=timezone.now)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=2, default=1, decimal_places=0)
-    description = models.CharField(max_length=250, null=True, blank=True)
-    amount = models.DecimalField(default=0, max_digits=6, decimal_places=2)
+    quantity = models.PositiveIntegerField()
+    description = models.CharField(max_length=250, null=True, blank=True, default="None")
+    amount = models.DecimalField(default=0, max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
 
     class Meta:
         verbose_name_plural = "Bill Details"
@@ -255,9 +257,8 @@ class Bill_Details(BaseModel):
 
 class Payment(BaseModel):
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
-    service = models.ForeignKey(Bill_Details, on_delete=models.CASCADE, )
     payment_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
-    amount = models.DecimalField(default=0, max_digits=6, decimal_places=2)
+    amount = models.DecimalField(default=0, max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     receipt_no = models.CharField(max_length=250)
 
     class Meta:
@@ -265,3 +266,45 @@ class Payment(BaseModel):
 
     def __str__(self):
         return f"{self.occupant}"
+
+
+class Demerit(BaseModel):
+
+    DEMERITS_CHOICES = (('Transfer to other rooms without permission','Transfer to other rooms without permission.'),
+                        ('Doing malicious conduct on dormitory premises','Doing malicious conduct on dormitory premises.'),
+                        ('Allowing opposite sex other than the parents to enter his/her room','Allowing opposite sex other than the parents to enter his/her room.'),
+                        ('Possessing inside the dormitory any firearm, bladed weapon, or any kind of dangerous and deadly weapon; Provided, that this shall not possess the in connection with their studies and have a permit for the purpose.',
+                        'Possessing inside the dormitory any firearm, bladed weapon, or any kind of dangerous and deadly weapon; Provided, that this shall not possess the in connection with their studies and have a permit for the purpose.'),
+                        ('Oral defamation against co-residents.','Oral defamation against co-residents.'),
+                        ('Bullying.','Bullying.'),
+                        ('Threatening or any attempt to any member of the dormitory with physical harm; unlawfully preventing or threatening the dormitory residents or other dormitory officials to enter the dormitory premises.',
+                        'Threatening or any attempt to any member of the dormitory with physical harm; unlawfully preventing or threatening the dormitory residents or other dormitory officials to enter the dormitory premises.'),
+                        ('Non-Securing of Dormitory forms i.e. curfew extension and renewal/clearance forms.','Non-Securing of Dormitory forms i.e. curfew extension and renewal/clearance forms.'),
+                        ('Non-Compliance related to room checking procedures.','Non-Compliance related to room checking procedures.'),
+                        ('Non-Compliance to the administrative and dormitory superintendents.','Non-Compliance to the administrative and dormitory superintendents.'),
+                        ('Bringing of appliances without the approval of the dormitory parent.','Bringing of appliances without the approval of the dormitory parent.'),
+                        ('Laundering of clothes inside the dormitory.','Laundering of clothes inside the dormitory.'),
+                        ('Use electrical appliances, including ironing of clothes inside the dormitory.','Use electrical appliances, including ironing of clothes inside the dormitory.'),
+                        ('Returning after curfew hour or very late from time in indicated on the curfew extension form.','Returning after curfew hour or very late from time in indicated on the curfew extension form.'),
+                        ('Lending dormitory ID to the outsider and co-residents to enter the dormitory premises.','Lending dormitory ID to the outsider and co-residents to enter the dormitory premises.'),
+                        ('Using other personal things without permission to the owner.','Using other personal things without permission to the owner.'),
+                        ('Failure to do proper waste segregation and or throwing garbage in improper places.','Failure to do proper waste segregation and or throwing garbage in improper places.'),
+                        ('Disturbing / Disrespect on the privacy of others including making noise after curfew hours and playing loud music inside the dormitory.',
+                        'Disturbing / Disrespect on the privacy of others including making noise after curfew hours and playing loud music inside the dormitory.'),
+                        ('Vandalism.','Vandalism.'),
+                        ('Failure to register in logbook.','Failure to register in logbook.'),
+                        ('Not turning off the fan, aircon, lights and faucet.','Not turning off the fan, aircon, lights and faucet.'),
+                        ('Shouting and making nuisance inside the dormitory.','Shouting and making nuisance inside the dormitory.'),
+                        ('Bringing pets in the dormitory.','Bringing pets in the dormitory.'),
+                        ('Walking around beyond time limits (11:00 PM only).','Walking around beyond time limits (11:00 PM only).'),)
+
+    POINTS_CHOICES = (('5','5'),('4','4'),('3','3'),('2','2'),('1','1'),)
+
+    demerit_name = models.CharField(max_length=500, choices=DEMERITS_CHOICES)
+    demerit_points = models.CharField(max_length=2, choices=POINTS_CHOICES)
+
+    class Meta:
+        verbose_name_plural = "Demerits"
+
+    def __str__(self):
+        return f"{self.demerit_name}"

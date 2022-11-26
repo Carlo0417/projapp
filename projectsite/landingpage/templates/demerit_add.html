@@ -10,10 +10,10 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
-                            <h6 class="text-white text-capitalize ps-3">New Billing Details</h6>
+                            <h6 class="text-white text-capitalize ps-3">New Demerit Details</h6>
                         </div>
                     </div>
-
+                   
                     <div class="card-body">
 
                     <!-- messages & alerts -->
@@ -32,7 +32,6 @@
                     {% endif %}
                     <!-- /messages & alerts -->
 
-
                     <form role="form" class="" action="" method="post" novalidate>
                         {% csrf_token %}
                         
@@ -46,57 +45,20 @@
                         </div>
                         {% endif %}
 
-                        <!-- <script>
-                            $(document).ready(function(){
-                                var $select1=$('#select1'),
-                                    $select2=$('#select2')
-                                    $options=$select2.find('option');
-                                    $select1.on('change', function()
-                                    {
-                                        $select2.html($options.filter('[value="'+this.value+'"]'));
-                                    }).trigger('change');
-                            });
-                        </script> -->
-
-                        <div class="row"> 
-                            <div class="col-6">
+                        <div class="row">
+                            <div class="col-8">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
+                                style="margin-bottom: 0px; margin-top: 17px;">Demerit</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.occupant class="form-control" id="#select1"%}
-                                </div>
-
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.service class="form-control" id="#select2"%}
-                                </div>
-                                
-
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Amount</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.amount class="form-control" %}
+                                    {% render_field form.demerit_name class="form-control" %}
                                 </div>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Bill Date</label>
+                                style="margin-bottom: 0px; margin-top: 17px;">Points</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.bill_date class="form-control" type="datetime-local"%}
-                                </div>
-
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Quantity</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.quantity class="form-control "%}
-                                </div>
-
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Description</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.description class="form-control" %}
+                                    {% render_field form.demerit_points class="form-control" %}
                                 </div>
                             </div>
                         </div>
@@ -106,7 +68,7 @@
                                 <div class="col-md-12 col-sm-3">
                                     <button type='submit' class="btn text-white" style="background-color: #FF4200;">Save</button>
                                     &nbsp &nbsp &nbsp
-                                    <a class="btn text-white" style="background-color: #4b4b4b;" href="{% url 'BillingList' %}">Cancel</a>
+                                    <a class="btn text-white" style="background-color: #4B4B4B;" href="{% url 'DemeritList' %}">Cancel</a>
                                 </div>
                             </div>
                     </form>
@@ -123,8 +85,6 @@
     setTimeout(function() {
       document.getElementById('fadeout').remove();
       }, milliseconds);
-
-      $( "#myselect option:selected" ).text();
 </script>
 
 {% endblock %}

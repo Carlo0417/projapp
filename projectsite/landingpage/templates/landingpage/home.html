@@ -10,7 +10,7 @@
               <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
                 <div class="card">
 
-                  <a href="bed_list?q=vacant" style="color: #7B809A;">
+                  <a href="bed_list" style="color: #7B809A;">
                   <div class="card-header p-3 pt-2">
                     <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
                       <i class="material-icons opacity-10">weekend</i>
@@ -27,18 +27,22 @@
                   <div class="card-footer p-3">
                     <div class="row">
                       <div class="col-4">
-                        <a href="bed_list?q=vacant&bed_list?q=male dorm" style="color: #7B809A;">
+                        <a href="male_vacantbed" style="color: #7B809A;">
                         <span class="mb-0 text-link text-sm">Male Dorm: <span class="text-sm font-weight-bolder text-dark">
                           {% if maledorm_bed != empty %} {{ maledorm_bed }} {% else %} 0 {% endif %}</span></span>
                         </a>
                       </div>
                       <div class="col-4">
+                        <a href="female_vacantbed" style="color: #7B809A;">
                         <span class="mb-0 text-link text-sm">Female Dorm: <span class="text-sm font-weight-bolder text-dark"> 
                           {% if femaledorm_bed != empty %} {{ femaledorm_bed }} {% else %} 0 {% endif %}</span></span>
+                        </a>
                       </div>
                       <div class="col-4">
+                        <a href="foreign_vacantbed" style="color: #7B809A;">
                         <span class="mb-0 text-link text-sm">Foreign Dorm: <span class="text-sm font-weight-bolder text-dark"> 
                           {% if foreigndorm_bed != empty %} {{ foreigndorm_bed }} {% else %} 0 {% endif %}</span></span>
+                        </a>
                       </div>
                     </div>
                   </div>

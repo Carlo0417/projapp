@@ -26,7 +26,7 @@ def add_billing():
 def add_rent_bill():
 	t = timezone.localtime(timezone.now())
 	# test if this is the 25th day of the month
-	if t.day == 25:
+	if t.day == 0:
 		# searches all the occupied beds
 		rows = Bed.objects.filter(bed_status__icontains='occupied')
 		for row in rows:

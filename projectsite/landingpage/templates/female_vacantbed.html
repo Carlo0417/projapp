@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
+                            <h6 class="text-white ps-3">Female Dorm Vacant Beds</h6>
+                        </div>
+                    </div> <br>
+                    <div class="card-body">
+                        <div class="table-responsive" style="padding: 0px 20px;">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Dorm</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Room</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Bed Code</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Description</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for object in vacant_femaledorm_bed %}
+                                    <tr>
+                                        <td>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{object.room.dorm_name}}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ object.room }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs font-weight-bold mb-0" style="color:#FF4200;">{{ object.bed_code }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ object.bed_description }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.price }}.00</p>
+                                        </td>
+                                    </tr>
+
+                                    {% empty %}
+                                    <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table.</td>
+                                    {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                            <span class="mb-0 text-link text-xs">Total Number of 
+                                <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                                    {% if female_vacant != empty %} {{ female_vacant }} {% else %} 0 {% endif %}</span> Vacant Beds.
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+{% endblock content%}
