@@ -723,3 +723,8 @@ def add_occupant_demerit(request):
 #   room = Person.objects.get(id=id)
 #   room.delete()
 #   return HttpResponseRedirect(reverse('RegistrationList'))
+
+# def delete_demerit(request, id):
+#   demerit = Demerit.objects.get(id=id)
+#   demerit.delete()
+#   return HttpResponseRedirect(reverse('DemeritList'))

@@ -57,6 +57,7 @@ urlpatterns = [
     # path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     # path('delete_bed/<int:id>', views.delete_bed, name='delete_bed'),
     # path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),
+    # path('delete_demerit/<int:id>', views.delete_demerit, name='delete_demerit'),
 
     url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
