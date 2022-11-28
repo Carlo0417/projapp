@@ -516,8 +516,8 @@ class OccupantDemeritList(ListView):
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
             qs = qs.order_by("occupant").filter(Q(occupant__person__last_name__icontains=query) 
-            | Q(occupant__person__first_name__icontains=query) | Q(demerit_name__icontains=query)
-            | Q(cur_date__icontains=query) | Q(remarks__icontains=query))
+            | Q(occupant__person__first_name__icontains=query) | Q(demerit_name__demerit_name__icontains=query)
+            | Q(demerit_name__demerit_points__icontains=query) | Q(cur_date__icontains=query) | Q(remarks__icontains=query))
         return qs
 
 

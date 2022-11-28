@@ -41,11 +41,11 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Occupant Name</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Recorded Date</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Demerit Description</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Demerit Points</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Recorded Date</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Remarks / Description</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -59,13 +59,13 @@
                                             <p class="text-xs text-secondary font-weight-bold mb-0">{{object.occupant }}</p>
                                         </td>
                                         <td class="text-center">
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.cur_date }}</p>
+                                        </td>
+                                        <td class="text-center">
                                             <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.demerit_name|truncatechars:20 }}</p>
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary font-weight-bold mb-0">{{object.demerit_name.demerit_points }}</p>
-                                        </td>
-                                        <td class="text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.cur_date }}</p>
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.remarks|truncatechars:20 }}</p>
