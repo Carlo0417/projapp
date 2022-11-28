@@ -2,7 +2,7 @@ from faulthandler import disable
 from certifi import where
 from django.forms import ModelForm
 
-from .models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit
+from .models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit, OccupantDemerit
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 
@@ -103,4 +103,9 @@ class PaymentForm(ModelForm):
 class DemeritForm(ModelForm):
     class Meta:
         model = Demerit
+        fields = "__all__"
+
+class OccupantDemeritForm(ModelForm):
+    class Meta:
+        model = OccupantDemerit
         fields = "__all__"

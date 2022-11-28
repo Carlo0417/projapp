@@ -308,3 +308,16 @@ class Demerit(BaseModel):
 
     def __str__(self):
         return f"{self.demerit_name}"
+
+
+class OccupantDemerit(BaseModel):
+    occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
+    demerit_name = models.ForeignKey(Demerit, on_delete=models.CASCADE)
+    cur_date = models.DateTimeField(default=timezone.now)
+    remarks = models.TextField(max_length=500, default="None")
+
+    class Meta:
+        verbose_name_plural = "Occupant Demerits"
+
+    def __str__(self):
+        return f"{self.occupant}"

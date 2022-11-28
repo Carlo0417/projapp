@@ -106,3 +106,12 @@ class DemeritAdmin(admin.ModelAdmin):
     list_display=("demerit_name","demerit_points")
     search_fields =("demerit_name","demerit_points")
     list_filter = ("created_at",)
+
+
+from .models import OccupantDemerit
+
+@admin.register(OccupantDemerit)
+class Occupant_DemeritAdmin(admin.ModelAdmin):
+    list_display=("occupant","demerit_name","cur_date","remarks")
+    search_fields =("occupant","demerit_name","cur_date","remarks")
+    list_filter = ("created_at",)

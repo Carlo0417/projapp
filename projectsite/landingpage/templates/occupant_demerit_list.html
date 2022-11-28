@@ -9,14 +9,14 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
-                            <h6 class="text-white ps-3">List of Demerits</h6>
+                            <h6 class="text-white ps-3">List of Occupant with Demerits</h6>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
                              <div class="col-sm-2">
                                  <div class="pull-right">
-                                     <a href="{% url 'DemeritAdd' %}" class="btn text-white mt-4 w-100" style="background-color: #FF4200;">Add Demerit</a>
+                                     <a href="{% url 'OccupantDemeritAdd' %}" class="btn text-white mt-4 w-100" style="background-color: #FF4200;">Add Demerit</a>
                                  </div>
                              </div>
  
@@ -25,9 +25,9 @@
                              {% include 'includes/search_style.html' %}
                              
                              <div class="col-sm-3">
-                                <form action="{% url 'DemeritList' %}" method="get"> 
+                                <form action="{% url 'OccupantDemeritList' %}" method="get"> 
                                     <div class="input-group input-group-outline">
-                                        <label class="form-label">Search demerit...</label>
+                                        <label class="form-label">Search occupant...</label>
                                         <input type="text" class="form-control" name="q">
                                     </div>
                                 </form>
@@ -39,9 +39,15 @@
                                 <thead>
                                     <tr class="headings">
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Demerit</th>
+                                            Occupant Name</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Points</th>
+                                            Demerit Description</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Demerit Points</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Recorded Date</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Remarks / Description</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
@@ -50,13 +56,22 @@
                                     {% for object in object_list %}
                                     <tr>
                                         <td>
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{object.demerit_name|truncatechars:150 }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{object.occupant }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.demerit_points }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.demerit_name|truncatechars:20 }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <a href="demerit_list/{{ object.id }}"
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{object.demerit_name.demerit_points }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.cur_date }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.remarks|truncatechars:20 }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="occupant_demerit_list/{{ object.id }}"
                                                 class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
                                                 data-toggle="tooltip">
                                                 <i class="material-icons text-sm me-2">edit</i>Edit</a>
@@ -77,7 +92,8 @@
                             </table>
                             <span class="mb-0 text-link text-xs ">Total Number of 
                                 <span class="text-sm font-weight-bolder" style="color: #FF4200;">
-                                    {% if demerit != empty %} {{ demerit }} {% else %} 0 {% endif %}</span>Demerits.
+                                    {% if occupant_demerit != empty %} {{ occupant_demerit }} 
+                                    {% else %} 0 {% endif %}</span>Occupant with Demerit.
                             </span>  
                             {% include 'includes/pagination.html' %}
 

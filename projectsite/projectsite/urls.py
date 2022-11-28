@@ -8,6 +8,7 @@ from landingpage.views import BedUpdateView, OccupantList, OccupantUpdateView, R
 from landingpage.views import RegistrationRegView, BillingList, BillingUpdateView, OccupantView, PaymentList
 from landingpage.views import PaymentUpdateView, OccupantViewBillingUpdate, MaleDormVacantBedList, FemaleDormVacantBedList
 from landingpage.views import ForeignDormVacantBedList, OccupantViewPaymentUpdate, DemeritList, DemeritUpdateView
+from landingpage.views import OccupantDemeritList, OccupantDemeritUpdateView, OccupantViewDemeritUpdate
 from landingpage import views
 
 from django.contrib.auth import views as auth_views
@@ -49,6 +50,10 @@ urlpatterns = [
     path('demerit_list', DemeritList.as_view(), name='DemeritList'),
     path('demerit_list/add', views.add_demerit, name='DemeritAdd'),
     path('demerit_list/<pk>', DemeritUpdateView.as_view(), name="DemeritUpdate"),
+    path('occupant_demerit_list', OccupantDemeritList.as_view(), name='OccupantDemeritList'),
+    path('occupant_demerit_list/add', views.add_occupant_demerit, name='OccupantDemeritAdd'),
+    path('occupant_demerit_list/<pk>', OccupantDemeritUpdateView.as_view(), name="OccupantDemeritUpdate"),
+    path('occupant_view/occupant_demerit_list/<pk>', OccupantViewDemeritUpdate.as_view(), name="OccupantViewDemeritUpdate"),
     # path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     # path('delete_bed/<int:id>', views.delete_bed, name='delete_bed'),
     # path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),

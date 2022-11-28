@@ -189,7 +189,7 @@
                                     </td>
                                 </tr>
                                 {% empty %}
-                                <td class="text-xs" style="color: rgba(163, 167, 185, 0.8);"> <br> Nothing yet to show</td>
+                                <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table. </td>
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -197,9 +197,8 @@
 
                     <hr style="border-top: 1px solid #FF4200; opacity: 0.5;">
                     <div class="table-responsive my-4" style="padding: 0px 20px;">
-                        {% for object in payment %}
                         <table class="table align-items-center mb-0">
-                            <div class="row my-3">
+                            <!-- <div class="row my-3">
                                 <div class="col-3">
                                     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                     style="margin-bottom: 0px; margin-top: 3px;"> Recorded Date <br>
@@ -210,7 +209,7 @@
                                     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                     style="margin-bottom: 0px; margin-top: 3px;"> Updated Date <br>
                                     <b class="mb-0 text-xs" style="color: #FF4200;"> {{ object.updated_at }}</b> </label>
-                                </div>
+                                </div> -->
                             </div>
                             <thead>
                                 <tr class="headings">
@@ -225,6 +224,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for object in payment %}
                                 <tr>
                                     <td class="">
                                         <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.payment_date }}</p>
@@ -242,7 +242,7 @@
                                     </td>
                                 </tr>
                                 {% empty %}
-                                <td class="text-xs" style="color: rgba(163, 167, 185, 0.8);"> <br> Nothing yet to show</td>
+                                <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table. </td>
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -287,7 +287,6 @@
                         </div>
                         {% endif %}
                     </div>
-
                     <!-- end of Billing and Payment -->
 
 
@@ -295,24 +294,72 @@
                     <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Demerits Information</p>
                     <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
 
-                    <p class="text-sm text-secondary text-center font-weight-bold opacity-6 my-7">Nothing yet to show</p>
+                    <div class="table-responsive my-4" style="padding: 0px 20px;">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Demerit Description</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Demerit Points</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Recorded Date</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Remarks / Description</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in occupant_demerits %}
+                                <tr>
+                                    <td>
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.demerit_name|truncatechars:30 }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{object.demerit_name.demerit_points }}</p>
+                                    </td>
+                                    <td class="">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.cur_date }}</p>
+                                    </td>
+                                    <td class="">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.remarks|truncatechars:30 }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="occupant_demerit_list/{{ object.id }}"
+                                            class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
+                                            data-toggle="tooltip">
+                                            <i class="material-icons text-sm me-2">edit</i>Edit</a>
 
+                                        <!-- <a href="delete_bed/{{ object.id }}"
+                                            class="btn btn-link text-danger px-3 mb-0"
+                                            data-toggle="tooltip" style="font-size: 10px;">
+                                            <i class="material-icons text-sm me-2">delete</i>Delete</a>     -->
+                                    </td>
+                                </tr>
+
+                                {% empty %}
+                                <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table. </td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- end of Demerits Information -->
                     
                         <div class="ln_solid">
                             <br />
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-7"></div>
-                                    <div class="col-md-5">
-                                        &nbsp &nbsp &nbsp &nbsp 
+                                    <div class="col-md-12 col-sm-3">
+                                        &nbsp &nbsp
                                         <a href="registration_view/{{ object.person.id }}" class="btn text-white" style="background-color: #FF4200;"> View Profile </a>
-                                        &nbsp &nbsp &nbsp &nbsp 
-                                        <a href="occupant_list/{{ object.id }}" class="btn text-white" style="background-color: #FF9001;"> Edit </a>
+                                        &nbsp &nbsp &nbsp
+                                        <a href="occupant_list/{{ object.id }}" class="btn text-white" style="background-color: #FF9001;"> Edit Info</a>
                                         &nbsp &nbsp &nbsp &nbsp
                                         <a class="btn text-white" style="background-color: #4b4b4b;" href="{% url 'OccupantList' %}">Back</a>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </form>

@@ -14,10 +14,10 @@ from django.views.generic.edit import UpdateView
 # from material import Field
 from django.db.models import Sum
 
-from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit
+from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit, OccupantDemerit
 from django import forms
-from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm
-from dormitory.forms import BillingForm, OccupantFormEdit, BillingFormEdit, PaymentForm, DemeritForm
+from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm
+from dormitory.forms import OccupantFormEdit, BillingFormEdit, PaymentForm, DemeritForm, OccupantDemeritForm
 from django.contrib import messages
 from django.db.models import Q
 
@@ -273,6 +273,7 @@ class OccupantView(UpdateView):
         context['payment'] = Payment.objects.filter(occupant=self.object.id)
         context['total_payment_amount'] = Payment.objects.filter(occupant=self.object.id).aggregate(Sum('amount'))['amount__sum'] or 0
         context['remaining_balance'] = (Bill_Details.objects.filter(occupant=self.object.id).aggregate(Sum('amount'))['amount__sum'] or 0) - (Payment.objects.filter(occupant=self.object.id).aggregate(Sum('amount'))['amount__sum'] or 0)
+        context['occupant_demerits'] = OccupantDemerit.objects.filter(occupant=self.object.id)
         return context
         
 
@@ -299,6 +300,22 @@ class OccupantViewPaymentUpdate(UpdateView):
     fields = "__all__"
     context_object_name = 'occupant'
     template_name = 'payment_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # print(f"ID {self.object.occupant_id}")
+        return context
+
+    def get_success_url(self):
+        return reverse('OccupantView', kwargs={'pk': self.object.occupant_id})
+
+
+# @method_decorator(login_required, name='dispatch')
+class OccupantViewDemeritUpdate(UpdateView):
+    model = OccupantDemerit
+    fields = "__all__"
+    context_object_name = 'occupant'
+    template_name = 'occupant_demerit_update.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -461,9 +478,8 @@ class DemeritList(ListView):
         qs = qs.order_by("demerit_points")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("-demerit_points").filter(Q(occupant__person__last_name__icontains=query) 
-            | Q(occupant__person__first_name__icontains=query) | Q(payment_date__icontains=query)
-            | Q(amount__icontains=query) | Q(receipt_no__iexact=query))
+            qs = qs.order_by("-demerit_points").filter(Q(demerit_name__icontains=query) 
+            | Q(demerit_points__iexact=query))
         return qs
 
 
@@ -478,6 +494,43 @@ class DemeritUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class OccupantDemeritList(ListView):
+    model = OccupantDemerit
+    context_object_name = 'occupant'
+    template_name = 'occupant_demerit_list.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['occupant_demerit'] = OccupantDemerit.objects.count()
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(OccupantDemeritList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("occupant")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("occupant").filter(Q(occupant__person__last_name__icontains=query) 
+            | Q(occupant__person__first_name__icontains=query) | Q(demerit_name__icontains=query)
+            | Q(cur_date__icontains=query) | Q(remarks__icontains=query))
+        return qs
+
+
+# @method_decorator(login_required, name='dispatch')
+class OccupantDemeritUpdateView(UpdateView):
+    model = OccupantDemerit
+    fields = "__all__"
+    context_object_name = 'occupant'
+    template_name = 'occupant_demerit_update.html'
+    success_url = "/occupant_demerit_list"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 # ===================================================
 # Functions for adding
@@ -635,6 +688,22 @@ def add_demerit(request):
     else:
         form = DemeritForm()
         return render(request, 'demerit_add.html',  {'form': form})
+
+def add_occupant_demerit(request):
+    if request.method == "POST":
+        form = OccupantDemeritForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'New demerit for occupant added successfully!')
+            return redirect('OccupantDemeritAdd')
+
+        else:
+            messages.error(request, 'Please complete the required field.')
+            return redirect('OccupantDemeritAdd')
+    else:
+        form = OccupantDemeritForm()
+        return render(request, 'occupant_demerit_add.html',  {'form': form})
 
 
 # ===================================================
