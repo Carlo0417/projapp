@@ -23,6 +23,8 @@
                              <div class="col-sm-7"></div>
 
                              {% include 'includes/search_style.html' %}
+
+                             {% load humanize %}
                              
                              <div class="col-sm-3">
                                 <form action="{% url 'BedList' %}" method="get"> 
@@ -70,7 +72,7 @@
                                             <p class="text-xs text-secondary mb-0">{{ object.bed_description }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary mb-0">P {{ object.price }}.00</p>
+                                            <p class="text-xs text-secondary mb-0">P {{ object.price|intcomma}}.00</p>
                                         </td>
                                         <td class="text-center text-sm">
                                              <span {% if object.bed_status == 'Occupied' %} class="badge badge-sm" style="background-color: #4B4B4B;" {% elif object.bed_status == 'Vacant' %} 

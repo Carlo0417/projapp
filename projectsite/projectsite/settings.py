@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'landingpage',
     'dormitory',
+    'django.contrib.humanize',
 ]
 
 MESSAGE_TAGS = {

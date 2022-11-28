@@ -21,6 +21,8 @@ from dormitory.forms import OccupantFormEdit, BillingFormEdit, PaymentForm, Deme
 from django.contrib import messages
 from django.db.models import Q
 
+from decimal import Decimal
+
 from django.db import connections
 
 # @method_decorator(login_required, name='dispatch')

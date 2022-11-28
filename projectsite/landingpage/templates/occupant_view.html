@@ -18,6 +18,8 @@
                         {% csrf_token %}
 
                         {% load widget_tweaks %}
+
+                        {% load humanize %}
                         
                     <!-- Name and Dates -->
                     <div class="row">
@@ -78,7 +80,7 @@
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Bed Price</label>
                             <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">P {{ object.bed.price }}.00</h6>
+                                <label class="text-sm font-weight-bold mb-0 text-dark">P {{ object.bed.price|intcomma }}.00</h6>
                             </div>  
                         </div>
 
@@ -180,7 +182,7 @@
                                         <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.quantity }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount }}</p>
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
                                     </td>
                                     <td class="text-center">
                                         <a href="billing_list/{{ object.id }}" class="text-uppercase font-weight-bolder mb-0" 
@@ -230,7 +232,7 @@
                                         <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.payment_date }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount }}</p>
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.receipt_no }}</p>
@@ -259,9 +261,9 @@
                             style="margin-bottom: 0px; margin-top: 3px;"> Total Amount of Payment : </label>
                         </div>
                         <div class="col-2">
-                            <b class="mb-0 text-xs" style="color: #FF4200;"> P {{ total_bills_amount }}</b>
+                            <b class="mb-0 text-xs" style="color: #FF4200;"> P {{ total_bills_amount|intcomma }}</b>
                             <br>
-                            <b class="mb-0 text-xs" style="color: #FF4200;"> P {{ total_payment_amount }}</b>
+                            <b class="mb-0 text-xs" style="color: #FF4200;"> P {{ total_payment_amount|intcomma }}</b>
                         </div>
                     </div>
 
@@ -274,7 +276,7 @@
                             style="margin-bottom: 0px; margin-top: 3px; color: #FF4200;"> Remaining Balance : </label>
                         </div>
                         <div class="col-2"> 
-                                <b class="mb-0 text-sm" style="color: #FF4200;"> P {{ remaining_balance }}</b>
+                                <b class="mb-0 text-sm" style="color: #FF4200;"> P {{ remaining_balance|intcomma }}</b>
                         </div>
                         {% else %}
                         <div class="col-7"></div>
@@ -283,7 +285,7 @@
                             style="margin-bottom: 0px; margin-top: 3px; color: #FF4200;"> Remaining Change : </label>
                         </div>
                         <div class="col-2"> 
-                                <b class="mb-0 text-sm" style="color: #FF4200;"> P {% widthratio remaining_balance 1 -1 %}.00</b>
+                                <b class="mb-0 text-sm" style="color: #FF4200;"> P {{ remaining_balance|intcomma|slice:"1:" }}</b>
                         </div>
                         {% endif %}
                     </div>

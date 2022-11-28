@@ -23,6 +23,8 @@
                              <div class="col-sm-7"></div>
 
                              {% include 'includes/search_style.html' %}
+
+                             {% load humanize %}
                              
                              <div class="col-sm-3">
                                 <form action="{% url 'BillingList' %}" method="get"> 
@@ -68,7 +70,7 @@
                                             <p class="text-xs text-secondary mb-0">{{ object.description|truncatechars:25 }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
                                         </td>
                                         <td class="text-center">
                                             <a href="billing_list/{{ object.id }}"

@@ -33,6 +33,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% load humanize %}
                                     {% for object in object_list %}
                                     <tr>
                                         <td>
@@ -42,7 +43,7 @@
                                             <span {% if object.status == 'Not Available' %} class="badge badge-sm" style="background-color: #4B4B4B;" {% else %} class="badge badge-sm" style="background-color: #FF4200;" {% endif %} "> {{ object.status }} </span>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary mb-0">P {{ object.base_amount }}</p>
+                                            <p class="text-xs text-secondary mb-0">P {{ object.base_amount|intcomma  }}</p>
                                         </td>
                                         <td class="text-center">
                                             <a href="service_list/{{ object.id }}"

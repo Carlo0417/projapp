@@ -51,7 +51,7 @@ class Bed(BaseModel):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     bed_code = models.CharField(max_length=25, default="", verbose_name="Bed Code")
     bed_description = models.CharField(max_length=250, default="", verbose_name="Description")
-    price = models.DecimalField(default=0, max_digits=6, decimal_places=0, choices=BED_PRICE)
+    price = models.DecimalField(default=0, max_digits=6, decimal_places=2, choices=BED_PRICE)
     bed_status = models.CharField(max_length=25, default="Vacant", verbose_name="Status",  choices=BED_STATUS_CHIOCES)
 
     class Meta:
