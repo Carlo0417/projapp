@@ -534,6 +534,40 @@ class OccupantDemeritUpdateView(UpdateView):
         return context
 
 
+# @method_decorator(login_required, name='dispatch')
+class User_Dashboard(ListView):
+    model = Occupant
+    context_object_name = 'occupant'
+    template_name = "user_dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class User_Services(ListView):
+    model = Service
+    context_object_name = 'services'
+    template_name = "user_services.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['available_services'] = Service.objects.filter(status__iexact="Available")
+        return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class User_Profile(ListView):
+    model = Person
+    context_object_name = 'person'
+    template_name = "user_profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 # ===================================================
 # Functions for adding
 # ===================================================

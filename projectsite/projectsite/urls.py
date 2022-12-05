@@ -54,11 +54,19 @@ urlpatterns = [
     path('occupant_demerit_list/add', views.add_occupant_demerit, name='OccupantDemeritAdd'),
     path('occupant_demerit_list/<pk>', OccupantDemeritUpdateView.as_view(), name="OccupantDemeritUpdate"),
     path('occupant_view/occupant_demerit_list/<pk>', OccupantViewDemeritUpdate.as_view(), name="OccupantViewDemeritUpdate"),
+
+
+    path('user_dashboard', views.User_Dashboard.as_view(), name='UserDashboard'),
+    path('user_services', views.User_Services.as_view(), name='UserServices'),
+    path('user_profile', views.User_Profile.as_view(), name='UserProfile'),
+
+
     # path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     # path('delete_bed/<int:id>', views.delete_bed, name='delete_bed'),
     # path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),
     # path('delete_demerit/<int:id>', views.delete_demerit, name='delete_demerit'),
 
     url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    url(r'^user_login/$', auth_views.LoginView.as_view(template_name='user_login.html'), name='user_login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
 ]

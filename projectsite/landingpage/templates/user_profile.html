@@ -1,0 +1,328 @@
+{% extends 'user_base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <div class="container-fluid py-4">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" data-scroll="true">
+      <div class="container-fluid py-1 px-0">
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <ul class="navbar-nav">
+            <li class="nav-item d-xl-none d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav justify-content-end">
+            <li class="nav-item d-xl-none text-sm d-flex align-items-center text-secondary 
+            text-uppercase font-weight-bold">
+               Date : {% now 'DATE_FORMAT' %} &nbsp
+               <i class="material-icons opacity-10 text-md">today</i>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;"> <br>
+
+    <!-- Personal Information -->
+    <div class="row my-1">
+        <div class="col-sm-8 col-8 col-md-8">
+          <h6 class="mb-0" style="color: rgba(255, 66, 0, 0.8);">Personal Information</h6>
+        </div>
+        <div class="col-sm-4 col-4 col-md-4 text-end">
+          <a href="javascript:;">
+            <i class="fas fa-user-edit text-sm opacity-9" data-bs-toggle="tooltip" 
+            data-bs-placement="top" title="Edit" style="color: rgba(255, 66, 0, 0.8);"></i>
+          </a>
+        </div>
+    </div>
+
+    <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
+
+    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+    style="margin-bottom: 0px;">PSU Email</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">201980120@psu.palawan.edu.ph</label> 
+    </div>  
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <div class="row">
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Last Name</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Escurel</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">First Name</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Jhon Carlo</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Middle Name</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Ocon</label> 
+            </div>  
+        </div>
+    </div>
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <div class="row">
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Gender</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Male</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Boarder Type</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Local</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4"></div>
+    </div>
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+    style="margin-bottom: 0px;">Program</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">Bachelor of Science in 
+        Business Administration Major in Human Resource Management </label>
+      </div>
+
+      <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+      <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+      style="margin-bottom: 0px;">Office / Department</label>
+      <div class="input-group input-group-outline">
+          <label class="text-sm font-weight-bold mb-0 text-dark">Department of Financial 
+            Management, Human Resource Management, and Business Economics</label>
+    </div>
+    <!-- end of Personal Information -->
+
+    <br>
+
+    <!-- Contact Information -->
+    <div class="row my-1">
+        <div class="col-sm-8 col-8 col-md-8">
+          <h6 class="mb-0" style="color: rgba(255, 66, 0, 0.8);">Contact Information</h6>
+        </div>
+        <div class="col-sm-4 col-4 col-md-4 text-end">
+          <a href="javascript:;">
+            <i class="fas fa-user-edit text-sm opacity-9" data-bs-toggle="tooltip" 
+            data-bs-placement="top" title="Edit" style="color: rgba(255, 66, 0, 0.8);"></i>
+          </a>
+        </div>
+    </div>
+
+    <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
+
+    <div class="row">
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Contact Number</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">09318542143</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Address</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Brgy Sicsican Puerto Princesa City</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4"></div>
+    </div>
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <div class="row">
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">City</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Puerto Princesa City</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Municipality</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">None</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4"></div>
+    </div>
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <div class="row">
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Province</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Palawan</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Country</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Philippines</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4"></div>
+    </div>
+    <!-- end of Personal Information -->
+
+    <br>
+
+    <!-- Guardian Information -->
+    <div class="row my-1">
+        <div class="col-sm-8 col-8 col-md-8">
+          <h6 class="mb-0" style="color: rgba(255, 66, 0, 0.8);">Guardian Information</h6>
+        </div>
+        <div class="col-sm-4 col-4 col-md-4 text-end">
+          <a href="javascript:;">
+            <i class="fas fa-user-edit text-sm opacity-9" data-bs-toggle="tooltip" 
+            data-bs-placement="top" title="Edit" style="color: rgba(255, 66, 0, 0.8);"></i>
+          </a>
+        </div>
+    </div>
+
+    <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
+
+    <div class="row">
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">First Name</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Marissa</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Last Name</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">Escurel</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4"></div>
+    </div>
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <div class="row">
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Contact Number</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">09345673212</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4">
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px;">Email Address</label>
+            <div class="input-group input-group-outline">
+                <label class="text-sm font-weight-bold mb-0 text-dark">redpuddin417@gmail.com</label> 
+            </div>  
+        </div>
+        <div class="col-4 col-sm-4"></div>
+    </div>
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+    style="margin-bottom: 0px;">Present Address</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">Brgy Tiniguiban Purok Sandiwa Puerto Princesa City</label> 
+    </div>  
+    <!-- end of Guardian Information -->
+
+    <br>
+
+    <!-- Admission Requirements -->
+    <!-- <div class="row my-1">
+        <div class="col-sm-8 col-8 col-md-8">
+          <h6 class="mb-0" style="color: rgba(255, 66, 0, 0.8);">Admission Requirements</h6>
+        </div>
+        <div class="col-sm-4 col-4 col-md-4 text-end">
+          <a href="javascript:;">
+            <i class="fas fa-user-edit text-sm opacity-9" data-bs-toggle="tooltip" 
+            data-bs-placement="top" title="Edit" style="color: rgba(255, 66, 0, 0.8);"></i>
+          </a>
+        </div>
+    </div>
+
+    <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
+
+    <div class="form-check form-switch ps-3" style="margin-top: 25px;">
+        <div class="form-check form-switch ps-0">
+            <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
+            <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">
+                Two pieces 2"x2" coloured ID pictures 
+                taken not more than six months prior to the signing of the contract</label>
+         </div>
+
+         <div class="form-check form-switch ps-0">
+            <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
+            <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">
+                Medical Certificate from the University physician</label>
+         </div>
+
+         <div class="form-check form-switch ps-0">
+            <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
+            <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">
+                Fully accomplished application form (form OIA-OID)</label>
+         </div>
+
+         <div class="form-check form-switch ps-0">
+            <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
+            <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">
+                Special power of attorney (SPA) for guardian</label>
+         </div>
+
+         <div class="form-check form-switch ps-0">
+            <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
+            <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">
+                Photocopy of the University Identification card 
+                valid on the school year enrolled</label>
+         </div>
+
+         <div class="form-check form-switch ps-0">
+            <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
+            <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">
+                Certificate of Enrollment</label>
+         </div>
+
+         <div class="form-check form-switch ps-0">
+            <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
+            <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">
+                Photocopy of the dormitory ID</label>
+         </div>
+    </div> -->
+    <!-- end of Admission Requirements -->
+  </main>
+
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  {% endblock content%}

@@ -1,0 +1,85 @@
+{% extends 'user_base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <div class="container-fluid py-4">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" data-scroll="true">
+      <div class="container-fluid py-1 px-0">
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <ul class="navbar-nav">
+            <li class="nav-item d-xl-none d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav justify-content-end">
+            <li class="nav-item d-xl-none text-sm d-flex align-items-center text-secondary 
+            text-uppercase font-weight-bold">
+               Date : {% now 'DATE_FORMAT' %} &nbsp
+               <i class="material-icons opacity-10 text-md">today</i>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    {% csrf_token %}
+
+    {% load widget_tweaks %}
+
+    {% load humanize %}
+    
+    <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
+    <h6 class="mb-0 font-weight-bold my-4" style="font-size: 25px;">Welcome, Jhon Carlo</h6>
+    <p class="text-xs text-secondary mb-0">Feel free to explore your account's different information.</p>
+
+    <div class="row">
+      <div class="col-sm-6 col-6">
+        <div class="card my-4">
+          <a href="occupant_list" style="color: #7B809A;">
+              <h6 class="text-xs font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" 
+              style="color: #FF4200;">Boarder Type</h6>
+              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 25px;">Local</h6>
+          </a>
+        </div>
+
+        <div class="card my-4">
+          <a href="occupant_list" style="color: #7B809A;">
+              <h6 class="text-xs font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" 
+              style="color: #FF4200;">Bed Code</h6>
+              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 25px;">MF1R1-AU</h6>
+          </a>
+        </div>
+      </div>
+      
+      <div class="col-sm-6 col-6">
+        <div class="card my-4">
+          <a href="occupant_list" style="color: #7B809A;">
+              <h6 class="text-xs font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" 
+              style="color: #FF4200;">Dorm Name</h6>
+              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 25px;">Male Dorm</h6>
+          </a>
+        </div>
+
+        <div class="card my-4">
+          <a href="occupant_list" style="color: #7B809A;">
+              <h6 class="text-xs font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" 
+              style="color: #FF4200;">Room Name</h6>
+              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 25px;">MF1-1</h6>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  {% endblock content%}
