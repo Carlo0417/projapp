@@ -17,9 +17,10 @@ from django.db.models import Sum
 from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit, OccupantDemerit
 from django import forms
 from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm
-from dormitory.forms import OccupantFormEdit, BillingFormEdit, PaymentForm, DemeritForm, OccupantDemeritForm
+from dormitory.forms import OccupantFormEdit, BillingFormEdit, PaymentForm, DemeritForm, OccupantDemeritForm, OccupantRenewForm
 from django.contrib import messages
 from django.db.models import Q
+from django.db.models import Count
 
 from decimal import Decimal
 
@@ -218,9 +219,10 @@ class OccupantList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['occupants'] = Occupant.objects.count()
-        context['local'] = Occupant.objects.filter(person__boarder_type__iexact="Local").count()
-        context['foreign'] = Occupant.objects.filter(person__boarder_type__iexact="Foreign").count()
+        context['occupants'] = Occupant.objects.values('person__last_name').distinct().count()
+        context['local'] = Occupant.objects.values('person__last_name').distinct().filter(person__boarder_type__iexact="Local").count() 
+        context['foreign'] = Occupant.objects.values('person__last_name').distinct().filter(person__boarder_type__iexact="Foreign").count()
+        context['renewal'] = Occupant.objects.values('person__last_name').annotate(Count('id')).order_by().filter(id__count__gt=1).count()
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -568,6 +570,28 @@ class User_Profile(ListView):
         return context
 
 
+# @method_decorator(login_required, name='dispatch')
+class User_Account(ListView):
+    model = Occupant
+    context_object_name = 'occupant'
+    template_name = "user_account.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class User_Billing(ListView):
+    model = Occupant
+    context_object_name = 'occupant'
+    template_name = "user_billing.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 # ===================================================
 # Functions for adding
 # ===================================================
@@ -740,6 +764,61 @@ def add_occupant_demerit(request):
     else:
         form = OccupantDemeritForm()
         return render(request, 'occupant_demerit_add.html',  {'form': form})
+
+
+def add_bed(request):
+    if request.method == "POST":
+        form = BedForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'New bed added successfully!')
+            return redirect('BedAdd')
+
+        else:
+            messages.error(request, 'Please complete the required field.')
+            return redirect('BedAdd')
+    else:
+        form = BedForm()
+        return render(request, 'bed_add.html',  {'form': form})
+
+
+def renew_occupant(request):
+    if request.method == "POST":
+        form = OccupantRenewForm(request.POST)
+        
+        if form.is_valid():
+            bed_id = request.POST.get("bed")
+            occ = form.save(commit=False)
+            occ.pk = None
+            occ.bedPrice = Bed.objects.filter(pk=bed_id).values_list('price')
+            print(request.POST)
+            print(occ.bedPrice)
+            occ.save()
+        
+            messages.success(request, 'Occupant renewal added successfully!')
+
+            # update BED: bed_status to occupied after adding occupant
+            cursor = connections['default'].cursor()
+            query1 = f"UPDATE dormitory_bed SET bed_status = 'Occupied' WHERE `id` = {bed_id}"
+            cursor.execute(query1)
+
+            # adding Bills to occupant
+            # cursor = connections['default'].cursor()
+            # id, created_at, updated_at, description, amount, service_id, bill_date, occupant_id, status, quantity
+            # query2 = f"INSERT INTO dormitory_bill_details (now(), now(), description, amount, service_id, bill_date, occupant_id, status, quantity) VALUES ('None', '1500', , now(), {occ_id}, 'None', '0')"
+            # cursor.execute(query2)
+
+            return redirect('OccupantRenew')
+
+        else:
+            
+            messages.error(request, 'Please complete the required field.')
+            # print()
+            return redirect('OccupantRenew')
+    else:
+        form = OccupantRenewForm()
+        return render(request, 'occupant_renew.html',  {'form': form})     
 
 
 # ===================================================

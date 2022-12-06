@@ -30,6 +30,7 @@ urlpatterns = [
     path('bed_list/<pk>', BedUpdateView.as_view(), name="BedUpdate"),
     path('occupant_list', OccupantList.as_view(), name='OccupantList'),
     path('occupant_list/add', views.add_occupant, name='OccupantAdd'),
+    path('occupant_list/renew', views.renew_occupant, name='OccupantRenew'),
     path('occupant_list/<pk>', OccupantUpdateView.as_view(), name="OccupantUpdate"),
     path('occupant_view/<pk>', OccupantView.as_view(), name="OccupantView"),
     path('occupant_view/occupant_list/<pk>', OccupantUpdateView.as_view(), name="OccupantUpdate"),
@@ -59,6 +60,8 @@ urlpatterns = [
     path('user_dashboard', views.User_Dashboard.as_view(), name='UserDashboard'),
     path('user_services', views.User_Services.as_view(), name='UserServices'),
     path('user_profile', views.User_Profile.as_view(), name='UserProfile'),
+    path('user_account', views.User_Account.as_view(), name='UserAccount'),
+    path('user_billing', views.User_Billing.as_view(), name='UserBilling'),
 
 
     # path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),

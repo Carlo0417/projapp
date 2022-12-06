@@ -33,9 +33,7 @@ class OccupantForm(ModelForm):
         super(OccupantForm, self).__init__(*args, **kwargs)
         self.fields['bed'].queryset = Bed.objects.filter(bed_status__icontains='vacant')
         occupants_id = Occupant.objects.all().values_list('person_id')
-        self.fields['person'].queryset = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
-        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,
-        Field7__icontains=1).exclude(id__in=occupants_id)
+        self.fields['person'].queryset = Person.objects.filter(reg_status__iexact="complete").exclude(id__in=occupants_id)
 
 class OccupantFormEdit(ModelForm):
     class Meta:
@@ -45,11 +43,20 @@ class OccupantFormEdit(ModelForm):
     def __init__(self, *args, **kwargs):
         occupant = kwargs.pop('occupant', None)
         super(OccupantFormEdit, self).__init__(*args, **kwargs)
-        self.fields['person'].queryset = Person.objects.filter(Field1__icontains=1, Field2__icontains=1, 
-        Field3__icontains=1, Field4__icontains=1, Field5__icontains=1, Field6__icontains=1,Field7__icontains=1)
+        self.fields['person'].queryset = Person.objects.filter(reg_status__iexact="complete")
 
         # self.fields['bed'] = Bed.objects.raw('SELECT dormitory_bed.bed_code FROM dormitory_bed WHERE dormitory_bed.bed_code="MF1R1-AU" UNION SELECT dormitory_bed.bed_code FROM dormitory_bed WHERE dormitory_bed.bed_status="Vacant"')
         # self.fields['bed'].queryset = Bed.objects.filter(bed_code='MF1R1-AU')
+
+class OccupantRenewForm(ModelForm):
+    class Meta:
+        model = Occupant
+        fields = ['person','bed','start_date','end_date']
+
+    def __init__(self, *args, **kwargs):
+        occupant = kwargs.pop('occupant', None)
+        super(OccupantRenewForm, self).__init__(*args, **kwargs)
+        self.fields['person'].queryset = Person.objects.filter(reg_status__iexact="complete")
 
 class RegistrationForm(forms.ModelForm):
     class Meta:

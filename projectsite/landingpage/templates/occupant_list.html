@@ -23,7 +23,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-7"></div>
+                            <div class="col-sm-2">
+                                <div class="pull-right">
+                                    <a href="{% url 'OccupantRenew' %}" class="btn mt-4 w-100 text-white" style="background-color: #FF9001;">Renew</a>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-5"></div>
                             
                             <div class="col-sm-3">
                                 <form action="{% url 'OccupantList' %}" method="get"> 
@@ -106,7 +112,9 @@
                             </table>
                             <span class="mb-0 text-link text-xs ">Total Number of 
                                 <span class="text-sm font-weight-bolder" style="color: #FF4200;">
-                                    {% if occupants != empty %} {{ occupants }} {% else %} 0 {% endif %}</span>Occupants.
+                                    {% if occupants != empty %} {{ occupants }} {% else %} 0 {% endif %}</span>Occupants with
+                                <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                                    {% if renewal != empty %} {{ renewal }} {% else %} 0 {% endif %}</span>Renewal.
                                 <span class="text-sm font-weight-bolder" style="color: #FF4200;">
                                     {% if local != empty %} {{ local }} {% else %} 0 {% endif %}</span>Local and 
                                 <span class="text-sm font-weight-bolder" style="color: #FF4200;">

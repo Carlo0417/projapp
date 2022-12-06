@@ -1,0 +1,62 @@
+{% extends 'user_base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+    <!-- Navbar -->
+    {% include 'includes/user_topbar.html' %}
+    <!-- End Navbar -->
+    <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
+    <h6 class="mb-0 font-weight-bold my-4" style="font-size: 25px;">Account</h6>
+    <p class="text-xs text-secondary mb-0">Your login credentials and account informations is here.</p>
+
+    <!-- Account Information -->
+
+    <br>
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Username</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">201980120@psu.palawan.edu.ph</label> 
+    </div>  
+    
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Password</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">12345678910</label> 
+    </div>  
+    
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">  
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Security Question</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">What is the name of your first dog?</label> 
+    </div>  
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Security Answer</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">Scar</label> 
+    </div> 
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Recovery Email</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">redpuddin417@gmail.com</label> 
+    </div>  
+    <!-- end of Account Information -->
+
+    </div>
+  </main>
+
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  {% endblock content%}

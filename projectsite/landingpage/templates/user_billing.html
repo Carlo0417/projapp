@@ -1,0 +1,125 @@
+{% extends 'user_base.html' %}
+
+{% load static %}
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+    <!-- Navbar -->
+    {% include 'includes/user_topbar.html' %}
+    <!-- End Navbar -->
+    <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
+    <h6 class="mb-0 font-weight-bold my-4" style="font-size: 25px;">Billing</h6>
+    <p class="text-xs text-secondary mb-0">Your contract within the dormitory listed here.</p>
+
+        <div class="col-md-12 col-sm-12 col-12 my-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-8 col-8 col-md-8">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Bed Code</label>
+                        </div>
+                        <div class="col-sm-4 col-4 col-md-4 text-end">
+                          <a class="px-2 mb-0 text-sm font-weight-bold opacity-8" 
+                          style="color: #FF4200;" href="javascript:;">View</a>
+                        </div>
+                    </div>                  
+
+                    <h6 style="color: #FF4200; font-size: 23px;">MF1R1-AU</h6>
+                    <h6 class="mb-3 text-xs">Male Dorm, 1st Floor, Room 1, Bed A Upper deck</h6>
+
+                    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">  
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-6">
+                            <span class="mb-2 text-xs">Bed Price: <span class="text-dark font-weight-bold ms-sm-2">P 1,500.00</span></span> <br>
+                            <span class="mb-2 text-xs">Room Name: <span class="text-dark font-weight-bold ms-sm-2">MF1-1</span></span> <br>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6 col-6">
+                            <span class="mb-2 text-xs">Floor Level: <span class="text-dark font-weight-bold ms-sm-2">1st Floor</span></span> <br>
+                            <span class="mb-2 text-xs">Dorm Name: <span class="text-dark ms-sm-2 font-weight-bold">Male Dorm</span></span> <br>
+                        </div>
+                    </div>
+
+                    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">  
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-6">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Start Date</label> <br>
+                            <span class="badge badge-sm" style="background-color: #FF4200;
+                            margin-bottom: 15px;">Nov. 17, 2022, 4:25 P.M.</span>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6 col-6">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">End Date</label> <br>
+                            <span class="badge badge-sm" style="background-color: #FF4200;
+                            margin-bottom: 15px;">Dec. 17, 2022, 4:25 P.M.</span>
+                        </div>
+                    </div> 
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-12 my-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-8 col-8 col-md-8">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Bed Code</label>
+                        </div>
+                        <div class="col-sm-4 col-4 col-md-4 text-end">
+                          <a class="px-2 mb-0 text-sm font-weight-bold opacity-8" 
+                          style="color: #FF4200;" href="javascript:;">View</a>
+                        </div>
+                    </div>                  
+
+                    <h6 style="color: #FF4200; font-size: 23px;">MF2R15-AU</h6>
+                    <h6 class="mb-3 text-xs">Male Dorm, 2nd Floor, Room 15, Bed A Upper deck</h6>
+
+                    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">  
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-6">
+                            <span class="mb-2 text-xs">Bed Price: <span class="text-dark font-weight-bold ms-sm-2">P 1,500.00</span></span> <br>
+                            <span class="mb-2 text-xs">Room Name: <span class="text-dark font-weight-bold ms-sm-2">MF2-15</span></span> <br>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6 col-6">
+                            <span class="mb-2 text-xs">Floor Level: <span class="text-dark font-weight-bold ms-sm-2">2nd Floor</span></span> <br>
+                            <span class="mb-2 text-xs">Dorm Name: <span class="text-dark ms-sm-2 font-weight-bold">Male Dorm</span></span> <br>
+                        </div>
+                    </div>
+
+                    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">  
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-6">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Start Date</label> <br>
+                            <span class="badge badge-sm" style="background-color: #FF4200;
+                            margin-bottom: 15px;">Feb. 23, 2023, 8:00 A.M.</span>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6 col-6">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">End Date</label> <br>
+                            <span class="badge badge-sm" style="background-color: #FF4200;
+                            margin-bottom: 15px;">May. 23, 2023, 8:00 A.M.</span>
+                        </div>
+                    </div> 
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  {% endblock content%}
