@@ -6,11 +6,11 @@ from pkg_resources import require
 from datetime import timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
+from datetime import datetime
 
 
 class BaseModel(models.Model):
-    created_at = models.DateTimeField(
-        auto_now_add=True, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -42,7 +42,7 @@ class Service(BaseModel):
         verbose_name_plural = "Services"
 
     def __str__(self):
-        return f"{self.service_name}"
+        return f"{self.service_name}: P{self.base_amount}"
 
 
 class Bed(BaseModel):
@@ -63,6 +63,8 @@ class Bed(BaseModel):
 
 class User(BaseModel):
 
+    USER_STATUS_CHOICES = (('active','active'),('inactive','inactive'),)
+
     SECQ_CHOICES = (('In what city were you born?','In what city were you born?'), 
                     ('What is the name of your favorite pet?','What is the name of your favorite pet?'),
                     ('What is your mother''s maiden name?','What is your mother''s maiden name?'),
@@ -75,16 +77,45 @@ class User(BaseModel):
     firstname = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    security_question = models.CharField(max_length=250, choices=SECQ_CHOICES)
-    security_answer = models.CharField(max_length=250)
-    recovery_email = models.CharField(max_length=250)
+    security_question = models.CharField(max_length=250, choices=SECQ_CHOICES, blank=True, null=True)
+    security_answer = models.CharField(max_length=250, blank=True, null=True)
+    recovery_email = models.CharField(max_length=250, blank=True, null=True)
+    user_status = models.CharField(max_length=20, default="inactive", null=True, blank=True, choices=USER_STATUS_CHOICES)
+    person_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Users"
 
     def __str__(self):
-        return f"{self.lastname}"
-        
+        return f"{self.person_id}"
+
+class Admin(BaseModel):
+
+    ADMMIN_CLASS_CHOICES = (('Front Desk','Front Desk'),('Accounting Staff','Accounting Staff'), 
+                            ('Super Administrator','Super Administrator'),)
+
+    SECQ_CHOICES = (('In what city were you born?','In what city were you born?'), 
+                    ('What is the name of your favorite pet?','What is the name of your favorite pet?'),
+                    ('What is your mother''s maiden name?','What is your mother''s maiden name?'),
+                    ('What high school did you attend?','What high school did you attend?'),
+                    ('What was the name of your elementary school?','What was the name of your elementary school?'),
+                    ('What was your favorite food as a child?','What was your favorite food as a child?'),
+                    ('What year was your father (or mother) born?','What year was your father (or mother) born?'))
+    
+    lastname = models.CharField(max_length=100)
+    firstname = models.CharField(max_length=100)
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    security_question = models.CharField(max_length=250, choices=SECQ_CHOICES, blank=True, null=True)
+    security_answer = models.CharField(max_length=250, blank=True, null=True)
+    recovery_email = models.CharField(max_length=250, blank=True, null=True)
+    admin_class = models.CharField(max_length=20, null=True, blank=True, choices=ADMMIN_CLASS_CHOICES)
+
+    class Meta:
+        verbose_name_plural = "Admins"
+
+    def __str__(self):
+        return f"{ self.admin_class}"
 
 class Person(BaseModel):
 
@@ -224,6 +255,12 @@ class Occupant(BaseModel):
 
     def __str__(self):
         return f"{self.person}"
+
+    def get_end_date(self):
+        if self.end_date == datetime.now().date():
+           return "Ended"
+        else:
+           return '<span class="badge badge-sm bg-gradient-success shadow-success">Ongoing</span>'
 
 
 class Bill(BaseModel):

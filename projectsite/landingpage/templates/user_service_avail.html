@@ -1,0 +1,105 @@
+{% extends 'user_base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+    <!-- Navbar -->
+    {% include 'includes/user_topbar.html' %}
+    <!-- End Navbar -->
+    <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
+    <h6 class="mb-0 font-weight-bold my-4" style="font-size: 25px;">Avail Service</h6>
+    <p class="text-xs text-secondary mb-0">Select your desired service to avail.</p>
+
+        <!-- messages & alerts -->
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'success' in message.tags %}
+                    <p style="margin-top: 12px;" id="fadeout" class="text-success font-weight-bold text-sm">
+                        {{ message }}
+                    </p>
+                {% else %}
+                    <p style="margin-top: 12px;" id="fadeout" class="text-danger font-weight-bold text-sm">
+                        {{ message }}
+                    </p>
+                {% endif %}
+            {% endfor%}
+        {% endif %}
+        <!-- /messages & alerts -->
+
+        <form role="form" class="" action="" method="post" novalidate>
+            {% csrf_token %}
+            
+            {% load widget_tweaks %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    <p{% if forloop.last %} class="mb-0" {% endif %}>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
+            <div class="input-group input-group-outline">
+                {% render_field form.occupant class="form-control"%}
+            </div>
+
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
+            <div class="input-group input-group-outline">
+                {% render_field form.service class="form-control"%}
+            </div>
+
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px; margin-top: 17px;">Quantity</label>
+            <div class="input-group input-group-outline">
+                {% render_field form.quantity class="form-control "%}
+            </div>
+
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px; margin-top: 17px;">Amount</label>
+            <div class="input-group input-group-outline">
+                {% render_field form.amount class="form-control" %}
+            </div>
+
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px; margin-top: 17px;">Bill Date</label>
+            <div class="input-group input-group-outline">
+                {% render_field form.bill_date class="form-control" type="datetime-local"%}
+            </div>
+
+            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+            style="margin-bottom: 0px; margin-top: 17px;">Description</label>
+            <div class="input-group input-group-outline">
+                {% render_field form.description class="form-control" %}
+            </div>
+   
+                <br /> <br />
+                <div class="form-group text-end">
+                    <div class="col-md-12 col-sm-3">
+                        <button type='submit' class="btn text-white" style="background-color: #FF4200;">Avail</button>
+                        &nbsp &nbsp &nbsp
+                        <a class="btn text-white" style="background-color: #4b4b4b;" href="{% url 'UserServices' %}">Cancel</a>
+                    </div>
+                </div>
+        </form>
+
+
+
+    </div>
+</main>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+</script>
+
+{% endblock %}

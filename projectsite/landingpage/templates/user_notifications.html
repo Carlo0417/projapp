@@ -1,0 +1,51 @@
+{% extends 'user_base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+    <!-- Navbar -->
+    {% include 'includes/user_topbar.html' %}
+    <!-- End Navbar -->
+    <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
+    <h6 class="mb-0 font-weight-bold my-4" style="font-size: 25px;">Notifications</h6>
+    <p class="text-xs text-secondary mb-0">Every notifications for you is located here.</p>
+    <br>
+
+    <!-- Notifications -->
+    <div class="alert alert-dismissible shadow-secondary text-white" role="alert" style="background-color: rgba(255, 66, 0, 0.8);">
+        <span class="text-sm">
+            Please <b>modify your account</b> such as your <b>Password, Security Question, Security Answer,</b>
+            and <b>Recovery Email</b> for better security and experience in the application.
+        </span>
+        <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="alert alert-dismissible shadow-secondary text-white" role="alert" style="background-color: rgba(255, 66, 0, 0.8);">
+        <span class="text-sm">
+            Your monthly bills are due next week <b> December 25, 2022</b>. Please pay at the exact date 
+            to prevent your account form deactivation. Thank you.
+        </span>
+        <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="alert alert-dismissible shadow-secondary text-white" role="alert" style="background-color: rgba(255, 66, 0, 0.8);">
+        <span class="text-sm">
+            List of <b>available services</b> has been updated. Check them out and see if you want to avail them.
+        </span>
+        <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- end of Notifications -->
+
+    </div>
+  </main>
+
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  {% endblock content%}

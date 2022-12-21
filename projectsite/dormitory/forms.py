@@ -1,8 +1,11 @@
 from faulthandler import disable
 from certifi import where
 from django.forms import ModelForm
+from django.contrib.auth import authenticate
 
-from .models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit, OccupantDemerit
+from datetime import datetime
+
+from .models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit, OccupantDemerit, User, Admin
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 
@@ -56,7 +59,9 @@ class OccupantRenewForm(ModelForm):
     def __init__(self, *args, **kwargs):
         occupant = kwargs.pop('occupant', None)
         super(OccupantRenewForm, self).__init__(*args, **kwargs)
-        self.fields['person'].queryset = Person.objects.filter(reg_status__iexact="complete")
+        occupants_id = Occupant.objects.all().values_list('person_id')
+        self.fields['person'].queryset = Person.objects.filter(reg_status__iexact="complete").exclude(~(Q(id__in=occupants_id))).exclude(occupant__end_date__lte=datetime.now().date())
+
 
 class RegistrationForm(forms.ModelForm):
     class Meta:
@@ -89,7 +94,7 @@ class BillingForm(ModelForm):
     def __init__(self, *args, **kwargs):
         bill = kwargs.pop('bill', None)
         super(BillingForm, self).__init__(*args, **kwargs)
-        self.fields['service'].queryset = Service.objects.filter(status__icontains='Available').exclude(status__icontains='Not Available')
+        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
 
 class BillingFormEdit(ModelForm):
     class Meta:
@@ -99,8 +104,7 @@ class BillingFormEdit(ModelForm):
     def __init__(self, *args, **kwargs):
         bill = kwargs.pop('bill', None)
         super(BillingFormEdit, self).__init__(*args, **kwargs)
-        self.fields['service'].queryset = Service.objects.filter(status__icontains='Available').exclude(status__icontains='Not Available')
-        self.fields['amount'].queryset = Service.objects.filter(service=self.object.id)
+        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
 
 class PaymentForm(ModelForm):
     class Meta:
@@ -116,3 +120,36 @@ class OccupantDemeritForm(ModelForm):
     class Meta:
         model = OccupantDemerit
         fields = "__all__"
+
+class UserAvailServiceForm(ModelForm):
+    class Meta:
+        model = Bill_Details
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        bill = kwargs.pop('bill', None)
+        super(UserAvailServiceForm, self).__init__(*args, **kwargs)
+        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
+        self.fields['occupant'].queryset = Occupant.objects.filter(id=93)
+
+class OccupantAccountForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username','password','security_question',
+                  'security_answer','recovery_email','user_status']
+
+class UserLoginForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username','password']
+
+class AdminLoginForm(forms.ModelForm):
+    class Meta:
+        model = Admin
+        fields = ['username','password']
+
+class AdminForm(forms.ModelForm):
+    class Meta:
+        model = Admin
+        fields = "__all__"
+

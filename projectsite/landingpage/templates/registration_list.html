@@ -8,7 +8,7 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
                             <h6 class="text-white ps-3">List of Registration</h6>
                         </div>
                     </div>
@@ -19,12 +19,19 @@
                        <div class="row">
                             <div class="col-sm-2">
                                 <div class="pull-right">
-                                <a href="{% url 'RegistrationAdd' %}" class="btn mt-4 w-100 text-white" 
-                                style="background-color: #FF4200;">Register</a>
+                                <a href="{% url 'RegistrationAdd' %}" class="btn mt-4 w-100 text-white shadow-primary" 
+                                style="background-color: rgba(255, 66, 0, 0.9);">Register</a>
                                 </div>
                             </div>
 
-                            <div class="col-sm-7"></div>
+                            <div class="col-sm-3">
+                                <div class="pull-right">
+                                    <a href="{% url 'venue_csv' %}" class="btn mt-4 w-100
+                                    bg-gradient-secondary shadow-secondary">Export to Excel</a>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4"></div>
                             
                             <div class="col-sm-3">
                                 <form action="{% url 'RegistrationList' %}" method="get"> 
@@ -45,14 +52,12 @@
                                             Status</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Name</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Gender</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Program</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Boarder Type</th>
-                                        <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Contact Number</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Address</th> -->
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
@@ -62,9 +67,9 @@
                                     <tr>
                                         <td class="text-sm">
                                             {% if object.reg_status == "Incomplete" %}
-                                                <span class="badge badge-sm" style="background-color: #4B4B4B;">Incomplete</span>
+                                                <span class="badge badge-sm shadow-secondary bg-gradient-secondary">Incomplete</span>
                                             {% elif object.reg_status == "Complete" %} 
-                                                <span class="badge badge-sm" style="background-color: #FF4200;">Complete</span>
+                                                <span class="badge badge-sm shadow-success bg-gradient-success">Complete</span>
                                             {% endif %}
                                         </td>
                                         <td>
@@ -72,6 +77,9 @@
                                                 <h6 class="mb-0 text-sm">{{ object.last_name }}, {{ object.first_name }}</h6>
                                                 <p class="text-xs text-secondary mb-0">{{ object.psu_email }}</p>
                                             </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs font-weight-bold mb-0">{{ object.gender }}</p>
                                         </td>
                                         <td>
                                             <div class="d-flex flex-column justify-content-center">

@@ -9,12 +9,20 @@
     {% include 'includes/user_topbar.html' %}
     <!-- End Navbar -->
     <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
-    <h6 class="mb-0 font-weight-bold my-4" style="font-size: 25px;">Account</h6>
-    <p class="text-xs text-secondary mb-0">Your login credentials and account informations is here.</p>
 
     <!-- Account Information -->
-
-    <br>
+    <div class="row my-1">
+        <div class="col-sm-8 col-8 col-md-8 my-4">
+            <h6 class="mb-0 font-weight-bold" style="font-size: 25px;">Account</h6>
+            <p class="text-xs text-secondary mb-0">Your login credentials and account informations is here.</p>
+        </div>
+        <div class="col-sm-4 col-4 col-md-4 my-4 text-end">
+          <a href="javascript:;">
+            <i class="fas fa-user-edit text-sm opacity-9" data-bs-toggle="tooltip" 
+            data-bs-placement="top" title="Edit" style="color: rgba(255, 66, 0, 0.8);"></i>
+          </a>
+        </div>
+    </div>
 
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Username</label>

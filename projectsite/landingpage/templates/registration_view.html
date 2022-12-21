@@ -32,13 +32,13 @@
                             {% if object.reg_status == "Incomplete" %}
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Status</label><br>
-                            <span class="badge badge-sm text-sm" style="background-color: #4B4B4B;">
+                            <span class="badge badge-sm text-sm shadow-secondary bg-gradient-secondary">
                                 {{ object.reg_status }}
                             </span>
                             {% elif object.reg_status == "Complete" %} 
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Status</label><br>
-                            <span class="badge badge-sm text-sm" style="background-color: #FF4200;">
+                            <span class="badge badge-sm text-sm shadow-success bg-gradient-success">
                                 {{ object.reg_status }}
                             </span>
                             {% endif %}                   
@@ -351,12 +351,12 @@
                             <br />
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-9"></div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-12">
+                                        <a href="{% url 'venue_pdf' %}" class="btn text-white shadow-warning" style="background-color: #FF4200;"> Export to PDF </a>
                                         &nbsp &nbsp &nbsp &nbsp 
-                                        <a href="registration_list/{{ object.id }}" class="btn text-white" style="background-color: #FF9001;"> Edit </a>
+                                        <a href="registration_list/{{ object.id }}" class="btn text-white shadow-warning" style="background-color: #FF9001;"> Edit </a>
                                         &nbsp &nbsp &nbsp &nbsp
-                                        <a class="btn text-white" style="background-color: #4b4b4b;" href="{{request.META.HTTP_REFERER}}">Back</a>
+                                        <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href="{{request.META.HTTP_REFERER}}">Back</a>
                                     </div>
                                 </div>
                             </div>

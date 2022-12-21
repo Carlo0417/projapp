@@ -8,7 +8,9 @@ from landingpage.views import BedUpdateView, OccupantList, OccupantUpdateView, R
 from landingpage.views import RegistrationRegView, BillingList, BillingUpdateView, OccupantView, PaymentList
 from landingpage.views import PaymentUpdateView, OccupantViewBillingUpdate, MaleDormVacantBedList, FemaleDormVacantBedList
 from landingpage.views import ForeignDormVacantBedList, OccupantViewPaymentUpdate, DemeritList, DemeritUpdateView
-from landingpage.views import OccupantDemeritList, OccupantDemeritUpdateView, OccupantViewDemeritUpdate
+from landingpage.views import OccupantDemeritList, OccupantDemeritUpdateView, OccupantViewDemeritUpdate, OccupantAccounts
+from landingpage.views import OccupantAccountsUpdateView, user_login_view, user_logout_view, User_Notifications, admin_login_view, admin_logout_view
+from landingpage.views import AdminList, AdminUpdateView
 from landingpage import views
 
 from django.contrib.auth import views as auth_views
@@ -62,14 +64,36 @@ urlpatterns = [
     path('user_profile', views.User_Profile.as_view(), name='UserProfile'),
     path('user_account', views.User_Account.as_view(), name='UserAccount'),
     path('user_billing', views.User_Billing.as_view(), name='UserBilling'),
+    path('user_service_avail/add', views.avail_service, name='UserAvailService'),
+    path('user_notifications', views.User_Notifications.as_view(), name='UserNotifications'),
 
 
-    # path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
+    path('users', OccupantAccounts.as_view(), name='OccupantAccounts'),
+    path('users/<pk>', OccupantAccountsUpdateView.as_view(), name="OccupantAccountsUpdate"),
+
+    path('user_login/', user_login_view, name="user_login"),
+    path('user_logout/', user_logout_view, name="user_logout"),
+
+    path('admin_login/', admin_login_view, name="admin_login"),
+    path('admin_logout/', admin_logout_view, name="logout"),
+
+    path('admin_list', AdminList.as_view(), name='AdminList'),
+    path('admin_list/add', views.add_admin, name='AdminAdd'),
+    path('admin_list/<pk>', AdminUpdateView.as_view(), name="AdminUpdate"),
+
+    path('notification_lsit', views.NotificationList.as_view(), name='NotificationList'),
+
+
+    path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     # path('delete_bed/<int:id>', views.delete_bed, name='delete_bed'),
-    # path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),
+    path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),
     # path('delete_demerit/<int:id>', views.delete_demerit, name='delete_demerit'),
+    path('delete_user/<int:id>', views.delete_user, name='delete_user'),
 
-    url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    url(r'^user_login/$', auth_views.LoginView.as_view(template_name='user_login.html'), name='user_login'),
-    url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
+    # url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    # url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout')
+
+    path('venue_pdf', views.venue_pdf, name="venue_pdf"),
+    path('venue_csv', views.venue_csv, name="venue_csv"),
+
 ]

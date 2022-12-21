@@ -38,7 +38,7 @@
       <div class="container my-auto">
         <div class="row">
     
-          <div class="col-lg-7 col-md-8 col-12 mx-auto">
+          <div class="col-lg-7 col-md-8 col-12 mx-auto"> <br> <br>
              <h1 class="text-white font-weight-bolder text-left mt-2 mb-0 text-uppercase" style="font-size: 65px; font-family: Arial Black;">
               Palawan State University Dormitory</h1>
               <p class="text-white font-weight-bolder text-left mt-2 mb-0 text-italic" style="font-family: Arial; font-style: italic;">
@@ -46,13 +46,9 @@
           </div>
         
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
-            <div class="card z-index-0 fadeIn3 fadeInBottom">
-              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="shadow-primary border-radius-lg py-3 pe-1" style="background-color: #FF4200;">
-                    <img src="{% static 'img/white.png' %}" width="40%" style="display: block; margin-left: auto; margin-right: auto;" class="my-1">
+            <div class="card z-index-0 fadeIn3 fadeInBottom"> <br>
+                    <img src="{% static 'img/dormlogogrey.png' %}" width="40%" style="display: block; margin-left: auto; margin-right: auto;" class="my-1">
                     <!-- <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Admin Log in</h4> -->
-                </div>
-              </div>
               <div class="card-body">
 
                 {% if form.non_field_errors %}
@@ -61,21 +57,29 @@
                         id="fadeout" style="color: red" {% endif %}>{{ error }}</p>
                     {% endfor %}
                 {% endif %}
+
+                {% if messages  %}
+                  {% for message in messages %}
+                    <p class="mb-0 text-xs font-weight-bold" id="fadeout" style="color: red">{{ message }}</p>
+                  {% endfor %}
+                {% endif %}
+            
                 
                 {% include 'includes/login_style.html' %}
 
                 <form role="form" method="post" class="text-start">
                     {% csrf_token %}
-                  <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-control" name="username">
-                  </div>
-                  <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password">
-                  </div>
+                    <input type="text" class="form-control text-md" name="username" placeholder="Username" 
+                    style="margin: 0px 10px 0px 10px;">
+                    <hr style="border-top: 2px solid #FF4200; margin: 0px 10px 20px 10px; opacity: 80%;">
+                
+                    <input type="password" class="form-control text-md" name="password" placeholder="Password"
+                    style="margin: 0px 10px 0px 10px;">
+                    <hr style="border-top: 2px solid #FF4200; margin: 0px 10px 0px 10px; opacity: 80%;"> <br>
+
                   <div class="text-center">
-                    <button type="submit" class="btn w-100 my-4 mb-2 text-white" style="background-color: #FF4200;">sign in</button>
+                    <button type="submit" class="btn w-100 my-3 mb-2 text-white" style="background-color: #FF4200;" 
+                    href="{% url 'admin_login' %}">sign in</button>
                   </div>
                   <p class="mt-4 text-sm text-center">
                   </p>

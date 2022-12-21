@@ -9,7 +9,7 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
                             <h6 class="text-white text-capitalize ps-3">New Billing Details</h6>
                         </div>
                     </div>
@@ -63,15 +63,14 @@
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.occupant class="form-control" id="#select1"%}
+                                    {% render_field form.occupant class="form-control" %}
                                 </div>
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.service class="form-control" id="#select2"%}
+                                    {% render_field form.service class="form-control" %}
                                 </div>
-                                
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Amount</label>
@@ -104,9 +103,9 @@
                             <br />
                             <div class="form-group">
                                 <div class="col-md-12 col-sm-3">
-                                    <button type='submit' class="btn text-white" style="background-color: #FF4200;">Save</button>
+                                    <button type='submit' class="btn text-white shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);">Save</button>
                                     &nbsp &nbsp &nbsp
-                                    <a class="btn text-white" style="background-color: #4b4b4b;" href="{% url 'BillingList' %}">Cancel</a>
+                                    <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href="{% url 'BillingList' %}">Cancel</a>
                                 </div>
                             </div>
                     </form>

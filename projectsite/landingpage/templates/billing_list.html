@@ -8,7 +8,7 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
                             <h6 class="text-white ps-3">List of Billings</h6>
                         </div>
                     </div>
@@ -16,7 +16,7 @@
                         <div class="row">
                              <div class="col-sm-2">
                                  <div class="pull-right">
-                                     <a href="{% url 'BillingAdd' %}" class="btn text-white mt-4 w-100" style="background-color: #FF4200;">Add Bill</a>
+                                     <a href="{% url 'BillingAdd' %}" class="btn text-white mt-4 w-100 shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);">Add Bill</a>
                                  </div>
                              </div>
  
@@ -64,7 +64,7 @@
                                             <p class="text-xs text-secondary mb-0">{{ object.bill_date }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service.service_name }}</p>
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.description|truncatechars:25 }}</p>

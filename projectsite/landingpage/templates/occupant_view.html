@@ -9,7 +9,7 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
                             <h6 class="text-white text-capitalize ps-3">View Occupant Details</h6>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                                 <div class="col-4">
                                     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                     style="margin-bottom: 0px;">Boarder Type</label> <br>
-                                    <span class="badge badge-sm text-sm my-2" style="background-color: #FF4200;">{{ object.person.boarder_type }}</span>                      
+                                    <span class="badge badge-sm text-sm my-2 shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);">{{ object.person.boarder_type }}</span>                      
                                 </div>
                                 
                                 <div class="col-8">
@@ -44,7 +44,7 @@
                         <div class="col-3">
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Start Date</label> <br>
-                            <span class="badge badge-sm" style="background-color: #FF4200; margin-bottom: 5px;">{{ object.start_date }}</span>
+                            <span class="badge badge-sm shadow-primary" style="background-color: rgba(255, 66, 0, 0.9); margin-bottom: 5px;">{{ object.start_date }}</span>
                             
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Registered Date</label> <br>
@@ -54,7 +54,7 @@
                         <div class="col-3">
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">End Date</label> <br>
-                            <span class="badge badge-sm" style="background-color: #FF4200; margin-bottom: 5px;">{{ object.end_date }}</span>
+                            <span class="badge badge-sm shadow-primary" style="background-color: rgba(255, 66, 0, 0.9); margin-bottom: 5px;">{{ object.end_date }}</span>
 
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Updated Date</label> <br>
@@ -80,7 +80,7 @@
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Bed Price</label>
                             <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">P {{ object.bed.price|intcomma }}.00</h6>
+                                <label class="text-sm font-weight-bold mb-0 text-dark">P {{ object.bed.price|intcomma }}</h6>
                             </div>  
                         </div>
 
@@ -137,24 +137,45 @@
                     <!-- end of Bed Information -->
 
                     <!-- Billing and Payment -->
-                    <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Billing and Payment</p>
+                    <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Statement of Account</p>
                     <hr style="border-top: 2px solid #FF4200; opacity: 0.5; margin-bottom: 20px;" class="my-1">  
 
                     <div class="table-responsive my-4" style="padding: 0px 20px;">
-                        <!-- <div class="row my-3">
-                            <div class="col-3">
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 3px;"> Bill Date <br>
-                                <b class="mb-0 text-xs" style="color: #FF4200;"> {{ object.start_date }}</b> </label>
-                            </div>
-                            <div class="col-6"></div>
-                            <div class="col-3">
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 3px;"> Due Date <br>
-                                <b class="mb-0 text-xs" style="color: #FF4200;"> {{ object.end_date }}</b> </label>
-                            </div>
-                        </div> -->
+                        <p class="text-xs font-weight-bold mb-0 text-uppercase opacity-8">Mandatory Fees</p>
                         <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Bill Date</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Service Name</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in fetch_first_three %}
+                                <tr>
+                                    <td class="">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.bill_date }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service.service_name }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table. </td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <hr style="border-top: 1px solid #FF4200; opacity: 0.5;">
+
+                        <table class="table align-items-center mb-0">
+                            <p class="text-xs font-weight-bold mb-0 text-uppercase opacity-8">Other Fees</p>
                             <thead>
                                 <tr class="headings">
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -176,7 +197,7 @@
                                         <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.bill_date }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service }}</p>
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service.service_name }}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.quantity }}</p>
@@ -353,11 +374,11 @@
                                 <div class="row">
                                     <div class="col-md-12 col-sm-3">
                                         &nbsp &nbsp
-                                        <a href="registration_view/{{ object.person.id }}" class="btn text-white" style="background-color: #FF4200;"> View Profile </a>
+                                        <a href="registration_view/{{ object.person.id }}" class="btn text-white shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);"> View Profile </a>
                                         &nbsp &nbsp &nbsp
-                                        <a href="occupant_list/{{ object.id }}" class="btn text-white" style="background-color: #FF9001;"> Edit Info</a>
+                                        <a href="occupant_list/{{ object.id }}" class="btn text-white shadow-warning" style="background-color: #FF9001;"> Edit Info</a>
                                         &nbsp &nbsp &nbsp &nbsp
-                                        <a class="btn text-white" style="background-color: #4b4b4b;" href="{% url 'OccupantList' %}">Back</a>
+                                        <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href="{% url 'OccupantList' %}">Back</a>
                                     </div>
                                 </div>
 

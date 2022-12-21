@@ -8,7 +8,7 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
                             <h6 class="text-white ps-3">List of Beds</h6>
                         </div>
                     </div>
@@ -16,7 +16,7 @@
                         <div class="row">
                              <div class="col-sm-2">
                                  <div class="pull-right">
-                                     <a href="{% url 'BedAdd' %}" class="btn text-white mt-4 w-100" style="background-color: #FF4200;">Add Bed</a>
+                                     <a href="{% url 'BedAdd' %}" class="btn text-white mt-4 w-100 shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);">Add Bed</a>
                                  </div>
                              </div>
  
@@ -72,11 +72,11 @@
                                             <p class="text-xs text-secondary mb-0">{{ object.bed_description }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary mb-0">P {{ object.price|intcomma}}.00</p>
+                                            <p class="text-xs text-secondary mb-0">P {{ object.price|intcomma}}</p>
                                         </td>
                                         <td class="text-center text-sm">
-                                             <span {% if object.bed_status == 'Occupied' %} class="badge badge-sm" style="background-color: #4B4B4B;" {% elif object.bed_status == 'Vacant' %} 
-                                             class="badge badge-sm" style="background-color: #FF4200;"  {% else %} class="badge badge-sm" style="background-color: #FF9001;" {% endif %} "> {{ object.bed_status }} </span>
+                                             <span {% if object.bed_status == 'Occupied' %} class="badge badge-sm shadow-secondary bg-gradient-secondary" {% elif object.bed_status == 'Vacant' %} 
+                                             class="badge badge-sm bg-gradient-success shadow-success" {% else %} class="badge badge-sm shadow-warning bg-gradient-danger" {% endif %} "> {{ object.bed_status }} </span>
                                         </td>
                                         <td class="text-center">
                                             <a href="bed_list/{{ object.id }}"
