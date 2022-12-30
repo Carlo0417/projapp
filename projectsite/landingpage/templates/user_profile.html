@@ -11,6 +11,7 @@
     <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;"> <br>
 
     <!-- Personal Information -->
+    {% csrf_token %}
     <div class="row my-1">
         <div class="col-sm-8 col-8 col-md-8">
           <h6 class="mb-0" style="color: rgba(255, 66, 0, 0.8);">Personal Information</h6>
@@ -25,10 +26,11 @@
 
     <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
 
+    {% for x in prof %}
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">PSU Email</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">201980120@psu.palawan.edu.ph</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.psu_email }}</label> 
     </div>  
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -36,7 +38,11 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Full Name</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">Jhon Carlo O. Escurel</label> 
+        {% if x.middle_name == None %}
+          <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.first_name }} {{ x.last_name }}</label>
+        {% else %}
+          <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.first_name }} {{ x.middle_name }} {{ x.last_name }}</label>
+        {% endif %}
     </div>  
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -46,7 +52,7 @@
             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
             style="margin-bottom: 0px;">Gender</label>
             <div class="input-group input-group-outline">
-                <label class="text-sm font-weight-bold mb-0 text-dark">Male</label> 
+                <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.gender }}</label> 
             </div> 
         </div>
 
@@ -54,7 +60,7 @@
             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
             style="margin-bottom: 0px;">Boarder Type</label>
             <div class="input-group input-group-outline">
-                <label class="text-sm font-weight-bold mb-0 text-dark">Local</label> 
+                <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.boarder_type}}</label> 
             </div>
         </div>
     </div>
@@ -64,8 +70,7 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Program</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">Bachelor of Science in 
-        Business Administration Major in Human Resource Management </label>
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.program }}</label>
       </div>
 
       <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -73,8 +78,7 @@
       <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
       style="margin-bottom: 0px;">Office / Department</label>
       <div class="input-group input-group-outline">
-          <label class="text-sm font-weight-bold mb-0 text-dark">Department of Financial 
-            Management, Human Resource Management, and Business Economics</label>
+          <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.office_dept }}</label>
     </div>
     <!-- end of Personal Information -->
 
@@ -98,7 +102,7 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Contact Number</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">09318542143</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.contact_no }}</label> 
     </div> 
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -106,7 +110,7 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Address</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">Brgy Sicsican Puerto Princesa City</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.address }}</label> 
     </div> 
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -114,7 +118,7 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">City</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">Puerto Princesa City</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.city }}</label> 
     </div> 
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -122,7 +126,7 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Municipality</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">None</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.municipality }}</label> 
     </div> 
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -130,7 +134,7 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Province</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">Palawan</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.province }}</label> 
     </div>  
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -138,7 +142,7 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Country</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">Philippines</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.country }}</label> 
     </div>  
     <!-- end of Personal Information -->
 
@@ -162,7 +166,7 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Full Name</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">Marissa Escurel</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.guardian_first_name }} {{ x.guardian_last_name }}</label> 
     </div>  
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -170,7 +174,7 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Contact Number</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">09345673212</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.guardian_contact_no }}</label> 
     </div>  
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -178,7 +182,7 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Email Address</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">redpuddin417@gmail.com</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.guardian_email_address }}</label> 
     </div> 
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -186,8 +190,9 @@
     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
     style="margin-bottom: 0px;">Present Address</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">Brgy Tiniguiban Purok Sandiwa Puerto Princesa City</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.guardian_present_address }}</label> 
     </div>  
+    {% endfor %}
     <!-- end of Guardian Information -->
 
     <br>

@@ -15,16 +15,19 @@
     {% load humanize %}
     
     <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
-    <h6 class="mb-0 font-weight-bold my-4" style="font-size: 20px;">Welcome, Jhon Carlo</h6>
+    {% for x in per %}
+    <h6 class="mb-0 font-weight-bold my-4" style="font-size: 20px;">Welcome, {{ x.first_name }}</h6>
     <p class="text-xs text-secondary mb-0">Feel free to explore your account's different information.</p>
+    {% endfor %}
 
+    {% for x in occ %}
     <div class="row">
       <div class="col-sm-6 col-6">
         <div class="card my-4">
           <a style="color: #7B809A;">
               <h6 class="text-xs font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" 
               style="color: #FF4200;">Boarder Type</h6>
-              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 20px;">Local</h6>
+              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 20px;">{{ x.person__boarder_type }}</h6>
           </a>
         </div>
 
@@ -32,7 +35,7 @@
           <a style="color: #7B809A;">
               <h6 class="text-xs font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" 
               style="color: #FF4200;">Bed Code</h6>
-              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 20px;">MF1R1-AU</h6>
+              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 20px;">{{ x.bed__bed_code }}</h6>
           </a>
         </div>
       </div>
@@ -42,7 +45,7 @@
           <a style="color: #7B809A;">
               <h6 class="text-xs font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" 
               style="color: #FF4200;">Dorm Name</h6>
-              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 20px;">Male Dorm</h6>
+              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 20px;">{{ x.bed__room__dorm_name}}</h6>
           </a>
         </div>
 
@@ -50,12 +53,12 @@
           <a style="color: #7B809A;">
               <h6 class="text-xs font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" 
               style="color: #FF4200;">Room Name</h6>
-              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 20px;">MF1-1</h6>
+              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 20px;">{{ x.bed__room__room_name }}</h6>
           </a>
         </div>
       </div>
     </div>
-
+    {% endfor %}
     <div class="card">
       <div class="card-header pb-0">
         <div class="row">

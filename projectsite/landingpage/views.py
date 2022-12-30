@@ -1,12 +1,12 @@
 from atexit import register
-from datetime import datetime
+from django.utils import timezone
 from typing import List
 
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, logout, login
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
@@ -16,6 +16,8 @@ from django.views.generic.edit import UpdateView
 from django.views.generic import TemplateView
 # from material import Field
 from django.db.models import Sum
+
+import xlwt
 
 from django.db.models.functions import TruncMonth, TruncYear
 
@@ -260,6 +262,11 @@ class ServiceList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['services']= Service.objects.all().exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').count()
+        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').count()
+        context['notavailable'] = Service.objects.filter(status__iexact="Not Available").count()
+        context['services_limit']= Service.objects.all().exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
+    
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -269,14 +276,6 @@ class ServiceList(ListView):
             query = self.request.GET.get('q')
             qs = qs.order_by("service_name").filter(Q(service_name__icontains=query))
         return qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['services']= Service.objects.all().exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').count()
-        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').count()
-        context['notavailable'] = Service.objects.filter(status__iexact="Not Available").count()
-        context['services_limit']= Service.objects.all().exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
-        return context
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -351,10 +350,10 @@ class OccupantList(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(OccupantList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("person")
+        qs = qs.order_by("-created_at")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("person").filter(Q(person__last_name__icontains=query) | Q(person__first_name__icontains=query)
+            qs = qs.order_by("-created_at").filter(Q(person__last_name__icontains=query) | Q(person__first_name__icontains=query)
             | Q(bed__bed_code__icontains=query) | Q(person__boarder_type__icontains=query))
         return qs
 
@@ -454,6 +453,41 @@ class OccupantViewDemeritUpdate(UpdateView):
     def get_success_url(self):
         return reverse('OccupantView', kwargs={'pk': self.object.occupant_id})
 
+# @method_decorator(login_required, name='dispatch')
+class OccMonthRep(ListView):
+    model = Occupant
+    context_object_name = 'occupant'
+    template_name = 'occ_month_rep.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_month'] = Occupant.objects.raw('''SELECT 1 as id, dormitory_person.psu_email, dormitory_person.last_name, dormitory_person.first_name,
+                                    dormitory_person.gender, dormitory_person.boarder_type, dormitory_bed.bed_code, 
+                                    dormitory_bed.bed_description, dormitory_occupant.start_date, dormitory_occupant.end_date 
+                                    FROM dormitory_person INNER JOIN dormitory_occupant ON dormitory_person.id=dormitory_occupant.person_id
+                                    INNER JOIN dormitory_bed ON dormitory_bed.id=dormitory_occupant.bed_id
+                                    WHERE MONTH(start_date) = MONTH(CURRENT_DATE()) AND YEAR(start_date) = YEAR(CURRENT_DATE()) 
+                                    ORDER BY dormitory_occupant.created_at DESC''')
+        return context
+
+# @method_decorator(login_required, name='dispatch')
+class OccYearRep(ListView):
+    model = Occupant
+    context_object_name = 'occupant'
+    template_name = 'occ_year_rep.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_year'] = Occupant.objects.raw('''SELECT 1 as id, dormitory_person.psu_email, dormitory_person.last_name, dormitory_person.first_name,
+                                    dormitory_person.gender, dormitory_person.boarder_type, dormitory_bed.bed_code, 
+                                    dormitory_bed.bed_description, dormitory_occupant.start_date, dormitory_occupant.end_date 
+                                    FROM dormitory_person INNER JOIN dormitory_occupant ON dormitory_person.id=dormitory_occupant.person_id
+                                    INNER JOIN dormitory_bed ON dormitory_bed.id=dormitory_occupant.bed_id
+                                    WHERE YEAR(start_date) = YEAR(CURRENT_DATE()) ORDER BY dormitory_occupant.created_at DESC''')
+        return context
+
 
 # @method_decorator(login_required, name='dispatch')
 class RegistrationList(ListView):
@@ -467,7 +501,7 @@ class RegistrationList(ListView):
         context['registered'] = Person.objects.count()
         context['complete'] = Person.objects.filter(reg_status__iexact="complete").count()
         context['incomplete'] =  Person.objects.filter(reg_status__iexact="incomplete").count()
-
+        
         cursor = connections['default'].cursor()
         query1 = f"UPDATE dormitory_person SET reg_status = 'Incomplete' WHERE Field1=0 or Field2=0 or Field3=0 or Field4=0 or Field5=0 or Field6=0 or Field7=0"
         cursor.execute(query1)
@@ -479,12 +513,37 @@ class RegistrationList(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(RegistrationList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("psu_email")
+        qs = qs.order_by("-created_at")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("psu_email").filter(Q(psu_email__icontains=query) | Q(last_name__icontains=query) | Q(first_name__icontains=query) 
+            qs = qs.order_by("-created_at").filter(Q(psu_email__icontains=query) | Q(last_name__icontains=query) | Q(first_name__icontains=query) 
             | Q(program__icontains=query) | Q(boarder_type__icontains=query)| Q(reg_status__iexact=query))
         return qs
+
+
+# @method_decorator(login_required, name='dispatch')
+class RegMonthRep(ListView):
+    model = Person
+    context_object_name = 'person'
+    template_name = 'reg_month_rep.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_month'] = Person.objects.raw('SELECT * FROM dormitory_person WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()) ORDER BY created_at DESC')
+        return context
+
+# @method_decorator(login_required, name='dispatch')
+class RegYearRep(ListView):
+    model = Person
+    context_object_name = 'person'
+    template_name = 'reg_year_rep.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_year'] = Person.objects.raw('SELECT * FROM dormitory_person WHERE YEAR(created_at) = YEAR(CURRENT_DATE()) ORDER BY created_at DESC')
+        return context
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -662,61 +721,6 @@ class OccupantDemeritUpdateView(UpdateView):
 
 
 # @method_decorator(login_required, name='dispatch')
-class User_Dashboard(ListView):
-    model = Occupant
-    context_object_name = 'occupant'
-    template_name = "user_dashboard.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-
-# @method_decorator(login_required, name='dispatch')
-class User_Services(ListView):
-    model = Service
-    context_object_name = 'services'
-    template_name = "user_services.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['services_limit']= Service.objects.all().exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
-        return context
-
-
-# @method_decorator(login_required, name='dispatch')
-class User_Profile(ListView):
-    model = Person
-    context_object_name = 'person'
-    template_name = "user_profile.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-
-# @method_decorator(login_required, name='dispatch')
-class User_Account(ListView):
-    model = Occupant
-    context_object_name = 'occupant'
-    template_name = "user_account.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-
-# @method_decorator(login_required, name='dispatch')
-class User_Billing(ListView):
-    model = Occupant
-    context_object_name = 'occupant'
-    template_name = "user_billing.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-# @method_decorator(login_required, name='dispatch')
 class User_Notifications(ListView):
     model = Occupant
     context_object_name = 'occupant'
@@ -725,6 +729,7 @@ class User_Notifications(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
 
 # @method_decorator(login_required, name='dispatch')
 class NotificationList(ListView):
@@ -735,6 +740,7 @@ class NotificationList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
 
 # @method_decorator(login_required, name='dispatch')
 class OccupantAccounts(ListView):
@@ -1061,18 +1067,17 @@ def avail_service(request):
         form = UserAvailServiceForm()
         return render(request, 'user_service_avail.html',  {'form': form})  
 
-def user_logout_view(request):
-    logout(request)
-    return redirect("user_login")
 
-def admin_logout_view(request):
-    logout(request)
-    return redirect("admin_login")
+# ===================================================
+# The Show Begins
+# ===================================================
+x = ""
 
 def user_login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST) 
         if form.is_valid():
+            
             UN = form.cleaned_data['username']
             PW = form.cleaned_data['password']
 
@@ -1080,20 +1085,93 @@ def user_login_view(request):
             query = f"SELECT username, password FROM dormitory_user WHERE username = '{UN}' AND password = '{PW}'"
             cursor.execute(query)
             test = cursor.execute(query)
-            # print(test)
 
-            for p in User.objects.raw('SELECT * FROM dormitory_user WHERE username = %s', [UN]):
-             print(p)
-            
             if(test == 0):
                 return redirect('user_login')
             else:
-                return redirect('UserDashboard')
-              
+                global x
+                x = request.session['username'] = UN
+                print(x)
+                return redirect ('UserDashboard')
+
+        else:
+            return HttpResponse("Your username and password didn't match.")
+
     else:
         form = UserLoginForm()
         return render(request, 'user_login.html',  {'form': form})
 
+
+def user_logout_view(request):
+    logout(request)
+    return redirect("user_login")
+
+
+# @method_decorator(login_required, name='dispatch')
+class User_Dashboard(ListView):
+    model = Occupant
+    context_object_name = 'occupant'
+    template_name = "user_dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        global x
+        context ['per'] = Person.objects.filter(Q(psu_email=x)).values().order_by('-id')[:1]
+        context ['occ'] = Occupant.objects.filter(Q(person__psu_email=x)).values('person__boarder_type', 'bed__bed_code', 'bed__room__room_name', 'bed__room__dorm_name').order_by('-id')[:1]
+        return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class User_Account(ListView):
+    model = User
+    context_object_name = 'user'
+    template_name = "user_account.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        global x
+        context ['acc'] = User.objects.filter(Q(username=x)).values()
+        return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class User_Profile(ListView):
+    model = Person
+    context_object_name = 'person'
+    template_name = "user_profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        global x
+        context ['prof'] = Person.objects.filter(Q(psu_email=x)).values()
+        return context
+
+# @method_decorator(login_required, name='dispatch')
+class User_Billing(ListView):
+    model = Occupant
+    context_object_name = 'occupant'
+    template_name = "user_billing.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        global x
+        context ['cont'] = Occupant.objects.filter(Q(person__psu_email=x)).values('bed__bed_code', 'bed__bed_description', 'bedPrice', 'bed__room__room_name', 'bed__room__floorlvl', 'bed__room__dorm_name', 'start_date', 'end_date').order_by('-created_at')
+        return context
+
+# @method_decorator(login_required, name='dispatch')
+class User_Services(ListView):
+    model = Service
+    context_object_name = 'services'
+    template_name = "user_services.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['services_limit'] = Service.objects.all().exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
+        return context
+
+# ===================================================
+# end of The Show Begins
+# ===================================================
 
 def admin_login_view(request):
     if request.method == 'POST':
@@ -1129,6 +1207,11 @@ def admin_login_view(request):
     else:
         form = AdminLoginForm()
         return render(request, 'admin_login.html',  {'form': form})
+
+
+def admin_logout_view(request):
+    logout(request)
+    return redirect("admin_login")
 
 
 def add_admin(request):
@@ -1182,60 +1265,257 @@ def delete_user(request, id):
 # ===================================================
 # Functions for Exporting to PDF and EXCEL
 # ===================================================
-def venue_pdf(request):
-    buf = io.BytesIO()
-    c = canvas.Canvas(buf, pagesize=A4, bottomup=0)
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
-    textob = c.beginText()
-    textob.setTextOrigin(inch, inch)
-    textob.setFont("Helvetica", 14)
+def RegPDF(request, pk):
+    reg_person = Person.objects.get(id=pk)
+    template_path = 'reg_pdf.html'
+    context = {
+        'reg_person': reg_person,
+    }
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="Registration Information.pdf"'
+    
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
 
-    venues = Person.objects.all()
-
-    lines = []
-
-    for venue in venues:
-        lines.append(venue.psu_email)
-        lines.append(venue.last_name)
-        lines.append(venue.first_name)
-        lines.append(venue.middle_name)
-        lines.append(venue.gender)
-        lines.append(venue.boarder_type)
-        lines.append(venue.program)
-        lines.append(venue.office_dept)
-        lines.append(" ")
-
-    for line in lines:
-        textob.textLine(line)
-
-    c.drawText(textob)
-    c.showPage()
-    c.save()
-    buf.seek(0)
-
-    return FileResponse(buf, as_attachment=True, filename='venue.pdf')
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+        html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
 
-def venue_csv(request):
+def OccPDF(request, pk):
+    occ_person = Occupant.objects.get(id=pk)
+    table1 = Bill_Details.objects.filter(occupant=pk)[0:3]
+    table2 = Bill_Details.objects.filter(occupant=pk)[3:]
+    table3 = Payment.objects.filter(occupant=pk)
+    total_bills_amount = Bill_Details.objects.filter(occupant=pk).aggregate(Sum('amount'))['amount__sum'] or 0
+    payment = Payment.objects.filter(occupant=pk)
+    total_payment_amount = Payment.objects.filter(occupant=pk).aggregate(Sum('amount'))['amount__sum'] or 0
+    remaining_balance = (Bill_Details.objects.filter(occupant=pk).aggregate(Sum('amount'))['amount__sum'] or 0) - (Payment.objects.filter(occupant=pk).aggregate(Sum('amount'))['amount__sum'] or 0)
+    table4 = OccupantDemerit.objects.filter(occupant=pk)
+    template_path = 'occ_pdf.html'
+
+    context = {
+        'occ_person': occ_person,
+        'table1': table1,
+        'table2': table2,
+        'table3': table3,
+        'total_bills_amount': total_bills_amount,
+        'payment': payment,
+        'total_payment_amount': total_payment_amount,
+        'remaining_balance': remaining_balance,
+        'table4': table4,
+    }
+ 
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="Occupant Information.pdf"'
+    
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+        html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+# CSV for Registration
+def reg_all_csv(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=venue.csv'
+    response['Content-Disposition'] = 'attachment; filename=PSU Dormitory Registration Report.csv'
 
     writer = csv.writer(response)
 
-    venues = Person.objects.all()
+    reg_all = Person.objects.raw('SELECT * FROM dormitory_person ORDER BY created_at DESC')
 
-    writer.writerow(['PSU Email', 'Last Name', 'First Name', 'Middle Name', 'Gender',
-                    'Boarder Type', 'Program', 'Office / Department'])
+
+    writer.writerow(['PSU Email', 'Last Name', 'First Name', 'Middle Name', 'Gender', 'Boarder Type', 'Program', 'Office / Department', 
+                    'Contact Number', 'Address', 'City', 'Municipality', 'Province', 'Country', 'Guardian First Name', 'Guardian Last Name',
+                    'Guardian Contact Number', 'Guardian Email Address', 'Guardian Address', 'Status', 'Registered Date', 'Updated Date',])
 
     lines = []
 
-    for venue in venues:
-        writer.writerow([venue.psu_email, venue.last_name, venue.first_name, venue.middle_name, 
-                         venue.gender, venue.boarder_type, venue.program, venue.office_dept])
+    for reg in reg_all:
+        writer.writerow([reg.psu_email, reg.last_name, reg.first_name, reg.middle_name, reg.gender, reg.boarder_type, reg.program, 
+        reg.office_dept, reg.contact_no, reg.address, reg.city, reg.municipality, reg.province, reg.country, reg.guardian_first_name,
+        reg.guardian_last_name, reg.guardian_contact_no, reg.guardian_email_address, reg.guardian_present_address,reg.reg_status, 
+        reg.created_at, reg.updated_at,])
 
     response.writelines(lines)
     return response
 
 
+def reg_month_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=PSU Dormitory Monthly Registration Report.csv'
 
+    writer = csv.writer(response)
+
+    reg_month = Person.objects.raw('''SELECT * FROM dormitory_person WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) 
+                                        AND YEAR(created_at) = YEAR(CURRENT_DATE()) ORDER BY created_at DESC''')
+
+
+    writer.writerow(['PSU Email', 'Last Name', 'First Name', 'Middle Name', 'Gender', 'Boarder Type', 'Program', 'Office / Department', 
+                    'Contact Number', 'Address', 'City', 'Municipality', 'Province', 'Country', 'Guardian First Name', 'Guardian Last Name',
+                    'Guardian Contact Number', 'Guardian Email Address', 'Guardian Address', 'Status', 'Registered Date', 'Updated Date',])
+
+    lines = []
+
+    for reg in reg_month:
+        writer.writerow([reg.psu_email, reg.last_name, reg.first_name, reg.middle_name, reg.gender, reg.boarder_type, reg.program, 
+        reg.office_dept, reg.contact_no, reg.address, reg.city, reg.municipality, reg.province, reg.country, reg.guardian_first_name,
+        reg.guardian_last_name, reg.guardian_contact_no, reg.guardian_email_address, reg.guardian_present_address,reg.reg_status, 
+        reg.created_at, reg.updated_at,])
+
+    response.writelines(lines)
+    return response
+
+
+def reg_year_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=PSU Dormitory Yearly Registration Report.csv'
+
+    writer = csv.writer(response)
+
+    reg_year = Person.objects.raw('SELECT * FROM dormitory_person WHERE YEAR(created_at) = YEAR(CURRENT_DATE()) ORDER BY created_at DESC')
+
+
+    writer.writerow(['PSU Email', 'Last Name', 'First Name', 'Middle Name', 'Gender', 'Boarder Type', 'Program', 'Office / Department', 
+                    'Contact Number', 'Address', 'City', 'Municipality', 'Province', 'Country', 'Guardian First Name', 'Guardian Last Name',
+                    'Guardian Contact Number', 'Guardian Email Address', 'Guardian Address', 'Status', 'Registered Date', 'Updated Date',])
+
+    lines = []
+
+    for reg in reg_year:
+        writer.writerow([reg.psu_email, reg.last_name, reg.first_name, reg.middle_name, reg.gender, reg.boarder_type, reg.program, 
+        reg.office_dept, reg.contact_no, reg.address, reg.city, reg.municipality, reg.province, reg.country, reg.guardian_first_name,
+        reg.guardian_last_name, reg.guardian_contact_no, reg.guardian_email_address, reg.guardian_present_address,reg.reg_status, 
+        reg.created_at, reg.updated_at,])
+
+    response.writelines(lines)
+    return response
+# end of CSV for Registration
+
+
+# CSV for Occupant
+def occ_all_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=PSU Dormitory Occupant Report.csv'
+
+    writer = csv.writer(response)
+
+    occ_all = Occupant.objects.raw('''SELECT 1 as id, dormitory_person.psu_email, dormitory_person.last_name, dormitory_person.first_name,
+                                    dormitory_person.gender, dormitory_person.boarder_type, dormitory_bed.bed_code, 
+                                    dormitory_bed.bed_description, dormitory_occupant.start_date, dormitory_occupant.end_date 
+                                    FROM dormitory_person INNER JOIN dormitory_occupant ON dormitory_person.id=dormitory_occupant.person_id
+                                    INNER JOIN dormitory_bed ON dormitory_bed.id=dormitory_occupant.bed_id ORDER BY dormitory_occupant.created_at DESC''')
+
+    writer.writerow(['PSU Email', 'Last Name', 'First Name', 'Gender', 'Boarder Type', 'Bed Code', 'Bed Description', 'Start Date', 'End Date'])
+
+    lines = []
+
+    for occ in occ_all:
+        writer.writerow([occ.psu_email, occ.last_name, occ.first_name, occ.gender, occ.boarder_type, 
+                        occ.bed_code, occ.bed_description, occ.start_date, occ.end_date])
+
+    response.writelines(lines)
+    return response
+
+
+def occ_month_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=PSU Dormitory Monthly Occupant Report.csv'
+
+    writer = csv.writer(response)
+
+    occ_month = Occupant.objects.raw('''SELECT 1 as id, dormitory_person.psu_email, dormitory_person.last_name, dormitory_person.first_name,
+                                        dormitory_person.gender, dormitory_person.boarder_type, dormitory_bed.bed_code, 
+                                        dormitory_bed.bed_description, dormitory_occupant.start_date, dormitory_occupant.end_date 
+                                        FROM dormitory_person INNER JOIN dormitory_occupant ON dormitory_person.id=dormitory_occupant.person_id
+                                        INNER JOIN dormitory_bed ON dormitory_bed.id=dormitory_occupant.bed_id
+                                        WHERE MONTH(start_date) = MONTH(CURRENT_DATE()) AND YEAR(start_date) = YEAR(CURRENT_DATE()) 
+                                        ORDER BY dormitory_occupant.created_at DESC''')
+
+    writer.writerow(['PSU Email', 'Last Name', 'First Name', 'Gender', 'Boarder Type', 'Bed Code', 'Bed Description', 'Start Date', 'End Date'])
+
+    lines = []
+
+    for occ in occ_month:
+        writer.writerow([occ.psu_email, occ.last_name, occ.first_name, occ.gender, occ.boarder_type, 
+                        occ.bed_code, occ.bed_description, occ.start_date, occ.end_date])
+
+    response.writelines(lines)
+    return response
+
+
+def occ_year_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=PSU Dormitory Yearly Occupant Report.csv'
+
+    writer = csv.writer(response)
+
+    occ_year = Occupant.objects.raw('''SELECT 1 as id, dormitory_person.psu_email, dormitory_person.last_name, dormitory_person.first_name,
+                                     dormitory_person.gender, dormitory_person.boarder_type, dormitory_bed.bed_code, 
+                                     dormitory_bed.bed_description, dormitory_occupant.start_date, dormitory_occupant.end_date 
+                                     FROM dormitory_person INNER JOIN dormitory_occupant ON dormitory_person.id=dormitory_occupant.person_id
+                                     INNER JOIN dormitory_bed ON dormitory_bed.id=dormitory_occupant.bed_id
+                                     WHERE YEAR(start_date) = YEAR(CURRENT_DATE()) ORDER BY dormitory_occupant.created_at DESC''')
+
+    writer.writerow(['PSU Email', 'Last Name', 'First Name', 'Gender', 'Boarder Type', 'Bed Code', 'Bed Description', 'Start Date', 'End Date'])
+
+    lines = []
+
+    for occ in occ_year:
+        writer.writerow([occ.psu_email, occ.last_name, occ.first_name, occ.gender, occ.boarder_type, 
+                        occ.bed_code, occ.bed_description, occ.start_date, occ.end_date])
+
+    response.writelines(lines)
+    return response
+# end of CSV for Occupant
+
+def export_users_xls(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="users.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Users Data') # this will make a sheet named Users Data
+
+    # Sheet header, first row
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['PSU Email', 'Last Name',]
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style) # at 0 row 0 column 
+
+    # Sheet body, remaining rows
+    font_style = xlwt.XFStyle()
+
+
+    rows = Person.objects.raw('SELECT * FROM dormitory_person WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()) ORDER BY created_at DESC')
+
+    
+    
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+
+
+    wb.save(response)
+
+    return response
 

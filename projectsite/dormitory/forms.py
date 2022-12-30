@@ -130,7 +130,6 @@ class UserAvailServiceForm(ModelForm):
         bill = kwargs.pop('bill', None)
         super(UserAvailServiceForm, self).__init__(*args, **kwargs)
         self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
-        self.fields['occupant'].queryset = Occupant.objects.filter(id=93)
 
 class OccupantAccountForm(ModelForm):
     class Meta:

@@ -72,7 +72,7 @@
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Bed Code</label> <br>
                             <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed }}</h6> 
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed }}</label> 
                             </div>                               
                          </div>
 
@@ -80,7 +80,7 @@
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Bed Price</label>
                             <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">P {{ object.bed.price|intcomma }}</h6>
+                                <label class="text-sm font-weight-bold mb-0 text-dark">P {{ object.bed.price|intcomma }}</label>
                             </div>  
                         </div>
 
@@ -88,7 +88,7 @@
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Bed Description</label>
                             <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.bed_description }}</h6> 
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.bed_description }}</label> 
                             </div>  
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Room Name</label> <br>
                             <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.room.room_name }}</h6> 
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.room.room_name }}</label> 
                             </div>                          
                         </div>
 
@@ -109,11 +109,11 @@
                             style="margin-bottom: 0px;">Floor Level</label>
                             <div class="input-group input-group-outline">
                                 {% if object.bed.room.floorlvl == "1" %}
-                                    <label class="text-sm font-weight-bold mb-0 text-dark">1st Floor</h6>
+                                    <label class="text-sm font-weight-bold mb-0 text-dark">1st Floor</label>
                                 {% elif object.bed.room.floorlvl == "2" %}
-                                    <label class="text-sm font-weight-bold mb-0 text-dark">2nd Floor</h6>
+                                    <label class="text-sm font-weight-bold mb-0 text-dark">2nd Floor</label>
                                 {% elif object.bed.room.floorlvl == "3" %}
-                                    <label class="text-sm font-weight-bold mb-0 text-dark">3rd Floor</h6>
+                                    <label class="text-sm font-weight-bold mb-0 text-dark">3rd Floor</label>
                                 {% endif %}       
                             </div>  
                         </div>
@@ -122,7 +122,7 @@
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Dorm Name</label>
                             <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.room.dorm_name }}</h6> 
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.room.dorm_name }}</label> 
                             </div>  
                         </div>
 
@@ -130,7 +130,7 @@
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Dorm Descrition</label>
                             <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.room.description }}</h6> 
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.room.description }}</label> 
                             </div>  
                         </div>
                     </div>
@@ -373,10 +373,11 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-12 col-sm-3">
-                                        &nbsp &nbsp
-                                        <a href="registration_view/{{ object.person.id }}" class="btn text-white shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);"> View Profile </a>
+                                        <a href="{% url 'OccPDF' object.id %}" class="btn text-white shadow-warning" style="background-color: #FF4200;"> Export to PDF </a>
                                         &nbsp &nbsp &nbsp
                                         <a href="occupant_list/{{ object.id }}" class="btn text-white shadow-warning" style="background-color: #FF9001;"> Edit Info</a>
+                                        &nbsp &nbsp &nbsp
+                                        <a href="registration_view/{{ object.person.id }}" class="btn text-white shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);"> View Profile </a>
                                         &nbsp &nbsp &nbsp &nbsp
                                         <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href="{% url 'OccupantList' %}">Back</a>
                                     </div>

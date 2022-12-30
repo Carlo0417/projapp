@@ -11,6 +11,7 @@
     <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
 
     <!-- Account Information -->
+    {% csrf_token %}
     <div class="row my-1">
         <div class="col-sm-8 col-8 col-md-8 my-4">
             <h6 class="mb-0 font-weight-bold" style="font-size: 25px;">Account</h6>
@@ -24,10 +25,11 @@
         </div>
     </div>
 
+    {% for x in acc %}
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Username</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">201980120@psu.palawan.edu.ph</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.username }}</label> 
     </div>  
     
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -35,7 +37,7 @@
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Password</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">12345678910</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.password }}</label> 
     </div>  
     
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">  
@@ -43,7 +45,7 @@
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Security Question</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">What is the name of your first dog?</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.security_question }}</label> 
     </div>  
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -51,7 +53,7 @@
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Security Answer</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">Scar</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.security_answer }}</label>
     </div> 
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -59,8 +61,9 @@
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Recovery Email</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">redpuddin417@gmail.com</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.recovery_email }}</label> 
     </div>  
+    {% endfor %}
     <!-- end of Account Information -->
 
     </div>
