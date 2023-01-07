@@ -10,13 +10,16 @@
     <!-- End Navbar -->
     <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
     <h6 class="mb-0 font-weight-bold my-4" style="font-size: 25px;">Services</h6>
-    <p class="text-xs text-secondary mb-0">Here are the list of services for you to avail.</p>
+    <p class="text-xs text-secondary mb-0">Here are the list of services you can avail.</p>
 
     <div class="row my-2">
         <div class="col-6">
         </div>
-        <div class="col-6 text-end">
-          <a href="{% url 'UserAvailService' %}" class="btn mb-0 text-white" style="background-color: #FF4200;">Avail Service</a>
+        <div class="col-3 text-end">
+          <a href="{% url 'UserAvailService' %}" class="btn mb-0 text-white text-xs" style="background-color: #FF4200;">Avail</a>
+        </div>
+        <div class="col-3 text-end">
+          <a href="{% url 'user_other_add' %}" class="btn mb-0 text-white text-xs" style="background-color: #FF4200;">Others</a>
         </div>
     </div>
 

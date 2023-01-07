@@ -6,7 +6,7 @@ from pkg_resources import require
 from datetime import timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
-from datetime import datetime
+from datetime import datetime, date
 
 
 class BaseModel(models.Model):
@@ -42,7 +42,7 @@ class Service(BaseModel):
         verbose_name_plural = "Services"
 
     def __str__(self):
-        return f"{self.service_name}: P{self.base_amount}"
+        return f"{self.service_name}"
 
 
 class Bed(BaseModel):
@@ -81,6 +81,7 @@ class User(BaseModel):
     security_answer = models.CharField(max_length=250, blank=True, null=True)
     recovery_email = models.CharField(max_length=250, blank=True, null=True)
     user_status = models.CharField(max_length=20, default="inactive", null=True, blank=True, choices=USER_STATUS_CHOICES)
+    phone_number = models.CharField(max_length=20, default="", verbose_name="Contact Number")
     person_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -89,10 +90,11 @@ class User(BaseModel):
     def __str__(self):
         return f"{self.person_id}"
 
+
 class Admin(BaseModel):
 
     ADMMIN_CLASS_CHOICES = (('Front Desk','Front Desk'),('Accounting Staff','Accounting Staff'), 
-                            ('Super Administrator','Super Administrator'),)
+                            ('Super Administrator','Super Administrator'), ('Dorm Manager','Dorm Manager'),)
 
     SECQ_CHOICES = (('In what city were you born?','In what city were you born?'), 
                     ('What is the name of your favorite pet?','What is the name of your favorite pet?'),
@@ -119,34 +121,11 @@ class Admin(BaseModel):
 
 class Person(BaseModel):
 
-    OFFICE_DEPT_CHOICES = (('Department of Behavioral Science','Department of Behavioral Science'),
-                            ('Department of Social Sciences','Department of Social Sciences'),
-                            ('Department of Foreign Language','Department of Foreign Language'),
-                            ('Bio-Physical Science Department','Bio-Physical Science Department'),
-                            ('Computer Studies Department','Computer Studies Department'),
-                            ('Mathematics Department','Mathematics Department'),
-                            ('Department of Physical Education','Department of Physical Education'),
-                            ('Department of Elementary Education','Department of Elementary Education'),
-                            ('Department of Secondary Education','Department of Secondary Education'),
-                            ('Department of Accountancy','Department of Accountancy'),
-                            ('Department of Marketing Management, Entrepreneurship, and Public Administration','Department of Marketing Management, Entrepreneurship, and Public Administration'),
-                            ('Department of Financial Management, Human Resource Management, and Business Economics','Department of Financial Management, Human Resource Management, and Business Economics'),
-                            ('Hospitality Management Department','Hospitality Management Department'),
-                            ('Tourism Management Department','Tourism Management Department'),
-                            ('Department of Civil Engineering','Department of Civil Engineering'),
-                            ('Department of Mechanical Engineering','Department of Mechanical Engineering'),
-                            ('Department of Electrical Engineering','Department of Electrical Engineering'),
-                            ('Department of Petroleum Engineering','Department of Petroleum Engineering'),
-                            ('Department of Architecture','Department of Architecture'),
-                            ('Department of Nursing','Department of Nursing'),
-                            ('Department of Midwifery','Department of Midwifery'),
-                            ('Not yet included','Not yet included'),)
-
     PROGRAM_CHOICES = (('Bachelor of Science in Social Work','Bachelor of Science in Social Work'),
                         ('Bachelor of Science in Psychology','Bachelor of Science in Psychology'),
                         ('Bachelor of Arts in Communication','Bachelor of Arts in Communication'),
                         ('Bachelor of Arts in Political Science','Bachelor of Arts in Political Science'),
-                        ('Bachelor of Arts in Philippine Studies ','Bachelor of Arts in Philippine Studies '),
+                        ('Bachelor of Arts in Philippine Studies','Bachelor of Arts in Philippine Studies'),
                         ('Bachelor of Science in Biology Major in Medical Biology','Bachelor of Science in Biology Major in Medical Biology'),
                         ('Bachelor of Science in Marine Biology','Bachelor of Science in Marine Biology'),
                         ('Bachelor of Science in Environmental Science','Bachelor of Science in Environmental Science'),
@@ -163,7 +142,7 @@ class Person(BaseModel):
                         ('Bachelor of Science in Accountancy','Bachelor of Science in Accountancy'),
                         ('Bachelor of Science in Management Accountancy','Bachelor of Science in Management Accountancy'),
                         ('Bachelor of Science in Entrepreneurship','Bachelor of Science in Entrepreneurship'),
-                        ('Bachelor of Science in Business Administration  Major in Marketing Management ','Bachelor of Science in Business Administration  Major in Marketing Management '),
+                        ('Bachelor of Science in Business Administration  Major in Marketing Management','Bachelor of Science in Business Administration  Major in Marketing Management'),
                         ('Bachelor of Science in Business Administration  Major in Human Resource Management','Bachelor of Science in Business Administration  Major in Human Resource Management'),
                         ('Bachelor of Science in Hospitality Management','Bachelor of Science in Hospitality Management'),
                         ('Track - Culinary Arts and Kitchen Management','Track - Culinary Arts and Kitchen Management'),
@@ -197,7 +176,7 @@ class Person(BaseModel):
     gender = models.CharField(max_length=50, choices=GENDER_CHOICES)
     boarder_type = models.CharField(max_length=50, default="Local", choices=TYPE_CHOICES)
     program = models.CharField(max_length=250, choices=PROGRAM_CHOICES)
-    office_dept = models.CharField(max_length=250, choices=OFFICE_DEPT_CHOICES, verbose_name="Office / Department")
+    office_dept = models.CharField(max_length=250, verbose_name="Office / Department", null=True, blank=True)
     contact_no = models.CharField(max_length=20, default="", verbose_name="Contact Number")
     address = models.CharField(max_length=250, default="", verbose_name="Address")
     city = models.CharField(max_length=250, default="Puerto Princesa City", verbose_name="City")
@@ -256,11 +235,9 @@ class Occupant(BaseModel):
     def __str__(self):
         return f"{self.person}"
 
-    def get_end_date(self):
-        if self.end_date == datetime.now().date():
-           return "Ended"
-        else:
-           return '<span class="badge badge-sm bg-gradient-success shadow-success">Ongoing</span>'
+    @property
+    def is_past_due(self):
+        return date.today() > self.end_date
 
 
 class Bill(BaseModel):
@@ -281,9 +258,9 @@ class Bill_Details(BaseModel):
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
     bill_date = models.DateTimeField(default=timezone.now)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=1)
     description = models.CharField(max_length=250, null=True, blank=True, default="None")
-    amount = models.DecimalField(default=0, max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
+    amount = models.DecimalField(default=0, max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=True, blank=True,)
 
     class Meta:
         verbose_name_plural = "Bill Details"
@@ -335,7 +312,7 @@ class Demerit(BaseModel):
                         ('Bringing pets in the dormitory','Bringing pets in the dormitory'),
                         ('Walking around beyond time limits (11:00 PM only)','Walking around beyond time limits (11:00 PM only)'),)
 
-    POINTS_CHOICES = (('5','5'),('4','4'),('3','3'),('2','2'),('1','1'),)
+    POINTS_CHOICES = (('1','1'),('2','2'),('3','3'),('4','4'),('5','5'),)
 
     demerit_name = models.CharField(max_length=500, choices=DEMERITS_CHOICES)
     demerit_points = models.CharField(max_length=2, choices=POINTS_CHOICES)

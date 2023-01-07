@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, logout, login
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
@@ -24,8 +24,10 @@ from django.db.models.functions import TruncMonth, TruncYear
 from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit, OccupantDemerit, User, Admin
 from django import forms
 from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm
-from dormitory.forms import OccupantFormEdit, BillingFormEdit, PaymentForm, DemeritForm, OccupantDemeritForm
-from dormitory.forms import OccupantRenewForm, UserAvailServiceForm, UserLoginForm, AdminLoginForm, AdminForm
+from dormitory.forms import OccupantFormEdit, OtherBillingForm, PaymentForm, DemeritForm, OccupantDemeritForm
+from dormitory.forms import OccupantRenewForm, UserLoginForm, AdminLoginForm, AdminForm
+from dormitory.forms import UserBillingForm, UserOtherBillingForm
+
 from django.contrib import messages
 from django.db.models import Q
 from django.db.models import Count
@@ -82,51 +84,51 @@ class HomePageView(ListView):
 
         
         # Monthly Registration Charts
-        Jan = Person.objects.filter(created_at__icontains="2022-01").count()
+        Jan = Person.objects.filter(created_at__icontains="2023-01").count()
         Jan = int(Jan)
         print('Jan:', Jan)
 
-        Feb = Person.objects.filter(created_at__icontains="2022-02").count()
+        Feb = Person.objects.filter(created_at__icontains="2023-02").count()
         Feb = int(Feb)
         print('Feb:', Feb)
 
-        Mar = Person.objects.filter(created_at__icontains="2022-03").count()
+        Mar = Person.objects.filter(created_at__icontains="2023-03").count()
         Mar = int(Mar)
         print('Mar:', Mar)
 
-        Apr = Person.objects.filter(created_at__icontains="2022-04").count()
+        Apr = Person.objects.filter(created_at__icontains="2023-04").count()
         Apr = int(Apr)
         print('Apr:', Apr)
 
-        May = Person.objects.filter(created_at__icontains="2022-05").count()
+        May = Person.objects.filter(created_at__icontains="2023-05").count()
         May = int(May)
         print('May:', May)
 
-        Jun = Person.objects.filter(created_at__icontains="2022-06").count()
+        Jun = Person.objects.filter(created_at__icontains="2023-06").count()
         Jun = int(Jun)
         print('Jun:', Jun)
 
-        Jul = Person.objects.filter(created_at__icontains="2022-07").count()
+        Jul = Person.objects.filter(created_at__icontains="2023-07").count()
         Jul = int(Jul)
         print('Jul:', Jul)
 
-        Aug = Person.objects.filter(created_at__icontains="2022-08").count()
+        Aug = Person.objects.filter(created_at__icontains="2023-08").count()
         Aug = int(Aug)
         print('Aug:', Aug)
 
-        Sep = Person.objects.filter(created_at__icontains="2022-09").count()
+        Sep = Person.objects.filter(created_at__icontains="2023-09").count()
         Sep = int(Sep)
         print('Sep:', Sep)
 
-        Oct = Person.objects.filter(created_at__icontains="2022-10").count()
+        Oct = Person.objects.filter(created_at__icontains="2023-10").count()
         Oct = int(Oct)
         print('Oct:', Oct)
 
-        Nov = Person.objects.filter(created_at__icontains="2022-11").count()
+        Nov = Person.objects.filter(created_at__icontains="2023-11").count()
         Nov = int(Nov)
         print('Nov:', Nov)
 
-        Dec = Person.objects.filter(created_at__icontains="2022-12").count()
+        Dec = Person.objects.filter(created_at__icontains="2023-12").count()
         Dec = int(Dec)
         print('Dec:', Dec)
 
@@ -171,6 +173,12 @@ class AdminUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def form_valid(self, form):
+      messages.success(self.request, "Admin account was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
+    
 
 # @method_decorator(login_required, name='dispatch')
 class MaleDormVacantBedList(ListView):
@@ -252,6 +260,11 @@ class RoomUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def form_valid(self, form):
+      messages.success(self.request, "Room details was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
+
 
 # @method_decorator(login_required, name='dispatch')
 class ServiceList(ListView):
@@ -290,6 +303,11 @@ class ServiceUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def form_valid(self, form):
+      messages.success(self.request, "Service details was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
+
 
 # @method_decorator(login_required, name='dispatch')
 class BedList(ListView):
@@ -315,7 +333,7 @@ class BedList(ListView):
         qs = qs.order_by("room_id")
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.order_by("room_id").filter(Q(room__dorm_name__icontains=query) | Q(room__room_name__icontains=query)
+            qs = qs.order_by("room_id").filter(Q(room__dorm_name__iexact=query) | Q(room__room_name__icontains=query)
             | Q(bed_code__icontains=query) | Q(price__icontains=query) | Q(bed_status__icontains=query))
         return qs
 
@@ -332,6 +350,11 @@ class BedUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def form_valid(self, form):
+      messages.success(self.request, "Bed details was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
+
 
 # @method_decorator(login_required, name='dispatch')
 class OccupantList(ListView):
@@ -346,6 +369,7 @@ class OccupantList(ListView):
         context['local'] = Occupant.objects.values('person__last_name').distinct().filter(person__boarder_type__iexact="Local").count() 
         context['foreign'] = Occupant.objects.values('person__last_name').distinct().filter(person__boarder_type__iexact="Foreign").count()
         context['renewal'] = Occupant.objects.values('person__last_name').annotate(Count('id')).order_by().filter(id__count__gt=1).count()
+        context['today'] = timezone.now()
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -356,7 +380,6 @@ class OccupantList(ListView):
             qs = qs.order_by("-created_at").filter(Q(person__last_name__icontains=query) | Q(person__first_name__icontains=query)
             | Q(bed__bed_code__icontains=query) | Q(person__boarder_type__icontains=query))
         return qs
-
 
 # @method_decorator(login_required, name='dispatch')
 class OccupantUpdateView(UpdateView):
@@ -384,6 +407,11 @@ class OccupantUpdateView(UpdateView):
         cursor.execute(query2)
         return "/occupant_list"
 
+    def form_valid(self, form):
+      messages.success(self.request, "Occupant details was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
+
 
 # @method_decorator(login_required, name='dispatch')
 class OccupantView(UpdateView):
@@ -391,7 +419,6 @@ class OccupantView(UpdateView):
     fields = "__all__"
     context_object_name = 'occupant'
     template_name = 'occupant_view.html'
-    success_url = "/occupant_list"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -403,13 +430,18 @@ class OccupantView(UpdateView):
         context['remaining_balance'] = (Bill_Details.objects.filter(occupant=self.object.id).aggregate(Sum('amount'))['amount__sum'] or 0) - (Payment.objects.filter(occupant=self.object.id).aggregate(Sum('amount'))['amount__sum'] or 0)
         context['occupant_demerits'] = OccupantDemerit.objects.filter(occupant=self.object.id)
         return context
+
+    def form_valid(self, form):
+      messages.success(self.request, "Occupant details was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
         
 
 # @method_decorator(login_required, name='dispatch')
 class OccupantViewBillingUpdate(UpdateView):
     model = Bill_Details
     # fields = "__all__"
-    form_class = BillingFormEdit
+    form_class = BillingForm
     context_object_name = 'occupant'
     template_name = 'billing_update.html'
 
@@ -420,6 +452,11 @@ class OccupantViewBillingUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse('OccupantView', kwargs={'pk': self.object.occupant_id})
+
+    def form_valid(self, form):
+      messages.success(self.request, "Occupant bill was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -437,6 +474,11 @@ class OccupantViewPaymentUpdate(UpdateView):
     def get_success_url(self):
         return reverse('OccupantView', kwargs={'pk': self.object.occupant_id})
 
+    def form_valid(self, form):
+      messages.success(self.request, "Occupant payment was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
+
 
 # @method_decorator(login_required, name='dispatch')
 class OccupantViewDemeritUpdate(UpdateView):
@@ -452,6 +494,11 @@ class OccupantViewDemeritUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse('OccupantView', kwargs={'pk': self.object.occupant_id})
+
+    def form_valid(self, form):
+      messages.success(self.request, "Occupant demerit was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
 
 # @method_decorator(login_required, name='dispatch')
 class OccMonthRep(ListView):
@@ -562,6 +609,11 @@ class RegistrationUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def form_valid(self, form):
+      messages.success(self.request, "Registration details was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
+
 
 # @method_decorator(login_required, name='dispatch')
 class RegistrationRegView(UpdateView):
@@ -574,6 +626,11 @@ class RegistrationRegView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def form_valid(self, form):
+      messages.success(self.request, "Registration details was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -602,8 +659,7 @@ class BillingList(ListView):
 # @method_decorator(login_required, name='dispatch')
 class BillingUpdateView(UpdateView):
     model = Bill_Details
-    # fields = "__all__"
-    form_class = BillingFormEdit
+    form_class = BillingForm
     context_object_name = 'occupant'
     template_name = 'billing_update.html'
     success_url = "/billing_list"
@@ -611,6 +667,11 @@ class BillingUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def form_valid(self, form):
+      messages.success(self.request, "Billing details was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -648,6 +709,11 @@ class PaymentUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def form_valid(self, form):
+      messages.success(self.request, "Payment details was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
+
 
 # @method_decorator(login_required, name='dispatch')
 class DemeritList(ListView):
@@ -682,6 +748,11 @@ class DemeritUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def form_valid(self, form):
+      messages.success(self.request, "Demerit details was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -718,6 +789,11 @@ class OccupantDemeritUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def form_valid(self, form):
+      messages.success(self.request, "Occupant demerit was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -777,6 +853,11 @@ class OccupantAccountsUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def form_valid(self, form):
+      messages.success(self.request, "Occupant account was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
 
 
 
@@ -917,11 +998,211 @@ def add_registration(request):
             last_name = form.cleaned_data.get('last_name')
             first_name = form.cleaned_data.get('first_name')
             psu_email = form.cleaned_data.get('psu_email')
+            contact_no = form.cleaned_data.get('contact_no')
+            print(contact_no)
             person_id = form.instance.id
 
             cursor = connections['default'].cursor()
-            query = f"INSERT INTO dormitory_user VALUES('', now(), now(), '{last_name}', '{first_name}', '{psu_email}', '123456', '', '', '', 'inactive','{person_id}')"
+            query = f"INSERT INTO dormitory_user VALUES('', now(), now(), '{last_name}', '{first_name}', '{psu_email}', '123456', '', '', '', 'inactive','{contact_no}', '{person_id}')"
             cursor.execute(query)
+
+            program = form.cleaned_data.get('program')
+
+            if program == "Bachelor of Science in Social Work":
+                cursor = connections['default'].cursor()
+                query1 = f"UPDATE dormitory_person SET office_dept = 'Department of Behavioral Science' WHERE `id` = {person_id}"
+                cursor.execute(query1)
+
+            elif program == "Bachelor of Science in Psychology":
+                cursor = connections['default'].cursor()
+                query2 = f"UPDATE dormitory_person SET office_dept = 'Department of Behavioral Science' WHERE `id` = {person_id}"
+                cursor.execute(query2)
+
+            elif program == "Bachelor of Arts in Communication":
+                cursor = connections['default'].cursor()
+                query3 = f"UPDATE dormitory_person SET office_dept = 'Department of Behavioral Science' WHERE `id` = {person_id}"
+                cursor.execute(query3)
+
+            elif program == "Bachelor of Arts in Political Science":
+                cursor = connections['default'].cursor()
+                query4 = f"UPDATE dormitory_person SET office_dept = 'Department of Social Sciences' WHERE `id` = {person_id}"
+                cursor.execute(query4)
+
+            elif program == "Bachelor of Arts in Philippine Studies":
+                cursor = connections['default'].cursor()
+                query5 = f"UPDATE dormitory_person SET office_dept = 'Department of Foreign Language' WHERE `id` = {person_id}"
+                cursor.execute(query5)
+
+            elif program == "Bachelor of Science in Biology Major in Medical Biology":
+                cursor = connections['default'].cursor()
+                query6 = f"UPDATE dormitory_person SET office_dept = 'Bio-Physical Science Department' WHERE `id` = {person_id}"
+                cursor.execute(query6)
+
+            elif program == "Bachelor of Science in Marine Biology":
+                cursor = connections['default'].cursor()
+                query7 = f"UPDATE dormitory_person SET office_dept = 'Bio-Physical Science Department' WHERE `id` = {person_id}"
+                cursor.execute(query7)
+
+            elif program == "Bachelor of Science in Environmental Science":
+                cursor = connections['default'].cursor()
+                query8 = f"UPDATE dormitory_person SET office_dept = 'Bio-Physical Science Department' WHERE `id` = {person_id}"
+                cursor.execute(query8)
+
+            elif program == "Bachelor of Science in Information Technology":
+                cursor = connections['default'].cursor()
+                query9 = f"UPDATE dormitory_person SET office_dept = 'Computer Studies Department' WHERE `id` = {person_id}"
+                cursor.execute(query9)
+
+            elif program == "Bachelor of Science in Computer Science":
+                cursor = connections['default'].cursor()
+                query10 = f"UPDATE dormitory_person SET office_dept = 'Computer Studies Department' WHERE `id` = {person_id}"
+                cursor.execute(query10)
+
+            elif program == "Bachelor of Science in Physical Education":
+                cursor = connections['default'].cursor()
+                query11 = f"UPDATE dormitory_person SET office_dept = 'Department of Physical Education' WHERE `id` = {person_id}"
+                cursor.execute(query11)
+
+            elif program == "Bachelor of Science in Elementary Education":
+                cursor = connections['default'].cursor()
+                query12 = f"UPDATE dormitory_person SET office_dept = 'Department of Elementary Education' WHERE `id` = {person_id}"
+                cursor.execute(query12)
+
+            elif program == "Bachelor of Science in Secondary Education Major in Science":
+                cursor = connections['default'].cursor()
+                query13 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+                cursor.execute(query13)
+
+            elif program == "Bachelor of Science in Secondary Education Major in Math":
+                cursor = connections['default'].cursor()
+                query14 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+                cursor.execute(query14)
+
+            elif program == "Bachelor of Science in Secondary Education Major in English":
+                cursor = connections['default'].cursor()
+                query15 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+                cursor.execute(query15)
+
+            elif program == "Bachelor of Science in Secondary Education Major in Filipino":
+                cursor = connections['default'].cursor()
+                query16 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+                cursor.execute(query16)
+
+            elif program == "Bachelor of Science in Secondary Education Major in Social Studies":
+                cursor = connections['default'].cursor()
+                query17 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+                cursor.execute(query17)
+
+            elif program == "Bachelor of Science in Secondary Education Major in Values":
+                cursor = connections['default'].cursor()
+                query18 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+                cursor.execute(query18)
+
+            elif program == "Bachelor of Science in Accountancy":
+                cursor = connections['default'].cursor()
+                query19 = f"UPDATE dormitory_person SET office_dept = 'Department of Accountancy' WHERE `id` = {person_id}"
+                cursor.execute(query19)
+
+            elif program == "Bachelor of Science in Management Accountancy":
+                cursor = connections['default'].cursor()
+                query20 = f"UPDATE dormitory_person SET office_dept = 'Department of Accountancy' WHERE `id` = {person_id}"
+                cursor.execute(query20)
+
+            elif program == "Bachelor of Science in Entrepreneurship":
+                cursor = connections['default'].cursor()
+                query21 = f"UPDATE dormitory_person SET office_dept = 'Department of Marketing Management, Entrepreneurship, and Public Administration' WHERE `id` = {person_id}"
+                cursor.execute(query21)
+
+            elif program == "Bachelor of Science in Business Administration  Major in Marketing Management":
+                cursor = connections['default'].cursor()
+                query22 = f"UPDATE dormitory_person SET office_dept = 'Department of Marketing Management, Entrepreneurship, and Public Administration' WHERE `id` = {person_id}"
+                cursor.execute(query22)
+
+            elif program == "Bachelor of Science in Business Administration  Major in Public Administration":
+                cursor = connections['default'].cursor()
+                query23 = f"UPDATE dormitory_person SET office_dept = 'Department of Marketing Management, Entrepreneurship, and Public Administration' WHERE `id` = {person_id}"
+                cursor.execute(query23)
+
+            elif program == "Bachelor of Science in Business Administration  Major in Financial Management":
+                cursor = connections['default'].cursor()
+                query24 = f"UPDATE dormitory_person SET office_dept = 'Department of Financial Management, Human Resource Management, and Business Economics' WHERE `id` = {person_id}"
+                cursor.execute(query24)
+
+            elif program == "Bachelor of Science in Business Administration  Major in Human Resource Management":
+                cursor = connections['default'].cursor()
+                query25 = f"UPDATE dormitory_person SET office_dept = 'Department of Financial Management, Human Resource Management, and Business Economics' WHERE `id` = {person_id}"
+                cursor.execute(query25)
+
+            elif program == "Bachelor of Science in Business Administration  Major in Business Economics":
+                cursor = connections['default'].cursor()
+                query26 = f"UPDATE dormitory_person SET office_dept = 'Department of Financial Management, Human Resource Management, and Business Economics' WHERE `id` = {person_id}"
+                cursor.execute(query26)
+
+            elif program == "Bachelor of Science in Hospitality Management":
+                cursor = connections['default'].cursor()
+                query27 = f"UPDATE dormitory_person SET office_dept = 'Hospitality Management Department' WHERE `id` = {person_id}"
+                cursor.execute(query27)
+
+            elif program == "Track - Culinary Arts and Kitchen Management":
+                cursor = connections['default'].cursor()
+                query28 = f"UPDATE dormitory_person SET office_dept = 'Hospitality Management Department' WHERE `id` = {person_id}"
+                cursor.execute(query28)
+
+            elif program == "Bachelor of Science in Tourism Management":
+                cursor = connections['default'].cursor()
+                query29 = f"UPDATE dormitory_person SET office_dept = 'Tourism Management Department' WHERE `id` = {person_id}"
+                cursor.execute(query29)
+
+            elif program == "Track - Hotel,Resort, and Club Management":
+                cursor = connections['default'].cursor()
+                query30 = f"UPDATE dormitory_person SET office_dept = 'Tourism Management Department' WHERE `id` = {person_id}"
+                cursor.execute(query30)
+
+            elif program == "Bachelor of Science in Civil Engineering":
+                cursor = connections['default'].cursor()
+                query31 = f"UPDATE dormitory_person SET office_dept = 'Department of Civil Engineering' WHERE `id` = {person_id}"
+                cursor.execute(query31)
+
+            elif program == "Bachelor of Science in Mechanical Engineering":
+                cursor = connections['default'].cursor()
+                query32 = f"UPDATE dormitory_person SET office_dept = 'Department of Mechanical Engineering' WHERE `id` = {person_id}"
+                cursor.execute(query32)
+
+            elif program == "Bachelor of Science in Electrical Engineering":
+                cursor = connections['default'].cursor()
+                query33 = f"UPDATE dormitory_person SET office_dept = 'Department of Electrical Engineering' WHERE `id` = {person_id}"
+                cursor.execute(query33)
+
+            elif program == "Bachelor of Science in Petroleum Engineering":
+                cursor = connections['default'].cursor()
+                query34 = f"UPDATE dormitory_person SET office_dept = 'Department of Petroleum Engineering' WHERE `id` = {person_id}"
+                cursor.execute(query34)
+
+            elif program == "Bachelor of Science in Architecture":
+                cursor = connections['default'].cursor()
+                query35 = f"UPDATE dormitory_person SET office_dept = 'Department of Architecture' WHERE `id` = {person_id}"
+                cursor.execute(query35)
+
+            elif program == "Bachelor of Science in Nursing":
+                cursor = connections['default'].cursor()
+                query36 = f"UPDATE dormitory_person SET office_dept = 'Department of Nursing' WHERE `id` = {person_id}"
+                cursor.execute(query36)
+
+            elif program == "Diploma in Midwifery":
+                cursor = connections['default'].cursor()
+                query37 = f"UPDATE dormitory_person SET office_dept = 'Department of Midwifery' WHERE `id` = {person_id}"
+                cursor.execute(query37)
+
+            elif program == "Bachelor of Science in Midwifery":
+                cursor = connections['default'].cursor()
+                query38 = f"UPDATE dormitory_person SET office_dept = 'Department of Midwifery' WHERE `id` = {person_id}"
+                cursor.execute(query38)
+
+            elif program == "Bachelor of Science in Criminology":
+                cursor = connections['default'].cursor()
+                query39 = f"UPDATE dormitory_person SET office_dept = 'No Office / Department' WHERE `id` = {person_id}"
+                cursor.execute(query39)
+
         
             messages.success(request, 'New student registered successfully!')
             return redirect('RegistrationAdd')
@@ -941,6 +1222,19 @@ def add_billing(request):
         print(request.POST)
         if form.is_valid():
             form.save()
+
+            service = form.cleaned_data['service']
+            quantity = form.cleaned_data['quantity']
+            
+            price = Service.objects.filter(service_name= service).first()
+            bill_id = form.instance.id
+
+            total_amount = price.base_amount * quantity
+
+            cursor = connections['default'].cursor()
+            query = f"UPDATE dormitory_bill_details SET amount = '{total_amount}' WHERE `id` = {bill_id}"
+            cursor.execute(query)
+            
             messages.success(request, 'New bill added successfully!')
             return redirect('BillingAdd')
 
@@ -950,6 +1244,37 @@ def add_billing(request):
     else:
         form = BillingForm()
         return render(request, 'billing_add.html',  {'form': form})
+
+
+def other_add_billing(request):
+    if request.method == "POST":
+        form = OtherBillingForm(request.POST)
+        print(request.POST)
+        if form.is_valid():
+            form.save()
+            
+            messages.success(request, 'New bill added successfully!')
+            return redirect('other-add')
+
+        else:
+            messages.error(request, 'Please complete the required field/s.')
+            return redirect('other-add')
+    else:
+        form = OtherBillingForm()
+        return render(request, 'others_billing_add.html',  {'form': form})
+
+def other_add(request):
+    return render(request, 'billing_list/other_billing_add.html', {} )
+
+
+def other_update_billing(request, billing_id):
+    billing = Bill_Details.objects.get(pk=billing_id)
+    form = OtherBillingForm(request.POST or None, instance=billing)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Billing details was updated successfully!')
+        return redirect('BillingList')
+    return render (request, 'others_billing_update.html', {'billing': billing, 'form': form})
 
 
 def add_payment(request):
@@ -1051,23 +1376,6 @@ def renew_occupant(request):
         form = OccupantRenewForm()
         return render(request, 'occupant_renew.html',  {'form': form})  
 
-def avail_service(request):
-    if request.method == "POST":
-        form = UserAvailServiceForm(request.POST)
-        print(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Service availed successfully!')
-            return redirect('UserAvailService')
-
-        else:
-            messages.error(request, 'Please complete the required field/s.')
-            return redirect('UserAvailService')
-    else:
-        form = UserAvailServiceForm()
-        return render(request, 'user_service_avail.html',  {'form': form})  
-
-
 # ===================================================
 # The Show Begins
 # ===================================================
@@ -1080,27 +1388,40 @@ def user_login_view(request):
             
             UN = form.cleaned_data['username']
             PW = form.cleaned_data['password']
+            user = form.instance.id
 
             cursor = connections['default'].cursor()
-            query = f"SELECT username, password FROM dormitory_user WHERE username = '{UN}' AND password = '{PW}'"
+            query = f"SELECT username, password FROM dormitory_user WHERE username = '{UN}' AND password = '{PW}' AND user_status='Active'"
             cursor.execute(query)
-            test = cursor.execute(query)
+            test1 = cursor.execute(query)
 
-            if(test == 0):
-                return redirect('user_login')
-            else:
+            cursor = connections['default'].cursor()
+            query = f"SELECT username, password FROM dormitory_user WHERE username = '{UN}' AND password = '{PW}' AND user_status='Inactive'"
+            cursor.execute(query)
+            test2 = cursor.execute(query)
+
+
+            if(test1 != 0):
                 global x
                 x = request.session['username'] = UN
                 print(x)
-                return redirect ('UserDashboard')
+                return redirect('UserDashboard')
+
+            elif (test2 != 0):
+                messages.error(request, 'Account is Deactivated!')
+                return redirect('user_login')
+
+            else:
+                messages.error(request, 'Username or Password is incorrect!')
+                return redirect('user_login')       
 
         else:
-            return HttpResponse("Your username and password didn't match.")
-
+            messages.error(request, 'Username or Password field is empty!')
+            return redirect('user_login')
     else:
         form = UserLoginForm()
         return render(request, 'user_login.html',  {'form': form})
-
+        
 
 def user_logout_view(request):
     logout(request)
@@ -1135,6 +1456,24 @@ class User_Account(ListView):
 
 
 # @method_decorator(login_required, name='dispatch')
+class User_AccountUpdateView(UpdateView):
+    model = User
+    fields = ['password','security_question', 'security_answer','recovery_email']
+    context_object_name = 'user'
+    template_name = 'user_account_update.html'
+    success_url = "/user_account"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+      messages.success(self.request, "Your Account Information was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
+
+
+# @method_decorator(login_required, name='dispatch')
 class User_Profile(ListView):
     model = Person
     context_object_name = 'person'
@@ -1155,8 +1494,30 @@ class User_Billing(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         global x
-        context ['cont'] = Occupant.objects.filter(Q(person__psu_email=x)).values('bed__bed_code', 'bed__bed_description', 'bedPrice', 'bed__room__room_name', 'bed__room__floorlvl', 'bed__room__dorm_name', 'start_date', 'end_date').order_by('-created_at')
+        context ['cont'] = Occupant.objects.filter(Q(person__psu_email=x)).values('id', 'bed__bed_code', 'bed__bed_description', 'bedPrice', 'bed__room__room_name', 'bed__room__floorlvl', 'bed__room__dorm_name', 'start_date', 'end_date').order_by('-created_at')
         return context
+
+
+# @method_decorator(login_required, name='dispatch')
+class User_Contract_View(UpdateView):
+    model = Occupant
+    fields = "__all__"
+    context_object_name = 'occupant'
+    template_name = 'user_contract_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        global x
+        
+        context ['contract'] = Occupant.objects.filter(Q(person__psu_email=x, id=self.object.id)).values('id','bed__bed_code', 'person__boarder_type', 'bed__bed_description', 'bedPrice', 'bed__room__room_name', 'bed__room__floorlvl', 'bed__room__dorm_name', 'start_date', 'end_date').order_by('-created_at')
+        context['fetch_first_three'] = Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).values('bill_date', 'service__service_name', 'amount')[0:3]
+        context['billing_details'] = Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).values('bill_date', 'service__service_name', 'quantity', 'amount')[3:]
+        context['total_bills_amount'] = Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).aggregate(Sum('amount'))['amount__sum'] or 0
+        context['payment'] = Payment.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).values('payment_date', 'amount', 'receipt_no')
+        context['total_payment_amount'] = Payment.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).aggregate(Sum('amount'))['amount__sum'] or 0
+        context['remaining_balance'] = (Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).aggregate(Sum('amount'))['amount__sum'] or 0) - (Payment.objects.filter(occupant=self.object.id).aggregate(Sum('amount'))['amount__sum'] or 0)
+        return context
+
 
 # @method_decorator(login_required, name='dispatch')
 class User_Services(ListView):
@@ -1166,8 +1527,63 @@ class User_Services(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['services_limit'] = Service.objects.all().exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
+        context['services_limit'] = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others')
+        
         return context
+
+def user_add_billing(request):
+    if request.method == "POST":
+        form = UserBillingForm(request.POST)
+        print(request.POST)
+        if form.is_valid():
+            form.save()
+            # global x 
+            # serv = Occupant.objects.filter(person__psu_email=x).exclude(end_date__lte=timezone.now().date())
+            # print(serv)
+
+            service = form.cleaned_data['service']
+            quantity = form.cleaned_data['quantity']
+            
+            price = Service.objects.filter(service_name=service).first()
+            bill_id = form.instance.id
+
+            total_amount = price.base_amount * quantity
+
+            cursor = connections['default'].cursor()
+            query = f"UPDATE dormitory_bill_details SET amount ='{total_amount}' WHERE `id` = {bill_id}"
+            cursor.execute(query)
+            
+            messages.success(request, 'Service availed successfully!')
+            return redirect('UserAvailService')
+
+        else:
+            messages.error(request, 'Please complete the required field/s.')
+            return redirect('UserAvailService')
+    else:
+        form = UserBillingForm()
+        return render(request, 'user_service_avail.html',  {'form': form})
+
+
+def user_other_add_billing(request):
+    if request.method == "POST":
+        form = UserOtherBillingForm(request.POST)
+        print(request.POST)
+        if form.is_valid():
+            form.save()
+            
+            messages.success(request, 'Service availed successfully!')
+            return redirect('user_other_add')
+
+        else:
+            messages.error(request, 'Please complete the required field/s.')
+            return redirect('user_other_add')
+    else:
+        form = UserOtherBillingForm()
+        return render(request, 'user_service_others.html',  {'form': form})
+
+def user_other_add(request):
+    return render(request, 'user_services/user_service_others.html', {} )
+
 
 # ===================================================
 # end of The Show Begins
@@ -1519,3 +1935,62 @@ def export_users_xls(request):
 
     return response
 
+# ===================================================
+# end of Functions for Exporting to PDF and EXCEL
+# ===================================================
+
+
+# ===================================================
+# Functions for Notifications
+# ===================================================
+from datetime import datetime, timedelta
+import datetime
+import pytz
+
+def admin_notif_30th(request):
+
+    # 30th day of every month
+    today = datetime.date.today()
+    if today.day >= 23:
+        # 1 week before 30th day of every month
+        message = "The 30th of the month is coming up in one week! Occupant must pay for their monthly bills."
+
+    elif today.day >= 27:
+        # 3 days before 30th day of every month
+        message = "The 30th of the month is coming up in one week! Occupant must pay for their monthly bills."
+
+    elif today.day >= 29:
+        # 1 day before 30th day of every month
+        message = "The 30th of the month is coming up in one week! Occupant must pay for their monthly bills."
+
+    elif today.month == 2:
+        if today.day >= 23:
+            message = "The 28th or 29h of the month is coming up in one week! Occupant must pay for their monthly bills."
+    # Function to get occupants with end dates that are one week later
+    def get_occupants_with_end_date_one_week_later():
+        # Set the timezone to 'Asia/Manila'
+        timezone.activate('Asia/Manila')
+
+        # Get the current datetime in the 'Asia/Manila' timezone
+        end_date = timezone.localtime(timezone.now())
+
+        # Get the datetime one week later
+        one_week_later = end_date + timedelta(weeks=1)
+
+        # Get all occupants with an 'end_date' that is one week later than the current datetime
+        occupants = Occupant.objects.filter(end_date=one_week_later)
+
+        return occupants
+
+    # Get list of occupants with end dates one week later
+    occupants = get_occupants_with_end_date_one_week_later()
+
+    # Check if there are any occupants with end dates one week later
+    if occupants:
+        message = "The following occupants have end dates one week from now: "
+        for occupant in occupants:
+            message += f"{occupant.person.last_name}, {occupant.person.first_name} ({occupant.end_date}), "
+    else:
+        message = "There are no occupants with end dates one week from now."
+
+    return render(request, 'notification_list.html', {'message': message})

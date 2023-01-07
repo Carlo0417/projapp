@@ -9,12 +9,31 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF9001;">
-                            <h6 class="text-white text-capitalize ps-3">Update Billing Details</h6>
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
+                            <h6 class="text-white text-capitalize ps-3">New Other Billing Details</h6>
                         </div>
                     </div>
+
                     <div class="card-body">
-                    <form class="" action="" method="post" novalidate>
+
+                    <!-- messages & alerts -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if 'success' in message.tags %}
+                                <p style="margin-top: 12px;" id="fadeout" class="text-success font-weight-bold text-sm">
+                                    {{ message }}
+                                </p>
+                            {% else %}
+                                <p style="margin-top: 12px;" id="fadeout" class="text-danger font-weight-bold text-sm">
+                                    {{ message }}
+                                </p>
+                            {% endif %}
+                        {% endfor%}
+                    {% endif %}
+                    <!-- /messages & alerts -->
+
+
+                    <form role="form" class="" action="" method="post" novalidate>
                         {% csrf_token %}
                         
                         {% load widget_tweaks %}
@@ -34,6 +53,18 @@
                                 <div class="input-group input-group-outline">
                                     {% render_field form.occupant class="form-control" %}
                                 </div>
+
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.service class="form-control" %}
+                                </div>
+
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Amount</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.amount class="form-control" %}
+                                </div>
                             </div>
 
                             <div class="col-6">
@@ -42,27 +73,13 @@
                                 <div class="input-group input-group-outline">
                                     {% render_field form.bill_date class="form-control" type="datetime-local"%}
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="row"> 
-                            <div class="col-4">
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.service class="form-control" %}
-                                </div>
-                            </div>
-
-                            <div class="col-4">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Quantity</label>
                                 <div class="input-group input-group-outline">
                                     {% render_field form.quantity class="form-control "%}
                                 </div>
-                            </div>
 
-                            <div class="col-4">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Description</label>
                                 <div class="input-group input-group-outline">
@@ -70,17 +87,15 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="ln_solid">
+               
                             <br />
                             <div class="form-group">
                                 <div class="col-md-12 col-sm-3">
-                                    <button type='submit' class="btn text-white shadow-warning" style="background-color: #FF9001;">Update</button>
+                                    <button type='submit' class="btn text-white shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);">Save</button>
                                     &nbsp &nbsp &nbsp
-                                    <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href={{request.META.HTTP_REFERER}}>Cancel</a>
+                                    <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href="{% url 'BillingList' %}">Cancel</a>
                                 </div>
                             </div>
-                        </div>
                     </form>
                 </div>
                 </div>
@@ -88,5 +103,15 @@
         </div>
     </div>
 </main>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+</script>
 
 {% endblock %}

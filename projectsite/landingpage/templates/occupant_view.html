@@ -14,6 +14,13 @@
                         </div>
                     </div>
                     <div class="card-body">
+                    <!-- messages & alerts -->
+                        {% for message in messages %}
+                            <p style="margin-top: 10px;" id="fadeout" class="text-success font-weight-bold text-xs">
+                                {{ message }}
+                            </p>
+                        {% endfor%}
+                    <!-- /messages & alerts -->
                     <form class="" action="" method="post" novalidate>
                         {% csrf_token %}
 
@@ -232,8 +239,8 @@
                                     <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                     style="margin-bottom: 0px; margin-top: 3px;"> Updated Date <br>
                                     <b class="mb-0 text-xs" style="color: #FF4200;"> {{ object.updated_at }}</b> </label>
-                                </div> -->
-                            </div>
+                                </div>
+                            </div> -->
                             <thead>
                                 <tr class="headings">
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -392,4 +399,15 @@
         </div>
     </div>
 </main>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+</script>
+
 {% endblock %}

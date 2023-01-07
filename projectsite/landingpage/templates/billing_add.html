@@ -46,36 +46,12 @@
                         </div>
                         {% endif %}
 
-                        <!-- <script>
-                            $(document).ready(function(){
-                                var $select1=$('#select1'),
-                                    $select2=$('#select2')
-                                    $options=$select2.find('option');
-                                    $select1.on('change', function()
-                                    {
-                                        $select2.html($options.filter('[value="'+this.value+'"]'));
-                                    }).trigger('change');
-                            });
-                        </script> -->
-
                         <div class="row"> 
                             <div class="col-6">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
                                 <div class="input-group input-group-outline">
                                     {% render_field form.occupant class="form-control" %}
-                                </div>
-
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.service class="form-control" %}
-                                </div>
-
-                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                style="margin-bottom: 0px; margin-top: 17px;">Amount</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.amount class="form-control" %}
                                 </div>
                             </div>
 
@@ -85,13 +61,27 @@
                                 <div class="input-group input-group-outline">
                                     {% render_field form.bill_date class="form-control" type="datetime-local"%}
                                 </div>
+                            </div>
+                        </div>
 
+                        <div class="row"> 
+                            <div class="col-4">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.service class="form-control" %}
+                                </div>
+                            </div>
+
+                            <div class="col-4">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Quantity</label>
                                 <div class="input-group input-group-outline">
                                     {% render_field form.quantity class="form-control "%}
                                 </div>
+                            </div>
 
+                            <div class="col-4">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Description</label>
                                 <div class="input-group input-group-outline">

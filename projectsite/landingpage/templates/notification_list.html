@@ -3,41 +3,25 @@
 {% load static %}
 
 {% block content %}
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <div class="container-fluid py-4">
       <h6 class="mb-0 font-weight-bold my-2" style="font-size: 25px;">Notifications</h6>
-      <p class="text-xs text-secondary mb-0">Every notification available provided by the system from ther dormitory for is located here.</p>
+      <p class="text-xs text-secondary mb-0">Every notification available provided by the system from the dormitory is located here.</p>
       <br>
     <!-- Notifications -->
-    <div class="alert alert-dismissible shadow-secondary text-black" role="alert" style="background-color: rgba(255, 255, 255, 0.7);">
-        <span class="text-sm">
-            Please <b>modify your account</b> such as your <b>Password, Security Question, Security Answer,</b>
-            and <b>Recovery Email</b> for better security and experience in the application.
+    {% if message %}
+    <div class="alert alert-dismissible shadow-secondary text-white p-4 border-radius-lg" role="alert" style="background-color: rgba(255, 66, 0, 0.8);">
+        <span class="text-md">
+          {{ message }}
         </span>
-        <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true" style="color: black;">&times;</span>
+        <button type="button" class="btn-close text-lg py-4 opacity-10 text-white" data-bs-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    {% endif %}
 
-    <div class="alert alert-dismissible shadow-secondary text-black" role="alert" style="background-color: rgba(255, 255, 255, 0.7);">
-      <span class="text-sm">
-          Please <b>modify your account</b> such as your <b>Password, Security Question, Security Answer,</b>
-          and <b>Recovery Email</b> for better security and experience in the application.
-      </span>
-      <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true" style="color: black;">&times;</span>
-      </button>
-   </div>
-
-   <div class="alert alert-dismissible shadow-secondary text-black" role="alert" style="background-color: rgba(255, 255, 255, 0.7);">
-    <span class="text-sm">
-        Please <b>modify your account</b> such as your <b>Password, Security Question, Security Answer,</b>
-        and <b>Recovery Email</b> for better security and experience in the application.
-    </span>
-    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true" style="color: black;">&times;</span>
-    </button>
-  </div>
+    <p class="text-sm text-secondary font-weight-bold mb-0 text-center my-5 opacity-7">
+      No notification showing yet. Feel free to explore other pages in the system.</p>
     <!-- end of Notifications -->
 
     </div>

@@ -9,7 +9,7 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
-                            <h6 class="text-white ps-3">Yearly Registration Report</h6>
+                            <h6 class="text-white ps-3">Current Year Registration Report</h6>
                         </div>
                     </div>
 
@@ -21,7 +21,7 @@
                         <li class="nav-item pe-2 dropdown d-flex justify-content-end my-3">
                             <a href="{% url 'reg_year_csv' %}" class="btn btn-sm w-auto text-sm shadow-secondary text-white" 
                             style="background-color: rgba(255, 66, 0, 0.9);">
-                                <i class="material-icons me-2 text-xs">table_view</i>Export to Excel
+                                <i class="material-icons me-2 text-xs">table_view</i>Export to CSV
                             </a>
                             &nbsp; &nbsp; &nbsp;
                             <a href="{{request.META.HTTP_REFERER}}" class="btn btn-sm w-auto text-sm bg-gradient-secondary shadow-secondary text-white">

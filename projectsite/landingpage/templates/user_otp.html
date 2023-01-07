@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/apple-icon.png'%}">
-    <link rel="icon" type="image/png" href="{% static 'img/dormlogogrey.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/icondorm.png' %}">
     <title>
       {% block title %} User Sign In{% endblock %}
     </title>
@@ -39,35 +39,43 @@
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
             <img src="{% static 'img/signin.png' %}" width="95%" style="display: block; margin-left: auto; margin-right: auto;" class="my-4">
+              
+            <!-- {% if login_form.non_field_errors %}
+                {% for error in login_form.non_field_errors %}
+                    <p {% if forloop.last %} class="mb-0 text-xs font-weight-bold" 
+                    id="fadeout" style="color: red;  margin: 0px 10px 0px 10px;" {% endif %}>{{ error }}</p>
+                {% endfor %}
+            {% endif %} -->
 
             <div class="card-body">
                 <form role="form" method="post" class="text-start">
                     {% csrf_token %}
 
-                    <input type="text" class="form-control text-md" name="username" placeholder="Username" 
+                    <input type="text" class="form-control text-md" name="number" placeholder="Enter OTP Code" 
                     style="margin: 0px 10px 0px 10px;">
                     <hr style="border-top: 2px solid #FF4200; margin: 0px 10px 20px 10px; opacity: 100%;">
                 
-                    <input type="password" class="form-control text-md" name="password" placeholder="Password"
-                    style="margin: 0px 10px 0px 10px;">
-                    <hr style="border-top: 2px solid #FF4200; margin: 0px 10px 0px 10px; opacity: 100%;"> <br>
-
-                    {% if messages %}
-                      {% for message in messages %}
-                        <p class="mb-0 text-xs font-weight-bold px-2" id="fadeout" style="color: red;">{{ message }}</p>
+                    {% for field in login_form %}
+                    <p>
+                      {% for error in field_errors %}
+                      <p class="text-danger">{{ error }}</p>
                       {% endfor %}
+                    </p>
+                    {% endfor %}
+                    {% if login_form.non_field_errors %}
+                    <div class="text-danger">
+                      <p>{{login_form.non_field_errors}}</p>
+                    </div>
                     {% endif %}
 
                   <div class="text-center">
                     <button type="submit" class="btn w-95 my-3 mb-2 text-white" 
-                    style="background-color: #FF4200;">sign in</button>
+                    style="background-color: #FF4200;">Verify</button>
                   </div>
 
                   <p class="mt-4 text-sm text-center">
                   </p>
                 </form>
-                <style> label:hover {color: #FF4200; font-weight: bold; font-family: inherit;} </style>
-                <label class="form-check-label mb-0 text-xs" style="margin: 0; float: right; font-family: inherit;"> <u>Forgot Password?</u> </label>
                 <br>
 
                 <p class="mt-4 text-sm text-center">
@@ -127,7 +135,8 @@
                   <span class="close">&times;</span>
                   <p class="font-weight-bold opacity-7" style="color: #FF4200;">TERMS AND CONDITION</p>
                   <p>
-                    &nbsp;&nbsp;&nbsp;Privacy policy protects your users' rights,
+                    &nbsp;&nbsp;&nbsp;The difference between a privacy policy and terms 
+                    and conditions is that a privacy policy protects your users' rights,
                     while terms and conditions protect your website or app's rights. 
                     Privacy policies outline how you interact with user data, and terms 
                     and conditions outline the rules for using your site.
@@ -171,11 +180,71 @@
                   <p>
                     &nbsp;&nbsp;&nbsp;For a better experience, while using our Service, 
                     we may require you to provide us with certain personal identification
-                    information (add whatever else you collect here, e.g., personal information, 
-                    contact information, guardian information) The information that we request will 
+                    information (add whatever else you collect here, e.g., users name, 
+                    address, location, and pictures) The information that we request will 
                     be (retained on your device and is not collected by us in any way)/
                     (retained by us and used as described in this privacy policy).
                   </p>
+
+                  <p> &nbsp;&nbsp;&nbsp;The app uses third-party services that may 
+                  collect information to identify you.</p>
+
+                  <p style="margin-bottom: 0px;">&nbsp;&nbsp;&nbsp;Third-party service
+                    providers used by the app are:</p>
+
+                  <ul style="margin-top: 0px;">
+                    <li>
+                      Google Play Services.
+                    </li>
+                    <li>
+                      Their Privacy Policy can be <br> found on their websites.
+                    </li>
+                    <li>
+                      Log Data.
+                    </li>
+                  </ul>
+
+                  <p>
+                    &nbsp;&nbsp;&nbsp;We want to inform you that whenever you use our 
+                    Service, in a case of an error in the app, we collect data and information 
+                    (through third party products) on your phone called Log Data. This Log Data 
+                    may include information such as your device's Internet Protocol (“IP”) 
+                    address, device name, operating system version, the app configuration when 
+                    utilizing our Service, the time and date of your use of the Service, 
+                    and other statistics. 
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">Service Providers</p>
+
+                  <p> &nbsp;&nbsp;&nbsp;The app uses third-party services that may 
+                    collect information to identify you.</p>
+                    
+                    <p style="margin-bottom: 0px;">&nbsp;&nbsp;&nbsp;We may employ third-party 
+                      companies and individuals due to the following reasons:</p>
+  
+                    <ul style="margin-top: 0px;">
+                      <li>
+                        To facilitate our Service;
+                      </li>
+                      <li>
+                        To provide the Service on our behalf;
+                      </li>
+                      <li>
+                        To perform Service-related services; or
+                      </li>
+                      <li>
+                        To assist us in analyzing how <br> our Service is used.
+                      </li>
+                    </ul>
+
+                    <p>
+                      &nbsp;&nbsp;&nbsp;We want to inform users of this Service 
+                      that these third parties have access to your Personal Information. 
+                      The reason is to perform the tasks assigned to them on our behalf. 
+                      However, they are obligated not to disclose or use the information 
+                      for any other purpose.
+                    </p>
 
                     <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
                     <p class="font-weight-bold opacity-7" style="color: #FF4200;">Security</p>
@@ -205,7 +274,7 @@
                     <p>
                       &nbsp;&nbsp;&nbsp;If you have any questions or suggestions about our Privacy
                       Policy, do not hesitate to contact us on our Gmail account 
-                      <u>psudorm2023@gmail.com</u>
+                      <u>psudorm2022@gmail.com</u>
                     </p>
 
                     <br>

@@ -28,11 +28,11 @@ urlpatterns = [
     path('service_list/<pk>', ServiceUpdateView.as_view(), name="ServiceUpdate"),
 
     path('bed_list', BedList.as_view(), name='BedList'),
+    path('bed_list/add', views.add_bed, name='BedAdd'),
+    path('bed_list/<pk>', BedUpdateView.as_view(), name="BedUpdate"),
     path('male_vacantbed', MaleDormVacantBedList.as_view(), name='MaleDormVacantBedList'),
     path('female_vacantbed', FemaleDormVacantBedList.as_view(), name='FemaleDormVacantBedList'),
     path('foreign_vacantbed', ForeignDormVacantBedList.as_view(), name='ForeignDormVacantBedList'),
-    path('bed_list/add', views.add_bed, name='BedAdd'),
-    path('bed_list/<pk>', BedUpdateView.as_view(), name="BedUpdate"),
 
     path('occupant_list', OccupantList.as_view(), name='OccupantList'),
     path('occupant_list/add', views.add_occupant, name='OccupantAdd'),
@@ -55,6 +55,8 @@ urlpatterns = [
     path('billing_list', BillingList.as_view(), name='BillingList'),
     path('billing_list/add', views.add_billing, name='BillingAdd'),
     path('billing_list/<pk>', BillingUpdateView.as_view(), name="BillingUpdate"),
+    path('other_add/', views.other_add_billing, name='other-add'),
+    path('other_update/<billing_id>', views.other_update_billing, name='other-update'),
 
     path('payment_list', PaymentList.as_view(), name='PaymentList'),
     path('payment_list/add', views.add_payment, name='PaymentAdd'),
@@ -79,21 +81,21 @@ urlpatterns = [
     path('user_services', views.User_Services.as_view(), name='UserServices'),
     path('user_profile', views.User_Profile.as_view(), name='UserProfile'),
     path('user_account', views.User_Account.as_view(), name='UserAccount'),
+    path('user_account/<pk>', views.User_AccountUpdateView.as_view(), name='UserAccountUpdateView'),
     path('user_billing', views.User_Billing.as_view(), name='UserBilling'),
-    path('user_service_avail/add', views.avail_service, name='UserAvailService'),
+    path('user_billing/<pk>', views.User_Contract_View.as_view(), name='User_Contract_View'),
+
+    path('user_service_avail/add', views.user_add_billing, name='UserAvailService'),
+    path('user_service_other/', views.user_other_add_billing, name='user_other_add'),
+
     path('user_notifications', views.User_Notifications.as_view(), name='UserNotifications'),
 
-    path('user_login/', user_login_view, name="user_login"),
-    path('user_logout/', user_logout_view, name="user_logout"),
 
     path('admin_login/', admin_login_view, name="admin_login"),
     path('admin_logout/', admin_logout_view, name="logout"),
     path('admin_list', AdminList.as_view(), name='AdminList'),
     path('admin_list/add', views.add_admin, name='AdminAdd'),
     path('admin_list/<pk>', AdminUpdateView.as_view(), name="AdminUpdate"),
-
-    path('notification_lsit', views.NotificationList.as_view(), name='NotificationList'),
-
 
     path('delete_occupant/<int:id>', views.delete_occupant, name='delete_occupant'),
     # path('delete_bed/<int:id>', views.delete_bed, name='delete_bed'),
@@ -115,4 +117,11 @@ urlpatterns = [
     path('occ_year_csv', views.occ_year_csv, name="occ_year_csv"),
     path('occ_month_rep/occupant_list', OccMonthRep.as_view(), name='OccMonthRep'),
     path('occ_year_rep/occupant_list', OccYearRep.as_view(), name='OccYearRep'),
+
+    path('user_login/', user_login_view, name="user_login"),
+    path('user_logout/', user_logout_view, name="user_logout"),
+    path('user_otp/', user_login_view, name='user_otp'),
+    
+    path('admin_notif_30th/', views.admin_notif_30th, name='admin_notif_30th'),
+
 ]

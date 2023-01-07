@@ -76,7 +76,7 @@
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
                                           <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold" id="group">Monthly Reports</span>
+                                            <span class="font-weight-bold" id="group">Current Month</span>
                                           </h6>
                                         </div>
                                       </div>
@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
                                           <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold" id="group">Yearly Reports</span>
+                                            <span class="font-weight-bold" id="group">Current Year</span>
                                           </h6>
                                         </div>
                                       </div>
@@ -99,6 +99,14 @@
                                 </li>
                             </ul>
                         </li>
+                        <!-- messages & alerts -->
+                        {% for message in messages %}
+                            <p style="margin-top: 15px;" id="fadeout" class="text-success font-weight-bold text-xs">
+                                {{ message }}
+                            </p>
+                        {% endfor%}
+                        <!-- /messages & alerts -->
+                    </div>
 
                         <div class="table-responsive" style="padding: 0px 20px;">
                             <table class="table align-items-center mb-0">
@@ -168,7 +176,6 @@
                                                 class="btn btn-link text-danger px-3 mb-0"
                                                 data-toggle="tooltip" style="font-size: 10px;">
                                                 <i class="material-icons text-sm me-2">delete</i>Delete</a> -->
-
                                             
                                             <a href="{% url 'RegPDF' object.id %}"
                                                 class="btn btn-link px-3 mb-0" style="color: #FF4200; font-size: 10px;" 
@@ -202,4 +209,15 @@
             </div>
         </div>
 </main>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+</script>
+
 {% endblock content%}

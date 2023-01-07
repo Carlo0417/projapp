@@ -20,7 +20,13 @@
                                  </div>
                              </div>
  
-                             <div class="col-sm-7"></div>
+                             <div class="col-sm-2">
+                                <div class="pull-right">
+                                    <a href="{% url 'other-add' %}" class="btn text-white mt-4 w-100 shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);">Others</a>
+                                </div>
+                             </div>
+
+                             <div class="col-sm-5"></div>
 
                              {% include 'includes/search_style.html' %}
 
@@ -34,6 +40,13 @@
                                     </div>
                                 </form>
                              </div>
+                            <!-- messages & alerts -->
+                            {% for message in messages %}
+                                <p style="margin-top: 15px;" id="fadeout" class="text-success font-weight-bold text-xs">
+                                    {{ message }}
+                                 </p>
+                            {% endfor%}
+                            <!-- /messages & alerts -->
                          </div>
                      </div>
                         <div class="table-responsive" style="padding: 0px 20px;">
@@ -73,10 +86,21 @@
                                             <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <a href="billing_list/{{ object.id }}"
-                                                class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
-                                                data-toggle="tooltip">
-                                                <i class="material-icons text-sm me-2">edit</i>Edit</a>
+                                            {% if object.service.service_name == "Deposit" or object.service.service_name == "Advance" or object.service.service_name == "Dorm ID"%}
+                                                <a href="#" class="px-3 mb-0 text-secondary text-xs"> No action needed</a>
+                                            {% else %}
+                                                {% if object.service.service_name == "Others" %}
+                                                    <a href="{% url 'other-update' object.id %}"
+                                                        class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
+                                                        data-toggle="tooltip">
+                                                        <i class="material-icons text-sm me-2">edit</i>Edit</a>
+                                                {% else %}
+                                                    <a href="billing_list/{{ object.id }}"
+                                                    class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
+                                                    data-toggle="tooltip">
+                                                    <i class="material-icons text-sm me-2">edit</i>Edit</a>
+                                                {% endif %}
+                                            {% endif %}
                                         </td>
                                     </tr>
 
@@ -98,4 +122,15 @@
             </div>
         </div>
 </main>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+</script>
+
 {% endblock content%}

@@ -12,20 +12,36 @@
 
     <!-- Account Information -->
     {% csrf_token %}
+    {% for x in acc %}
     <div class="row my-1">
         <div class="col-sm-8 col-8 col-md-8 my-4">
             <h6 class="mb-0 font-weight-bold" style="font-size: 25px;">Account</h6>
             <p class="text-xs text-secondary mb-0">Your login credentials and account informations is here.</p>
         </div>
         <div class="col-sm-4 col-4 col-md-4 my-4 text-end">
-          <a href="javascript:;">
+          <a href="user_account/{{ x.id }}">
             <i class="fas fa-user-edit text-sm opacity-9" data-bs-toggle="tooltip" 
             data-bs-placement="top" title="Edit" style="color: rgba(255, 66, 0, 0.8);"></i>
           </a>
         </div>
     </div>
 
-    {% for x in acc %}
+    <!-- messages & alerts -->
+    {% if messages %}
+      {% for message in messages %}
+          {% if 'success' in message.tags %}
+            <p style="margin-top: 5px;" id="fadeout" class="text-success font-weight-bold text-xs">
+                {{ message }}
+            </p>
+          {% else %}
+            <p style="margin-top: 5px;" id="fadeout" class="text-danger font-weight-bold text-xs">
+                {{ message }}
+            </p>
+          {% endif %}
+      {% endfor%}
+    {% endif %}
+    <!-- /messages & alerts -->
+
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Username</label>
     <div class="input-group input-group-outline">
@@ -45,7 +61,11 @@
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Security Question</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.security_question }}</label> 
+        {% if x.security_question == "" %}
+        <label class="text-sm font-weight-bold mb-0 text-dark">None</label>
+        {% else %}
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.security_question }}</label>
+        {% endif %}
     </div>  
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -53,7 +73,11 @@
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Security Answer</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.security_answer }}</label>
+      {% if x.security_answer == "" %}
+      <label class="text-sm font-weight-bold mb-0 text-dark">None</label>
+      {% else %}
+      <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.security_answer }}</label>
+      {% endif %}
     </div> 
 
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
@@ -61,13 +85,26 @@
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Recovery Email</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.recovery_email }}</label> 
-    </div>  
+      {% if x.recovery_email == "" %}
+      <label class="text-sm font-weight-bold mb-0 text-dark">None</label>
+      {% else %}
+      <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.recovery_email }}</label>
+      {% endif %}    </div>  
     {% endfor %}
     <!-- end of Account Information -->
 
     </div>
   </main>
+
+  <script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+  </script>
 
   <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
   {% endblock content%}

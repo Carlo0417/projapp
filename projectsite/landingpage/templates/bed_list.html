@@ -34,6 +34,13 @@
                                     </div>
                                 </form>
                              </div>
+                            <!-- messages & alerts -->
+                            {% for message in messages %}
+                                <p style="margin-top: 15px;" id="fadeout" class="text-success font-weight-bold text-xs">
+                                    {{ message }}
+                                 </p>
+                            {% endfor%}
+                            <!-- /messages & alerts -->
                          </div>
                      </div>
                         <div class="table-responsive" style="padding: 0px 20px;">
@@ -114,4 +121,15 @@
             </div>
         </div>
 </main>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+  </script>
+  
 {% endblock content%}

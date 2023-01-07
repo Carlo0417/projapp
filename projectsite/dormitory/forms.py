@@ -60,7 +60,7 @@ class OccupantRenewForm(ModelForm):
         occupant = kwargs.pop('occupant', None)
         super(OccupantRenewForm, self).__init__(*args, **kwargs)
         occupants_id = Occupant.objects.all().values_list('person_id')
-        self.fields['person'].queryset = Person.objects.filter(reg_status__iexact="complete").exclude(~(Q(id__in=occupants_id))).exclude(occupant__end_date__lte=datetime.now().date())
+        self.fields['person'].queryset = Person.objects.filter(reg_status__iexact="complete").exclude(~(Q(id__in=occupants_id))).exclude(occupant__end_date__gte=datetime.now().date())
 
 
 class RegistrationForm(forms.ModelForm):
@@ -94,42 +94,85 @@ class BillingForm(ModelForm):
     def __init__(self, *args, **kwargs):
         bill = kwargs.pop('bill', None)
         super(BillingForm, self).__init__(*args, **kwargs)
-        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
+        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Others').order_by('-created_at')
+        self.fields['occupant'].queryset = Occupant.objects.exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
 
-class BillingFormEdit(ModelForm):
+
+class OtherBillingForm(ModelForm):
     class Meta:
         model = Bill_Details
         fields = "__all__"
 
     def __init__(self, *args, **kwargs):
         bill = kwargs.pop('bill', None)
-        super(BillingFormEdit, self).__init__(*args, **kwargs)
-        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
+        super(OtherBillingForm, self).__init__(*args, **kwargs)
+        self.fields['service'].queryset = Service.objects.filter(service_name__iexact='Others')
+        self.fields['occupant'].queryset = Occupant.objects.exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
+
 
 class PaymentForm(ModelForm):
     class Meta:
         model = Payment
         fields = "__all__"
 
+    def __init__(self, *args, **kwargs):
+        payment = kwargs.pop('payment', None)
+        super(PaymentForm, self).__init__(*args, **kwargs)
+        self.fields['occupant'].queryset = Occupant.objects.all().order_by('-created_at')
+
+
 class DemeritForm(ModelForm):
     class Meta:
         model = Demerit
         fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        demerit = kwargs.pop('demerit', None)
+        super(DemeritForm, self).__init__(*args, **kwargs)
+        self.fields['demerit_name'].queryset = Demerit.objects.all().order_by('-created_at')
+
 
 class OccupantDemeritForm(ModelForm):
     class Meta:
         model = OccupantDemerit
         fields = "__all__"
 
-class UserAvailServiceForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        demerit = kwargs.pop('demerit', None)
+        super(OccupantDemeritForm, self).__init__(*args, **kwargs)
+        self.fields['occupant'].queryset = Occupant.objects.exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
+        self.fields['demerit_name'].queryset = Demerit.objects.all().order_by('-created_at')
+
+
+class UserBillingForm(ModelForm):
     class Meta:
         model = Bill_Details
         fields = "__all__"
 
     def __init__(self, *args, **kwargs):
         bill = kwargs.pop('bill', None)
-        super(UserAvailServiceForm, self).__init__(*args, **kwargs)
-        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
+        super(UserBillingForm, self).__init__(*args, **kwargs)
+
+        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Others')
+        self.fields['occupant'].queryset = Occupant.objects.filter().exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
+
+
+class UserOtherBillingForm(ModelForm):
+    class Meta:
+        model = Bill_Details
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        bill = kwargs.pop('bill', None)
+        super(UserOtherBillingForm, self).__init__(*args, **kwargs)
+        self.fields['service'].queryset = Service.objects.filter(service_name__iexact='Others')
+        self.fields['occupant'].queryset = Occupant.objects.filter().exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
+
+
+class UserAccountForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['password','security_question', 'security_answer','recovery_email']
 
 class OccupantAccountForm(ModelForm):
     class Meta:
@@ -151,4 +194,3 @@ class AdminForm(forms.ModelForm):
     class Meta:
         model = Admin
         fields = "__all__"
-

@@ -13,13 +13,15 @@
     <div class="col-6">
         <p class="text-sm font-weight-bold mb-0">Personal Information</p>
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-        style="margin-bottom: 0px; margin-top: 17px;">PSU Email</label>
+        style="margin-bottom: 0px; margin-top: 17px;">PSU Email <span style="color: red;">*</span> </label> 
         <div class="input-group input-group-outline">
             {% render_field form.psu_email class="form-control"%}
         </div>
+        <label class="text-secondary opacity-8" style="margin-bottom: 0px; font-style: italic; 
+        font-size: 11px;"> * Must be a valid corporate PSU email address.</label> <br>
         
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-        style="margin-bottom: 0px; margin-top: 17px;">First Name</label>
+        style="margin-bottom: 0px; margin-top: 10px;">First Name <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.first_name class="form-control"%}
         </div>                   
@@ -28,13 +30,13 @@
     <div class="col-6">
         <p class="text-sm font-weight-bold mb-0 hidden text-white">Personal Information</p>
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px; margin-top: 17px;">Last Name</label>
+        style="margin-bottom: 0px; margin-top: 17px;">Last Name <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.last_name class="form-control"%}
-        </div>
+        </div> <br>
         
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px; margin-top: 17px;">Middle Name</label>
+        style="margin-bottom: 0px; margin-top: 10px;">Middle Name</label>
         <div class="input-group input-group-outline">
             {% render_field form.middle_name class="form-control"%}
         </div>
@@ -44,7 +46,7 @@
 <div class="row" style="margin-bottom: 5px;">
     <div class="col-2">
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px;">Gender</label>
+        style="margin-bottom: 0px; margin-top: 20px;">Gender <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.gender class="form-control"%}
         </div>
@@ -52,26 +54,23 @@
 
     <div class="col-2">
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px;">Boarder Type</label>
+        style="margin-bottom: 0px; margin-top: 20px;">Boarder Type <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.boarder_type class="form-control"%}
         </div>
     </div>
                             
-    <div class="col-5">
+    <div class="col-8">
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px;">Program</label>
+        style="margin-bottom: 0px; margin-top: 20px;">Program <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline" onclick="getOfficeDept()">
             {% render_field form.program class="form-control" id="select1"%}
         </div>
-    </div>
 
-    <div class="col-3">
-        <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px;">Office / Department</label>
-        <div class="input-group input-group-outline">
-            {% render_field form.office_dept class="form-control"%}
-        </div>
+        <label class="text-secondary text-xs font-weight-bolder opacity-8" 
+        style="margin-bottom: 0px; font-style: italic;">Office / Department:
+        <b class="text-dark officeDept" style="font-style: normal;"> 
+        {{ object.office_dept }} </b> </label> <br>
     </div>
 </div>
 <!-- end of Personal Information -->
@@ -83,7 +82,7 @@
     <div class="col-4 my-3">
         <p class="text-sm font-weight-bold mb-0">Contact Information</p>
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-top: 17px; margin-bottom: 0px;">Contact Number</label>
+        style="margin-top: 17px; margin-bottom: 0px;">Contact Number <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.contact_no class="form-control"%}
         </div>               
@@ -92,7 +91,7 @@
     <div class="col-8 my-3">
         <p class="text-sm font-weight-bold mb-0 text-white">Contact Information</p>
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-top: 17px; margin-bottom: 0px;">Address</label>
+        style="margin-top: 17px; margin-bottom: 0px;">Address <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.address class="form-control"%}
         </div>
@@ -102,7 +101,7 @@
 <div class="row">
     <div class="col-3">
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px;">City</label>
+        style="margin-bottom: 0px;">City <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.city class="form-control"%}
         </div>
@@ -118,7 +117,7 @@
                             
     <div class="col-3">
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px;">Province</label>
+        style="margin-bottom: 0px;">Province <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.province class="form-control"%}
         </div>
@@ -126,7 +125,7 @@
 
     <div class="col-3">
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px;">Country</label>
+        style="margin-bottom: 0px;">Country <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.country class="form-control"%}
         </div>
@@ -141,7 +140,7 @@
     <div class="col-4 my-3">
         <p class="text-sm font-weight-bold mb-0">Guardian Information</p>
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-top: 17px; margin-bottom: 0px;">Guardian's First Name</label>
+        style="margin-top: 17px; margin-bottom: 0px;">Guardian's First Name <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.guardian_first_name class="form-control"%}
         </div>               
@@ -150,7 +149,7 @@
     <div class="col-4 my-3">
         <p class="text-sm font-weight-bold mb-0 text-white">Guardian Information</p>
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-top: 17px; margin-bottom: 0px;">Guardian's Last Name</label>
+        style="margin-top: 17px; margin-bottom: 0px;">Guardian's Last Name <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.guardian_last_name class="form-control"%}
         </div>               
@@ -159,7 +158,7 @@
     <div class="col-4 my-3">
         <p class="text-sm font-weight-bold mb-0 text-white">Guardian Information</p>
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-top: 17px;">Guardian's Contact Number</label>
+        style="margin-top: 17px;">Guardian's Contact Number <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.guardian_contact_no class="form-control"%}
         </div>               
@@ -169,15 +168,18 @@
 <div class="row">
     <div class="col-4">
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px;">Guardian's Email Address</label>
+        style="margin-bottom: 0px;">Guardian's Email Address <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.guardian_email_address class="form-control"%}
-        </div>               
+        </div> 
+        
+        <label class="text-secondary opacity-8" style="margin-bottom: 0px; font-style: italic; 
+        font-size: 11px;"> * Must be a valid corporate email address.</label> <br>
     </div>
 
     <div class="col-8">
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
-        style="margin-bottom: 0px;">Guardian's Address</label>
+        style="margin-bottom: 0px;">Guardian's Address <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
             {% render_field form.guardian_present_address class="form-control"%}
         </div>               
@@ -243,6 +245,158 @@
         switch(officeDept) {
             case "Bachelor of Science in Social Work":
             document.querySelector('.officeDept').textContent = "Department of Behavioral Science";
+            break;
+
+            case "Bachelor of Science in Psychology":
+            document.querySelector('.officeDept').textContent = "Department of Behavioral Science";
+            break;
+
+            case "Bachelor of Arts in Communication":
+            document.querySelector('.officeDept').textContent = "Department of Behavioral Science";
+            break;
+
+            case "Bachelor of Arts in Political Science":
+            document.querySelector('.officeDept').textContent = "Department of Social Sciences";
+            break;
+
+            case "Bachelor of Arts in Philippine Studies":
+            document.querySelector('.officeDept').textContent = "Department of Foreign Language";
+            break;
+
+            case "Bachelor of Science in Biology Major in Medical Biology":
+            document.querySelector('.officeDept').textContent = "Bio-Physical Science Department";
+            break;
+
+            case "Bachelor of Science in Marine Biology":
+            document.querySelector('.officeDept').textContent = "Bio-Physical Science Department";
+            break;
+
+            case "Bachelor of Science in Environmental Science":
+            document.querySelector('.officeDept').textContent = "Bio-Physical Science Department";
+            break;
+
+            case "Bachelor of Science in Information Technology":
+            document.querySelector('.officeDept').textContent = "Computer Studies Department";
+            break;
+
+            case "Bachelor of Science in Computer Science":
+            document.querySelector('.officeDept').textContent = "Computer Studies Department";
+            break;
+
+            case "Bachelor of Science in Physical Education":
+            document.querySelector('.officeDept').textContent = "Department of Physical Education";
+            break;
+
+            case "Bachelor of Science in Elementary Education":
+            document.querySelector('.officeDept').textContent = "Department of Elementary Education";
+            break;
+
+            case "Bachelor of Science in Secondary Education Major in Science":
+            document.querySelector('.officeDept').textContent = "Department of Secondary Education";
+            break;
+
+            case "Bachelor of Science in Secondary Education Major in Math":
+            document.querySelector('.officeDept').textContent = "Department of Secondary Education";
+            break;
+
+            case "Bachelor of Science in Secondary Education Major in English":
+            document.querySelector('.officeDept').textContent = "Department of Secondary Education";
+            break;
+
+            case "Bachelor of Science in Secondary Education Major in Filipino":
+            document.querySelector('.officeDept').textContent = "Department of Secondary Education";
+            break;
+
+            case "Bachelor of Science in Secondary Education Major in Social Studies":
+            document.querySelector('.officeDept').textContent = "Department of Secondary Education";
+            break;
+
+            case "Bachelor of Science in Secondary Education Major in Values":
+            document.querySelector('.officeDept').textContent = "Department of Secondary Education";
+            break;
+
+            case "Bachelor of Science in Accountancy":
+            document.querySelector('.officeDept').textContent = "Department of Accountancy";
+            break;
+
+            case "Bachelor of Science in Management Accountancy":
+            document.querySelector('.officeDept').textContent = "Department of Accountancy";
+            break;
+
+            case "Bachelor of Science in Entrepreneurship":
+            document.querySelector('.officeDept').textContent = "Department of Marketing Management, Entrepreneurship, and Public Administration";
+            break;
+
+            case "Bachelor of Science in Business Administration  Major in Marketing Management":
+            document.querySelector('.officeDept').textContent = "Department of Marketing Management, Entrepreneurship, and Public Administration";
+            break;
+
+            case "Bachelor of Science in Business Administration  Major in Public Administration":
+            document.querySelector('.officeDept').textContent = "Department of Marketing Management, Entrepreneurship, and Public Administration";
+            break;
+
+            case "Bachelor of Science in Business Administration  Major in Financial Management":
+            document.querySelector('.officeDept').textContent = "Department of Financial Management, Human Resource Management, and Business Economics";
+            break;
+
+            case "Bachelor of Science in Business Administration  Major in Human Resource Management":
+            document.querySelector('.officeDept').textContent = "Department of Financial Management, Human Resource Management, and Business Economics";
+            break;
+
+            case "Bachelor of Science in Business Administration  Major in Business Economics":
+            document.querySelector('.officeDept').textContent = "Department of Financial Management, Human Resource Management, and Business Economics";
+            break;
+
+            case "Bachelor of Science in Hospitality Management":
+            document.querySelector('.officeDept').textContent = "Hospitality Management Department";
+            break;
+
+            case "Track - Culinary Arts and Kitchen Management":
+            document.querySelector('.officeDept').textContent = "Hospitality Management Department";
+            break;
+
+            case "Bachelor of Science in Tourism Management":
+            document.querySelector('.officeDept').textContent = "Tourism Management Department";
+            break;
+
+            case "Track - Hotel,Resort, and Club Management":
+            document.querySelector('.officeDept').textContent = "Tourism Management Department";
+            break;
+
+            case "Bachelor of Science in Civil Engineering":
+            document.querySelector('.officeDept').textContent = "Department of Civil Engineering";
+            break;
+
+            case "Bachelor of Science in Mechanical Engineering":
+            document.querySelector('.officeDept').textContent = "Department of Mechanical Engineering";
+            break;
+
+            case "Bachelor of Science in Electrical Engineering":
+            document.querySelector('.officeDept').textContent = "Department of Electrical Engineering";
+            break;
+
+            case "Bachelor of Science in Petroleum Engineering":
+            document.querySelector('.officeDept').textContent = "Department of Petroleum Engineering";
+            break;
+
+            case "Bachelor of Science in Architecture":
+            document.querySelector('.officeDept').textContent = "Department of Architecture";
+            break;
+
+            case "Bachelor of Science in Nursing":
+            document.querySelector('.officeDept').textContent = "Department of Nursing";
+            break;
+
+            case "Diploma in Midwifery":
+            document.querySelector('.officeDept').textContent = "Department of Midwifery";
+            break;
+
+            case "Bachelor of Science in Midwifery":
+            document.querySelector('.officeDept').textContent = "Department of Midwifery";
+            break;
+
+            case "Bachelor of Science in Criminology":
+            document.querySelector('.officeDept').textContent = "No Office / Department";
             break;
 
             // THE NUN
