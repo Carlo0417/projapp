@@ -9,7 +9,7 @@ from landingpage.views import RegistrationRegView, BillingList, BillingUpdateVie
 from landingpage.views import PaymentUpdateView, OccupantViewBillingUpdate, MaleDormVacantBedList, FemaleDormVacantBedList
 from landingpage.views import ForeignDormVacantBedList, OccupantViewPaymentUpdate, DemeritList, DemeritUpdateView
 from landingpage.views import OccupantDemeritList, OccupantDemeritUpdateView, OccupantViewDemeritUpdate, OccupantAccounts
-from landingpage.views import OccupantAccountsUpdateView, user_login_view, user_logout_view, User_Notifications, admin_login_view, admin_logout_view
+from landingpage.views import OccupantAccountsUpdateView, user_login_view, user_logout_view, admin_login_view, admin_logout_view
 from landingpage.views import AdminList, AdminUpdateView, RegMonthRep, RegYearRep, OccMonthRep, OccYearRep
 from landingpage import views
 
@@ -88,9 +88,6 @@ urlpatterns = [
     path('user_service_avail/add', views.user_add_billing, name='UserAvailService'),
     path('user_service_other/', views.user_other_add_billing, name='user_other_add'),
 
-    path('user_notifications', views.User_Notifications.as_view(), name='UserNotifications'),
-
-
     path('admin_login/', admin_login_view, name="admin_login"),
     path('admin_logout/', admin_logout_view, name="logout"),
     path('admin_list', AdminList.as_view(), name='AdminList'),
@@ -122,6 +119,15 @@ urlpatterns = [
     path('user_logout/', user_logout_view, name="user_logout"),
     path('user_otp/', user_login_view, name='user_otp'),
     
-    path('admin_notif_30th/', views.admin_notif_30th, name='admin_notif_30th'),
+    path('AdminNotifications/', views.AdminNotifications, name='AdminNotifications'),
+    path('OccupantNotifications/', views.OccupantNotifications, name='OccupantNotifications'),
+
+    path('user_forgot_password/', views.user_forgot_password_form, name='user_forgot_password'),
+    path('user_security_question/', views.user_security_question_form, name='user_security_question'),
+    path('user_show_password/', views.user_show_password_form, name='user_show_password'),
+
+    path('admin_forgot_password/', views.admin_forgot_password_form, name='admin_forgot_password'),
+    path('admin_security_question/', views.admin_security_question_form, name='admin_security_question'),
+    path('admin_show_password/', views.admin_show_password_form, name='admin_show_password'),
 
 ]

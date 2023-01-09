@@ -194,3 +194,23 @@ class AdminForm(forms.ModelForm):
     class Meta:
         model = Admin
         fields = "__all__"
+
+class UserForgotPasswordForm1(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username']
+
+class UserForgotPasswordForm2(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['security_answer']
+
+class AdminForgotPasswordForm1(forms.ModelForm):
+    class Meta:
+        model = Admin
+        fields = ['username']
+
+class AdminForgotPasswordForm2(forms.ModelForm):
+    class Meta:
+        model = Admin
+        fields = ['security_answer']

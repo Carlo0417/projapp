@@ -67,7 +67,9 @@
                   </p>
                 </form>
                 <style> label:hover {color: #FF4200; font-weight: bold; font-family: inherit;} </style>
-                <label class="form-check-label mb-0 text-xs" style="margin: 0; float: right; font-family: inherit;"> <u>Forgot Password?</u> </label>
+                <a href="{% url 'user_forgot_password' %}">
+                  <label class="form-check-label mb-0 text-xs" style="margin: 0; float: right; font-family: inherit;"> <u>Forgot Password?</u> </label>
+                </a>
                 <br>
 
                 <p class="mt-4 text-sm text-center">
@@ -125,90 +127,127 @@
                 <!-- Modal content -->
                 <div class="modal-content">
                   <span class="close">&times;</span>
-                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">TERMS AND CONDITION</p>
-                  <p>
-                    &nbsp;&nbsp;&nbsp;Privacy policy protects your users' rights,
-                    while terms and conditions protect your website or app's rights. 
-                    Privacy policies outline how you interact with user data, and terms 
-                    and conditions outline the rules for using your site.
-                  </p>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200; text-align: left;">Privacy Policy of PSU Dorm Web Application</p>
+                  <p style="text-align: justify;">
+                    <br> Welcome to PSU Dorm! <br> <br>
 
-                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
-
-                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">Privacy Policy for PSU Dorm</p>
-                  <p>Welcome to PSU Dorm!</p>
-
-                  <p>
-                    &nbsp;&nbsp;&nbsp;Palawan State University built the PSU Dorm as 
-                    a free web application. This SERVICE is provided by Palawan State 
-                    University and is intended for use as is.
-                  </p>
-
-                  <p>
-                    &nbsp;&nbsp;&nbsp;This page is used to inform visitors regarding
-                    our policies regarding the collection, use, and disclosure of 
-                    Personal Information if anyone decides to use our Service.
-                  </p>
-
-                  <p>
-                    &nbsp;&nbsp;&nbsp;If you choose to use our Service, you agree to 
-                    collect and use information concerning this policy. The Personal 
-                    Information we collect is used to provide and improve the Service. 
-                    We will not use or share your information with anyone except as 
-                    described in this Privacy Policy.
-                  </p>
-
-                  <p>
-                    &nbsp;&nbsp;&nbsp;The terms used in this Privacy Policy have the
-                    same meanings as in our Terms and Conditions, which are accessible 
-                    at Web-based Dormitory Management System unless otherwise defined 
-                    in this Privacy Policy.
+                    &nbsp;&nbsp;&nbsp;The developers built the PSU Dorm as a free web application. The web application is provided by Palawan State University and is intended for use as is.
+                    <br> <br>
+                    &nbsp;&nbsp;&nbsp;This page is used to inform users regarding our policies regarding the collection, use, and disclosure of Personal Information if anyone decides to use our Service.
+                    <br> <br>
+                    &nbsp;&nbsp;&nbsp;If you choose to use our web application, you agree to collect and use information concerning this policy. 
+                    The Information we collect is used to provide and improve the web application. We will not use or share your information with
+                    anyone except as described in this Privacy Policy.
+                    
                   </p>
 
                   <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
                   <p class="font-weight-bold opacity-7" style="color: #FF4200;">Information Collection and Use</p>
 
                   <p>
-                    &nbsp;&nbsp;&nbsp;For a better experience, while using our Service, 
-                    we may require you to provide us with certain personal identification
-                    information (add whatever else you collect here, e.g., personal information, 
-                    contact information, guardian information) The information that we request will 
-                    be (retained on your device and is not collected by us in any way)/
-                    (retained by us and used as described in this privacy policy).
+                    &nbsp;&nbsp;&nbsp;For a better experience, while using our web application, we may require you to provide us with certain 
+                    personal identification information(add whatever else you collect here, e.g., user name, password, and other information) 
+                    The information that we request will be (retained on your device and is not collected by us in any way)/(retained by us and 
+                    used as described in this privacy policy).
                   </p>
 
-                    <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
-                    <p class="font-weight-bold opacity-7" style="color: #FF4200;">Security</p>
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">Security</p>
   
-                    <p>
-                      &nbsp;&nbsp;&nbsp;We value your trust in providing us with your Personal 
-                      Information. Thus we are striving to use commercially acceptable means of 
-                      protecting it. But remember that no method of transmission over the internet 
-                      or method of electronic storage is 100% secure and reliable, and we cannot 
-                      guarantee its absolute security. 
-                    </p>
+                  <p>
+                    &nbsp;&nbsp;&nbsp;We value your trust in providing us with your Information. Thus we are striving to use commercially 
+                    acceptable means of protecting it. But remember that no method of transmission over the internet or method of electronic 
+                    storage is 100% secure and reliable, and we cannot guarantee its absolute security. 
+                  </p>
 
-                    <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
-                    <p class="font-weight-bold opacity-7" style="color: #FF4200;">Changes to This Privacy Policy</p>
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">Changes to This Privacy Policy</p>
   
-                    <p>
-                      &nbsp;&nbsp;&nbsp;We may update our Privacy Policy from time to time. Thus, 
-                      you are advised to review this page periodically (or should update the app 
-                      and use the updated version) for any changes. We will notify you of any changes 
-                      by posting the new Privacy Policy on this page. These changes are effective 
-                      immediately after they are posted on this page.
-                    </p>
+                  <p>
+                    &nbsp;&nbsp;&nbsp;We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically
+                     (or should update the app and use the updated version) for any changes. These changes are effective immediately after they 
+                     are posted on this page.
+                  </p>
 
-                    <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
-                    <p class="font-weight-bold opacity-7" style="color: #FF4200;">Contact Us</p>
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">Contact Us</p>
   
-                    <p>
-                      &nbsp;&nbsp;&nbsp;If you have any questions or suggestions about our Privacy
-                      Policy, do not hesitate to contact us on our Gmail account 
-                      <u>psudorm2023@gmail.com</u>
-                    </p>
+                  <p>
+                    &nbsp;&nbsp;&nbsp;If you have any questions or suggestions about our Privacy Policy, 
+                    do not hesitate to contact us at our
+                    <u>psudorm2023@gmail.com</u>
+                  </p>
 
-                    <br>
+                  <br>
+
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200; text-align: left;">Terms and Conditions  of PSU Dorm Web Application</p>
+                  <p style="text-align: justify;">
+                  <br> Welcome to PSU Dorm! <br> <br>
+                    &nbsp;&nbsp;&nbsp;These terms and conditions outline the rules and regulations for the use of PSU Dorm Web Application.
+                    <br> <br>
+                    &nbsp;&nbsp;&nbsp;By accessing this website, we assume you accept these terms and conditions. Only use a PSU Dorm Web Application if you agree to take all of the terms and conditions stated on this page.
+                    <br> <br>
+                    &nbsp;&nbsp;&nbsp;The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice, 
+                    and all Agreements: "Users," "You," and "Your" refers to you, the person who logs on to this website and is compliant with 
+                    the PSU Dorm Web application terms and conditions. "The Company," "Ourselves," "We", "Our," and "Us" refers to our PSU Dorm 
+                    Web Application. The process of our assistance to the Users in the most appropriate manner for the express purpose of meeting 
+                    the Users needs in respect of the provision of the PSU Dorm Web Application stated services, per and subject to, prevailing 
+                    law of the Philippines. Any use of the above terminology or other words in the singular, plural, capitalization, and/or 
+                    he/she or they are taken as interchangeable and, therefore, as referring to the same.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">License</p>
+  
+                  <p>
+                    &nbsp;&nbsp;&nbsp;Unless otherwise stated, PSU Dorm Web Application property rights for all intellectual property rights 
+                    are reserved. For your personal use, subject to restrictions set in these terms and conditions.</u>
+                  </p>
+
+                  <p>
+                    You must not:
+                  </p>
+
+                  <p>
+                    Republish material from the PSU Dorm Web Application
+                  </p>
+
+                  <p>
+                    Reproduce, duplicate or copy material from PSU Dorm Web Application
+                  </p>
+
+                  <p>
+                    Redistribute content from the PSU Dorm Web Application
+                  </p>
+
+                  <p>
+                    This Agreement shall begin on the date hereof.
+                  </p>
+
+                  <p>
+                    You warrant and represent that:
+                  </p>
+
+                  <p>
+                    &nbsp;&nbsp;&nbsp;You are entitled to use our PSU Dorm Web Application and have all necessary licenses and consents to do so;
+                  </p>
+
+                  <p>
+                    &nbsp;&nbsp;&nbsp;The PSU Dorm Web Application do not invade any intellectual property right, including without limitation, copyright, patent, or trademark.
+                  </p>
+
+                  <p>
+                    &nbsp;&nbsp;&nbsp;The PSU Dorm Web Application do not contain any defamatory, libelous, offensive, indecent, or otherwise unlawful material, which is an invasion of privacy
+                  </p>
+
+                  <p>
+                    &nbsp;&nbsp;&nbsp;The PSU Dorm Web Application will not be used to solicit or promote business or custom or present commercial activities or unlawful activity.
+                  </p>
+
+                  <p>
+                    &nbsp;&nbsp;&nbsp;You hereby grant PSU Dorm Web Application a non-exclusive license to use, reproduce, edit and authorize 
+                    others to use, reproduce and edit any usage in any form, format, or media.
+                  </p>
 
                 </div>
               </div>

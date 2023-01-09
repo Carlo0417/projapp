@@ -32,13 +32,13 @@
       </div>
     </div>
   </div>
-  <main class="main-content  mt-0">
+  <main class="main-content mt-0">
     <div class="page-header align-items-start min-vh-100" style="background-image: url('../../../static/img/dorm2.jpg');">
       <span class="mask bg-gradient-dark opacity-7"></span>
       <div class="container my-auto">
         <div class="row">
     
-          <div class="col-lg-7 col-md-8 col-12 mx-auto"> <br> <br>
+          <div class="col-lg-7 col-md-8 col-12 mx-auto"> <br> <br> <br>
              <h1 class="text-white font-weight-bolder text-left mt-2 mb-0 text-uppercase" style="font-size: 65px; font-family: Arial Black;">
               Palawan State University Dormitory</h1>
               <p class="text-white font-weight-bolder text-left mt-2 mb-0 text-italic" style="font-family: Arial; font-style: italic;">
@@ -85,7 +85,217 @@
                   </p>
                 </form>
                 <style> label:hover {color: #FF4200; font-weight: bold;} </style>
-                <label class="form-check-label mb-0 text-xs" style="margin: 0; float: right;"> <u>Forgot Password?</u> </label>
+                <a href="{% url 'admin_forgot_password' %}">
+                  <label class="form-check-label mb-0 text-xs" style="margin: 0; float: right; font-family: inherit;"> <u>Forgot Password?</u> </label>
+                </a>
+                <br>
+                <p class="mt-2 text-sm text-center">
+                  <span class="text-xs">
+                    By proceeding you agree with <b> PSU-Dorm </b> <br>
+                    and <label class="text-xs font-weight-bold" id="myBtn"><u>Terms and Condition</u></label>.
+                  </span>
+                </p>
+              </div>
+
+              <style>
+                /* The Modal (background) */
+                .modal {
+                  display: none; /* Hidden by default */
+                  position: fixed; /* Stay in place */
+                  z-index: 1; /* Sit on top */
+                  padding-top: 100px; /* Location of the box */
+                  left: 0;
+                  top: 0;
+                  width: 100%; /* Full width */
+                  height: 100%; /* Full height */
+                  overflow: auto; /* Enable scroll if needed */
+                  background-color: rgb(0,0,0); /* Fallback color */
+                  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                }
+                
+                /* Modal Content */
+                .modal-content {
+                  background-color: #fefefe;
+                  margin: auto;
+                  padding: 20px;
+                  border: 1px solid #888;
+                  width: 80%;
+                  text-align: justify;
+                }
+                
+                /* The Close Button */
+                .close {
+                  color: #aaaaaa;
+                  font-size: 28px;
+                  font-weight: bold;
+                  text-align: right;
+                }
+                
+                .close:hover,
+                .close:focus {
+                  color: #000;
+                  text-decoration: none;
+                  cursor: pointer;
+                }
+              </style>
+
+              <!-- The Modal -->
+              <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200; text-align: left;">Privacy Policy of Web-based Dormitory Information Management System (DIMS)</p>
+                  <p style="text-align: justify;">
+                    <br> Welcome to PSU Dorm! <br> <br>
+
+                    &nbsp;&nbsp;&nbsp;The developers develop the DIMS as a free web-based system. The system is provided by Palawan State University and is intended for use as is.
+                    <br> <br>
+                    &nbsp;&nbsp;&nbsp;This page is used to inform users regarding our policies regarding the collection, use, and disclosure of Personal Information if anyone decides to use our Service.
+                    <br> <br>
+                    &nbsp;&nbsp;&nbsp;If you choose to use our system, you agree to collect and use information concerning this policy. The Information we collect is used to provide and improve the system. We will not use or share your information with anyone except as described in this Privacy Policy.
+                    
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">Information Collection and Use</p>
+
+                  <p>
+                    &nbsp;&nbsp;&nbsp;For a better experience, while using our system, we may require you to provide us with 
+                    certain personal identification information(add whatever else you collect here, e.g., personal information, 
+                    contact information and others) The information that we request will be (retained on your device and is not 
+                    collected by us in any way)/(retained by us and used as described in this privacy policy).
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">Security</p>
+  
+                  <p>
+                    &nbsp;&nbsp;&nbsp;We value your trust in providing us with your Information. Thus we are striving to use 
+                    commercially acceptable means of protecting it. But remember that no method of transmission over the internet 
+                    or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security. 
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">Changes to This Privacy Policy</p>
+  
+                  <p>
+                    &nbsp;&nbsp;&nbsp;We may update our Privacy Policy from time to time. Thus, you are advised to review this 
+                    page periodically (or should update the app and use the updated version) for any changes. These changes are 
+                    effective immediately after they are posted on this page.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">Contact Us</p>
+  
+                  <p>
+                    &nbsp;&nbsp;&nbsp;If you have any questions or suggestions about our Privacy Policy, 
+                    do not hesitate to contact us at our
+                    <u>psudorm2023@gmail.com</u>
+                  </p>
+
+                  <br>
+
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200; text-align: left;">Terms and Conditions of Web-based Dormitory Information Management System (DIMS)</p>
+                  <p style="text-align: justify;">
+                  <br> Welcome to PSU Dorm! <br> <br>
+                    &nbsp;&nbsp;&nbsp;These terms and conditions outline the rules and regulations for the use of DIMS.
+                    <br> <br>
+                    &nbsp;&nbsp;&nbsp;By accessing this website, we assume you accept these terms and conditions. Only use DIMS if you agree to take all of the terms and conditions stated on this page.
+                    <br> <br>
+                    &nbsp;&nbsp;&nbsp;The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice, 
+                    and all Agreements: "Users," "You," and "Your" refers to you, the person who logs on to this website and is compliant with 
+                    the DIMS terms and conditions. "The Company," "Ourselves," "We", "Our," and "Us" refers to our DIMS. The process of 
+                    our assistance to the Users in the most appropriate manner for the express purpose of meeting the Users needs in respect 
+                    of the provision of the DIMS stated services, per and subject to, prevailing law of the Philippines. Any use of the above 
+                    terminology or other words in the singular, plural, capitalization, and/or he/she or they are taken as interchangeable and, 
+                    therefore, as referring to the same.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">License</p>
+  
+                  <p>
+                    &nbsp;&nbsp;&nbsp;Unless otherwise stated, DIMS property rights for all intellectual property 
+                    rights are reserved. For your personal use, subject to restrictions set in these terms and conditions.</u>
+                  </p>
+
+                  <p>
+                    You must not:
+                  </p>
+
+                  <p>
+                    Republish material from the DIMS
+                  </p>
+
+                  <p>
+                    Reproduce, duplicate or copy material from DIMS
+                  </p>
+
+                  <p>
+                    Redistribute content from the DIMS
+                  </p>
+
+                  <p>
+                    This Agreement shall begin on the date hereof.
+                  </p>
+
+                  <p>
+                    You warrant and represent that:
+                  </p>
+
+                  <p>
+                    You are entitled to use our DIMS and have all necessary licenses and consents to do so;
+                  </p>
+
+                  <p>
+                    The DIMS do not invade any intellectual property right, including without limitation, copyright, patent, or trademark.
+                  </p>
+
+                  <p>
+                    The DIMS do not contain any defamatory, libelous, offensive, indecent, or otherwise unlawful material, which is an invasion of privacy
+                  </p>
+
+                  <p>
+                    The use of DIMS will not be used to solicit or promote business or custom or present commercial activities or unlawful activity.
+                  </p>
+
+                  <p>
+                    &nbsp;&nbsp;&nbsp;You hereby grant DIMS a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and 
+                    edit any usage in any form, format, or media.Privacy policies outline how you interact with user data, and terms and 
+                    conditions outline the rules for using the web application.
+                  </p>
+
+
+                </div>
+              </div>
+              
+              <script>
+              // Get the modal
+              var modal = document.getElementById("myModal");
+              
+              // Get the button that opens the modal
+              var btn = document.getElementById("myBtn");
+              
+              // Get the <span> element that closes the modal
+              var span = document.getElementsByClassName("close")[0];
+              
+              // When the user clicks the button, open the modal 
+              btn.onclick = function() {
+                modal.style.display = "block";
+              }
+              
+              // When the user clicks on <span> (x), close the modal
+              span.onclick = function() {
+                modal.style.display = "none";
+              }
+              
+              // When the user clicks anywhere outside of the modal, close it
+              window.onclick = function(event) {
+                if (event.target == modal) {
+                  modal.style.display = "none";
+                }
+              }
+              </script>
               </div>
             </div>
           </div>

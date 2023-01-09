@@ -9,19 +9,19 @@
       <p class="text-xs text-secondary mb-0">Every notification available provided by the system from the dormitory is located here.</p>
       <br>
     <!-- Notifications -->
-    {% if message %}
+    {% for message in messages %}
     <div class="alert alert-dismissible shadow-secondary text-white p-4 border-radius-lg" role="alert" style="background-color: rgba(255, 66, 0, 0.8);">
-        <span class="text-md">
-          {{ message }}
+        <span class="text-sm">
+            {{ message }}
         </span>
         <button type="button" class="btn-close text-lg py-4 opacity-10 text-white" data-bs-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    {% endif %}
-
+    {% empty %}
     <p class="text-sm text-secondary font-weight-bold mb-0 text-center my-5 opacity-7">
-      No notification showing yet. Feel free to explore other pages in the system.</p>
+    No notification showing yet. Feel free to explore other pages in the system.</p>
+    {% endfor %}
     <!-- end of Notifications -->
 
     </div>

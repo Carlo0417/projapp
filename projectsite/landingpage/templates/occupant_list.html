@@ -162,10 +162,11 @@
                                         <td class="text-sm text-center">
                                             {% if object.end_date <= today %}
                                                 <span class="badge badge-sm bg-gradient-secondary shadow-secondary">Ended</span>
-                                                
                                             {% else %}
                                                 <span class="badge badge-sm bg-gradient-success shadow-success">Ongoing</span>
                                             {% endif %}
+
+                                            {{one_week_later}}
 
                                         <td class="text-center">
                                             <a href="occupant_list/{{ object.id }}"

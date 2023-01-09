@@ -25,8 +25,8 @@ from dormitory.models import Room, Bed, Service, Occupant, Person, Bill_Details,
 from django import forms
 from dormitory.forms import RoomForm, ServiceForm, BedForm, OccupantForm, RegistrationForm, BillingForm
 from dormitory.forms import OccupantFormEdit, OtherBillingForm, PaymentForm, DemeritForm, OccupantDemeritForm
-from dormitory.forms import OccupantRenewForm, UserLoginForm, AdminLoginForm, AdminForm
-from dormitory.forms import UserBillingForm, UserOtherBillingForm
+from dormitory.forms import OccupantRenewForm, UserLoginForm, AdminLoginForm, AdminForm, AdminForgotPasswordForm1, AdminForgotPasswordForm2
+from dormitory.forms import UserBillingForm, UserOtherBillingForm, UserForgotPasswordForm1, UserForgotPasswordForm2
 
 from django.contrib import messages
 from django.db.models import Q
@@ -137,6 +137,62 @@ class HomePageView(ListView):
 
         context['monthly_list'] = monthly_list
         context['monthly_number'] = monthly_number
+
+
+        # Monthly Occupant Charts
+        Jan = Occupant.objects.filter(created_at__icontains="2023-01").count()
+        Jan = int(Jan)
+        print('Jan:', Jan)
+
+        Feb = Occupant.objects.filter(created_at__icontains="2023-02").count()
+        Feb = int(Feb)
+        print('Feb:', Feb)
+
+        Mar = Occupant.objects.filter(created_at__icontains="2023-03").count()
+        Mar = int(Mar)
+        print('Mar:', Mar)
+
+        Apr = Occupant.objects.filter(created_at__icontains="2023-04").count()
+        Apr = int(Apr)
+        print('Apr:', Apr)
+
+        May = Occupant.objects.filter(created_at__icontains="2023-05").count()
+        May = int(May)
+        print('May:', May)
+
+        Jun = Occupant.objects.filter(created_at__icontains="2023-06").count()
+        Jun = int(Jun)
+        print('Jun:', Jun)
+
+        Jul = Occupant.objects.filter(created_at__icontains="2023-07").count()
+        Jul = int(Jul)
+        print('Jul:', Jul)
+
+        Aug = Occupant.objects.filter(created_at__icontains="2023-08").count()
+        Aug = int(Aug)
+        print('Aug:', Aug)
+
+        Sep = Occupant.objects.filter(created_at__icontains="2023-09").count()
+        Sep = int(Sep)
+        print('Sep:', Sep)
+
+        Oct = Occupant.objects.filter(created_at__icontains="2023-10").count()
+        Oct = int(Oct)
+        print('Oct:', Oct)
+
+        Nov = Occupant.objects.filter(created_at__icontains="2023-11").count()
+        Nov = int(Nov)
+        print('Nov:', Nov)
+
+        Dec = Occupant.objects.filter(created_at__icontains="2023-12").count()
+        Dec = int(Dec)
+        print('Dec:', Dec)
+
+        occ_monthly_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        occ_monthly_number = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+
+        context['occ_monthly_list'] = occ_monthly_list
+        context['occ_monthly_number'] = occ_monthly_number
         
         return context
 
@@ -794,28 +850,6 @@ class OccupantDemeritUpdateView(UpdateView):
       messages.success(self.request, "Occupant demerit was updated successfully!")
       super().form_valid(form)
       return HttpResponseRedirect(self.get_success_url())
-
-
-# @method_decorator(login_required, name='dispatch')
-class User_Notifications(ListView):
-    model = Occupant
-    context_object_name = 'occupant'
-    template_name = "user_notifications.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-
-# @method_decorator(login_required, name='dispatch')
-class NotificationList(ListView):
-    model = Occupant
-    context_object_name = 'occupant'
-    template_name = "notification_list.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -1584,11 +1618,100 @@ def user_other_add_billing(request):
 def user_other_add(request):
     return render(request, 'user_services/user_service_others.html', {} )
 
+y = ""
+
+def user_forgot_password_form(request):
+    if request.method == 'POST':
+        form = UserForgotPasswordForm1(request.POST) 
+        if form.is_valid():
+            
+            Forgot_UserName = form.cleaned_data['username']
+
+            cursor = connections['default'].cursor()
+            query = f"SELECT username, password FROM dormitory_user WHERE username = '{Forgot_UserName}' AND user_status='Active'"
+            cursor.execute(query)
+            test1 = cursor.execute(query)
+
+            cursor = connections['default'].cursor()
+            query = f"SELECT username, password FROM dormitory_user WHERE username = '{Forgot_UserName}' AND user_status='Inactive'"
+            cursor.execute(query)
+            test2 = cursor.execute(query)
+
+
+            if(test1 != 0):
+                global y
+                y = request.session['username'] = Forgot_UserName
+                return redirect('user_security_question')
+
+            elif (test2 != 0):
+                messages.error(request, 'Account is Deactivated!')
+                return redirect('user_forgot_password')
+
+            else:
+                messages.error(request, 'Username is incorrect!')
+                return redirect('user_forgot_password')       
+
+        else:
+            messages.error(request, 'Username field is empty!')
+            return redirect('user_forgot_password')
+    else:
+        form = UserForgotPasswordForm1()
+        return render(request, 'user_forgot_password.html',  {'form': form})
+
+
+def user_security_question_form(request):
+    
+    global y
+
+    occ = User.objects.filter(username=y)
+
+    # Check if the occ queryset is not empty
+    if occ.exists():
+        # Retrieve the first Occupant object in the queryset
+        occ = occ.first()
+        # Check if the security question is null
+        if occ.security_question is None:
+            # Redirect to the login page
+            return redirect('user_login')
+
+    if request.method == 'POST':
+        form = UserForgotPasswordForm2(request.POST)
+
+        if form.is_valid():
+            
+            sec_ans = form.cleaned_data['security_answer']
+
+            if sec_ans == occ.security_answer:
+                return redirect('user_show_password') 
+
+            elif sec_ans is None:
+                messages.error(request, 'Security answer field is empty!')
+                return redirect('user_security_question')   
+            
+            else:
+                messages.error(request, 'Security answer is incorrect!')
+                return redirect('user_security_question')    
+
+        else:
+            messages.error(request, 'Security answer field is empty!')
+            return redirect('user_security_question')
+    else:
+        security_question = occ.security_question
+        form = UserForgotPasswordForm2()
+        return render(request, 'user_security_question.html',  {'form': form, 'security_question': security_question})
+
+def user_show_password_form(request):
+    global y
+
+    # Retrieve the Occupant object for the given email address
+    occ = User.objects.get(username=y)
+    # Retrieve the password for the Occupant object
+    password = occ.password
+    return render(request, 'user_show_password.html', {'password': password})
 
 # ===================================================
 # end of The Show Begins
 # ===================================================
-
 def admin_login_view(request):
     if request.method == 'POST':
         form = AdminLoginForm(request.POST) 
@@ -1647,7 +1770,86 @@ def add_admin(request):
         form = AdminForm()
         return render(request, 'admin_add.html',  {'form': form})
 
+a_y = ""
 
+def admin_forgot_password_form(request):
+    if request.method == 'POST':
+        form = AdminForgotPasswordForm1(request.POST) 
+        if form.is_valid():
+            
+            Forgot_AdminName = form.cleaned_data['username']
+
+            cursor = connections['default'].cursor()
+            query = f"SELECT username FROM dormitory_admin WHERE username = '{Forgot_AdminName}'"
+            cursor.execute(query)
+            test1 = cursor.execute(query)
+
+            if(test1 != 0):
+                global a_y
+                a_y = request.session['username'] = Forgot_AdminName
+                return redirect('admin_security_question')
+
+            else:
+                messages.error(request, 'Username is incorrect!')
+                return redirect('admin_forgot_password')       
+
+        else:
+            messages.error(request, 'Username field is empty!')
+            return redirect('admin_forgot_password')
+    else:
+        form = AdminForgotPasswordForm1()
+        return render(request, 'admin_forgot_password.html',  {'form': form})
+
+
+def admin_security_question_form(request):
+    
+    global a_y
+
+    ad = Admin.objects.filter(username=a_y)
+
+    # Check if the occ queryset is not empty
+    if ad.exists():
+        # Retrieve the first Occupant object in the queryset
+        ad = ad.first()
+        # Check if the security question is null
+        if ad.security_question is None:
+            # Redirect to the login page
+            return redirect('admin_login')
+
+    if request.method == 'POST':
+        form = AdminForgotPasswordForm2(request.POST)
+
+        if form.is_valid():
+            
+            sec_ans = form.cleaned_data['security_answer']
+
+            if sec_ans == ad.security_answer:
+                return redirect('admin_show_password') 
+
+            elif sec_ans is None:
+                messages.error(request, 'Security answer field is empty!')
+                return redirect('admin_security_question')   
+            
+            else:
+                messages.error(request, 'Security answer is incorrect!')
+                return redirect('admin_security_question')    
+
+        else:
+            messages.error(request, 'Security answer field is empty!')
+            return redirect('admin_security_question')
+    else:
+        security_question = ad.security_question
+        form = AdminForgotPasswordForm2()
+        return render(request, 'admin_security_question.html',  {'form': form, 'security_question': security_question})
+
+def admin_show_password_form(request):
+    global a_y
+
+    # Retrieve the Occupant object for the given email address
+    ad = Admin.objects.get(username=a_y)
+    # Retrieve the password for the Occupant object
+    password = ad.password
+    return render(request, 'admin_show_password.html', {'password': password})
 # ===================================================
 # Functions for deleting
 # ===================================================
@@ -1675,8 +1877,6 @@ def delete_user(request, id):
   occupant = User.objects.get(id=id)
   occupant.delete()
   return HttpResponseRedirect(reverse('OccupantAccounts'))
-
-
 
 # ===================================================
 # Functions for Exporting to PDF and EXCEL
@@ -1899,98 +2099,177 @@ def occ_year_csv(request):
     return response
 # end of CSV for Occupant
 
-def export_users_xls(request):
-    response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="users.xls"'
-
-    wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('Users Data') # this will make a sheet named Users Data
-
-    # Sheet header, first row
-    row_num = 0
-
-    font_style = xlwt.XFStyle()
-    font_style.font.bold = True
-
-    columns = ['PSU Email', 'Last Name',]
-
-    for col_num in range(len(columns)):
-        ws.write(row_num, col_num, columns[col_num], font_style) # at 0 row 0 column 
-
-    # Sheet body, remaining rows
-    font_style = xlwt.XFStyle()
-
-
-    rows = Person.objects.raw('SELECT * FROM dormitory_person WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()) ORDER BY created_at DESC')
-
-    
-    
-    for row in rows:
-        row_num += 1
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
-
-
-    wb.save(response)
-
-    return response
-
-# ===================================================
-# end of Functions for Exporting to PDF and EXCEL
-# ===================================================
-
-
 # ===================================================
 # Functions for Notifications
 # ===================================================
 from datetime import datetime, timedelta
 import datetime
-import pytz
 
-def admin_notif_30th(request):
+def AdminNotifications(request):
+
+    # Match list storage
+    messages = []
 
     # 30th day of every month
     today = datetime.date.today()
     if today.day >= 23:
         # 1 week before 30th day of every month
-        message = "The 30th of the month is coming up in one week! Occupant must pay for their monthly bills."
+        messages.append("The 30th of the month is coming up in 1 week! Occupant must pay for their monthly bills.")
 
     elif today.day >= 27:
         # 3 days before 30th day of every month
-        message = "The 30th of the month is coming up in one week! Occupant must pay for their monthly bills."
+        messages.append("The 30th of the month is coming up in 3 days! Occupant must pay for their monthly bills.")
 
     elif today.day >= 29:
         # 1 day before 30th day of every month
-        message = "The 30th of the month is coming up in one week! Occupant must pay for their monthly bills."
+        messages.append("The 30th of the month is coming up in tomorrow! Occupant must pay for their monthly bills.")
 
     elif today.month == 2:
         if today.day >= 23:
-            message = "The 28th or 29h of the month is coming up in one week! Occupant must pay for their monthly bills."
-    # Function to get occupants with end dates that are one week later
-    def get_occupants_with_end_date_one_week_later():
-        # Set the timezone to 'Asia/Manila'
-        timezone.activate('Asia/Manila')
+            messages.append("The 28th or 29h of the month is coming up in one week! Occupant must pay for their monthly bills.")
 
-        # Get the current datetime in the 'Asia/Manila' timezone
-        end_date = timezone.localtime(timezone.now())
+    # Calculate the number of days before the due date
+    num_days_before_due_date = 8
 
-        # Get the datetime one week later
-        one_week_later = end_date + timedelta(weeks=1)
+    # Calculate the due date by adding the number of days to the current date
+    due_date = timezone.now() + timedelta(days=num_days_before_due_date)
 
-        # Get all occupants with an 'end_date' that is one week later than the current datetime
-        occupants = Occupant.objects.filter(end_date=one_week_later)
+    # Filter the queryset of occupants to only include those that are within the desired number of days before the due date
+    occupants = Occupant.objects.filter(end_date__lte=due_date, end_date__gte=timezone.now())
 
-        return occupants
+    # Iterate over the occupants and add an alert message to the list for each one
+    for occupant in occupants:
+        days_until_due_date = (occupant.end_date - timezone.now()).days
 
-    # Get list of occupants with end dates one week later
-    occupants = get_occupants_with_end_date_one_week_later()
+        if days_until_due_date == 7:
+            message = " have until 7 days before his/her end date. Contract date is on "
+            dictionary = {'first_name': occupant.person.first_name, 'last_name': occupant.person.last_name, 'message': message, 'end_date': occupant.end_date}
 
-    # Check if there are any occupants with end dates one week later
-    if occupants:
-        message = "The following occupants have end dates one week from now: "
-        for occupant in occupants:
-            message += f"{occupant.person.last_name}, {occupant.person.first_name} ({occupant.end_date}), "
-    else:
-        message = "There are no occupants with end dates one week from now."
+            firstname = dictionary['first_name']
+            lastname = dictionary['last_name']
+            message = dictionary['message']
+            enddate = dictionary['end_date']
+        
+            formatedDate = enddate.strftime("%A, %B %d, %Y %I:%M %p")
 
-    return render(request, 'notification_list.html', {'message': message})
+            output_string = f"{firstname} {lastname} {message} {formatedDate}"
+            messages.append(output_string) 
+
+        elif days_until_due_date == 3:
+            message = " have until 3 days before his/her end date. Contract date is on "
+            dictionary = {'first_name': occupant.person.first_name, 'last_name': occupant.person.last_name, 'message': message, 'end_date': occupant.end_date}
+
+            firstname = dictionary['first_name']
+            lastname = dictionary['last_name']
+            message = dictionary['message']
+            enddate = dictionary['end_date']
+        
+            formatedDate = enddate.strftime("%A, %B %d, %Y %I:%M %p")
+
+            output_string = f"{firstname} {lastname} {message} {formatedDate}"
+            messages.append(output_string) 
+
+        elif days_until_due_date == 1:
+            message = " have until tomorrow before his/her end date. Contract date is on "
+            dictionary = {'first_name': occupant.person.first_name, 'last_name': occupant.person.last_name, 'message': message, 'end_date': occupant.end_date}
+
+            firstname = dictionary['first_name']
+            lastname = dictionary['last_name']
+            message = dictionary['message']
+            enddate = dictionary['end_date']
+        
+            formatedDate = enddate.strftime("%A, %B %d, %Y %I:%M %p")
+
+            output_string = f"{firstname} {lastname} {message} {formatedDate}"
+            messages.append(output_string)
+
+        else: 
+            message = ""
+
+    return render(request, 'notification_list.html', {'messages': messages})
+
+def OccupantNotifications(request):
+
+    # Match list storage
+    messages = []
+
+    # 30th day of every month
+    today = datetime.date.today()
+    if today.day >= 23:
+        # 1 week before 30th day of every month
+        messages.append("The 30th of the month is coming up in 1 week! Occupant must pay for their monthly bills.")
+
+    elif today.day >= 27:
+        # 3 days before 30th day of every month
+        messages.append("The 30th of the month is coming up in 3 days! Occupant must pay for their monthly bills.")
+
+    elif today.day >= 29:
+        # 1 day before 30th day of every month
+        messages.append("The 30th of the month is coming up in tomorrow! Occupant must pay for their monthly bills.")
+
+    elif today.month == 2:
+        if today.day >= 23:
+            messages.append("The 28th or 29h of the month is coming up in one week! Occupant must pay for their monthly bills.")
+    
+    # Calculate the number of days before the due date
+    num_days_before_due_date = 8
+
+    # Calculate the due date by adding the number of days to the current date
+    due_date = timezone.now() + timedelta(days=num_days_before_due_date)
+
+
+    # Filter the queryset of occupants to only include those that are within the desired number of days before the due date
+    occupants = Occupant.objects.filter(end_date__lte=due_date, end_date__gte=timezone.now()).exclude(~(Q(person__psu_email=x)))
+    # print(occupants)
+
+    # Iterate over the occupants and add an alert message to the list for each one
+    for occupant in occupants:
+        days_until_due_date = (occupant.end_date - timezone.now()).days
+
+        if days_until_due_date == 7:
+            message = " You have until 7 days before your contract to end. That is on "
+            dictionary = {'first_name': occupant.person.first_name, 'last_name': occupant.person.last_name, 'message': message, 'end_date': occupant.end_date}
+
+            firstname = dictionary['first_name']
+            lastname = dictionary['last_name']
+            message = dictionary['message']
+            enddate = dictionary['end_date']
+        
+            formatedDate = enddate.strftime("%A, %B %d, %Y %I:%M %p")
+
+            output_string = f"{firstname} {lastname} {message} {formatedDate}"
+            messages.append(output_string) 
+
+        elif days_until_due_date == 3:
+            message = " You have until 3 days before your contract to end. That is on "
+            dictionary = {'first_name': occupant.person.first_name, 'last_name': occupant.person.last_name, 'message': message, 'end_date': occupant.end_date}
+
+            firstname = dictionary['first_name']
+            lastname = dictionary['last_name']
+            message = dictionary['message']
+            enddate = dictionary['end_date']
+        
+            formatedDate = enddate.strftime("%A, %B %d, %Y %I:%M %p")
+
+            output_string = f"{firstname} {lastname} {message} {formatedDate}"
+            messages.append(output_string) 
+
+        elif days_until_due_date == 1:
+            message = " You have until tomorrow before your contract to end. That is on "
+            dictionary = {'first_name': occupant.person.first_name, 'last_name': occupant.person.last_name, 'message': message, 'end_date': occupant.end_date}
+
+            firstname = dictionary['first_name']
+            lastname = dictionary['last_name']
+            message = dictionary['message']
+            enddate = dictionary['end_date']
+        
+            formatedDate = enddate.strftime("%A, %B %d, %Y %I:%M %p")
+
+            output_string = f"Hi there!, {firstname} {lastname}. {message} {formatedDate}. Please prepare for your renewal if you wish to stay in the dormitory. Thank you!"
+            messages.append(output_string)
+
+        else: 
+            message = ""
+
+    return render(request, 'user_notifications.html', {'messages': messages})
+
