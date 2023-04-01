@@ -20,8 +20,14 @@
                                     <a href="{% url 'RoomAdd' %}" class="btn text-white mt-4 w-100 shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);">Add Room</a>
                                 </div>
                              </div>
+
+                             <div class="col-sm-2">
+                                <div class="pull-right">
+                                    <a href="{% url 'RoomListCard' %}" class="btn text-white mt-4 w-100 shadow-primary" style="background-color: #FF9001;">Card View</a>
+                                </div>
+                             </div>
  
-                             <div class="col-sm-7"></div>
+                             <div class="col-sm-5"></div>
 
                              {% include 'includes/search_style.html' %}
                              
@@ -52,6 +58,8 @@
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Floor Level</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Vacancy</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Dorm Name</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Description</th>
@@ -67,6 +75,37 @@
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.floorlvl }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                             {% if object.dorm_name == "Male Dorm" or object.dorm_name == "Female Dorm" %}
+                                                <!-- Male and Female -->
+                                                {% if object.TotalVacant == 6 %}
+                                                    <p class="text-xs font-weight-bold text-success mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% elif object.TotalVacant == 5 %}
+                                                    <p class="text-xs font-weight-bold text-success mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% elif object.TotalVacant == 4 %}
+                                                    <p class="text-xs font-weight-bold text-warning mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% elif object.TotalVacant == 3 %}
+                                                    <p class="text-xs font-weight-bold text-warning mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% elif object.TotalVacant == 2 %}
+                                                    <p class="text-xs font-weight-bold text-danger mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% elif object.TotalVacant == 1 %}
+                                                    <p class="text-xs font-weight-bold text-danger mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% elif object.TotalVacant == 0 %}
+                                                    <p class="text-xs font-weight-bold text-secondary mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% endif %}
+                                            {% else %}
+                                                <!-- Foreign -->
+                                                {% if object.TotalVacant == 3 %}
+                                                    <p class="text-xs font-weight-bold text-success mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% elif object.TotalVacant == 2 %}
+                                                    <p class="text-xs font-weight-bold text-warning mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% elif object.TotalVacant == 1 %}
+                                                    <p class="text-xs font-weight-bold text-danger mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% elif object.TotalVacant == 0 %}
+                                                    <p class="text-xs font-weight-bold text-secondary mb-0">{{ object.TotalVacant }} / {{ object.TotalBeds }} </p>
+                                                {% endif %}
+                                            {% endif %}
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.dorm_name }}</p>

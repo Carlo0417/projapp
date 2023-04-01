@@ -9,43 +9,61 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
-                            <h6 class="text-white ps-3">Male Dorm Vacant Beds</h6>
+                            <h6 class="text-white ps-3">Female Dorm Vacant Beds</h6>
                         </div>
                     </div> <br>
                     <div class="card-body">
+
+                        {% include 'includes/search_style.html' %}
+
+                       <div class="row justify-content-end mb-4">
+                            <div class="col-3">
+                                <form action="{% url 'DashFemaleVacantBed' %}" method="get"> 
+                                    <div class="input-group input-group-outline">
+                                        <label class="form-label">Search bed...</label>
+                                        <input type="text" class="form-control" name="q">
+                                    </div>
+                                </form>
+                            </div>
+                       </div>
+
                         <div class="table-responsive" style="padding: 0px 20px;">
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr class="headings">
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Dorm</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Room</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Floor</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Bed Code</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Description</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Price</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for object in vacant_maledorm_bed %}
+                                    {% for object in object_list %}
                                     <tr>
-                                        <td>
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{object.room.dorm_name}}</p>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ object.room.room_name }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ object.room }}</p>
+                                            {% if object.room.floorlvl == "1" %}
+                                                <p class="text-xs text-secondary mb-0">{{ object.room.floorlvl }}st Floor </p>
+                                            {% else %}
+                                                <p class="text-xs text-secondary mb-0">{{ object.room.floorlvl }}nd Floor </p>
+                                            {% endif %}  
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs font-weight-bold mb-0" style="color:#FF4200;">{{ object.bed_code }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ object.bed_description }}</p>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.price }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.price }}.00</p>
+                                            <p class="text-xs text-secondary mb-0">{{ object.bed_description }}</p>
                                         </td>
                                     </tr>
 
@@ -56,10 +74,13 @@
 
                                 </tbody>
                             </table>
+                            <br>
                             <span class="mb-0 text-link text-xs">Total Number of 
                                 <span class="text-sm font-weight-bolder" style="color: #FF4200;">
-                                    {% if male_vacant != empty %} {{ male_vacant }} {% else %} 0 {% endif %}</span> Vacant Beds.
+                                    {% if female_vacant != empty %} {{ female_vacant }} {% else %} 0 {% endif %}</span> Vacant Beds.
                             </span>
+
+                            {% include 'includes/pagination.html' %}
 
                         </div>
                     </div>

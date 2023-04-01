@@ -191,50 +191,67 @@
                         
 <!-- Admission Requirements -->
 <p class="text-sm font-weight-bold mb-0 my-4">Admission Requirements</p>
-<div class="form-check form-switch ps-3" style="margin-top: 17px;">
+
+<div class="form-check form-switch ps-3 mb-3" style="margin-top: 17px;">
+    <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" onclick="toggle(this);">
+    <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0 font-weight-bold text-uppercase" 
+    for="flexSwitchCheckDefault">Select All</label>
+</div>
+
+<div class="form-check form-switch ps-3 ms-3">
     {% render_field form.Field1 class="form-check-input ms-auto"%}
     <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
     for="flexxswitchCheckDefault">Two pieces 2"x2" coloured ID pictures 
     taken not more than six months prior to the signing of the contract</label>
 </div>
 
-<div class="form-check form-switch ps-3 my-3">
+<div class="form-check form-switch ps-3 my-3 ms-3">
     {% render_field form.Field2 class="form-check-input ms-auto"%}
     <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
     for="flexxswitchCheckDefault">Medical Certificate from the University physician</label>
 </div>
                             
-<div class="form-check form-switch ps-3 my-3">
+<div class="form-check form-switch ps-3 my-3 ms-3">
     {% render_field form.Field3 class="form-check-input ms-auto"%}
     <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
     for="flexxswitchCheckDefault">Fully accomplished application form (form OIA-OID)</label>
 </div>
 
-<div class="form-check form-switch ps-3 my-3">
+<div class="form-check form-switch ps-3 my-3 ms-3">
     {% render_field form.Field4 class="form-check-input ms-auto"%}
     <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
     for="flexxswitchCheckDefault">Special power of attorney (SPA) for guardian</label>
 </div>
 
-<div class="form-check form-switch ps-3 my-3">
+<div class="form-check form-switch ps-3 my-3 ms-3">
     {% render_field form.Field5 class="form-check-input ms-auto"%}
     <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
     for="flexxswitchCheckDefault">Photocopy of the University Identification card 
     valid on the school year enrolled</label>
 </div>
 
-<div class="form-check form-switch ps-3 my-3">
+<div class="form-check form-switch ps-3 my-3 ms-3">
     {% render_field form.Field6 class="form-check-input ms-auto"%}
     <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
     for="flexxswitchCheckDefault">Certificate of Enrollment</label>
 </div>
 
-<div class="form-check form-switch ps-3 my-3">
+<div class="form-check form-switch ps-3 my-3 ms-3">
     {% render_field form.Field7 class="form-check-input ms-auto"%}
     <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
     for="flexxswitchCheckDefault">Photocopy of the dormitory ID</label>
 </div>
 <!-- end of Admission Requirements -->
+
+<script>
+    function toggle(source) {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i] != source)
+                checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
 
 <script>
   

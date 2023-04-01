@@ -45,12 +45,18 @@
                         </div>
                         {% endif %}
 
+                        {% include 'includes/select2.html' %}
+
                         <div class="row">
                             <div class="col-6">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.occupant class="form-control" %}
+                                    <select class="form-control occupant-list" name="occupant" id="occupant" data-placeholder="">
+                                        {% for occupant in form.occupant %}
+                                            <option value="{{ occupant.id }}">{{ occupant }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
@@ -61,8 +67,13 @@
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Demerit Description</label>
-                                <div class="input-group input-group-outline" onclick="getOption()">
-                                    {% render_field form.demerit_name class="form-control" id="select1"%}
+                                <div class="input-group input-group-outline">
+                                    <select class="form-control demerit-list" name="demerit_name" id="demerit_name" data-placeholder="">
+                                        {% for demerit_name in form.demerit_name %}
+                                            <option value="{{ description.demerit_name }}">{{ demerit_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <!-- {% render_field form.demerit_name class="form-control" id="description"%} -->
                                 </div>
                                 <label class="text-secondary text-xs font-weight-bolder opacity-8" 
                                 style="margin-bottom: 0px; font-style: italic;">Equivalent Demerit Point/s:
@@ -101,11 +112,19 @@
     setTimeout(function() {
       document.getElementById('fadeout').remove();
       }, milliseconds);
+
+    $(document).ready(function() {
+        $('.occupant-list').select2();
+    });
+
+    $(document).ready(function() {
+        $('.demerit-list').select2();
+    });
 </script>
 
 <script>                       
     function getOption() {
-        selectElement = document.querySelector('#select1');
+        selectElement = document.querySelector('#description');
         output = selectElement.options[selectElement.selectedIndex].textContent;
 
         switch(output) {

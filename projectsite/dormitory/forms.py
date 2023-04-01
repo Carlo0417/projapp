@@ -214,3 +214,8 @@ class AdminForgotPasswordForm2(forms.ModelForm):
     class Meta:
         model = Admin
         fields = ['security_answer']
+
+class AdminProfileForm(ModelForm):
+    class Meta:
+        model = Admin
+        fields = "__all__"

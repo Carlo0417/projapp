@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Registration Information</title>
+
+	<style>
+		body{
+			font-family: Arial, Helvetica, sans-serif;
+		}
+	
+		h2{
+			color: #FF4200;
+			font-size: 19px;
+			margin-bottom: 0px;
+		}
+	
+		h3{
+			color: #4b4b4b;
+			font-size: 10px;
+			margin-bottom: 0px;
+			margin-top: 15px;
+		}
+	
+		h4{
+			color: #101010;
+			font-size: 15px;
+			margin-bottom: 0px;
+			margin-top: 0px;
+		}
+	
+		img {
+			height: 80px;
+			width: 80px;
+		}
+	
+		hr{
+			margin-top: 0px;
+		}
+
+		.univ{
+			font-size: 25px;
+			font-weight: bold;
+			color: #FF4200;
+			padding-bottom: 30px;
+
+		}
+
+		.office{
+			font-size: 14px;
+		}
+
+		.rel{
+			font-size: 15px;
+			font-weight: bold;
+			color: #101010;
+		}
+
+		.rel2{
+			font-size: 13px;
+			color: #101010;
+		}
+	
+		
+	
+	</style>
+</head>
+<!-- Body -->
+<body>
+	<div style="text-align: center; margin-bottom: 7px;">
+		<img src="static/img/dormlogogrey.png" alt="">
+	</div>
+	
+
+	<div style="text-align: center;">
+		<span class="univ">Palawan State University Dormitory</span>
+	</div>
+
+	<div style="text-align: center; margin-top: 5px;">
+		<span class="office">Front Desk Office • PSU Road, Tiniguiban Heights • 5300 Puerto Princesa • Philippines</span>
+	</div>
+
+	<!-- <div style="text-align: center; margin-top: 40px;">
+		<span class="rel">Student Release of Registration Information</span>
+	</div>
+
+	<div style="text-align: left; margin-top: 5px;">
+		<span class="rel2"> &nbsp; &nbsp; &nbsp; &nbsp; The Federal Educational Rights and Privacy Act of 1974 (FERPA) protects 
+			the student’s educational record from disclosure to unauthorized individuals. I hereby give permission 
+			to the person(s) or agency listed below to access certain information from my educational record at
+			Northampton Community College.
+		</span>
+	</div> -->
+
+	<br> <br>
+
+	<!-- Personal Information -->
+	<h2>Personal Information</h2>
+	<hr>
+
+	<h3> PSU EMAIL </h3>
+	<h4> {{ reg_person.psu_email }} </h4>
+
+	<h3> FULL NAME </h3>
+	<h4> {{ reg_person.first_name }} {{ reg_person.middle_name }} {{ reg_person.last_name }}</h4>
+
+	<h3> GENDER </h3>
+	<h4> {{ reg_person.gender }} </h4>
+
+	<h3> BOARDER TYPE </h3>
+	<h4> {{ reg_person.boarder_type }} </h4>
+
+	<h3> PROGRAM </h3>
+	<h4> {{ reg_person.program }} </h4>
+
+	<h3> OFFICE / DEPARTMENT </h3>
+	<h4> {{ reg_person.office_dept }} </h4>
+	<!-- end of Personal Information -->
+
+	<!-- Contact Information -->
+	<h2 style="margin-top: 35px;">Contact Information</h2>
+	<hr>
+
+	<h3> CONTACT NUMBER </h3>
+	<h4> {{ reg_person.contact_no }} </h4>
+
+	<h3> ADDRESS </h3>
+	<h4> {{ reg_person.address }}</h4>
+
+	<h3> CITY </h3>
+	<h4> {{ reg_person.city }} </h4>
+
+	<h3> MUNICIPALITY </h3>
+	<h4> {{ reg_person.municipality }} </h4>
+
+	<h3> PROVINCE </h3>
+	<h4> {{ reg_person.province }} </h4>
+
+	<h3> COUNTRY </h3>
+	<h4> {{ reg_person.country }} </h4>
+	<!-- end of Contact Information -->
+
+	<div style="text-align: center; margin-bottom: 7px;">
+		<img src="static/img/dormlogogrey.png" alt="">
+	</div>
+	
+
+	<div style="text-align: center;">
+		<span class="univ">Palawan State University Dormitory</span>
+	</div>
+
+	<div style="text-align: center; margin-top: 5px;">
+		<span class="office">Front Desk Office • PSU Road, Tiniguiban Heights • 5300 Puerto Princesa • Philippines</span>
+	</div>
+
+	<!-- <div style="text-align: center; margin-top: 40px;">
+		<span class="rel">Student Release of Registration Information</span>
+	</div>
+
+	<div style="text-align: left; margin-top: 5px;">
+		<span class="rel2"> &nbsp; &nbsp; &nbsp; &nbsp; The Federal Educational Rights and Privacy Act of 1974 (FERPA) protects 
+			the student’s educational record from disclosure to unauthorized individuals. I hereby give permission 
+			to the person(s) or agency listed below to access certain information from my educational record at
+			Northampton Community College.
+		</span>
+	</div> -->
+
+	<br> <br>
+
+	<!-- Guardian Information -->
+	<h2 style="margin-top: 35px;">Guardian Information</h2>
+	<hr>
+
+	<h3> FULL NAME </h3>
+	<h4> {{ reg_person.guardian_first_name }} {{ reg_person.guardian_last_name }}</h4>
+
+	<h3> CONTACT NUMBER </h3>
+	<h4> {{ reg_person.guardian_contact_no }}</h4>
+
+	<h3> EMAIL ADDRESS</h3>
+	<h4> {{ reg_person.guardian_email_address }} </h4>
+
+	<h3> ADDRESS </h3>
+	<h4> {{ reg_person.guardian_present_address }} </h4>
+	<!-- end of Guardian Information -->
+
+	<!-- Guardian Information -->
+	<h2 style="margin-top: 35px;">Admission Requirements</h2>
+	<hr>
+
+	{% if reg_person.Field1 == True %}
+	<h3 style="font-size: 15px; color: #101010; margin-top: 20px;"> - &nbsp; Two pieces 2"x2" coloured ID pictures taken not more than six </h3>
+	<h3 style="font-size: 15px; margin-top: 0px; margin-bottom: 0px; color: #101010;"> &nbsp; &nbsp; &nbsp; &nbsp; 
+		months prior to the signing of the contract </h3> 
+	{% else %}
+	<h3> </h3>
+	{% endif %}
+
+	{% if reg_person.Field2 == True %}
+	<h3 style="font-size: 15px; color: #101010;"> - &nbsp; Medical Certificate from the University physician </h3>
+	{% else %}
+	<h3> </h3>
+	{% endif %}
+
+	{% if reg_person.Field3 == True %}
+	<h3 style="font-size: 15px; color: #101010;"> - &nbsp; Fully accomplished application form (form OIA-OID) </h3>
+	{% else %}
+	<h3> </h3>
+	{% endif %}
+
+	{% if reg_person.Field4 == True %}
+	<h3 style="font-size: 15px; color: #101010;"> - &nbsp; Special power of attorney (SPA) for guardian </h3>
+	{% else %}
+	<h3> </h3>
+	{% endif %}
+
+	{% if reg_person.Field5 == True %}
+	<h3 style="font-size: 15px; color: #101010;"> - &nbsp; Photocopy of the University Identification card valid on the</h3>
+	<h3 style="font-size: 15px; margin-top: 0px; margin-bottom: 0px; color: #101010;"> &nbsp; &nbsp; &nbsp; &nbsp; school year enrolled </h3> 
+	{% else %}
+	<h4> </h4>
+	{% endif %}
+
+	{% if reg_person.Field6 == True %}
+	<h3 style="font-size: 15px; color: #101010;"> - &nbsp; Certificate of Enrollment </h3>
+	{% else %}
+	<h3> </h3>
+	{% endif %}
+
+	{% if reg_person.Field7 == True %}
+	<h3 style="font-size: 15px; color: #101010;"> - &nbsp; Photocopy of the dormitory ID </h3>
+	{% else %}
+	<h3> </h3>
+	{% endif %}
+	<!-- end of Guardian Information -->
+	
+</body>
+
+<!-- end of Body -->
+
+<!-- Footer -->
+<footer>
+
+</footer>
+<!-- end of Footer -->
+</html>

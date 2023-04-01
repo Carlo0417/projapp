@@ -53,7 +53,7 @@
     <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
     style="margin-bottom: 0px; color: #FF4200;">Password</label>
     <div class="input-group input-group-outline">
-        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.password }}</label> 
+        <label class="text-sm font-weight-bold mb-0 text-dark" id="password">{{ x.password }}</label> 
     </div>  
     
     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">  
@@ -64,7 +64,7 @@
         {% if x.security_question == "" %}
         <label class="text-sm font-weight-bold mb-0 text-dark">None</label>
         {% else %}
-        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.security_question }}</label>
+        <label class="text-sm font-weight-bold mb-0 text-dark" id="security_question">{{ x.security_question }}</label>
         {% endif %}
     </div>  
 
@@ -76,7 +76,7 @@
       {% if x.security_answer == "" %}
       <label class="text-sm font-weight-bold mb-0 text-dark">None</label>
       {% else %}
-      <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.security_answer }}</label>
+      <label class="text-sm font-weight-bold mb-0 text-dark" id="security_answer">{{ x.security_answer }}</label>
       {% endif %}
     </div> 
 
@@ -88,7 +88,7 @@
       {% if x.recovery_email == "" %}
       <label class="text-sm font-weight-bold mb-0 text-dark">None</label>
       {% else %}
-      <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.recovery_email }}</label>
+      <label class="text-sm font-weight-bold mb-0 text-dark" id="recovery_email">{{ x.recovery_email }}</label>
       {% endif %}    </div>  
     {% endfor %}
     <!-- end of Account Information -->
@@ -102,9 +102,19 @@
     setTimeout(function() {
       document.getElementById('fadeout').remove();
       }, milliseconds);
-
-      $( "#myselect option:selected" ).text();
   </script>
 
-  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script>
+    var passwordEl = document.getElementById('password');
+    passwordEl.innerHTML = '*'.repeat(passwordEl.textContent.length);
+
+    var securityQuestionEl = document.getElementById('security_question');
+    securityQuestionEl.innerHTML = '*'.repeat(securityQuestionEl.textContent.length);
+
+    var securityAnswerEl = document.getElementById('security_answer');
+    securityAnswerEl.innerHTML = '*'.repeat(securityAnswerEl.textContent.length);
+
+    var recoveryEmailEl = document.getElementById('recovery_email');
+    recoveryEmailEl.innerHTML = '*'.repeat(recoveryEmailEl.textContent.length);
+  </script>
   {% endblock content%}

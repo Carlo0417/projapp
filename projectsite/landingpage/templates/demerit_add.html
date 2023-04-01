@@ -45,12 +45,18 @@
                         </div>
                         {% endif %}
 
+                        {% include 'includes/select2.html' %}
+
                         <div class="row">
                             <div class="col-8">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Demerit</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.demerit_name class="form-control" %}
+                                    <select class="form-control demerit-list" name="demerit_name" id="demerit_name" data-placeholder="">
+                                        {% for demerit_name in form.demerit_name %}
+                                            <option value="{{ demerit_name.id }}">{{ demerit_name }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
 
@@ -85,6 +91,10 @@
     setTimeout(function() {
       document.getElementById('fadeout').remove();
       }, milliseconds);
+
+    $(document).ready(function() {
+        $('.demerit-list').select2();
+    });
 </script>
 
 {% endblock %}

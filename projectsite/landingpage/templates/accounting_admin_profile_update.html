@@ -1,0 +1,137 @@
+{% extends 'frontdesk_base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+
+    <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
+    <h6 class="mb-0 font-weight-bold my-4" style="font-size: 25px;">Edit Account</h6>
+    <p class="text-xs text-secondary mb-0">Modify your account to make it more secure.</p>
+
+        <!-- messages & alerts -->
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'success' in message.tags %}
+                    <p style="margin-top: 12px;" id="fadeout" class="text-success font-weight-bold text-sm">
+                        {{ message }}
+                    </p>
+                {% else %}
+                    <p style="margin-top: 12px;" id="fadeout" class="text-danger font-weight-bold text-sm">
+                        {{ message }}
+                    </p>
+                {% endif %}
+            {% endfor%}
+        {% endif %}
+        <!-- /messages & alerts -->
+
+        <form role="form" class="" action="" method="post" novalidate>
+            {% csrf_token %}
+            
+            {% load widget_tweaks %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    <p{% if forloop.last %} class="mb-0" {% endif %}>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-6">
+                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                    style="margin-bottom: 0px; margin-top: 17px;">First Name</label>
+                    <div class="input-group input-group-outline w-90"  style="margin-bottom: 10px;">
+                        {% render_field form.firstname class="form-control" %}
+                    </div>
+        
+                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                    style="margin-bottom: 0px; margin-top: 17px;">Last Name</label>
+                    <div class="input-group input-group-outline w-90"  style="margin-bottom: 10px;">
+                        {% render_field form.lastname class="form-control" %}
+                    </div>
+        
+                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                    style="margin-bottom: 0px; margin-top: 17px;">Username</label>
+                    <div class="input-group input-group-outline w-90"  style="margin-bottom: 10px;">
+                        {% render_field form.username class="form-control" %}
+                    </div>
+
+                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                    style="margin-bottom: 0px; margin-top: 17px;">Security Question</label>
+                    <div class="input-group input-group-outline w-90">
+                        {% render_field form.security_question class="form-control" %}
+                    </div>
+                    
+                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                    style="margin-bottom: 0px; margin-top: 17px;">Security Answer</label>
+                    <div class="input-group input-group-outline w-90">
+                        {% render_field form.security_answer class="form-control" %}
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                    style="margin-bottom: 0px; margin-top: 17px;">Password</label>
+                    <div class="input-group input-group-outline w-90"  style="margin-bottom: 10px;">
+                        {% render_field form.password class="form-control" %}
+                    </div>
+        
+                    <label class="text-secondary font-weight-bolder opacity-9" style="margin-bottom: 0px; 
+                    font-size: 13px; margin-top: 5px;">
+                     Strong password is:
+                    </label> <br>
+        
+                    <label class="text-secondary" style="margin-bottom: 0px; 
+                    font-size: 12px; margin-top: 5px;">
+                     - At least 12 characters long but 14 or more is better.
+                    </label> <br>
+        
+                    <label class="text-secondary" style="margin-bottom: 0px; 
+                    font-size: 12px; margin-top: 5px;">
+                     - A combination of uppercase letters, lowercase letters, numbers, and symbols.
+                    </label> <br>
+        
+                    <label class="text-secondary" style="margin-bottom: 0px; 
+                    font-size: 12px; margin-top: 5px;">
+                     - Not a word that can be found in a dictionary or the name of a person, character, product, or organization.
+                    </label> <br>
+        
+                    <label class="text-secondary" style="margin-bottom: 0px; 
+                    font-size: 12px; margin-top: 5px;">
+                     - Significantly different from your previous passwords.
+                    </label> <br>
+        
+                    <label class="text-secondary" style="margin-bottom: 0px; 
+                    font-size: 12px; margin-top: 5px;">
+                     - Easy for you to remember but difficult for others to guess. Consider using a memorable phrase like "6MonkeysRLooking^".
+                    </label> <br>
+
+                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                    style="margin-bottom: 0px; margin-top: 17px;">Recovery Email</label>
+                    <div class="input-group input-group-outline w-90">
+                        {% render_field form.recovery_email class="form-control" %}
+                    </div>
+
+                </div>
+            </div>
+   
+                <br /> <br />
+                <div class="form-group text-end">
+                    <div class="col-md-12 col-sm-3">
+                        <button type='submit' class="btn text-white" style="background-color: #FF4200;">Update</button>
+                        &nbsp &nbsp &nbsp
+                        <a class="btn text-white" style="background-color: #4b4b4b;" href="{% url 'AccountingAdminProfile' %}">Cancel</a>
+                    </div>
+                </div>
+        </form>
+
+
+
+    </div>
+</main>
+
+{% endblock %}

@@ -7,7 +7,7 @@ from django.utils import timezone
 
 def add_billing():
 	t = timezone.localtime(timezone.now())
-	if t.day == 4:
+	if t.day == 1:
 		
 		rows = Bed.objects.filter(bed_status__icontains='occupied')
 		for row in rows:

@@ -27,6 +27,9 @@
                         {% load widget_tweaks %}
 
                         {% load humanize %}
+
+                        {% load tz %}
+
                         
                     <!-- Name and Dates -->
                     <div class="row">
@@ -163,7 +166,7 @@
                             <tbody>
                                 {% for object in fetch_first_three %}
                                 <tr>
-                                    <td class="">
+                                    <td>
                                         <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.bill_date }}</p>
                                     </td>
                                     <td class="text-center">

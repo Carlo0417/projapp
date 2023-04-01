@@ -27,25 +27,34 @@
                         </div>
                         {% endif %}
 
+                        {% include 'includes/select2.html' %}
+
+                        <style> #my-div {pointer-events:none; background-color: #E7E7E7; border: hidden; }</style>
+
                         <div class="row">
                             <div class="col-6">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.occupant class="form-control" %}
+                                <div class="input-group input-group-outline" id="my-div">
+                                    <select class="form-control occupant-list" name="occupant" id="occupant" data-placeholder="">
+                                        {% for occupant in form.occupant %}
+                                            <option value="{{ occupant.id }}">{{ occupant }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Recorded Date</label>
-                                <div class="input-group input-group-outline">
+                                <div class="input-group input-group-outline" id="my-div">
                                     {% render_field form.cur_date class="form-control" type="datetime-local"%}
                                 </div>
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Demerit Description</label>
-                                <div class="input-group input-group-outline" onclick="getOption()">
-                                    {% render_field form.demerit_name class="form-control" id="select1"%}
+                                <div class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" id="my-div">
+                                    {% render_field form.demerit_name class="form-control"%}
                                 </div>
+                                
                                 <label class="text-secondary text-xs font-weight-bolder opacity-8" 
                                 style="margin-bottom: 0px; font-style: italic;">Equivalent Demerit Point/s:
                                 <b class="text-dark output" style="font-style: normal;"> 
@@ -78,6 +87,12 @@
         </div>
     </div>
 </main>
+
+<script>
+    $(document).ready(function() {
+        $('.occupant-list').select2();
+    });
+</script>
 
 <script>                       
     function getOption() {

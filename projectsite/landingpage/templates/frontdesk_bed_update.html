@@ -1,0 +1,91 @@
+{% extends 'frontdesk_base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="shadow-primary  border-radius-lg pt-4 pb-3" style="background-color: #FF9001;">
+                            <h6 class="text-white text-capitalize ps-3">Update Bed Details</h6>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    <form class="" action="" method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        {% load widget_tweaks %}
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                <p{% if forloop.last %} class="mb-0" {% endif %}>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Room Name</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.room class="form-control" %}
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Bed Price</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.price class="form-control" %}
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Bed Status</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.bed_status class="form-control" %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Bed Code</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.bed_code class="form-control" %}
+                                </div>
+                            </div>
+
+                            <div class="col-8">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Bed Description</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.bed_description class="form-control" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ln_solid">
+                            <br />
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-3">
+                                    <button type='submit' class="btn text-white shadow-warning" style="background-color: #FF9001;">Update</button>
+                                    &nbsp &nbsp &nbsp
+                                    <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href="{% url 'FrontDeskBedList' %}">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

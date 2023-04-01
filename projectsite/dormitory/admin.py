@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django import forms
+from searchableselect.widgets import SearchableSelect
 
-# Register your models here.
+# Register your models here.    
 from .models import Room
 
 @admin.register(Room)
@@ -21,12 +23,20 @@ class ServiceAdmin(admin.ModelAdmin):
 
 from .models import Bed
 
+class BedForm(forms.ModelForm):
+    class Meta:
+        model = Bed
+        exclude = ()
+        widgets = {
+            'room': SearchableSelect(model='dormitory.Room', search_field='room_name', many=False, limit=10)
+        }
+
 @admin.register(Bed)
 class BedAdmin(admin.ModelAdmin):
     list_display=("room_id","bed_code","bed_description","price",)
     search_fields = ("room_id","bed_code","bed_description","price",)
     list_filter = ("created_at",)
-
+    form = BedForm
 
 from .models import User
 

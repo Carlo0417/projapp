@@ -27,19 +27,19 @@
                   <div class="card-footer p-3">
                     <div class="row">
                       <div class="col-4">
-                        <a href="male_vacantbed" style="color: #7B809A;">
+                        <a href="dash_male_vacant_bed" style="color: #7B809A;">
                         <span class="mb-0 text-link text-sm">Male Dorm: <span class="text-sm font-weight-bolder text-dark">
                           {% if maledorm_bed != empty %} {{ maledorm_bed }} {% else %} 0 {% endif %}</span></span>
                         </a>
                       </div>
                       <div class="col-4">
-                        <a href="female_vacantbed" style="color: #7B809A;">
+                        <a href="dash_female_vacant_bed" style="color: #7B809A;">
                         <span class="mb-0 text-link text-sm">Female Dorm: <span class="text-sm font-weight-bolder text-dark"> 
                           {% if femaledorm_bed != empty %} {{ femaledorm_bed }} {% else %} 0 {% endif %}</span></span>
                         </a>
                       </div>
                       <div class="col-4">
-                        <a href="foreign_vacantbed" style="color: #7B809A;">
+                        <a href="dash_foreign_vacant_bed" style="color: #7B809A;">
                         <span class="mb-0 text-link text-sm">Foreign Dorm: <span class="text-sm font-weight-bolder text-dark"> 
                           {% if foreigndorm_bed != empty %} {{ foreigndorm_bed }} {% else %} 0 {% endif %}</span></span>
                         </a>
@@ -188,13 +188,29 @@
                   </div>
                   <div class="card-body">
                     <h6 class="mb-0 ">Monthly Occupant</h6>
-                    <p class="text-sm ">Dormitory occupant monthly</p>
+                    <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p>
+
                     <hr class="dark horizontal">
                     <div class="d-flex ">
                       <!-- <i class="material-icons text-sm my-auto me-1">schedule</i>
                       <p class="mb-0 text-sm">just updated</p> -->
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <h6 class="mb-0">Occupant Payment</h6>
+                <p class="text-md">Out of <b class="text-dark">30</b> occupant <b style="color: #FF4200;">20</b> are <b style="color: #FF4200;">paid</b>, 
+                  <b style="color: #FF9001;">{{current_month_occupant}}</b> are <b style="color: #FF9001;">partially paid</b>, and
+                  <b style="color: #4b4b4b;">3</b> are <b style="color: #4b4b4b;">unpaid</b>.
+                </p>
+                <hr class="dark horizontal">
+                <div class="d-flex ">
+                  <i class="material-icons text-sm my-auto me-1">leaderboard</i>
+                  <p class="mb-0 text-sm">30% paid, 70% unpaid </p>
                 </div>
               </div>
             </div>
@@ -210,6 +226,7 @@
                         <p class="text-sm mb-0">
                           <i class="fa fa-group" aria-hidden="true" style="color:#ff4200 ;"></i>
                           <span class="font-weight-bold ms-1">6 occupants</span> this month
+                          {{current_month}}
                         </p>
                       </div>
                       <div class="col-lg-6 col-5 my-auto text-end">

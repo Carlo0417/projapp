@@ -1,0 +1,371 @@
+{% extends 'frontdesk_base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    {% load widget_tweaks %}
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        {% if object.reg_status == "Incomplete" %}
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #4b4b4b;">
+                            <h6 class="text-white text-capitalize ps-3">View Registration Details</h6>
+                        </div>
+                        {% elif object.reg_status == "Complete" %}
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF4200;">
+                            <h6 class="text-white text-capitalize ps-3">View Registration Details</h6>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                    <form class="" action="" method="post" novalidate>
+                        {% csrf_token %}
+
+                        {% load widget_tweaks %}
+                        
+                    <!-- Status and Dates -->
+                    <div class="row">
+                        <div class="col-2">
+                            {% if object.reg_status == "Incomplete" %}
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Status</label><br>
+                            <span class="badge badge-sm text-sm shadow-secondary bg-gradient-secondary">
+                                {{ object.reg_status }}
+                            </span>
+                            {% elif object.reg_status == "Complete" %} 
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Status</label><br>
+                            <span class="badge badge-sm text-sm shadow-success bg-gradient-success">
+                                {{ object.reg_status }}
+                            </span>
+                            {% endif %}                   
+                        </div>
+
+                        <div class="col-4"></div>
+    
+                        <div class="col-3">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px; margin-top: 17px;">Registered Date</label> <br>
+                            <h6 class="mb-0 text-sm">{{ object.created_at }}</h6>   
+                        </div>
+
+                        <div class="col-3">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px; margin-top: 17px;">Updated Date</label> <br>
+                            <h6 class="mb-0 text-sm">{{ object.updated_at }}</h6>   
+                        </div>
+                    </div>
+                    <!-- end of Status and Dates -->
+
+                    <!-- Personal Information -->
+                    {% if object.reg_status == "Incomplete" %}
+                        <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(75, 75, 75, 0.8);">Personal Information</p>
+                    {% elif object.reg_status == "Complete" %} 
+                        <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Personal Information</p>
+                    {% endif %}
+
+                    {% if object.reg_status == "Incomplete" %}
+                        <hr style="border-top: 2px solid #4b4b4b; opacity: 0.5;" class="my-1">
+                    {% elif object.reg_status == "Complete" %} 
+                        <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-4 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">PSU Email</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.psu_email }}</label> 
+                            </div>                 
+                        </div>
+
+                        <div class="col-1 my-1"></div>
+
+                        <div class="col-2 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Last Name</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.last_name }}</label>
+                            </div>  
+                        </div>
+
+                        <div class="col-2 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">First Name</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.first_name }}</label> 
+                            </div>  
+                        </div>
+
+                        <div class="col-2 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Middle Name</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.middle_name }}</label> 
+                            </div>  
+                        </div>
+
+                         <div class="col-1 my-1"></div>
+                    </div>
+
+                    {% if object.reg_status == "Incomplete" %}
+                        <hr style="border-top: 1px solid #4b4b4b; opacity: 0.3;" class="my-1">
+                    {% elif object.reg_status == "Complete" %} 
+                        <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-1">
+                    {% endif %}
+
+                    <div class="row my-2">
+                        <div class="col-2">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Gender</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.gender }}</label> 
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Boarder Type</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.boarder_type }}</label>  
+                            </div>
+                        </div>
+                            
+                        <div class="col-4">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Program</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.program }}</label>  
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Office / Department</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.office_dept }}</label>  
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of Personal Information -->
+
+
+                    <!-- Contact Information -->
+                    {% if object.reg_status == "Incomplete" %}
+                        <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(75, 75, 75, 0.8);">Contact Information</p>
+                    {% elif object.reg_status == "Complete" %} 
+                        <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Contact Information</p>
+                    {% endif %}
+
+                    {% if object.reg_status == "Incomplete" %}
+                        <hr style="border-top: 2px solid #4b4b4b; opacity: 0.5;" class="my-1">
+                    {% elif object.reg_status == "Complete" %} 
+                        <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-4 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Contact Number</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.contact_no }}</label>  
+                            </div>               
+                        </div>
+
+                        <div class="col-8 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Address</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.address }}</label>  
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if object.reg_status == "Incomplete" %}
+                        <hr style="border-top: 1px solid #4b4b4b; opacity: 0.3;" class="my-1">
+                    {% elif object.reg_status == "Complete" %} 
+                        <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-1">
+                    {% endif %}
+
+                    <div class="row my-2">
+                        <div class="col-3">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">City</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.city }}</label>  
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Municipality</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.municipality }}</label>  
+                            </div>
+                        </div>
+                            
+                        <div class="col-3">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Province</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.province }}</label>  
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Country</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.country }}</label>  
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of Contact Information -->
+
+                    <!-- Guardian Information -->
+                    {% if object.reg_status == "Incomplete" %}
+                        <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(75, 75, 75, 0.8);">Guardian Information</p>
+                    {% elif object.reg_status == "Complete" %} 
+                        <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Guardian Information</p>
+                    {% endif %}
+
+                    {% if object.reg_status == "Incomplete" %}
+                        <hr style="border-top: 2px solid #4b4b4b; opacity: 0.5;" class="my-1">
+                    {% elif object.reg_status == "Complete" %} 
+                        <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Guardian's First Name</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.guardian_first_name }}</label> 
+                            </div>               
+                        </div>
+
+                        <div class="col-4">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Guardian's Last Name</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.guardian_last_name }}</label>  
+                            </div>               
+                        </div>
+
+                        <div class="col-4">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-top: 0px;">Guardian's Contact Number</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.guardian_contact_no }}</label>
+                            </div>               
+                        </div>
+                    </div>
+
+                    {% if object.reg_status == "Incomplete" %}
+                        <hr style="border-top: 1px solid #4b4b4b; opacity: 0.3;" class="my-1">
+                    {% elif object.reg_status == "Complete" %} 
+                        <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-1">
+                    {% endif %}
+
+                    <div class="row my-2">
+                        <div class="col-4">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Guardian's Email Address</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.guardian_email_address }}</label>  
+                            </div>               
+                        </div>
+
+                        <div class="col-8">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
+                            style="margin-bottom: 0px;">Guardian's Address</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.guardian_present_address }}</label>  
+                            </div>               
+                        </div>
+                    </div>
+                    <!-- end of Guardian Information -->
+
+                    <!-- Admission Requirements -->
+                    {% if object.reg_status == "Incomplete" %}
+                        <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(75, 75, 75, 0.8);">Admission Requirements</p>
+                    {% elif object.reg_status == "Complete" %} 
+                        <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Admission Requirements</p>
+                    {% endif %}
+                
+                    {% if object.reg_status == "Incomplete" %}
+                        <hr style="border-top: 2px solid #4b4b4b; opacity: 0.5;" class="my-1">
+                    {% elif object.reg_status == "Complete" %} 
+                        <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
+                    {% endif %}
+
+                    <div class="form-check form-switch ps-3" style="margin-top: 25px;">
+                        {% render_field form.Field1 class="form-check-input ms-auto"%}
+                        <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+                        for="flexxswitchCheckDefault">Two pieces 2"x2" coloured ID pictures 
+                        taken not more than six months prior to the signing of the contract</label>
+                    </div>
+
+                    <div class="form-check form-switch ps-3 my-3">
+                        {% render_field form.Field2 class="form-check-input ms-auto"%}
+                        <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+                        for="flexxswitchCheckDefault">Medical Certificate from the University physician</label>
+                    </div>
+                            
+                    <div class="form-check form-switch ps-3 my-3">
+                        {% render_field form.Field3 class="form-check-input ms-auto"%}
+                        <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+                        for="flexxswitchCheckDefault">Fully accomplished application form (form OIA-OID)</label>
+                    </div>
+
+                    <div class="form-check form-switch ps-3 my-3">
+                        {% render_field form.Field4 class="form-check-input ms-auto"%}
+                        <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+                        for="flexxswitchCheckDefault">Special power of attorney (SPA) for guardian</label>
+                    </div>
+
+                    <div class="form-check form-switch ps-3 my-3">
+                        {% render_field form.Field5 class="form-check-input ms-auto"%}
+                        <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+                        for="flexxswitchCheckDefault">Photocopy of the University Identification card 
+                        valid on the school year enrolled</label>
+                    </div>
+
+                    <div class="form-check form-switch ps-3 my-3">
+                        {% render_field form.Field6 class="form-check-input ms-auto"%}
+                        <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+                        for="flexxswitchCheckDefault">Certificate of Enrollment</label>
+                    </div>
+
+                    <div class="form-check form-switch ps-3 my-3">
+                        {% render_field form.Field7 class="form-check-input ms-auto"%}
+                        <label class="form-check-label text-body ms-4 text-truncate w-80 mb-0" 
+                        for="flexxswitchCheckDefault">Photocopy of the dormitory ID</label>
+                    </div>
+                    <!-- end of Admission Requirements -->
+
+                        <div class="ln_solid">
+                            <br />
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="{% url 'frontdesk_RegPDF' object.id %}" class="btn text-white shadow-warning" style="background-color: #FF4200;"> Export to PDF </a>
+                                        &nbsp &nbsp &nbsp &nbsp 
+                                        <a href="frontdesk_registration_list/{{ object.id }}" class="btn text-white shadow-warning" style="background-color: #FF9001;"> Edit </a>
+                                        &nbsp &nbsp &nbsp &nbsp
+                                        <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href="{{request.META.HTTP_REFERER}}">Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

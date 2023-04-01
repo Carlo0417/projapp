@@ -63,7 +63,7 @@
                                             <p class="text-xs text-secondary mb-0">{{ object.username }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs text-secondary mb-0">{{ object.password }}</p>
+                                            <p class="text-xs text-secondary mb-0 password" id="password{{ forloop.counter }}">{{ object.password }}</p>
                                         </td>
                                         <td class="text-sm text-center">
                                             {% if object.user_status == "inactive" %}
@@ -113,4 +113,12 @@
             </div>
         </div>
 </main>
+
+<script>
+    var passwordEls = document.querySelectorAll('.password');
+    for (var i = 0; i < passwordEls.length; i++) {
+      var passwordEl = passwordEls[i];
+      passwordEl.innerHTML = '*'.repeat(passwordEl.textContent.length);
+    }
+</script>
 {% endblock content%}

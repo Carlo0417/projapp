@@ -27,12 +27,18 @@
                         </div>
                         {% endif %}
 
+                        {% include 'includes/select2.html' %}
+
                         <div class="row">
                             <div class="col-6">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.occupant class="form-control" %}
+                                    <select class="form-control occupant-list" name="occupant" id="occupant" data-placeholder="">
+                                        {% for occupant in form.occupant %}
+                                            <option value="{{ occupant.id }}">{{ occupant }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                              </div>
 
@@ -80,5 +86,11 @@
         </div>
     </div>
 </main>
+
+<script>
+    $(document).ready(function() {
+        $('.occupant-list').select2();
+    });
+</script>
 
 {% endblock %}

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'landingpage',
     'dormitory',
     'django.contrib.humanize',
+    'searchableselect',
 ]
 
 MESSAGE_TAGS = {
@@ -98,7 +99,7 @@ DATABASES = {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'dormdb',
             'USER': 'root',
-            'PASSWORD': 'helloadmin',
+            'PASSWORD': '',
             'HOST': '127.0.0.1',
             'PORT': '3306',
         }
