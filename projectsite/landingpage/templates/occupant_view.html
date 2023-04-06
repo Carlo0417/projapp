@@ -56,6 +56,8 @@
                             style="margin-bottom: 0px;">Start Date</label> <br>
                             <span class="badge badge-sm shadow-primary" style="background-color: rgba(255, 66, 0, 0.9); margin-bottom: 5px;">{{ object.start_date }}</span>
                             
+                            <br>
+
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Registered Date</label> <br>
                             <h6 class="mb-0 text-xs">{{ object.created_at }}</h6>  
@@ -65,10 +67,12 @@
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">End Date</label> <br>
                             <span class="badge badge-sm shadow-primary" style="background-color: rgba(255, 66, 0, 0.9); margin-bottom: 5px;">{{ object.end_date }}</span>
-
+                            
+                            <br>
+                            
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                            style="margin-bottom: 0px;">Updated Date</label> <br>
-                            <h6 class="mb-0 text-xs">{{ object.updated_at }}</h6>   
+                            style="margin-bottom: 0px;">Updated Date </label> <br>
+                            <h6 class="mb-0 text-xs">{{ object.updated_at }}</h6>  
                         </div>
                     </div>
                     <!-- end of Name and Dates -->
@@ -138,7 +142,7 @@
 
                         <div class="col-3 my-1">
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                            style="margin-bottom: 0px;">Dorm Descrition</label>
+                            style="margin-bottom: 0px;">Room Descrition</label>
                             <div class="input-group input-group-outline">
                                 <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.room.description }}</label> 
                             </div>  

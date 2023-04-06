@@ -15,15 +15,15 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
         style="margin-bottom: 0px; margin-top: 17px;">PSU Email <span style="color: red;">*</span> </label> 
         <div class="input-group input-group-outline">
-            {% render_field form.psu_email class="form-control"%}
+            {% render_field form.psu_email class="form-control" id="psu_email"%}
         </div>
         <label class="text-secondary opacity-8" style="margin-bottom: 0px; font-style: italic; 
-        font-size: 11px;"> * Must be a valid corporate PSU email address.</label> <br>
+        font-size: 11px;"> * Must be a valid corporate <b>PSU</b> email address.</label> <br>
         
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
         style="margin-bottom: 0px; margin-top: 10px;">First Name <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.first_name class="form-control"%}
+            {% render_field form.first_name class="form-control" id="first_name"%}
         </div>                   
     </div>
 
@@ -32,7 +32,7 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px; margin-top: 17px;">Last Name <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.last_name class="form-control"%}
+            {% render_field form.last_name class="form-control" id="last_name"%}
         </div> <br>
         
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
@@ -48,7 +48,7 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px; margin-top: 20px;">Gender <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.gender class="form-control"%}
+            {% render_field form.gender class="form-control" id="gender"%}
         </div>
     </div>
 
@@ -56,15 +56,21 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px; margin-top: 20px;">Boarder Type <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.boarder_type class="form-control"%}
+            {% render_field form.boarder_type class="form-control" id="boarder_type"%}
         </div>
     </div>
+
+    {% include 'includes/select2.html' %}
                             
     <div class="col-8">
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px; margin-top: 20px;">Program <span style="color: red;">*</span> </label>
-        <div class="input-group input-group-outline" onclick="getOfficeDept()">
-            {% render_field form.program class="form-control" id="select1"%}
+        <div class="input-group input-group-outline" onChange="getOfficeDept()">
+            <select class="form-control program-list" name="program" id="program" data-placeholder="">
+                {% for program in form.program %}
+                    <option value="{{ program.id }}" >{{ program }}</option>
+                {% endfor %}
+            </select>
         </div>
 
         <label class="text-secondary text-xs font-weight-bolder opacity-8" 
@@ -84,8 +90,10 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-top: 17px; margin-bottom: 0px;">Contact Number <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.contact_no class="form-control"%}
-        </div>               
+            {% render_field form.contact_no class="form-control" id="contact_no"%}
+        </div>  
+        <label class="text-secondary opacity-8" style="margin-bottom: 0px; font-style: italic; 
+        font-size: 11px;">* Ex. <b>PH +63</b> start the input to <b>9</b>. Same goes to the others.</label> <br>             
     </div>
 
     <div class="col-8 my-3">
@@ -93,7 +101,7 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-top: 17px; margin-bottom: 0px;">Address <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.address class="form-control"%}
+            {% render_field form.address class="form-control" id="address"%}
         </div>
     </div>
 </div>
@@ -103,7 +111,7 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px;">City <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.city class="form-control"%}
+            {% render_field form.city class="form-control" id="city"%}
         </div>
     </div>
 
@@ -111,7 +119,11 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px;">Municipality</label>
         <div class="input-group input-group-outline">
-            {% render_field form.municipality class="form-control"%}
+            <select class="form-control municipality-list" name="municipality" id="municipality" data-placeholder="">
+                {% for municipality in form.municipality %}
+                    <option value="{{ municipality.id }}" >{{ municipality }}</option>
+                {% endfor %}
+            </select>
         </div>
     </div>
                             
@@ -119,7 +131,7 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px;">Province <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.province class="form-control"%}
+            {% render_field form.province class="form-control" id="province"%}
         </div>
     </div>
 
@@ -127,7 +139,7 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px;">Country <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.country class="form-control"%}
+            {% render_field form.country class="form-control" id="country"%}
         </div>
     </div>
 </div>
@@ -142,7 +154,7 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-top: 17px; margin-bottom: 0px;">Guardian's First Name <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.guardian_first_name class="form-control"%}
+            {% render_field form.guardian_first_name class="form-control" id="guardian_first_name"%}
         </div>               
     </div>
 
@@ -151,7 +163,7 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-top: 17px; margin-bottom: 0px;">Guardian's Last Name <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.guardian_last_name class="form-control"%}
+            {% render_field form.guardian_last_name class="form-control" id="guardian_last_name"%}
         </div>               
     </div>
 
@@ -160,8 +172,10 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-top: 17px;">Guardian's Contact Number <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.guardian_contact_no class="form-control"%}
-        </div>               
+            {% render_field form.guardian_contact_no class="form-control" id="guardian_contact_no"%}
+        </div>
+        <label class="text-secondary opacity-8" style="margin-bottom: 0px; font-style: italic; 
+        font-size: 11px;">* Ex. <b>PH +63</b> start the input to <b>9</b>. Same goes to the others.</label> <br>                
     </div>
 </div>
 
@@ -170,7 +184,7 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px;">Guardian's Email Address <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.guardian_email_address class="form-control"%}
+            {% render_field form.guardian_email_address class="form-control" id="guardian_email_address"%}
         </div> 
         
         <label class="text-secondary opacity-8" style="margin-bottom: 0px; font-style: italic; 
@@ -181,7 +195,7 @@
         <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9"
         style="margin-bottom: 0px;">Guardian's Address <span style="color: red;">*</span> </label>
         <div class="input-group input-group-outline">
-            {% render_field form.guardian_present_address class="form-control"%}
+            {% render_field form.guardian_present_address class="form-control" id="guardian_present_address"%}
         </div>               
     </div>
 </div>
@@ -244,6 +258,15 @@
 <!-- end of Admission Requirements -->
 
 <script>
+
+    $(document).ready(function() {
+        $('.program-list').select2();
+    });
+
+    $(document).ready(function() {
+        $('.municipality-list').select2();
+    });
+
     function toggle(source) {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
         for (var i = 0; i < checkboxes.length; i++) {
@@ -256,7 +279,7 @@
 <script>
   
     function getOfficeDept() {
-        selectElement = document.querySelector('#select1');
+        selectElement = document.querySelector('#program');
         officeDept = selectElement.options[selectElement.selectedIndex].textContent;
 
         switch(officeDept) {

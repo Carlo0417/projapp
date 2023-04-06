@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'dormitory',
     'django.contrib.humanize',
     'searchableselect',
+    'phonenumber_field',
 ]
 
 MESSAGE_TAGS = {

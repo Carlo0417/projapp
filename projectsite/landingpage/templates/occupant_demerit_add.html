@@ -85,8 +85,12 @@
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Remarks / Description</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.remarks class="form-control" %}
+                                    {% render_field form.prev_remarks class="form-control" %}
                                 </div>
+                            </div>
+
+                            <div class="input-group input-group-outline" hidden>
+                                {% render_field form.new_remarks class="form-control" %}
                             </div>
                         </div>
                

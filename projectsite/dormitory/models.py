@@ -7,7 +7,7 @@ from datetime import timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
 from datetime import datetime, date
-
+from phonenumber_field.modelfields import PhoneNumberField
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -162,7 +162,7 @@ class Person(BaseModel):
     ('Batazar','Batazar'), ('Brooke''s Point','Brooke''s Point'),('Busuanga','Busuanga'),('Cagayancillo','Cagayancillo'),
     ('Coron','Coron'),('Culion','Culion'),('Cuyo','Cuyo'),('Dumaran','Dumaran'),('El Nido','El Nido'),
     ('Iwahig Penal Colony','Iwahig Penal Colony'),('Kalayaan','Kalayaan'),('Linapacan','Linapacan'),('Magsaysay','Magsaysay'),
-    ('Narra','Narra'),('Puerto Princesa City','Puerto Princesa City'), ('Aborlan','Aborlan'),('Quezon','Quezon'),('Roxas','Roxas'),
+    ('Narra','Narra'),('Puerto Princesa City','Puerto Princesa City'), ('Quezon','Quezon'),('Roxas','Roxas'),
     ('Rizal','Rizal'),('San Vicente','San Vicente'),('Sofronio Española','Sofronio Española'),('Taytay','Taytay'),)
 
     GENDER_CHOICES = (('Male','Male'),('Female','Female'),('LGBTQIA+','LGBTQIA+'),)
@@ -177,7 +177,7 @@ class Person(BaseModel):
     boarder_type = models.CharField(max_length=50, default="Local", choices=TYPE_CHOICES)
     program = models.CharField(max_length=250, choices=PROGRAM_CHOICES)
     office_dept = models.CharField(max_length=250, verbose_name="Office / Department", null=True, blank=True)
-    contact_no = models.CharField(max_length=20, default="", verbose_name="Contact Number")
+    contact_no = PhoneNumberField()
     address = models.CharField(max_length=250, default="", verbose_name="Address")
     city = models.CharField(max_length=250, default="Puerto Princesa City", verbose_name="City")
     municipality = models.CharField(max_length=250, default="None", verbose_name="Municipality", choices=MUNICIPALITIES_CHOICES)
@@ -187,7 +187,7 @@ class Person(BaseModel):
     guardian_last_name= models.CharField(max_length=250, default="", verbose_name="Guardian's Last name")
     guardian_email_address = models.EmailField(max_length=250, default="", verbose_name="Guardian's Email")
     guardian_present_address = models.CharField(max_length=250, default="", verbose_name="Guardian's Address")
-    guardian_contact_no = models.CharField(max_length=20, default="", verbose_name="Guardian's Contact Number")
+    guardian_contact_no = PhoneNumberField()
 
     #Admission Requiremnets
     Field1 = models.BooleanField(default=False, verbose_name='Two pieces 2"x2" coloured ID pictures taken not more than six months prior to the signing of the contract')
@@ -328,7 +328,8 @@ class OccupantDemerit(BaseModel):
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
     demerit_name = models.ForeignKey(Demerit, on_delete=models.CASCADE)
     cur_date = models.DateTimeField(default=timezone.now)
-    remarks = models.TextField(max_length=500, default="None")
+    prev_remarks = models.TextField(max_length=500, default="None")
+    new_remarks = models.TextField(max_length=500, default="", null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Occupant Demerits"

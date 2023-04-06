@@ -655,9 +655,16 @@ class OccupantViewDemeritUpdate(UpdateView):
         return reverse('OccupantView', kwargs={'pk': self.object.occupant_id})
 
     def form_valid(self, form):
-      messages.success(self.request, "Occupant demerit was updated successfully!")
-      super().form_valid(form)
-      return HttpResponseRedirect(self.get_success_url())
+
+        remarks = form.cleaned_data.get('remarks')
+        new_remarks = form.cleaned_data['new_remarks']
+        existing_remarks = remarks or ''
+        remarks = existing_remarks + ' ' + new_remarks
+
+        messages.success(self.request, "Occupant demerit was updated successfully!")
+        super().form_valid(form)
+
+        return HttpResponseRedirect(self.get_success_url())
 
 # @method_decorator(login_required, name='dispatch')
 class OccMonthRep(ListView):
@@ -755,12 +762,8 @@ class RegYearRep(ListView):
 # @method_decorator(login_required, name='dispatch')
 class RegistrationUpdateView(UpdateView):
     model = Person
-    fields = ['psu_email','last_name','first_name','middle_name','gender','boarder_type','program',
-            'office_dept','contact_no','address','city','municipality','province','country',
-            'guardian_first_name','guardian_last_name','guardian_email_address',
-            'guardian_present_address','guardian_contact_no','Field1','Field2','Field3',
-            'Field4','Field5','Field6','Field7']
     context_object_name = 'person'
+    form_class = RegistrationForm
     template_name = 'registration_update.html'
     success_url = "/registration_list"
 
@@ -771,6 +774,205 @@ class RegistrationUpdateView(UpdateView):
     def form_valid(self, form):
       messages.success(self.request, "Registration details was updated successfully!")
       super().form_valid(form)
+
+      person_id = form.instance.id
+      program = form.cleaned_data.get('program')
+
+      if program == "Bachelor of Science in Social Work":
+        cursor = connections['default'].cursor()
+        query1 = f"UPDATE dormitory_person SET office_dept = 'Department of Behavioral Science' WHERE `id` = {person_id}"
+        cursor.execute(query1)
+
+      elif program == "Bachelor of Science in Psychology":
+        cursor = connections['default'].cursor()
+        query2 = f"UPDATE dormitory_person SET office_dept = 'Department of Behavioral Science' WHERE `id` = {person_id}"
+        cursor.execute(query2)
+
+      elif program == "Bachelor of Arts in Communication":
+        cursor = connections['default'].cursor()
+        query3 = f"UPDATE dormitory_person SET office_dept = 'Department of Behavioral Science' WHERE `id` = {person_id}"
+        cursor.execute(query3)
+
+      elif program == "Bachelor of Arts in Political Science":
+        cursor = connections['default'].cursor()
+        query4 = f"UPDATE dormitory_person SET office_dept = 'Department of Social Sciences' WHERE `id` = {person_id}"
+        cursor.execute(query4)
+
+      elif program == "Bachelor of Arts in Philippine Studies":
+        cursor = connections['default'].cursor()
+        query5 = f"UPDATE dormitory_person SET office_dept = 'Department of Foreign Language' WHERE `id` = {person_id}"
+        cursor.execute(query5)
+
+      elif program == "Bachelor of Science in Biology Major in Medical Biology":
+        cursor = connections['default'].cursor()
+        query6 = f"UPDATE dormitory_person SET office_dept = 'Bio-Physical Science Department' WHERE `id` = {person_id}"
+        cursor.execute(query6)
+
+      elif program == "Bachelor of Science in Marine Biology":
+        cursor = connections['default'].cursor()
+        query7 = f"UPDATE dormitory_person SET office_dept = 'Bio-Physical Science Department' WHERE `id` = {person_id}"
+        cursor.execute(query7)
+
+      elif program == "Bachelor of Science in Environmental Science":
+        cursor = connections['default'].cursor()
+        query8 = f"UPDATE dormitory_person SET office_dept = 'Bio-Physical Science Department' WHERE `id` = {person_id}"
+        cursor.execute(query8)
+
+      elif program == "Bachelor of Science in Information Technology":
+        cursor = connections['default'].cursor()
+        query9 = f"UPDATE dormitory_person SET office_dept = 'Computer Studies Department' WHERE `id` = {person_id}"
+        cursor.execute(query9)
+
+      elif program == "Bachelor of Science in Computer Science":
+        cursor = connections['default'].cursor()
+        query10 = f"UPDATE dormitory_person SET office_dept = 'Computer Studies Department' WHERE `id` = {person_id}"
+        cursor.execute(query10)
+
+      elif program == "Bachelor of Science in Physical Education":
+        cursor = connections['default'].cursor()
+        query11 = f"UPDATE dormitory_person SET office_dept = 'Department of Physical Education' WHERE `id` = {person_id}"
+        cursor.execute(query11)
+
+      elif program == "Bachelor of Science in Elementary Education":
+        cursor = connections['default'].cursor()
+        query12 = f"UPDATE dormitory_person SET office_dept = 'Department of Elementary Education' WHERE `id` = {person_id}"
+        cursor.execute(query12)
+
+      elif program == "Bachelor of Science in Secondary Education Major in Science":
+        cursor = connections['default'].cursor()
+        query13 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+        cursor.execute(query13)
+
+      elif program == "Bachelor of Science in Secondary Education Major in Math":
+        cursor = connections['default'].cursor()
+        query14 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+        cursor.execute(query14)
+
+      elif program == "Bachelor of Science in Secondary Education Major in English":
+        cursor = connections['default'].cursor()
+        query15 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+        cursor.execute(query15)
+
+      elif program == "Bachelor of Science in Secondary Education Major in Filipino":
+        cursor = connections['default'].cursor()
+        query16 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+        cursor.execute(query16)
+
+      elif program == "Bachelor of Science in Secondary Education Major in Social Studies":
+        cursor = connections['default'].cursor()
+        query17 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+        cursor.execute(query17)
+
+      elif program == "Bachelor of Science in Secondary Education Major in Values":
+        cursor = connections['default'].cursor()
+        query18 = f"UPDATE dormitory_person SET office_dept = 'Department of Secondary Education' WHERE `id` = {person_id}"
+        cursor.execute(query18)
+
+      elif program == "Bachelor of Science in Accountancy":
+        cursor = connections['default'].cursor()
+        query19 = f"UPDATE dormitory_person SET office_dept = 'Department of Accountancy' WHERE `id` = {person_id}"
+        cursor.execute(query19)
+
+      elif program == "Bachelor of Science in Management Accountancy":
+        cursor = connections['default'].cursor()
+        query20 = f"UPDATE dormitory_person SET office_dept = 'Department of Accountancy' WHERE `id` = {person_id}"
+        cursor.execute(query20)
+
+      elif program == "Bachelor of Science in Entrepreneurship":
+        cursor = connections['default'].cursor()
+        query21 = f"UPDATE dormitory_person SET office_dept = 'Department of Marketing Management, Entrepreneurship, and Public Administration' WHERE `id` = {person_id}"
+        cursor.execute(query21)
+
+      elif program == "Bachelor of Science in Business Administration  Major in Marketing Management":
+        cursor = connections['default'].cursor()
+        query22 = f"UPDATE dormitory_person SET office_dept = 'Department of Marketing Management, Entrepreneurship, and Public Administration' WHERE `id` = {person_id}"
+        cursor.execute(query22)
+
+      elif program == "Bachelor of Science in Business Administration  Major in Public Administration":
+        cursor = connections['default'].cursor()
+        query23 = f"UPDATE dormitory_person SET office_dept = 'Department of Marketing Management, Entrepreneurship, and Public Administration' WHERE `id` = {person_id}"
+        cursor.execute(query23)
+
+      elif program == "Bachelor of Science in Business Administration  Major in Financial Management":
+        cursor = connections['default'].cursor()
+        query24 = f"UPDATE dormitory_person SET office_dept = 'Department of Financial Management, Human Resource Management, and Business Economics' WHERE `id` = {person_id}"
+        cursor.execute(query24)
+
+      elif program == "Bachelor of Science in Business Administration  Major in Human Resource Management":
+        cursor = connections['default'].cursor()
+        query25 = f"UPDATE dormitory_person SET office_dept = 'Department of Financial Management, Human Resource Management, and Business Economics' WHERE `id` = {person_id}"
+        cursor.execute(query25)
+
+      elif program == "Bachelor of Science in Business Administration  Major in Business Economics":
+        cursor = connections['default'].cursor()
+        query26 = f"UPDATE dormitory_person SET office_dept = 'Department of Financial Management, Human Resource Management, and Business Economics' WHERE `id` = {person_id}"
+        cursor.execute(query26)
+
+      elif program == "Bachelor of Science in Hospitality Management":
+        cursor = connections['default'].cursor()
+        query27 = f"UPDATE dormitory_person SET office_dept = 'Hospitality Management Department' WHERE `id` = {person_id}"
+        cursor.execute(query27)
+
+      elif program == "Track - Culinary Arts and Kitchen Management":
+        cursor = connections['default'].cursor()
+        query28 = f"UPDATE dormitory_person SET office_dept = 'Hospitality Management Department' WHERE `id` = {person_id}"
+        cursor.execute(query28)
+
+      elif program == "Bachelor of Science in Tourism Management":
+        cursor = connections['default'].cursor()
+        query29 = f"UPDATE dormitory_person SET office_dept = 'Tourism Management Department' WHERE `id` = {person_id}"
+        cursor.execute(query29)
+
+      elif program == "Track - Hotel,Resort, and Club Management":
+        cursor = connections['default'].cursor()
+        query30 = f"UPDATE dormitory_person SET office_dept = 'Tourism Management Department' WHERE `id` = {person_id}"
+        cursor.execute(query30)
+
+      elif program == "Bachelor of Science in Civil Engineering":
+        cursor = connections['default'].cursor()
+        query31 = f"UPDATE dormitory_person SET office_dept = 'Department of Civil Engineering' WHERE `id` = {person_id}"
+        cursor.execute(query31)
+
+      elif program == "Bachelor of Science in Mechanical Engineering":
+        cursor = connections['default'].cursor()
+        query32 = f"UPDATE dormitory_person SET office_dept = 'Department of Mechanical Engineering' WHERE `id` = {person_id}"
+        cursor.execute(query32)
+
+      elif program == "Bachelor of Science in Electrical Engineering":
+        cursor = connections['default'].cursor()
+        query33 = f"UPDATE dormitory_person SET office_dept = 'Department of Electrical Engineering' WHERE `id` = {person_id}"
+        cursor.execute(query33)
+
+      elif program == "Bachelor of Science in Petroleum Engineering":
+        cursor = connections['default'].cursor()
+        query34 = f"UPDATE dormitory_person SET office_dept = 'Department of Petroleum Engineering' WHERE `id` = {person_id}"
+        cursor.execute(query34)
+     
+      elif program == "Bachelor of Science in Architecture":
+        cursor = connections['default'].cursor()
+        query35 = f"UPDATE dormitory_person SET office_dept = 'Department of Architecture' WHERE `id` = {person_id}"
+        cursor.execute(query35)
+
+      elif program == "Bachelor of Science in Nursing":
+        cursor = connections['default'].cursor()
+        query36 = f"UPDATE dormitory_person SET office_dept = 'Department of Nursing' WHERE `id` = {person_id}"
+        cursor.execute(query36)
+
+      elif program == "Diploma in Midwifery":
+        cursor = connections['default'].cursor()
+        query37 = f"UPDATE dormitory_person SET office_dept = 'Department of Midwifery' WHERE `id` = {person_id}"
+        cursor.execute(query37)
+
+      elif program == "Bachelor of Science in Midwifery":
+        cursor = connections['default'].cursor()
+        query38 = f"UPDATE dormitory_person SET office_dept = 'Department of Midwifery' WHERE `id` = {person_id}"
+        cursor.execute(query38)
+
+      elif program == "Bachelor of Science in Criminology":
+        cursor = connections['default'].cursor()
+        query39 = f"UPDATE dormitory_person SET office_dept = 'No Office / Department' WHERE `id` = {person_id}"
+        cursor.execute(query39)
+
       return HttpResponseRedirect(self.get_success_url())
 
 
@@ -924,6 +1126,9 @@ class OccupantDemeritList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['occupant_demerit'] = OccupantDemerit.objects.count()
+        cursor = connections['default'].cursor()
+        query = f"UPDATE dormitory_occupantdemerit SET new_remarks = null "
+        cursor.execute(query)
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -940,7 +1145,7 @@ class OccupantDemeritList(ListView):
 # @method_decorator(login_required, name='dispatch')
 class OccupantDemeritUpdateView(UpdateView):
     model = OccupantDemerit
-    fields = "__all__"
+    fields = ['prev_remarks', 'new_remarks']
     context_object_name = 'occupant'
     template_name = 'occupant_demerit_update.html'
     success_url = "/occupant_demerit_list"
@@ -952,8 +1157,22 @@ class OccupantDemeritUpdateView(UpdateView):
     def form_valid(self, form):
       messages.success(self.request, "Occupant demerit was updated successfully!")
       super().form_valid(form)
-      return HttpResponseRedirect(self.get_success_url())
 
+      occ_id = form.instance.id
+      pre_r = form.cleaned_data.get('prev_remarks')
+      new_r = form.cleaned_data.get('new_remarks')
+      
+      indent = '     '
+      in_new_r = indent + new_r
+
+      prev_plus_new = pre_r +" \n \n " + in_new_r
+
+      cursor = connections['default'].cursor()
+      query = "UPDATE dormitory_occupantdemerit SET prev_remarks = %s WHERE id = %s"
+      params = (prev_plus_new, occ_id)
+      cursor.execute(query, params)
+      return HttpResponseRedirect(self.get_success_url())
+    
 
 # @method_decorator(login_required, name='dispatch')
 class OccupantAccounts(ListView):
@@ -2792,7 +3011,7 @@ def front_desk_add_registration(request):
             first_name = form.cleaned_data.get('first_name')
             psu_email = form.cleaned_data.get('psu_email')
             contact_no = form.cleaned_data.get('contact_no')
-            print(contact_no)
+            # print(contact_no)
             person_id = form.instance.id
 
             cursor = connections['default'].cursor()

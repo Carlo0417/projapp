@@ -8,6 +8,8 @@ from datetime import datetime
 from .models import Room, Bed, Service, Occupant, Person, Bill_Details, Payment, Demerit, OccupantDemerit, User, Admin
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
+
 
 from django import forms
 
@@ -81,9 +83,10 @@ class RegistrationForm(forms.ModelForm):
             'Field7' : _('Photocopy of the dormitory ID'),
         }
 
-        # widgets = {
-        #     'Field1' : forms.CheckboxInput(attrs={'class': 'required checkbox form-control'}),   
-        # }
+        widgets = {
+            'contact_no': PhoneNumberPrefixWidget(initial='PH', attrs={'style': 'margin-right: 10px; border-radius: 5px;'}),
+            'guardian_contact_no': PhoneNumberPrefixWidget(initial='PH', attrs={'style': 'margin-right: 10px; border-radius: 5px;'}),
+        }
 
 
 class BillingForm(ModelForm):
@@ -132,7 +135,7 @@ class DemeritForm(ModelForm):
         self.fields['demerit_name'].queryset = Demerit.objects.all().order_by('-created_at')
 
 
-class OccupantDemeritForm(ModelForm):
+class OccupantDemeritForm(ModelForm):    
     class Meta:
         model = OccupantDemerit
         fields = "__all__"
@@ -142,6 +145,7 @@ class OccupantDemeritForm(ModelForm):
         super(OccupantDemeritForm, self).__init__(*args, **kwargs)
         self.fields['occupant'].queryset = Occupant.objects.exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
         self.fields['demerit_name'].queryset = Demerit.objects.all().order_by('-created_at')
+
 
 
 class UserBillingForm(ModelForm):
