@@ -43,6 +43,9 @@ from decimal import Decimal
 
 from django.db import connections
 
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+
 
 # @method_decorator(login_required, name='dispatch')
 class HomePageView(ListView):
@@ -1351,8 +1354,26 @@ def add_occupant(request):
 
 def add_registration(request):
     if request.method == "POST":
+
+        email = request.POST['psu_email']
+
+        merge_data = {
+        'greetings': "hello"
+        }
+        html_body = render_to_string("reg_email.html", merge_data)
+
+        message = EmailMultiAlternatives(
+            subject='PSU Dorm Registration',
+            body="mail testing",
+            from_email='settings.EMAIL_HOST_USER',
+            to=[email]
+        )
+        message.attach_alternative(html_body, "text/html")
+        message.send(fail_silently=False)
+
+
         form = RegistrationForm(request.POST)
-        print(request.POST)
+        # print(request.POST)
         if form.is_valid():
             form.save()
             last_name = form.cleaned_data.get('last_name')
@@ -1796,7 +1817,6 @@ class User_Dashboard(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        global x
         context ['per'] = Person.objects.filter(Q(psu_email=x)).values().order_by('-id')[:1]
         context ['occ'] = Occupant.objects.filter(Q(person__psu_email=x)).values('person__boarder_type', 'bed__bed_code', 'bed__room__room_name', 'bed__room__dorm_name').order_by('-id')[:1]
         return context
@@ -1831,7 +1851,6 @@ class User_AccountUpdateView(UpdateView):
       messages.success(self.request, "Your Account Information was updated successfully!")
       super().form_valid(form)
       return HttpResponseRedirect(self.get_success_url())
-
 
 # @method_decorator(login_required, name='dispatch')
 class User_Profile(ListView):
