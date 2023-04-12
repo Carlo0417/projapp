@@ -86,7 +86,7 @@
                                             <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
                                         </td>
                                         <td class="text-center">
-                                            {% if object.service.service_name == "Deposit" or object.service.service_name == "Advance" or object.service.service_name == "Dorm ID"%}
+                                            {% if object.service.service_name == "Local Deposit" or object.service.service_name == "Local Advance" or object.service.service_name == "Foreign Deposit" or object.service.service_name == "Foreign Advance" or object.service.service_name == "Dorm ID"%}
                                                 <a href="#" class="px-3 mb-0 text-secondary text-xs"> No action needed</a>
                                             {% else %}
                                                 {% if object.service.service_name == "Others" %}

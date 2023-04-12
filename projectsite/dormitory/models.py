@@ -255,11 +255,11 @@ class Bill(BaseModel):
 
 class Bill_Details(BaseModel):
     # bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
-    occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
+    occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE, null=True, blank=True)
     bill_date = models.DateTimeField(default=timezone.now)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    description = models.CharField(max_length=250, null=True, blank=True, default="None")
+    description = models.CharField(max_length=250,  default="None")
     amount = models.DecimalField(default=0, max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=True, blank=True,)
 
     class Meta:

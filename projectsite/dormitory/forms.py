@@ -97,7 +97,7 @@ class BillingForm(ModelForm):
     def __init__(self, *args, **kwargs):
         bill = kwargs.pop('bill', None)
         super(BillingForm, self).__init__(*args, **kwargs)
-        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Others').order_by('-created_at')
+        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Others').order_by('-created_at')
         self.fields['occupant'].queryset = Occupant.objects.exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
 
 
@@ -147,19 +147,17 @@ class OccupantDemeritForm(ModelForm):
         self.fields['demerit_name'].queryset = Demerit.objects.all().order_by('-created_at')
 
 
-
 class UserBillingForm(ModelForm):
     class Meta:
         model = Bill_Details
         fields = "__all__"
-
+ 
     def __init__(self, *args, **kwargs):
         bill = kwargs.pop('bill', None)
         super(UserBillingForm, self).__init__(*args, **kwargs)
-
-        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Others')
-        self.fields['occupant'].queryset = Occupant.objects.filter().exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
-
+        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others')
+        self.fields['occupant'].queryset = Occupant.objects.filter(person__psu_email=bill).exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
+        self.fields['occupant'].required = False
 
 class UserOtherBillingForm(ModelForm):
     class Meta:
@@ -171,7 +169,7 @@ class UserOtherBillingForm(ModelForm):
         super(UserOtherBillingForm, self).__init__(*args, **kwargs)
         self.fields['service'].queryset = Service.objects.filter(service_name__iexact='Others')
         self.fields['occupant'].queryset = Occupant.objects.filter().exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
-
+        self.fields['occupant'].required = False
 
 class UserAccountForm(ModelForm):
     class Meta:

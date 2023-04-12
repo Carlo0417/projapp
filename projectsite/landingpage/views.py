@@ -436,10 +436,10 @@ class ServiceList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['services']= Service.objects.all().exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').count()
-        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').count()
+        context['services']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').count()
+        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').count()
         context['notavailable'] = Service.objects.filter(status__iexact="Not Available").count()
-        context['services_limit']= Service.objects.all().exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID')
+        context['services_limit']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID')
     
         return context
 
@@ -1906,25 +1906,30 @@ class User_Services(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['services_limit'] = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Deposit').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others')
-        
+
+        context['services_limit'] = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others')
         return context
 
 def user_add_billing(request):
     if request.method == "POST":
         form = UserBillingForm(request.POST)
-        print(request.POST)
+
         if form.is_valid():
             form.save()
-            # global x 
-            # serv = Occupant.objects.filter(person__psu_email=x).exclude(end_date__lte=timezone.now().date())
-            # print(serv)
+
+            bill_id = form.instance.id
+
+            occ = Occupant.objects.filter(person__psu_email=x).exclude(end_date__lte=timezone.now().date()).order_by('-created_at').first().id
+            # print(occ)
+
+            cursor1 = connections['default'].cursor()
+            query1 = f"UPDATE dormitory_bill_details SET occupant_id ='{occ}' WHERE `id` = {bill_id}"
+            cursor1.execute(query1)
 
             service = form.cleaned_data['service']
             quantity = form.cleaned_data['quantity']
             
             price = Service.objects.filter(service_name=service).first()
-            bill_id = form.instance.id
 
             total_amount = price.base_amount * quantity
 
@@ -1946,9 +1951,26 @@ def user_add_billing(request):
 def user_other_add_billing(request):
     if request.method == "POST":
         form = UserOtherBillingForm(request.POST)
-        print(request.POST)
         if form.is_valid():
             form.save()
+
+            bill_id = form.instance.id
+
+            occ = Occupant.objects.filter(person__psu_email=x).exclude(end_date__lte=timezone.now().date()).order_by('-created_at').first().id
+            # print(occ)
+
+            cursor1 = connections['default'].cursor()
+            query1 = f"UPDATE dormitory_bill_details SET occupant_id ='{occ}' WHERE `id` = {bill_id}"
+            cursor1.execute(query1)
+
+            amount = form.cleaned_data['amount']
+            quantity = form.cleaned_data['quantity']
+            
+            total_amount = amount * quantity
+
+            cursor = connections['default'].cursor()
+            query = f"UPDATE dormitory_bill_details SET amount ='{total_amount}' WHERE `id` = {bill_id}"
+            cursor.execute(query)
             
             messages.success(request, 'Service availed successfully!')
             return redirect('user_other_add')
