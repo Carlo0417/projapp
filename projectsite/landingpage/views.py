@@ -1307,10 +1307,22 @@ def add_occupant(request):
             #Add Billing to Occupant
             sample_instance = Person.objects.get(id=person_id)
             boarder_type = sample_instance.boarder_type
+            email = sample_instance.psu_email
 
             occ_id = form.instance.id
             # print(boarder_type)
             # print(occ_id)
+
+            html_body = render_to_string("occ_email.html")
+
+            message = EmailMultiAlternatives(
+                subject='PSU Dorm Successful Occupant',
+                body="mail testing",
+                from_email='settings.EMAIL_HOST_USER',
+                to=[email]
+            )
+            message.attach_alternative(html_body, "text/html")
+            message.send(fail_silently=False)
 
             person_id = request.POST.get("person")
 
@@ -1357,10 +1369,7 @@ def add_registration(request):
 
         email = request.POST['psu_email']
 
-        merge_data = {
-        'greetings': "hello"
-        }
-        html_body = render_to_string("reg_email.html", merge_data)
+        html_body = render_to_string("reg_email.html")
 
         message = EmailMultiAlternatives(
             subject='PSU Dorm Registration',
@@ -4722,3 +4731,83 @@ def AccountingOccPDF(request, pk):
     if pisa_status.err:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+# Due Date Email Notifications
+
+# Get the current date and time
+now = datetime.datetime.now()
+
+# Calculate the date that is 1 week before the 30th of the month
+if now.month == 2:  # February
+    if now.day >= 23:
+        occ_date = datetime.date(now.year, 3, 1) - datetime.timedelta(days=9)
+    else:
+        occ_date = datetime.date(now.year, 2, 30) - datetime.timedelta(days=7)
+else:
+    if now.day >= 23:
+        next_month = now.replace(day=28) + datetime.timedelta(days=4)
+        occ_date = next_month.replace(day=30) - datetime.timedelta(days=10)
+    else:
+        occ_date = now.replace(day=30) - datetime.timedelta(days=7)
+
+# Check if the current date is equal to or after the calculated date
+if now >= occ_date:
+# Get all the occupants
+    occupants = Occupant.objects.all()
+
+    # Loop through the occupants and send an email to each one
+    for occupant in occupants:
+        # Get the PSU email address of the occupant
+        email = occupant.person.psu_email.strip()
+
+        # Skip any invalid email addresses
+        if not email:
+            continue
+
+        # Render the HTML email template with occupant-specific data
+        html_body = render_to_string("due_email.html", {'occupant': occupant})
+
+        # Create and send the email to the occupant
+        message = EmailMultiAlternatives(
+            subject='PSU Dorm Successful Occupant',
+            body="mail testing",
+            from_email='settings.EMAIL_HOST_USER',
+            to=[email]
+        )
+        message.attach_alternative(html_body, "text/html")
+        message.send(fail_silently=False)
+
+# End Date Email Notification
+
+# Calculate the number of days before the due date
+num_days_before_due_date = 8
+
+# Calculate the due date by adding the number of days to the current date
+due_date = timezone.now() + timedelta(days=num_days_before_due_date)
+
+# Filter the queryset of occupants to only include those that are within the desired number of days before the due date
+occupants = Occupant.objects.filter(end_date__lte=due_date, end_date__gte=timezone.now())
+
+# Iterate over the occupants and add an alert message to the list for each one
+for occupant in occupants:
+    days_until_due_date = (occupant.end_date - timezone.now()).days
+
+    if days_until_due_date == 7 | days_until_due_date == 3  | days_until_due_date == 1:
+        # Render the email template
+        html_body = render_to_string("end_email.html", {'occupant': occupant})
+
+        # Create the email message
+        message = EmailMultiAlternatives(
+            subject='PSU Dorm End of Contract',
+            body="mail testing",
+            from_email='settings.EMAIL_HOST_USER',
+            to=[occupant.person.psu_email]
+        )
+        message.attach_alternative(html_body, "text/html")
+
+        # Send the email
+        message.send(fail_silently=False)
+
+
+
+
