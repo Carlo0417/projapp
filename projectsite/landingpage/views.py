@@ -1316,7 +1316,7 @@ def add_occupant(request):
             html_body = render_to_string("occ_email.html")
 
             message = EmailMultiAlternatives(
-                subject='PSU Dorm Successful Occupant',
+                subject='Official Occupant of PSU Dormitory',
                 body="mail testing",
                 from_email='settings.EMAIL_HOST_USER',
                 to=[email]
@@ -1372,7 +1372,7 @@ def add_registration(request):
         html_body = render_to_string("reg_email.html")
 
         message = EmailMultiAlternatives(
-            subject='PSU Dorm Registration',
+            subject='Registered Successfully',
             body="mail testing",
             from_email='settings.EMAIL_HOST_USER',
             to=[email]
@@ -4752,8 +4752,21 @@ else:
 
 # Check if the current date is equal to or after the calculated date
 if now >= occ_date:
-# Get all the occupants
+    # Get all the occupants
     occupants = Occupant.objects.all()
+
+    # Determine which email template to use based on the date
+    if now >= occ_date - datetime.timedelta(days=7):
+        template_name = "due_1week_email.html"
+        subject = "Due in 1 week"
+
+    if now >= occ_date - datetime.timedelta(days=3):
+        template_name = "due_3days_email.html"
+        subject = "Due in 3 days"
+
+    if now >= occ_date - datetime.timedelta(days=1):
+        template_name = "due_1day_email.html"
+        subject = "Due tomorrow"
 
     # Loop through the occupants and send an email to each one
     for occupant in occupants:
@@ -4765,17 +4778,18 @@ if now >= occ_date:
             continue
 
         # Render the HTML email template with occupant-specific data
-        html_body = render_to_string("due_email.html", {'occupant': occupant})
+        html_body = render_to_string(template_name, {'occupant': occupant})
 
         # Create and send the email to the occupant
         message = EmailMultiAlternatives(
-            subject='PSU Dorm Successful Occupant',
+            subject=subject,
             body="mail testing",
             from_email='settings.EMAIL_HOST_USER',
             to=[email]
         )
         message.attach_alternative(html_body, "text/html")
         message.send(fail_silently=False)
+
 
 # End Date Email Notification
 
@@ -4792,13 +4806,45 @@ occupants = Occupant.objects.filter(end_date__lte=due_date, end_date__gte=timezo
 for occupant in occupants:
     days_until_due_date = (occupant.end_date - timezone.now()).days
 
-    if days_until_due_date == 7 | days_until_due_date == 3  | days_until_due_date == 1:
+    if days_until_due_date == 7:
         # Render the email template
-        html_body = render_to_string("end_email.html", {'occupant': occupant})
+        html_body = render_to_string("end_1week_email.html", {'occupant': occupant})
 
         # Create the email message
         message = EmailMultiAlternatives(
-            subject='PSU Dorm End of Contract',
+            subject='End of contract in 1 week',
+            body="mail testing",
+            from_email='settings.EMAIL_HOST_USER',
+            to=[occupant.person.psu_email]
+        )
+        message.attach_alternative(html_body, "text/html")
+
+        # Send the email
+        message.send(fail_silently=False)
+
+    elif days_until_due_date == 3:
+        # Render the email template
+        html_body = render_to_string("end_3days_email.html", {'occupant': occupant})
+
+        # Create the email message
+        message = EmailMultiAlternatives(
+            subject='End contract in 3 days',
+            body="mail testing",
+            from_email='settings.EMAIL_HOST_USER',
+            to=[occupant.person.psu_email]
+        )
+        message.attach_alternative(html_body, "text/html")
+
+        # Send the email
+        message.send(fail_silently=False)
+
+    elif days_until_due_date == 1:
+        # Render the email template
+        html_body = render_to_string("end_1day_email.html", {'occupant': occupant})
+
+        # Create the email message
+        message = EmailMultiAlternatives(
+            subject='End of contract tomorrow',
             body="mail testing",
             from_email='settings.EMAIL_HOST_USER',
             to=[occupant.person.psu_email]

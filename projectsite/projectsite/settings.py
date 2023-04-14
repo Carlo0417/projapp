@@ -28,8 +28,8 @@ SECRET_KEY = 'django-insecure-ye&8$whx87r1nwl(teq=+274wmr2!w6a77xq-3y$*ud7f710sr
 DEBUG = True
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = '201980120@psu.palawan.edu.ph'
-EMAIL_HOST_PASSWORD = '201980120'
+EMAIL_HOST_USER = 'psu.dormitory@psu.palawan.edu.ph'
+EMAIL_HOST_PASSWORD = '123456789'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

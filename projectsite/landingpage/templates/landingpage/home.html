@@ -200,21 +200,45 @@
               </div>
             </div>
 
-            <div class="card">
-              <div class="card-body">
-                <h6 class="mb-0">Occupant Payment</h6>
-                <p class="text-md">Out of <b class="text-dark">30</b> occupant <b style="color: #FF4200;">20</b> are <b style="color: #FF4200;">paid</b>, 
-                  <b style="color: #FF9001;">{{current_month_occupant}}</b> are <b style="color: #FF9001;">partially paid</b>, and
-                  <b style="color: #4b4b4b;">3</b> are <b style="color: #4b4b4b;">unpaid</b>.
-                </p>
-                <hr class="dark horizontal">
-                <div class="d-flex ">
-                  <i class="material-icons text-sm my-auto me-1">leaderboard</i>
-                  <p class="mb-0 text-sm">30% paid, 70% unpaid </p>
+            <div class="row mt-4">
+              <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                <div class="card z-index-2 ">
+                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                    <div class="shadow-primary border-radius-lg py-3 pe-1" style="background-color: #FF9001;">
+                      <div class="chart">
+                        <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <h6 class="mb-0 ">Occupant Payment</h6>
+                    <p class="text-sm ">Occupants for every months</p>
+                    <hr class="dark horizontal">
+                    <div class="d-flex ">
+                      <!-- <i class="material-icons text-sm my-auto me-1">schedule</i>
+                      <p class="mb-0 text-sm"> updated 5 hours ago </p> -->
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div class="col-lg-8 mt-4 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="mb-0">Occupant Payment</h6>
+                    <p class="text-md">Out of <b class="text-dark">30</b> occupant <b style="color: #FF4200;">20</b> are <b style="color: #FF4200;">paid</b>, 
+                      <b style="color: #FF9001;">{{current_month_occupant}}</b> are <b style="color: #FF9001;">partially paid</b>, and
+                      <b style="color: #4b4b4b;">3</b> are <b style="color: #4b4b4b;">unpaid</b>.
+                    </p>
+                    <hr class="dark horizontal">
+                    <div class="d-flex ">
+                      <i class="material-icons text-sm my-auto me-1">leaderboard</i>
+                      <p class="mb-0 text-sm">30% paid, 70% unpaid </p>
+                    </div>
+                  </div>
+                </div>    
+              </div>
             </div>
-
+            
             <!-- Demerits and Maintenance -->
             <!-- <div class="row mb-4">
               <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
