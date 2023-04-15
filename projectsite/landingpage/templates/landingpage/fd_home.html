@@ -1,4 +1,4 @@
-{% extends 'superadmin/base.html' %}
+{% extends 'frontdesk/fd_base.html' %}
 
 {% load static %}
 
@@ -27,19 +27,19 @@
                   <div class="card-footer p-3">
                     <div class="row">
                       <div class="col-4">
-                        <a href="dash_male_vacant_bed" style="color: #7B809A;">
+                        <a href="fd_dash_male_vacant_bed" style="color: #7B809A;">
                         <span class="mb-0 text-link text-sm">Male Dorm: <span class="text-sm font-weight-bolder text-dark">
                           {% if maledorm_bed != empty %} {{ maledorm_bed }} {% else %} 0 {% endif %}</span></span>
                         </a>
                       </div>
                       <div class="col-4">
-                        <a href="dash_female_vacant_bed" style="color: #7B809A;">
+                        <a href="fd_dash_female_vacant_bed" style="color: #7B809A;">
                         <span class="mb-0 text-link text-sm">Female Dorm: <span class="text-sm font-weight-bolder text-dark"> 
                           {% if femaledorm_bed != empty %} {{ femaledorm_bed }} {% else %} 0 {% endif %}</span></span>
                         </a>
                       </div>
                       <div class="col-4">
-                        <a href="dash_foreign_vacant_bed" style="color: #7B809A;">
+                        <a href="fd_dash_foreign_vacant_bed" style="color: #7B809A;">
                         <span class="mb-0 text-link text-sm">Foreign Dorm: <span class="text-sm font-weight-bolder text-dark"> 
                           {% if foreigndorm_bed != empty %} {{ foreigndorm_bed }} {% else %} 0 {% endif %}</span></span>
                         </a>

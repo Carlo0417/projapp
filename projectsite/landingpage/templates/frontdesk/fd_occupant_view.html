@@ -1,0 +1,406 @@
+{% extends 'frontdesk/fd_base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
+                            <h6 class="text-white text-capitalize ps-3">View Occupant Details</h6>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    <!-- messages & alerts -->
+                        {% for message in messages %}
+                            <p style="margin-top: 10px;" id="fadeout" class="text-success font-weight-bold text-xs">
+                                {{ message }}
+                            </p>
+                        {% endfor%}
+                    <!-- /messages & alerts -->
+                    <form class="" action="" method="post" novalidate>
+                        {% csrf_token %}
+
+                        {% load widget_tweaks %}
+
+                        {% load humanize %}
+
+                        {% load tz %}
+
+                        
+                    <!-- Name and Dates -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                    style="margin-bottom: 0px;">Boarder Type</label> <br>
+                                    <span class="badge badge-sm text-sm my-2 shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);">{{ object.person.boarder_type }}</span>                      
+                                </div>
+                                
+                                <div class="col-8">
+                                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                    style="margin-bottom: 0px;">Name</label> <br>
+                                    <h6 class="mb-0 text-lg">{{ object.person.last_name }}, {{ object.person.first_name }}</h6>
+                                    <p class="text-sm text-secondary font-weight-bold mb-0">{{ object.person.psu_email }}</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-3">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Start Date</label> <br>
+                            <span class="badge badge-sm shadow-primary" style="background-color: rgba(255, 66, 0, 0.9); margin-bottom: 5px;">{{ object.start_date }}</span>
+                            
+                            <br>
+
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Registered Date</label> <br>
+                            <h6 class="mb-0 text-xs">{{ object.created_at }}</h6>  
+                        </div>
+
+                        <div class="col-3">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">End Date</label> <br>
+                            <span class="badge badge-sm shadow-primary" style="background-color: rgba(255, 66, 0, 0.9); margin-bottom: 5px;">{{ object.end_date }}</span>
+                            
+                            <br>
+                            
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Updated Date </label> <br>
+                            <h6 class="mb-0 text-xs">{{ object.updated_at }}</h6>  
+                        </div>
+                    </div>
+                    <!-- end of Name and Dates -->
+
+                    <!-- Bed Information -->
+                    <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Bed Information</p>
+                    <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
+
+                    <div class="row">
+                        <div class="col-3 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Bed Code</label> <br>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed }}</label> 
+                            </div>                               
+                         </div>
+
+                        <div class="col-3 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Bed Price</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">P {{ object.bed.price|intcomma }}</label>
+                            </div>  
+                        </div>
+
+                        <div class="col-6 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Bed Description</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.bed_description }}</label> 
+                            </div>  
+                        </div>
+                    </div>
+
+                    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-1">
+
+                    <div class="row">
+                        <div class="col-3 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Room Name</label> <br>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.room.room_name }}</label> 
+                            </div>                          
+                        </div>
+
+                        <div class="col-3 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Floor Level</label>
+                            <div class="input-group input-group-outline">
+                                {% if object.bed.room.floorlvl == "1" %}
+                                    <label class="text-sm font-weight-bold mb-0 text-dark">1st Floor</label>
+                                {% elif object.bed.room.floorlvl == "2" %}
+                                    <label class="text-sm font-weight-bold mb-0 text-dark">2nd Floor</label>
+                                {% elif object.bed.room.floorlvl == "3" %}
+                                    <label class="text-sm font-weight-bold mb-0 text-dark">3rd Floor</label>
+                                {% endif %}       
+                            </div>  
+                        </div>
+
+                        <div class="col-3 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Dorm Name</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.room.dorm_name }}</label> 
+                            </div>  
+                        </div>
+
+                        <div class="col-3 my-1">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">Room Descrition</label>
+                            <div class="input-group input-group-outline">
+                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.bed.room.description }}</label> 
+                            </div>  
+                        </div>
+                    </div>
+                    <!-- end of Bed Information -->
+
+                    <!-- Billing and Payment -->
+                    <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Statement of Account</p>
+                    <hr style="border-top: 2px solid #FF4200; opacity: 0.5; margin-bottom: 20px;" class="my-1">  
+
+                    <div class="table-responsive my-4" style="padding: 0px 20px;">
+                        <p class="text-xs font-weight-bold mb-0 text-uppercase opacity-8">Mandatory Fees</p>
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Bill Date</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Service Name</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in fetch_first_three %}
+                                <tr>
+                                    <td>
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.bill_date }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service.service_name }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table. </td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <hr style="border-top: 1px solid #FF4200; opacity: 0.5;">
+
+                        <table class="table align-items-center mb-0">
+                            <p class="text-xs font-weight-bold mb-0 text-uppercase opacity-8">Other Fees</p>
+                            <thead>
+                                <tr class="headings">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Bill Date</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Service Name</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Quantity</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in billing_details %}
+                                <tr>
+                                    <td class="">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.bill_date }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service.service_name }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.quantity }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table. </td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr style="border-top: 1px solid #FF4200; opacity: 0.5;">
+                    <div class="table-responsive my-4" style="padding: 0px 20px;">
+                        <table class="table align-items-center mb-0">
+                            <!-- <div class="row my-3">
+                                <div class="col-3">
+                                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                    style="margin-bottom: 0px; margin-top: 3px;"> Recorded Date <br>
+                                    <b class="mb-0 text-xs" style="color: #FF4200;"> {{ object.created_at }}</b> </label>
+                                </div>
+                                <div class="col-6"></div>
+                                <div class="col-3">
+                                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                    style="margin-bottom: 0px; margin-top: 3px;"> Updated Date <br>
+                                    <b class="mb-0 text-xs" style="color: #FF4200;"> {{ object.updated_at }}</b> </label>
+                                </div>
+                            </div> -->
+                            <thead>
+                                <tr class="headings">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Payment Date</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Payment Amount</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Official Receipt Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in payment %}
+                                <tr>
+                                    <td class="">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.payment_date }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.receipt_no }}</p>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table. </td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr style="border-top: 1px solid #FF4200; opacity: 0.4;" class="my-2">
+                    <div class="row my-2">
+                        <div class="col-7"></div>
+                        <div class="col-3">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder" 
+                            style="margin-bottom: 0px; margin-top: 3px;"> Total Amount of Bills : </label>
+                            <br>
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder" 
+                            style="margin-bottom: 0px; margin-top: 3px;"> Total Amount of Payment : </label>
+                        </div>
+                        <div class="col-2">
+                            <b class="mb-0 text-xs" style="color: #FF4200;"> P {{ total_bills_amount|intcomma }}</b>
+                            <br>
+                            <b class="mb-0 text-xs" style="color: #FF4200;"> P {{ total_payment_amount|intcomma }}</b>
+                        </div>
+                    </div>
+
+                    <hr style="border-top: 1px solid #FF4200; opacity: 0.5;" class="my-2">
+                    <div class="row my-2">
+                        {% if remaining_balance >= 0 %}
+                        <div class="col-7"></div>
+                        <div class="col-3">
+                            <label class="text-uppercase text-xs font-weight-bolder" 
+                            style="margin-bottom: 0px; margin-top: 3px; color: #FF4200;"> Remaining Balance : </label>
+                        </div>
+                        <div class="col-2"> 
+                                <b class="mb-0 text-sm" style="color: #FF4200;"> P {{ remaining_balance|intcomma }}</b>
+                        </div>
+                        {% else %}
+                        <div class="col-7"></div>
+                        <div class="col-3">
+                            <label class="text-uppercase text-xs font-weight-bolder" 
+                            style="margin-bottom: 0px; margin-top: 3px; color: #FF4200;"> Remaining Change : </label>
+                        </div>
+                        <div class="col-2"> 
+                                <b class="mb-0 text-sm" style="color: #FF4200;"> P {{ remaining_balance|intcomma|slice:"1:" }}</b>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!-- end of Billing and Payment -->
+
+
+                    <!-- Demerits Information -->
+                    <p class="text-sm font-weight-bold mb-0 my-4 text-uppercase" style="color: rgba(255, 66, 0, 0.8);">Demerits Information</p>
+                    <hr style="border-top: 2px solid #FF4200; opacity: 0.5;" class="my-1">
+
+                    <div class="table-responsive my-4" style="padding: 0px 20px;">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Demerit Description</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Demerit Points</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Recorded Date</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Remarks / Description</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in occupant_demerits %}
+                                <tr>
+                                    <td>
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.demerit_name|truncatechars:30 }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{object.demerit_name.demerit_points }}</p>
+                                    </td>
+                                    <td class="">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.cur_date }}</p>
+                                    </td>
+                                    <td class="">
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.new_remarks|truncatechars:30 }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="fd_occupant_demerit_list/{{ object.id }}"
+                                            class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
+                                            data-toggle="tooltip">
+                                            Add Remarks</a>
+
+                                        <!-- <a href="delete_bed/{{ object.id }}"
+                                            class="btn btn-link text-danger px-3 mb-0"
+                                            data-toggle="tooltip" style="font-size: 10px;">
+                                            <i class="material-icons text-sm me-2">delete</i>Delete</a>     -->
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table. </td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end of Demerits Information -->
+                    
+                        <div class="ln_solid">
+                            <br />
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-3">
+                                        <a href="{% url 'FDOccPDF' object.id %}" class="btn text-white shadow-warning" style="background-color: #FF4200;"> Export to PDF </a>
+                                        &nbsp &nbsp &nbsp
+                                        <a href="fd_occupant_list/{{ object.id }}" class="btn text-white shadow-warning" style="background-color: #FF9001;"> Edit Info</a>
+                                        &nbsp &nbsp &nbsp
+                                        <a href="fd_registration_view/{{ object.person.id }}" class="btn text-white shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);"> View Profile </a>
+                                        &nbsp &nbsp &nbsp &nbsp
+                                        <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href="{% url 'FDOccupantList' %}">Back</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+</script>
+
+{% endblock %}

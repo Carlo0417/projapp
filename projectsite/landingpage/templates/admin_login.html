@@ -67,7 +67,7 @@
                 
                 {% include 'includes/login_style.html' %}
 
-                <form role="form" method="post" class="text-start">
+                <form role="form" method="post" class="text-start" autocomplete="off">
                     {% csrf_token %}
                     <input type="text" class="form-control text-md" name="username" placeholder="Username" 
                     style="margin: 0px 10px 0px 10px;">

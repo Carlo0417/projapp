@@ -1,0 +1,1634 @@
+{% extends 'frontdesk/fd_base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF9001;">
+                            <h6 class="text-white text-capitalize ps-3">Renew Occupant Details</h6>
+                        </div>
+                    </div>
+                   
+                    <div class="card-body">
+                   
+                    <!-- messages & alerts -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if 'success' in message.tags %}
+                                <p style="margin-top: 12px;" id="fadeout" class="text-success font-weight-bold text-sm">
+                                    {{ message }}
+                                </p>
+                            {% else %}
+                                <p style="margin-top: 12px;" id="fadeout" class="text-danger font-weight-bold text-sm">
+                                    {{ message }}
+                                </p>
+                            {% endif %}
+                        {% endfor%}
+                    {% endif %}
+                    <!-- /messages & alerts -->
+
+                    <form role="form" class="" action="" method="post" novalidate autocomplete="off">
+                        {% csrf_token %}
+                        
+                        {% load widget_tweaks %}
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                <p{% if forloop.last %} class="mb-0" {% endif %}>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        {% include 'includes/select2.html' %}
+
+                        <div class="row"> 
+                            <div class="col-6">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
+                                <div class="input-group input-group-outline">
+                                    <select class="form-control occupant-list" name="person" id="person" data-placeholder="">
+                                        {% for person in form.person %}
+                                            <option value="{{ person.id }}">{{ person }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                        
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Bed Code</label>
+                                <div class="input-group input-group-outline" onChange="getOption(this.value)">
+                                    <select class="form-control bed-list" name="bed" id="bed" data-placeholder="">
+                                        {% for bed in form.bed %}
+                                            <option value="{{ bed.id }}" >{{ bed }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <label class="text-secondary text-xs font-weight-bolder opacity-8 output" 
+                                style="margin-bottom: 0px; font-style: italic;"></label> <br>
+                        
+                            </div>
+                        
+                            <div class="col-6">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Start Date</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.start_date class="form-control" type="datetime-local"%}
+                                </div>
+                        
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">End Date</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.end_date class="form-control" type="datetime-local" %}
+                                </div>
+                            </div>
+                        </div>
+               
+                            <br />
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-3">
+                                    <button type='submit' class="btn text-white shadow-warning" style="background-color: #FF9001;">Save</button>
+                                    &nbsp &nbsp &nbsp
+                                    <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href="{% url 'FDOccupantList' %}">Cancel</a>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+</script>
+
+<script>                       
+    function getOption() {
+        selectElement = document.querySelector('#bed');
+        output = selectElement.options[selectElement.selectedIndex].textContent;
+
+        switch(output) {
+            // Room F1-1 Bed Codes
+            case "M1FR1-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 1, Bed A Upper deck";
+            break;
+
+            case "M1FR1-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 1, Bed B Lower deck";
+            break;
+
+            case "M1FR1-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 1, Bed C Upper deck";
+            break;
+
+            case "M1FR1-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 1, Bed D Lower deck";
+            break;
+
+            case "M1FR1-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 1, Bed E Upper deck";
+            break;
+
+            case "M1FR1-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 1, Bed F Lower deck";
+            break;
+            // end of Room F1-1 Bed Codes
+
+
+            // Room F1-2 Bed Codes
+            case "M1FR2-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 2, Bed A Upper deck";
+            break;
+
+            case "M1FR2-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 2, Bed B Lower deck";
+            break;
+
+            case "M1FR2-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 2, Bed C Upper deck";
+            break;
+
+            case "M1FR2-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 2, Bed D Lower deck";
+            break;
+
+            case "M1FR2-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 2, Bed E Upper deck";
+            break;
+
+            case "M1FR2-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 2, Bed F Lower deck";
+            break;
+            // end of Room F1-2 Bed Codes
+
+
+            // Room F1-3 Bed Codes
+            case "M1FR3-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 3, Bed A Upper deck";
+            break;
+
+            case "M1FR3-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 3, Bed B Lower deck";
+            break;
+
+            case "M1FR3-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 3, Bed C Upper deck";
+            break;
+
+            case "M1FR3-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 3, Bed D Lower deck";
+            break;
+
+            case "M1FR3-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 3, Bed E Upper deck";
+            break;
+
+            case "M1FR3-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 3, Bed F Lower deck";
+            break;
+            // end of Room F1-3 Bed Codes
+
+
+            // Room F1-4 Bed Codes
+            case "M1FR4-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 4, Bed A Upper deck";
+            break;
+
+            case "M1FR4-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 4, Bed B Lower deck";
+            break;
+
+            case "M1FR4-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 4, Bed C Upper deck";
+            break;
+
+            case "M1FR4-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 4, Bed D Lower deck";
+            break;
+
+            case "M1FR4-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 4, Bed E Upper deck";
+            break;
+
+            case "M1FR4-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 4, Bed F Lower deck";
+            break;
+            // end of Room F1-4 Bed Codes
+
+
+            // Room F1-5 Bed Codes
+            case "M1FR5-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 5, Bed A Upper deck";
+            break;
+
+            case "M1FR5-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 5, Bed B Lower deck";
+            break;
+
+            case "M1FR5-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 5, Bed C Upper deck";
+            break;
+
+            case "M1FR5-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 5, Bed D Lower deck";
+            break;
+
+            case "M1FR5-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 5, Bed E Upper deck";
+            break;
+
+            case "M1FR5-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 5, Bed F Lower deck";
+            break;
+            // end of Room F1-5 Bed Codes
+
+
+            // Room F1-6 Bed Codes
+            case "M1FR6-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 6, Bed A Upper deck";
+            break;
+
+            case "M1FR6-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 6, Bed B Lower deck";
+            break;
+
+            case "M1FR6-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 6, Bed C Upper deck";
+            break;
+
+            case "M1FR6-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 6, Bed D Lower deck";
+            break;
+
+            case "M1FR6-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 6, Bed E Upper deck";
+            break;
+
+            case "M1FR6-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 6, Bed F Lower deck";
+            break;
+            // end of Room F1-6 Bed Codes
+
+
+            // Room F1-7 Bed Codes
+            case "M1FR7-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 7, Bed A Upper deck";
+            break;
+
+            case "M1FR7-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 7, Bed B Lower deck";
+            break;
+
+            case "M1FR7-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 7, Bed C Upper deck";
+            break;
+
+            case "M1FR7-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 7, Bed D Lower deck";
+            break;
+
+            case "M1FR7-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 7, Bed E Upper deck";
+            break;
+
+            case "M1FR7-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 7, Bed F Lower deck";
+            break;
+            // end of Room F1-7 Bed Codes
+
+
+            // Room F1-8 Bed Codes
+            case "M1FR8-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 8, Bed A Upper deck";
+            break;
+
+            case "M1FR8-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 8, Bed B Lower deck";
+            break;
+
+            case "M1FR8-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 8, Bed C Upper deck";
+            break;
+
+            case "M1FR8-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 8, Bed D Lower deck";
+            break;
+
+            case "M1FR8-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 8, Bed E Upper deck";
+            break;
+
+            case "M1FR8-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 8, Bed F Lower deck";
+            break;
+            // end of Room F1-8 Bed Codes
+
+
+            // Room F1-9 Bed Codes
+            case "M1FR9-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 9, Bed A Upper deck";
+            break;
+
+            case "M1FR9-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 9, Bed B Lower deck";
+            break;
+
+            case "M1FR9-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 9, Bed C Upper deck";
+            break;
+
+            case "M1FR9-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 9, Bed D Lower deck";
+            break;
+
+            case "M1FR9-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 9, Bed E Upper deck";
+            break;
+
+            case "M1FR9-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 9, Bed F Lower deck";
+            break;
+            // end of Room F1-9 Bed Codes
+
+
+            // Room F1-10 Bed Codes
+            case "M1FR10-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 10, Bed A Upper deck";
+            break;
+
+            case "M1FR10-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 10, Bed B Lower deck";
+            break;
+
+            case "M1FR10-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 10, Bed C Upper deck";
+            break;
+
+            case "M1FR10-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 10, Bed D Lower deck";
+            break;
+
+            case "M1FR10-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 10, Bed E Upper deck";
+            break;
+
+            case "M1FR10-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 1st Floor, Room 10, Bed F Lower deck";
+            break;
+            // end of Room F1-10 Bed Codes
+
+
+            // Room F2-11 Bed Codes
+            case "M2FR11-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 11, Bed A Upper deck";
+            break;
+
+            case "M2FR11-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 11, Bed B Lower deck";
+            break;
+
+            case "M2FR11-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 11, Bed C Upper deck";
+            break;
+
+            case "M2FR11-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 11, Bed D Lower deck";
+            break;
+
+            case "M2FR11-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 11, Bed E Upper deck";
+            break;
+
+            case "M2FR11-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 11, Bed F Lower deck";
+            break;
+            // end of Room F2-11 Bed Codes
+
+
+            // Room F2-12 Bed Codes
+            case "M2FR12-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 12, Bed A Upper deck";
+            break;
+
+            case "M2FR12-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 12, Bed B Lower deck";
+            break;
+
+            case "M2FR12-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 12, Bed C Upper deck";
+            break;
+
+            case "M2FR12-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 12, Bed D Lower deck";
+            break;
+
+            case "M2FR12-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 12, Bed E Upper deck";
+            break;
+
+            case "M2FR12-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 12, Bed F Lower deck";
+            break;
+            // end of Room F2-12 Bed Codes
+
+
+            // Room F2-13 Bed Codes
+            case "M2FR13-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 13, Bed A Upper deck";
+            break;
+
+            case "M2FR13-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 13, Bed B Lower deck";
+            break;
+
+            case "M2FR13-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 13, Bed C Upper deck";
+            break;
+
+            case "M2FR13-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 13, Bed D Lower deck";
+            break;
+
+            case "M2FR13-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 13, Bed E Upper deck";
+            break;
+
+            case "M2FR13-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 13, Bed F Lower deck";
+            break;
+            // end of Room F2-13 Bed Codes
+
+
+            // Room F2-14 Bed Codes
+            case "M2FR14-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 14, Bed A Upper deck";
+            break;
+
+            case "M2FR14-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 14, Bed B Lower deck";
+            break;
+
+            case "M2FR14-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 14, Bed C Upper deck";
+            break;
+
+            case "M2FR14-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 14, Bed D Lower deck";
+            break;
+
+            case "M2FR14-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 14, Bed E Upper deck";
+            break;
+
+            case "M2FR14-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 14, Bed F Lower deck";
+            break;
+            // end of Room F2-14 Bed Codes
+
+
+            // Room F2-15 Bed Codes
+            case "M2FR15-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 15, Bed A Upper deck";
+            break;
+
+            case "M2FR15-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 15, Bed B Lower deck";
+            break;
+
+            case "M2FR15-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 15, Bed C Upper deck";
+            break;
+
+            case "M2FR15-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 15, Bed D Lower deck";
+            break;
+
+            case "M2FR15-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 15, Bed E Upper deck";
+            break;
+
+            case "M2FR15-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 15, Bed F Lower deck";
+            break;
+            // end of Room F2-15 Bed Codes
+
+
+            // Room F2-16 Bed Codes
+            case "M2FR16-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 16, Bed A Upper deck";
+            break;
+
+            case "M2FR16-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 16, Bed B Lower deck";
+            break;
+
+            case "M2FR16-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 16, Bed C Upper deck";
+            break;
+
+            case "M2FR16-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 16, Bed D Lower deck";
+            break;
+
+            case "M2FR16-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 16, Bed E Upper deck";
+            break;
+
+            case "M2FR16-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 16, Bed F Lower deck";
+            break;
+            // end of Room F2-16 Bed Codes
+
+
+            // Room F2-17 Bed Codes
+            case "M2FR17-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 17, Bed A Upper deck";
+            break;
+
+            case "M2FR17-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 17, Bed B Lower deck";
+            break;
+
+            case "M2FR17-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 17, Bed C Upper deck";
+            break;
+
+            case "M2FR17-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 17, Bed D Lower deck";
+            break;
+
+            case "M2FR17-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 17, Bed E Upper deck";
+            break;
+
+            case "M2FR17-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 17, Bed F Lower deck";
+            break;
+            // end of Room F2-17 Bed Codes
+
+
+            // Room F2-18 Bed Codes
+            case "M2FR18-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 18, Bed A Upper deck";
+            break;
+
+            case "M2FR18-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 18, Bed B Lower deck";
+            break;
+
+            case "M2FR18-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 18, Bed C Upper deck";
+            break;
+
+            case "M2FR18-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 18, Bed D Lower deck";
+            break;
+
+            case "M2FR18-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 18, Bed E Upper deck";
+            break;
+
+            case "M2FR18-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 18, Bed F Lower deck";
+            break;
+            // end of Room F2-18 Bed Codes
+
+
+            // Room F2-19 Bed Codes
+            case "M2FR19-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 19, Bed A Upper deck";
+            break;
+
+            case "M2FR19-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 19, Bed B Lower deck";
+            break;
+
+            case "M2FR19-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 19, Bed C Upper deck";
+            break;
+
+            case "M2FR19-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 19, Bed D Lower deck";
+            break;
+
+            case "M2FR19-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 19, Bed E Upper deck";
+            break;
+
+            case "M2FR19-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 19, Bed F Lower deck";
+            break;
+            // end of Room F2-19 Bed Codes
+
+
+            // Room F2-20 Bed Codes
+            case "M2FR20-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 20, Bed A Upper deck";
+            break;
+
+            case "M2FR20-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 20, Bed B Lower deck";
+            break;
+
+            case "M2FR20-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 20, Bed C Upper deck";
+            break;
+
+            case "M2FR20-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 20, Bed D Lower deck";
+            break;
+
+            case "M2FR20-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 20, Bed E Upper deck";
+            break;
+
+            case "M2FR20-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 20, Bed F Lower deck";
+            break;
+            // end of Room F2-20 Bed Codes
+
+
+            // Room F2-21 Bed Codes
+            case "M2FR21-AU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 21, Bed A Upper deck";
+            break;
+
+            case "M2FR21-BL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 21, Bed B Lower deck";
+            break;
+
+            case "M2FR21-CU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 21, Bed C Upper deck";
+            break;
+
+            case "M2FR21-DL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 21, Bed D Lower deck";
+            break;
+
+            case "M2FR21-EU":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 21, Bed E Upper deck";
+            break;
+
+            case "M2FR21-FL":
+            document.querySelector('.output').textContent = "Male Dorm, 2nd Floor, Room 21, Bed F Lower deck";
+            break;
+            // end of Room F2-21 Bed Codes
+
+
+            // Room FF1-1 Bed Codes
+            case "FM1FR1-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 1, Bed A Upper deck";
+            break;
+
+            case "FM1FR1-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 1, Bed B Lower deck";
+            break;
+
+            case "FM1FR1-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 1, Bed C Upper deck";
+            break;
+
+            case "FM1FR1-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 1, Bed D Lower deck";
+            break;
+
+            case "FM1FR1-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 1, Bed E Upper deck";
+            break;
+
+            case "FM1FR1-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 1, Bed F Lower deck";
+            break;
+            // end of Room FF1-1 Bed Codes
+
+
+            // Room FF1-2 Bed Codes
+            case "FM1FR2-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 2, Bed A Upper deck";
+            break;
+
+            case "FM1FR2-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 2, Bed B Lower deck";
+            break;
+
+            case "FM1FR2-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 2, Bed C Upper deck";
+            break;
+
+            case "FM1FR2-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 2, Bed D Lower deck";
+            break;
+
+            case "FM1FR2-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 2, Bed E Upper deck";
+            break;
+
+            case "FM1FR2-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 2, Bed F Lower deck";
+            break;
+            // end of Room FF1-2 Bed Codes
+
+
+            // Room FF1-3 Bed Codes
+            case "FM1FR3-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 3, Bed A Upper deck";
+            break;
+
+            case "FM1FR3-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 3, Bed B Lower deck";
+            break;
+
+            case "FM1FR3-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 3, Bed C Upper deck";
+            break;
+
+            case "FM1FR3-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 3, Bed D Lower deck";
+            break;
+
+            case "FM1FR3-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 3, Bed E Upper deck";
+            break;
+
+            case "FM1FR3-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 3, Bed F Lower deck";
+            break;
+            // end of Room FF1-3 Bed Codes
+
+
+            // Room FF1-4 Bed Codes
+            case "FM1FR4-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 4, Bed A Upper deck";
+            break;
+
+            case "FM1FR4-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 4, Bed B Lower deck";
+            break;
+
+            case "FM1FR4-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 4, Bed C Upper deck";
+            break;
+
+            case "FM1FR4-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 4, Bed D Lower deck";
+            break;
+
+            case "FM1FR4-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 4, Bed E Upper deck";
+            break;
+
+            case "FM1FR4-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 4, Bed F Lower deck";
+            break;
+            // end of Room FF1-4 Bed Codes
+
+
+            // Room FF1-5 Bed Codes
+            case "FM1FR5-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 5, Bed A Upper deck";
+            break;
+
+            case "FM1FR5-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 5, Bed B Lower deck";
+            break;
+
+            case "FM1FR5-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 5, Bed C Upper deck";
+            break;
+
+            case "FM1FR5-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 5, Bed D Lower deck";
+            break;
+
+            case "FM1FR5-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 5, Bed E Upper deck";
+            break;
+
+            case "FM1FR5-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 1st Floor, Room 5, Bed F Lower deck";
+            break;
+            // end of Room FF1-5 Bed Codes
+
+
+            // Room FF2-6 Bed Codes
+            case "FM2FR6-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 6, Bed A Upper deck";
+            break;
+
+            case "FM2FR6-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 6, Bed B Lower deck";
+            break;
+
+            case "FM2FR6-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 6, Bed C Upper deck";
+            break;
+
+            case "FM2FR6-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 6, Bed D Lower deck";
+            break;
+
+            case "FM2FR6-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 6, Bed E Upper deck";
+            break;
+
+            case "FM2FR6-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 6, Bed F Lower deck";
+            break;
+            // end of Room FF2-6 Bed Codes
+
+
+            // Room FF2-7 Bed Codes
+            case "FM2FR7-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 7, Bed A Upper deck";
+            break;
+
+            case "FM2FR7-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 7, Bed B Lower deck";
+            break;
+
+            case "FM2FR7-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 7, Bed C Upper deck";
+            break;
+
+            case "FM2FR7-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 7, Bed D Lower deck";
+            break;
+
+            case "FM2FR7-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 7, Bed E Upper deck";
+            break;
+
+            case "FM2FR7-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 7, Bed F Lower deck";
+            break;
+            // end of Room FF2-7 Bed Codes
+
+
+            // Room FF2-8 Bed Codes
+            case "FM2FR8-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 8, Bed A Upper deck";
+            break;
+
+            case "FM2FR8-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 8, Bed B Lower deck";
+            break;
+
+            case "FM2FR8-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 8, Bed C Upper deck";
+            break;
+
+            case "FM2FR8-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 8, Bed D Lower deck";
+            break;
+
+            case "FM2FR8-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 8, Bed E Upper deck";
+            break;
+
+            case "FM2FR8-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 8, Bed F Lower deck";
+            break;
+            // end of Room FF2-8 Bed Codes
+
+
+            // Room FF2-9 Bed Codes
+            case "FM2FR9-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 9, Bed A Upper deck";
+            break;
+
+            case "FM2FR9-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 9, Bed B Lower deck";
+            break;
+
+            case "FM2FR9-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 9, Bed C Upper deck";
+            break;
+
+            case "FM2FR9-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 9, Bed D Lower deck";
+            break;
+
+            case "FM2FR9-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 9, Bed E Upper deck";
+            break;
+
+            case "FM2FR9-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 9, Bed F Lower deck";
+            break;
+            // end of Room FF2-9 Bed Codes
+
+
+            // Room FF2-10 Bed Codes
+            case "FM2FR10-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 10, Bed A Upper deck";
+            break;
+
+            case "FM2FR10-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 10, Bed B Lower deck";
+            break;
+
+            case "FM2FR10-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 10, Bed C Upper deck";
+            break;
+
+            case "FM2FR10-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 10, Bed D Lower deck";
+            break;
+
+            case "FM2FR10-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 10, Bed E Upper deck";
+            break;
+
+            case "FM2FR10-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 10, Bed F Lower deck";
+            break;
+            // end of Room FF2-10 Bed Codes
+
+
+            // Room FF2-11 Bed Codes
+            case "FM2FR11-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 11, Bed A Upper deck";
+            break;
+
+            case "FM2FR11-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 11, Bed B Lower deck";
+            break;
+
+            case "FM2FR11-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 11, Bed C Upper deck";
+            break;
+
+            case "FM2FR11-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 11, Bed D Lower deck";
+            break;
+
+            case "FM2FR11-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 11, Bed E Upper deck";
+            break;
+
+            case "FM2FR11-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 11, Bed F Lower deck";
+            break;
+            // end of Room FF2-11 Bed Codes
+
+
+            // Room FF2-12 Bed Codes
+            case "FM2FR12-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 12, Bed A Upper deck";
+            break;
+
+            case "FM2FR12-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 12, Bed B Lower deck";
+            break;
+
+            case "FM2FR12-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 12, Bed C Upper deck";
+            break;
+
+            case "FM2FR12-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 12, Bed D Lower deck";
+            break;
+
+            case "FM2FR12-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 12, Bed E Upper deck";
+            break;
+
+            case "FM2FR12-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 12, Bed F Lower deck";
+            break;
+            // end of Room FF2-12 Bed Codes 
+
+
+            // Room FF2-13 Bed Codes
+            case "FM2FR13-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 13, Bed A Upper deck";
+            break;
+
+            case "FM2FR13-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 13, Bed B Lower deck";
+            break;
+
+            case "FM2FR13-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 13, Bed C Upper deck";
+            break;
+
+            case "FM2FR13-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 13, Bed D Lower deck";
+            break;
+
+            case "FM2FR13-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 13, Bed E Upper deck";
+            break;
+
+            case "FM2FR13-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 13, Bed F Lower deck";
+            break;
+            // end of Room FF2-13 Bed Codes
+
+
+            // Room FF2-14 Bed Codes
+            case "FM2FR14-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 14, Bed A Upper deck";
+            break;
+
+            case "FM2FR14-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 14, Bed B Lower deck";
+            break;
+
+            case "FM2FR14-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 14, Bed C Upper deck";
+            break;
+
+            case "FM2FR14-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 14, Bed D Lower deck";
+            break;
+
+            case "FM2FR14-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 14, Bed E Upper deck";
+            break;
+
+            case "FM2FR14-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 14, Bed F Lower deck";
+            break;
+            // end of Room FF2-14 Bed Codes
+
+
+            // Room FF2-15 Bed Codes
+            case "FM2FR15-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 15, Bed A Upper deck";
+            break;
+
+            case "FM2FR15-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 15, Bed B Lower deck";
+            break;
+
+            case "FM2FR15-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 15, Bed C Upper deck";
+            break;
+
+            case "FM2FR15-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 15, Bed D Lower deck";
+            break;
+
+            case "FM2FR15-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 15, Bed E Upper deck";
+            break;
+
+            case "FM2FR15-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 15, Bed F Lower deck";
+            break;
+            // end of Room FF2-15 Bed Codes
+
+
+            // Room FF2-16 Bed Codes
+            case "FM2FR16-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 16, Bed A Upper deck";
+            break;
+
+            case "FM2FR16-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 16, Bed B Lower deck";
+            break;
+
+            case "FM2FR16-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 16, Bed C Upper deck";
+            break;
+
+            case "FM2FR16-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 16, Bed D Lower deck";
+            break;
+
+            case "FM2FR16-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 16, Bed E Upper deck";
+            break;
+
+            case "FM2FR16-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 2nd Floor, Room 16, Bed F Lower deck";
+            break;
+            // end of Room FF2-16 Bed Codes
+
+
+            // Room FF3-17 Bed Codes
+            case "FM3FR17-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 17, Bed A Upper deck";
+            break;
+
+            case "FM3FR17-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 17, Bed B Lower deck";
+            break;
+
+            case "FM3FR17-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 17, Bed C Upper deck";
+            break;
+
+            case "FM3FR17-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 17, Bed D Lower deck";
+            break;
+
+            case "FM3FR17-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 17, Bed E Upper deck";
+            break;
+
+            case "FM3FR17-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 17, Bed F Lower deck";
+            break;
+            // end of Room FF3-17 Bed Codes
+
+
+            // Room FF3-18 Bed Codes
+            case "FM3FR18-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 18, Bed A Upper deck";
+            break;
+
+            case "FM3FR18-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 18, Bed B Lower deck";
+            break;
+
+            case "FM3FR18-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 18, Bed C Upper deck";
+            break;
+
+            case "FM3FR18-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 18, Bed D Lower deck";
+            break;
+
+            case "FM3FR18-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 18, Bed E Upper deck";
+            break;
+
+            case "FM3FR18-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 18, Bed F Lower deck";
+            break;
+            // end of Room FF3-18 Bed Codes
+
+
+            // Room FF3-19 Bed Codes
+            case "FM3FR19-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 19, Bed A Upper deck";
+            break;
+
+            case "FM3FR19-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 19, Bed B Lower deck";
+            break;
+
+            case "FM3FR19-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 19, Bed C Upper deck";
+            break;
+
+            case "FM3FR19-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 19, Bed D Lower deck";
+            break;
+
+            case "FM3FR19-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 19, Bed E Upper deck";
+            break;
+
+            case "FM3FR19-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 19, Bed F Lower deck";
+            break;
+            // end of Room FF3-19 Bed Codes
+
+
+            // Room FF3-20 Bed Codes
+            case "FM3FR20-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 20, Bed A Upper deck";
+            break;
+
+            case "FM3FR20-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 20, Bed B Lower deck";
+            break;
+
+            case "FM3FR20-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 20, Bed C Upper deck";
+            break;
+
+            case "FM3FR20-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 20, Bed D Lower deck";
+            break;
+
+            case "FM3FR20-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 20, Bed E Upper deck";
+            break;
+
+            case "FM3FR20-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 20, Bed F Lower deck";
+            break;
+            // end of Room FF3-20 Bed Codes
+
+
+            // Room FF3-21 Bed Codes
+            case "FM3FR21-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 21, Bed A Upper deck";
+            break;
+
+            case "FM3FR21-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 21, Bed B Lower deck";
+            break;
+
+            case "FM3FR21-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 21, Bed C Upper deck";
+            break;
+
+            case "FM3FR21-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 21, Bed D Lower deck";
+            break;
+
+            case "FM3FR21-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 21, Bed E Upper deck";
+            break;
+
+            case "FM3FR21-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 21, Bed F Lower deck";
+            break;
+            // end of Room FF3-21 Bed Codes
+
+
+            // Room FF3-22 Bed Codes
+            case "FM3FR22-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 22, Bed A Upper deck";
+            break;
+
+            case "FM3FR22-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 22, Bed B Lower deck";
+            break;
+
+            case "FM3FR22-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 22, Bed C Upper deck";
+            break;
+
+            case "FM3FR22-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 22, Bed D Lower deck";
+            break;
+
+            case "FM3FR22-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 22, Bed E Upper deck";
+            break;
+
+            case "FM3FR22-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 22, Bed F Lower deck";
+            break;
+            // end of Room FF3-22 Bed Codes
+
+
+            // Room FF3-23 Bed Codes
+            case "FM3FR23-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 23, Bed A Upper deck";
+            break;
+
+            case "FM3FR23-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 23, Bed B Lower deck";
+            break;
+
+            case "FM3FR23-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 23, Bed C Upper deck";
+            break;
+
+            case "FM3FR23-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 23, Bed D Lower deck";
+            break;
+
+            case "FM3FR23-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 23, Bed E Upper deck";
+            break;
+
+            case "FM3FR23-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 23, Bed F Lower deck";
+            break;
+            // end of Room FF3-23 Bed Codes
+
+
+            // Room FF3-24 Bed Codes
+            case "FM3FR24-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 24, Bed A Upper deck";
+            break;
+
+            case "FM3FR24-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 24, Bed B Lower deck";
+            break;
+
+            case "FM3FR24-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 24, Bed C Upper deck";
+            break;
+
+            case "FM3FR24-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 24, Bed D Lower deck";
+            break;
+
+            case "FM3FR24-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 24, Bed E Upper deck";
+            break;
+
+            case "FM3FR24-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 24, Bed F Lower deck";
+            break;
+            // end of Room FF3-24 Bed Codes
+
+
+            // Room FF3-25 Bed Codes
+            case "FM3FR25-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 25, Bed A Upper deck";
+            break;
+
+            case "FM3FR25-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 25, Bed B Lower deck";
+            break;
+
+            case "FM3FR25-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 25, Bed C Upper deck";
+            break;
+
+            case "FM3FR25-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 25, Bed D Lower deck";
+            break;
+
+            case "FM3FR25-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 25, Bed E Upper deck";
+            break;
+
+            case "FM3FR25-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 25, Bed F Lower deck";
+            break;
+            // end of Room FF3-25 Bed Codes
+
+
+            // Room FF3-26 Bed Codes
+            case "FM3FR26-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 26, Bed A Upper deck";
+            break;
+
+            case "FM3FR26-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 26, Bed B Lower deck";
+            break;
+
+            case "FM3FR26-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 26, Bed C Upper deck";
+            break;
+
+            case "FM3FR26-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 26, Bed D Lower deck";
+            break;
+
+            case "FM3FR26-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 26, Bed E Upper deck";
+            break;
+
+            case "FM3FR26-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 26, Bed F Lower deck";
+            break;
+            // end of Room FF3-26 Bed Codes
+
+
+            // Room FF3-27 Bed Codes
+            case "FM3FR27-AU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 27, Bed A Upper deck";
+            break;
+
+            case "FM3FR27-BL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 27, Bed B Lower deck";
+            break;
+
+            case "FM3FR27-CU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 27, Bed C Upper deck";
+            break;
+
+            case "FM3FR27-DL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 27, Bed D Lower deck";
+            break;
+
+            case "FM3FR27-EU":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 27, Bed E Upper deck";
+            break;
+
+            case "FM3FR27-FL":
+            document.querySelector('.output').textContent = "Female Dorm, 3rd Floor, Room 27, Bed F Lower deck";
+            break;
+            // end of Room FF3-27 Bed Codes
+
+
+            // Room FR1-1 Bed Codes
+            case "FR1FR1-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 1st Floor, Room 1, Bed A";
+            break;
+
+            case "FR1FR1-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 1st Floor, Room 1, Bed B";
+            break;
+
+            case "FR1FR1-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 1st Floor, Room 1, Bed C";
+            break;
+            // end of Room FR1-1 Bed Codes
+
+
+            // Room FR1-2 Bed Codes
+            case "FR1FR2-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 1st Floor, Room 2, Bed A";
+            break;
+
+            case "FR1FR2-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 1st Floor, Room 2, Bed B";
+            break;
+
+            case "FR1FR2-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 1st Floor, Room 2, Bed C";
+            break;
+            // end of Room FR1-2 Bed Codes
+
+
+            // Room FR1-3 Bed Codes
+            case "FR1FR3-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 1st Floor, Room 3, Bed A";
+            break;
+
+            case "FR1FR3-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 1st Floor, Room 3, Bed B";
+            break;
+
+            case "FR1FR3-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 1st Floor, Room 3, Bed C";
+            break;
+            // end of Room FR1-3 Bed Codes
+
+
+            // Room FR2-4 Bed Codes
+            case "FR2FR4-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 4, Bed A";
+            break;
+
+            case "FR2FR4-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 4, Bed B";
+            break;
+
+            case "FR2FR4-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 4, Bed C";
+            break;
+            // end of Room FR2-4 Bed Codes
+
+
+            // Room FR2-5 Bed Codes
+            case "FR2FR5-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 5, Bed A";
+            break;
+
+            case "FR2FR5-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 5, Bed B";
+            break;
+
+            case "FR2FR5-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 5, Bed C";
+            break;
+            // end of Room FR2-5 Bed Codes 
+
+
+            // Room FR2-6 Bed Codes
+            case "FR2FR6-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 6, Bed A";
+            break;
+
+            case "FR2FR6-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 6, Bed B";
+            break;
+
+            case "FR2FR6-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 6, Bed C";
+            break;
+            // end of Room FR2-6 Bed Codes 
+
+
+            // Room FR2-7 Bed Codes
+            case "FR2FR7-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 7, Bed A";
+            break;
+
+            case "FR2FR7-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 7, Bed B";
+            break;
+
+            case "FR2FR7-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 7, Bed C";
+            break;
+            // end of Room FR2-7 Bed Codes 
+
+
+            // Room FR2-8 Bed Codes
+            case "FR2FR8-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 8, Bed A";
+            break;
+
+            case "FR2FR8-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 8, Bed B";
+            break;
+
+            case "FR2FR8-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 8, Bed C";
+            break;
+            // end of Room FR2-8 Bed Codes 
+
+
+            // Room FR2-9 Bed Codes
+            case "FR2FR9-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 9, Bed A";
+            break;
+
+            case "FR2FR9-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 9, Bed B";
+            break;
+
+            case "FR2FR9-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 9, Bed C";
+            break;
+            // end of Room FR2-9 Bed Codes
+
+
+            // Room FR2-10 Bed Codes
+            case "FR2FR10-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 10, Bed A";
+            break;
+
+            case "FR2FR10-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 10, Bed B";
+            break;
+
+            case "FR2FR10-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 10, Bed C";
+            break;
+            // end of Room FR2-10 Bed Codes
+
+
+            // Room FR2-11 Bed Codes
+            case "FR2FR11-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 11, Bed A";
+            break;
+
+            case "FR2FR11-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 11, Bed B";
+            break;
+
+            case "FR2FR11-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 11, Bed C";
+            break;
+            // end of Room FR2-11 Bed Codes
+
+
+            // Room FR2-12 Bed Codes
+            case "FR2FR12-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 12, Bed A";
+            break;
+
+            case "FR2FR12-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 12, Bed B";
+            break;
+
+            case "FR2FR12-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 12, Bed C";
+            break;
+            // end of Room FR2-12 Bed Codes
+
+
+            // Room FR2-13 Bed Codes
+            case "FR2FR13-A":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 13, Bed A";
+            break;
+
+            case "FR2FR13-B":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 13, Bed B";
+            break;
+
+            case "FR2FR13-C":
+            document.querySelector('.output').textContent = "Foreign Dorm, 2nd Floor, Room 13, Bed C";
+            break;
+            // end of Room FR2-13 Bed Codes
+
+
+            // THE NUN
+            case "":
+            document.querySelector('.output').textContent = "";
+            break;
+
+            default:
+            document.querySelector('.output').textContent = "";
+            // end of THE NUN
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.occupant-list').select2();
+    });
+
+    $(document).ready(function() {
+        $('.bed-list').select2();
+    });
+</script>
+{% endblock %}
