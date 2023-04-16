@@ -15,6 +15,19 @@ from landingpage.views import AdminList, AdminUpdateView, RegMonthRep, RegYearRe
 from landingpage.views import FDHomePageView, FDDashMaleVacantBed, FDDashFemaleVacantBed, FDDashForeignVacantBed
 from landingpage.views import FDRegistrationList, FDRegistrationUpdateView, FDRegistrationRegView, FDRegMonthRep, FDRegYearRep
 from landingpage.views import FDOccupantList, FDOccupantUpdateView, FDOccupantView, FDOccMonthRep, FDOccYearRep
+from landingpage.views import FDOccupantDemeritList, FDOccupantDemeritUpdateView, FDOccupantViewDemeritUpdate
+from landingpage.views import FDRoomList, FDRoomUpdateView, FDRoomListCard, FDRoomCardUpdateView, FDBedList, FDBedUpdateView
+from landingpage.views import FDServiceList, FDServiceUpdateView, FDDemeritList, FDDemeritUpdateView
+
+from landingpage.views import ASHomePageView, ASDashMaleVacantBed, ASDashFemaleVacantBed, ASDashForeignVacantBed
+from landingpage.views import ASOccupantList, ASOccupantView, ASOccMonthRep, ASOccYearRep, ASBillingList, ASBillingUpdateView
+from landingpage.views import ASOccupantList, ASOccupantView, ASOccupantViewBillingUpdate, ASOccMonthRep, ASOccYearRep
+from landingpage.views import ASPaymentList, ASPaymentUpdateView, ASOccupantViewPaymentUpdate, ASServiceList
+
+from landingpage.views import DMHomePageView, DMDashMaleVacantBed, DMDashFemaleVacantBed, DMDashForeignVacantBed
+from landingpage.views import DMRegistrationList, DMRegistrationRegView, DMRegMonthRep, DMRegYearRep
+from landingpage.views import DMOccupantList, DMOccupantView, DMOccMonthRep, DMOccYearRep, DMBillingList, DMPaymentList
+from landingpage.views import DMOccupantDemeritList, DMRoomList, DMRoomListCard, DMBedList, DMServiceList, DMDemeritList
 
 
 from landingpage import views
@@ -25,7 +38,7 @@ urlpatterns = [
     url('^searchableselect/', include('searchableselect.urls')),
     path('admin/', admin.site.urls),
 
-    # start of Superadmin URL
+    # start of Super Admin URL
     path('', views.HomePageView.as_view(), name='home'),
 
     path('dash_male_vacant_bed', DashMaleVacantBed.as_view(), name='DashMaleVacantBed'),
@@ -108,9 +121,9 @@ urlpatterns = [
 
     path('admin_profile', views.AdminProfile.as_view(), name='AdminProfile'),
     path('admin_profile/<pk>', views.AdminProfileUpdateView.as_view(), name='AdminProfileUpdateView'),
-    # end of Superadmin URL
+    # end of SuperAadmin URL
 
-    # start of Frontdesk URL
+    # start of Front Desk URL
     path('fd_home', views.FDHomePageView.as_view(), name='fd_home'),
 
     path('fd_dash_male_vacant_bed', FDDashMaleVacantBed.as_view(), name='FDDashMaleVacantBed'),
@@ -146,7 +159,114 @@ urlpatterns = [
     path('fd_occ_year_csv', views.fd_occ_year_csv, name="fd_occ_year_csv"),
     path('fd_occ_month_rep/fd_occupant_list', FDOccMonthRep.as_view(), name='FDOccMonthRep'),
     path('fd_occ_year_rep/fd_occupant_list', FDOccYearRep.as_view(), name='FDOccYearRep'),
-    # end of Frontdesk URL
+
+    path('fd_occupant_demerit_list', FDOccupantDemeritList.as_view(), name='FDOccupantDemeritList'),
+    path('fd_occupant_demerit_list/add', views.fd_add_occupant_demerit, name='FDOccupantDemeritAdd'),
+    path('fd_occupant_demerit_list/<pk>', FDOccupantDemeritUpdateView.as_view(), name="FDOccupantDemeritUpdate"),
+    path('fd_occupant_view/fd_occupant_demerit_list/<pk>', FDOccupantViewDemeritUpdate.as_view(), name="FDOccupantViewDemeritUpdate"),
+
+    path('fd_room_list', FDRoomList.as_view(), name='FDRoomList'),
+    path('fd_room_list_card', FDRoomListCard.as_view(), name='FDRoomListCard'),
+    path('fd_room_list/add', views.fd_add_room, name='FDRoomAdd'),
+    path('fd_room_list/<pk>', FDRoomUpdateView.as_view(), name="FDRoomUpdate"),
+    path('fd_room_list_card/<pk>', FDRoomCardUpdateView.as_view(), name="FDRoomCardUpdate"),
+
+    path('fd_bed_list', FDBedList.as_view(), name='FDBedList'),
+    path('fd_bed_list/add', views.fd_add_bed, name='FDBedAdd'),
+    path('fd_bed_list/<pk>', FDBedUpdateView.as_view(), name="FDBedUpdate"),
+
+    path('fd_service_list', FDServiceList.as_view(), name='FDServiceList'),
+    path('fd_service_list/add', views.fd_add_service, name='FDServiceAdd'),
+    path('fd_service_list/<pk>', FDServiceUpdateView.as_view(), name="FDServiceUpdate"),
+
+    path('fd_demerit_list', FDDemeritList.as_view(), name='FDDemeritList'),
+    path('fd_demerit_list/add', views.fd_add_demerit, name='FDDemeritAdd'),
+    path('fd_demerit_list/<pk>', FDDemeritUpdateView.as_view(), name="FDDemeritUpdate"),
+
+    path('FDAdminNotifications/', views.FDAdminNotifications, name='FDAdminNotifications'),
+
+    path('fd_admin_profile', views.FDAdminProfile.as_view(), name='FDAdminProfile'),
+    path('fd_admin_profile/<pk>', views.FDAdminProfileUpdateView.as_view(), name='FDAdminProfileUpdateView'),
+    # end of Front Desk URL
+
+    # start of Accounting Staff URL
+    path('as_home', views.ASHomePageView.as_view(), name='as_home'),
+
+    path('as_dash_male_vacant_bed', ASDashMaleVacantBed.as_view(), name='ASDashMaleVacantBed'),
+    path('as_dash_female_vacant_bed', ASDashFemaleVacantBed.as_view(), name='ASDashFemaleVacantBed'),
+    path('as_dash_foreign_vacant_bed', ASDashForeignVacantBed.as_view(), name='ASDashForeignVacantBed'),
+
+    path('as_occupant_list', ASOccupantList.as_view(), name='ASOccupantList'),
+    path('as_occupant_view/<pk>', ASOccupantView.as_view(), name="ASOccupantView"),
+    path('as_occupant_list/<int:pk>/', views.ASOccPDF, name='ASOccPDF'),
+    path('as_occupant_views/as_occupant_list/<int:pk>/', views.ASOccPDF, name='ASOccPDF'),
+
+    path('as_occ_all_csv', views.as_occ_all_csv, name="as_occ_all_csv"),
+    path('as_occ_month_csv', views.as_occ_month_csv, name="as_occ_month_csv"),
+    path('as_occ_year_csv', views.as_occ_year_csv, name="as_occ_year_csv"),
+    path('as_occ_month_rep/as_occupant_list', ASOccMonthRep.as_view(), name='ASOccMonthRep'),
+    path('as_occ_year_rep/as_occupant_list', ASOccYearRep.as_view(), name='ASOccYearRep'),
+    path('as_occupant_view/as_billing_list/<pk>', ASOccupantViewBillingUpdate.as_view(), name="ASOccupantViewBillingUpdate"),
+
+    path('as_billing_list', ASBillingList.as_view(), name='ASBillingList'),
+    path('as_billing_list/add', views.as_add_billing, name='ASBillingAdd'),
+    path('as_billing_list/<pk>', ASBillingUpdateView.as_view(), name="ASBillingUpdate"),
+    path('as_other_add/', views.as_other_add_billing, name='as_other-add'),
+    path('as_other_update/<billing_id>', views.as_other_update_billing, name='as_other-update'),
+    
+    path('as_payment_list', ASPaymentList.as_view(), name='ASPaymentList'),
+    path('as_payment_list/add', views.as_add_payment, name='ASPaymentAdd'),
+    path('as_payment_list/<pk>', ASPaymentUpdateView.as_view(), name="ASPaymentUpdate"),
+    path('as_occupant_view/as_payment_list/<pk>', ASOccupantViewPaymentUpdate.as_view(), name="ASOccupantViewPaymentUpdate"),
+
+    path('as_service_list', ASServiceList.as_view(), name='ASServiceList'),
+
+    path('ASAdminNotifications/', views.ASAdminNotifications, name='ASAdminNotifications'),
+
+    path('as_admin_profile', views.ASAdminProfile.as_view(), name='ASAdminProfile'),
+    path('as_admin_profile/<pk>', views.ASAdminProfileUpdateView.as_view(), name='ASAdminProfileUpdateView'),
+    # end of Accounting Staff URL
+
+    # start of Dorm Manager URL
+    path('dm_home', views.DMHomePageView.as_view(), name='dm_home'),
+
+    path('dm_dash_male_vacant_bed', DMDashMaleVacantBed.as_view(), name='DMDashMaleVacantBed'),
+    path('dm_dash_female_vacant_bed', DMDashFemaleVacantBed.as_view(), name='DMDashFemaleVacantBed'),
+    path('dm_dash_foreign_vacant_bed', DMDashForeignVacantBed.as_view(), name='DMDashForeignVacantBed'),
+
+    path('dm_registration_list', DMRegistrationList.as_view(), name='DMRegistrationList'),
+    path('dm_registration_view/<pk>', DMRegistrationRegView.as_view(), name="DMRegistrationView"),
+    path('dm_occupant_view/dm_registration_view/<pk>', DMRegistrationRegView.as_view(), name="DMRegistrationView"),
+
+    path('dm_reg_month_rep/dm_registration_list', DMRegMonthRep.as_view(), name='DMRegMonthRep'),
+    path('dm_reg_year_rep/dm_registration_list', DMRegYearRep.as_view(), name='DMRegYearRep'),
+
+    path('dm_occupant_list', DMOccupantList.as_view(), name='DMOccupantList'),
+    path('dm_occupant_view/<pk>', DMOccupantView.as_view(), name="DMOccupantView"),
+    path('dm_occ_month_rep/dm_occupant_list', DMOccMonthRep.as_view(), name='DMOccMonthRep'),
+    path('dm_occ_year_rep/dm_occupant_list', DMOccYearRep.as_view(), name='DMOccYearRep'),
+    path('dm_occupant_view/dm_occupant_list/<pk>', DMOccupantView.as_view(), name="DMOccupantView"),
+
+    path('dm_billing_list', DMBillingList.as_view(), name='DMBillingList'),
+
+    path('dm_payment_list', DMPaymentList.as_view(), name='DMPaymentList'),
+
+    path('dm_occupant_demerit_list', DMOccupantDemeritList.as_view(), name='DMOccupantDemeritList'),
+
+    path('dm_room_list', DMRoomList.as_view(), name='DMRoomList'),
+    path('dm_room_list_card', DMRoomListCard.as_view(), name='DMRoomListCard'),
+
+    path('dm_bed_list', DMBedList.as_view(), name='DMBedList'),
+
+    path('dm_service_list', DMServiceList.as_view(), name='DMServiceList'),
+
+    path('dm_demerit_list', DMDemeritList.as_view(), name='DMDemeritList'),
+
+    path('DMAdminNotifications/', views.DMAdminNotifications, name='DMAdminNotifications'),
+
+    path('dm_admin_profile', views.DMAdminProfile.as_view(), name='DMAdminProfile'),
+    path('dm_admin_profile/<pk>', views.DMAdminProfileUpdateView.as_view(), name='DMAdminProfileUpdateView'),
+    # end of Dorm Manager URL
 
     path('admin_login/', admin_login_view, name="admin_login"),
     path('admin_logout/', admin_logout_view, name="logout"),
@@ -160,7 +280,6 @@ urlpatterns = [
     # path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),
     # path('delete_demerit/<int:id>', views.delete_demerit, name='delete_demerit'),
     # path('delete_user/<int:id>', views.delete_user, name='delete_user'),
-
 
     # start of User URL
     path('user_login/', user_login_view, name="user_login"),

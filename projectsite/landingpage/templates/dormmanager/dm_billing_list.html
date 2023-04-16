@@ -1,0 +1,106 @@
+{% extends "dormmanager/dm_base.html" %}
+{% load static %}
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
+                            <h6 class="text-white ps-3">List of Billings</h6>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+
+                             <div class="col-sm-9"></div>
+
+                             {% include 'includes/search_style.html' %}
+
+                             {% load humanize %}
+                             
+                             <div class="col-sm-3">
+                                <form action="{% url 'DMBillingList' %}" method="get"> 
+                                    <div class="input-group input-group-outline">
+                                        <label class="form-label">Search bill...</label>
+                                        <input type="text" class="form-control" name="q">
+                                    </div>
+                                </form>
+                             </div>
+                            <!-- messages & alerts -->
+                            {% for message in messages %}
+                                <p style="margin-top: 15px;" id="fadeout" class="text-success font-weight-bold text-xs">
+                                    {{ message }}
+                                 </p>
+                            {% endfor%}
+                            <!-- /messages & alerts -->
+                         </div>
+                     </div>
+                        <div class="table-responsive" style="padding: 0px 20px;">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Occupant</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Bill Date</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Service</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Description</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for object in object_list %}
+                                    <tr>
+                                        <td>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.occupant }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ object.bill_date }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service.service_name }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ object.description|truncatechars:25 }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
+                                        </td>
+                                    </tr>
+
+                                    {% empty %}
+                                    <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table.</td>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                            <span class="mb-0 text-link text-xs ">Total Number of 
+                            <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                            {% if bills != empty %} {{ bills }} {% else %} 0 {% endif %}</span>
+                            Bills.</span>
+                            {% include 'includes/pagination.html' %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+</script>
+
+{% endblock content%}

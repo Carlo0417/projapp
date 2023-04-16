@@ -1,0 +1,192 @@
+{% extends "dormmanager/dm_base.html" %}
+{% load static %}
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
+                            <h6 class="text-white ps-3">List of Occupants</h6>
+                        </div>
+                    </div>
+
+                    {% include 'includes/search_style.html' %}
+
+                    <style>
+                        #group:hover{color: rgba(255, 66, 0, 0.9);}
+                    </style>
+
+                    <div class="card-body">
+                       <div class="row">
+                            <div class="col-sm-3">
+                                <form action="{% url 'DMOccupantList' %}" method="get"> 
+                                    <div class="input-group input-group-outline">
+                                        <label class="form-label">Search occupant...</label>
+                                        <input type="text" class="form-control" name="q">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-sm-3"></div>
+
+                            <div class="col-sm-6">
+                                <br>
+                                <li class="nav-item pe-2 dropdown d-flex justify-content-end">
+                                    <a href="javascript:;" class="btn btn-sm w-auto shadow-secondary text-center text-xs text-white" id="dropdownMenuButton" 
+                                    data-bs-toggle="dropdown" aria-expanded="true" style="background-color: rgba(255, 66, 0, 0.9);">
+                                      <i class="material-icons me-2 text-xs">date_range</i>Reports
+                                    </a>
+                                    <ul class="dropdown-menu  dropdown-menu-end  px-3 py-3 me-sm-n4 shadow-secondary" aria-labelledby="dropdownMenuButton">
+                                        <li class="mb-2">
+                                            <a class="dropdown-item border-radius-md" href="{% url 'DMOccMonthRep' %}">
+                                              <div class="d-flex py-1" id="group">
+                                                <div class="my-auto">
+                                                    <i class="material-icons me-2 text-sm">assignment</i>
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                  <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="font-weight-bold" id="group">Current Month</span>
+                                                  </h6>
+                                                </div>
+                                              </div>
+                                            </a>
+                                        </li>
+        
+                                        <li class="mb-2">
+                                            <a class="dropdown-item border-radius-md" href="{% url 'DMOccYearRep' %}">
+                                              <div class="d-flex py-1" id="group">
+                                                <div class="my-auto">
+                                                    <i class="material-icons me-2 text-sm">receipt_long</i>
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                  <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="font-weight-bold" id="group">Current Year</span>
+                                                  </h6>
+                                                </div>
+                                              </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </div>
+
+                        </div>
+
+                        <!-- messages & alerts -->
+                        {% for message in messages %}
+                            <p style="margin-top: 15px;" id="fadeout" class="text-success font-weight-bold text-xs">
+                                {{ message }}
+                            </p>
+                        {% endfor%}
+                        <!-- /messages & alerts -->
+                    </div>
+
+                    <style>
+                        .tooltip {
+                            font-size: 12px;
+                        }  
+                    </style>
+
+                        <div class="table-responsive" style="padding: 0px 20px;">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Person</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Boarder Type</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Bed Code</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Start Date</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            End Date</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Status</th>
+                                        <th class=" text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for object in object_list %}
+                                    <tr>
+                                        <td>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.person }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ object.person.boarder_type }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p data-toggle="tooltip" data-placement="top" title="{{ object.bed.bed_description }}" 
+                                            class="text-xs text-secondary font-weight-bold mb-0">{{ object.bed }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ object.start_date }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ object.end_date }}</p>
+                                        </td>
+
+                                        <td class="text-sm text-center">
+                                            {% if object.end_date <= today %}
+                                                <span class="badge badge-sm bg-gradient-secondary shadow-secondary">Ended</span>
+                                            {% else %}
+                                                <span class="badge badge-sm bg-gradient-success shadow-success">Ongoing</span>
+                                            {% endif %}
+
+                                            {{one_week_later}}
+
+                                        <td class="text-center">
+                                            <a href="dm_occupant_view/{{ object.id }}"
+                                                class="btn btn-link px-3 mb-0" style="color: #4b4b4b; font-size: 10px;"     
+                                                data-toggle="tooltip" style="font-size: 10px;">
+                                                <i class="material-icons text-sm me-2">assignment</i>View</a>
+                                        </td>   
+                                    </tr>
+
+                                    {% empty %}
+                                    <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table. </td>
+                                    {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                            <span class="mb-0 text-link text-xs ">Total Number of 
+                                <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                                    {% if occupants != empty %} {{ occupants }} {% else %} 0 {% endif %}</span>Occupants with
+                                <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                                    {% if renewal != empty %} {{ renewal }} {% else %} 0 {% endif %}</span>Renewal.
+                                <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                                    {% if local != empty %} {{ local }} {% else %} 0 {% endif %}</span>Local and 
+                                <span class="text-sm font-weight-bolder" style="color: #FF4200;">
+                                    {% if foreign != empty %} {{ foreign }} {% else %} 0 {% endif %}</span>Foreign. 
+                            </span>
+                            {% include 'includes/pagination.html' %}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+</script>
+
+{% endblock content%}

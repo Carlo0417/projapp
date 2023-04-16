@@ -1,0 +1,262 @@
+{% extends 'frontdesk/fd_base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: #FF9001;">
+                            <h6 class="text-white text-capitalize ps-3">Adding Remarks</h6>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form class="" action="" method="post" novalidate>
+                            {% csrf_token %}
+                            
+                            {% load widget_tweaks %}
+
+                            {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    <p{% if forloop.last %} class="mb-0" {% endif %}>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {% include 'includes/select2.html' %}
+
+                            <style> #my-div {pointer-events:none; background-color: #E7E7E7; border: hidden; }</style>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                            style="margin-bottom: 0px;">Boarder Type</label> <br>
+                                            <span class="badge badge-sm text-sm my-2 shadow-primary" style="background-color: #FF9001">{{ object.occupant.person.boarder_type }}</span>                      
+                                        </div>
+
+                                        <div class="col-8">
+                                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                            style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
+                                            <h6 class="mb-0 text-lg">{{ object.occupant.person.last_name }}, {{ object.occupant.person.first_name }}</h6>
+                                            <p class="text-sm text-secondary font-weight-bold mb-0">{{ object.occupant.person.psu_email }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                            style="margin-bottom: 0px; margin-top: 17px;">Recorded Date</label> <br>
+                                            <span class="badge badge-sm shadow-primary" style="background-color: #FF9001; margin-bottom: 5px;">{{ object.created_at }}</span>
+                                        </div>
+
+                                        <div class="col-6"> 
+                                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                            style="margin-bottom: 0px; margin-top: 17px;">Updated Date</label> <br>
+                                            <span class="badge badge-sm shadow-primary" style="background-color: #FF9001; margin-bottom: 5px;">{{ object.updated_at }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr style="border-top: 1px solid #4b4b4b; opacity: 0.2; margin-top: 20px; margin-bottom: 20px;">
+
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                    style="margin-bottom: 10px;">Demerit Description</label>
+                                    <p class="text-sm text-secondary font-weight-bold mb-0"
+                                    style="text-align: justify; text-indent: 20px;">{{ object.demerit_name}}.</p>
+                                    
+                                    <label class="text-secondary text-xs font-weight-bolder opacity-8" 
+                                    style="margin-bottom: 0px; margin-top: 10px; font-style: italic;">Equivalent Demerit Point/s:
+                                    <b class="text-dark output" style="font-style: normal;"> 
+                                    {{ object.demerit_name.demerit_points }} </b> </label> <br>
+                                </div>
+
+                                <div class="col-7">
+                                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                    style="margin-bottom: 10px;"> <span style="color: #FF9001;">Previous</span> Remarks / Description</label>
+                                    <p class="text-sm text-secondary font-weight-bold mb-0"
+                                    style="text-align: justify; white-space: break-spaces; max-height: 200px; overflow: auto;">{{ object.prev_remarks}}</p>
+                                </div>
+                            </div>
+
+                            <hr style="border-top: 1px solid #4b4b4b; opacity: 0.2; margin-top: 20px; margin-bottom: 15px;">
+
+                            <div class="row">
+                                <div class="col-8">
+                                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                    style="margin-bottom: 0px; margin-top: 17px;"><span style="color: #FF9001;">New</span> Remarks / Description</label>
+
+                                    <div class="input-group input-group-outline" hidden>
+                                        {% render_field form.prev_remarks class="form-control "%}
+                                    </div>
+
+                                    <div class="input-group input-group-outline">
+                                        {% render_field form.new_remarks class="form-control "%}
+                                    </div>
+    
+                                </div>
+                                <div class="col-4"></div>
+                            </div>
+
+                        <div class="ln_solid">
+                            <br /> <br />
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-3">
+                                    <button type='submit' class="btn text-white shadow-warning" style="background-color: #FF9001;">Save</button>
+                                    &nbsp &nbsp &nbsp
+                                    <a class="btn text-white shadow-secondary" style="background-color: #4b4b4b;" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    $(document).ready(function() {
+        $('.occupant-list').select2();
+    });
+</script>
+
+<script>                       
+    function getOption() {
+        selectElement = document.querySelector('#select1');
+        output = selectElement.options[selectElement.selectedIndex].textContent;
+
+        switch(output) {
+            // Demerits equivalent of 5 points
+            case "Transfer to other rooms without permission":
+            document.querySelector('.output').textContent = "5";
+            break;
+
+            case "Doing malicious conduct on dormitory premises":
+            document.querySelector('.output').textContent = "5";
+            break;
+
+            case "Allowing opposite sex other than the parents to enter his/her room":
+            document.querySelector('.output').textContent = "5";
+            break;
+
+            case "Possessing inside the dormitory any firearm, bladed weapon, or any kind of dangerous and deadly weapon; Provided, that this shall not possess the in connection with their studies and have a permit for the purpose":
+            document.querySelector('.output').textContent = "5";
+            break;
+
+            case "Oral defamation against co-residents":
+            document.querySelector('.output').textContent = "5";
+            break;
+
+            case "Bullying":
+            document.querySelector('.output').textContent = "5";
+            break;
+
+            case "Threatening or any attempt to any member of the dormitory with physical harm; unlawfully preventing or threatening the dormitory residents or other dormitory officials to enter the dormitory premises":
+            document.querySelector('.output').textContent = "5";
+            break;
+            // end of Demerits equivalent of 5 points
+
+            // Demerits equivalent of 4 points
+            case "Non-Securing of Dormitory forms i.e. curfew extension and renewal/clearance forms":
+            document.querySelector('.output').textContent = "4";
+            break;
+
+            case "Non-Compliance related to room checking procedures":
+            document.querySelector('.output').textContent = "4";
+            break;
+
+            case "Non-Compliance to the administrative and dormitory superintendents":
+            document.querySelector('.output').textContent = "4";
+            break;
+
+            case "Bringing of appliances without the approval of the dormitory parent":
+            document.querySelector('.output').textContent = "4";
+            break;
+            // end of Demerits equivalent of 4 points
+
+
+            // Demerits equivalent of 3 points
+            case "Laundering of clothes inside the dormitory":
+            document.querySelector('.output').textContent = "3";
+            break;
+
+            case "Use electrical appliances, including ironing of clothes inside the dormitory":
+            document.querySelector('.output').textContent = "3";
+            break;
+
+            case "Returning after curfew hour or very late from time in indicated on the curfew extension form":
+            document.querySelector('.output').textContent = "3";
+            break;
+
+            case "Lending dormitory ID to the outsider and co-residents to enter the dormitory premises":
+            document.querySelector('.output').textContent = "3";
+            break;
+            // end of Demerits equivalent of 3 points
+
+
+            // Demerits equivalent of 2 points
+            case "Using other personal things without permission to the owner":
+            document.querySelector('.output').textContent = "2";
+            break;
+
+            case "Failure to do proper waste segregation and or throwing garbage in improper places":
+            document.querySelector('.output').textContent = "2";
+            break;
+
+            case "Disturbing / Disrespect on the privacy of others including making noise after curfew hours and playing loud music inside the dormitory":
+            document.querySelector('.output').textContent = "2";
+            break;
+
+            case "Vandalism":
+            document.querySelector('.output').textContent = "2";
+            break;
+            // end of Demerits equivalent of 2 points
+
+
+            // Demerits equivalent of 1 points
+            case "Failure to register in logbook":
+            document.querySelector('.output').textContent = "1";
+            break;
+
+            case "Not turning off the fan, aircon, lights and faucet":
+            document.querySelector('.output').textContent = "1";
+            break;
+
+            case "Shouting and making nuisance inside the dormitory":
+            document.querySelector('.output').textContent = "1";
+            break;
+
+            case "Bringing pets in the dormitory":
+            document.querySelector('.output').textContent = "1";
+            break;
+
+            case "Walking around beyond time limits (11:00 PM only)":
+            document.querySelector('.output').textContent = "1";
+            break;
+            // end of Demerits equivalent of 1 points
+
+
+            // THE NUN
+            case "":
+            document.querySelector('.output').textContent = "0";
+            break;
+
+            default:
+            document.querySelector('.output').textContent = "0";
+            // end of THE NUN
+        }
+    }
+</script>
+
+{% endblock %}

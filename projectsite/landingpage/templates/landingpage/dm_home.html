@@ -1,0 +1,814 @@
+{% extends 'dormmanager/dm_base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <div class="container-fluid py-4">
+            <div class="row">
+              <!-- Totals -->
+              <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+
+                  <a href="bed_list" style="color: #7B809A;">
+                  <div class="card-header p-3 pt-2">
+                    <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                      <i class="material-icons opacity-10">weekend</i>
+                    </div>
+                    <div class="text-end pt-1">
+                      <p class="text-sm mb-0 text-capitalize">Available Bed</p>
+                      <h4 class="mb-0 text-dark">{% if available_bed != empty %} {{ available_bed }} {% else %} 0 {% endif %}</h4>
+                    </div>
+                  </div>
+                  </a>
+
+                  <hr class="dark horizontal my-0">
+
+                  <div class="card-footer p-3">
+                    <div class="row">
+                      <div class="col-4">
+                        <a href="dm_dash_male_vacant_bed" style="color: #7B809A;">
+                        <span class="mb-0 text-link text-sm">Male Dorm: <span class="text-sm font-weight-bolder text-dark">
+                          {% if maledorm_bed != empty %} {{ maledorm_bed }} {% else %} 0 {% endif %}</span></span>
+                        </a>
+                      </div>
+                      <div class="col-4">
+                        <a href="dm_dash_female_vacant_bed" style="color: #7B809A;">
+                        <span class="mb-0 text-link text-sm">Female Dorm: <span class="text-sm font-weight-bolder text-dark"> 
+                          {% if femaledorm_bed != empty %} {{ femaledorm_bed }} {% else %} 0 {% endif %}</span></span>
+                        </a>
+                      </div>
+                      <div class="col-4">
+                        <a href="dm_dash_foreign_vacant_bed" style="color: #7B809A;">
+                        <span class="mb-0 text-link text-sm">Foreign Dorm: <span class="text-sm font-weight-bolder text-dark"> 
+                          {% if foreigndorm_bed != empty %} {{ foreigndorm_bed }} {% else %} 0 {% endif %}</span></span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+
+                  <a href="occupant_list" style="color: #7B809A;">
+                  <div class="card-header p-3 pt-2">
+                    <div class="icon icon-lg icon-shape shadow-primary text-center border-radius-xl mt-n4 position-absolute"
+                    style="background-color: #FF4200;">
+                      <i class="material-icons opacity-10">groups</i>
+                    </div>
+                    <div class="text-end pt-1">
+                      <p class="text-sm mb-0 text-capitalize">Occupants</p>
+                      <h4 class="mb-0" style="color: #FF4200;">{% if occupants != empty %} {{ occupants }} {% else %} 0 {% endif %}</h4>
+                    </div>
+                  </div>
+                  </a>
+
+                  <hr class="dark horizontal my-0">
+
+                  <div class="card-footer p-3">
+                    <div class="row">
+                      <div class="col-6">
+                        <span class="mb-0 text-link text-sm">Local: <span class="text-sm font-weight-bolder"
+                        style="color: #FF4200;">
+                          {% if local != empty %} {{ local }} {% else %} 0 {% endif %}</span></span>
+                      </div>
+                      <div class="col-6">
+                        <span class="mb-0 text-link text-sm">Foreign: <span class="text-sm font-weight-bolder"
+                        style="color: #FF4200;"> 
+                          {% if foreign != empty %} {{ foreign }} {% else %} 0 {% endif %}</span></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+
+                  <a href="registration_list" style="color: #7B809A;">
+                  <div class="card-header p-3 pt-2">
+                    <div class="icon icon-lg icon-shape shadow-success text-center border-radius-xl mt-n4 position-absolute"
+                    style="background-color: #ff9001;">
+                      <i class="material-icons opacity-10">table_view</i>
+                    </div>
+                    <div class="text-end pt-1">
+                      <p class="text-sm mb-0 text-capitalize">Registered</p>
+                      <h4 class="mb-0" style="color: #ff9001;">{% if registered != empty %} {{ registered }} {% else %} 0 {% endif %}</h4>
+                    </div>
+                  </div>
+                  </a>
+
+                  <hr class="dark horizontal my-0">
+
+                  <div class="card-footer p-3">
+                      <div class="row">
+                        <div class="col-6">
+                          <span class="mb-0 text-link text-sm">Complete: <span class="text-sm font-weight-bolder"
+                          style="color: #ff9001;">
+                            {% if complete != empty %} {{ complete }} {% else %} 0 {% endif %}</span></span>
+                        </div>
+                        <div class="col-6">
+                          <span class="mb-0 text-link text-sm">Incomplete: <span class="text-sm font-weight-bolder"
+                            style="color: #ff9001;"> 
+                            {% if incomplete != empty %} {{ incomplete }} {% else %} 0 {% endif %}</span></span>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <!-- <div class="col-xl-3 col-sm-6">
+                <div class="card">
+                  <div class="card-header p-3 pt-2">
+                    <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                      <i class="material-icons opacity-10">weekend</i>
+                    </div>
+                    <div class="text-end pt-1">
+                      <p class="text-sm mb-0 text-capitalize">Sales</p>
+                      <h4 class="mb-0">$103,430</h4>
+                    </div>
+                  </div>
+                  <hr class="dark horizontal my-0">
+                  <div class="card-footer p-3">
+                    <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than yesterday</p>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+
+            <!-- Charts -->
+            <div class="row mt-4">
+              <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                <div class="card z-index-2 ">
+                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                    <div class="shadow-primary border-radius-lg py-3 pe-1" style="background-color: #FF9001;">
+                      <div class="chart">
+                        <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <h6 class="mb-0 ">Students Gender</h6>
+                    <p class="text-sm ">Registered and Occupants</p>
+                    <hr class="dark horizontal">
+                    <div class="d-flex ">
+                      <!-- <i class="material-icons text-sm my-auto me-1">schedule</i>
+                      <p class="mb-0 text-sm"> updated 5 hours ago </p> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                <div class="card z-index-2  ">
+                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                    <div class="shadow-success border-radius-lg py-3 pe-1" style="background-color: #FF4200;">
+                      <div class="chart">
+                        <canvas id="chart-line" class="chart-canvas" height="170"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <h6 class="mb-0 "> Monthly Registration </h6>
+                    <p class="text-sm "> Registered students monthly</p>
+                    <hr class="dark horizontal">
+                    <div class="d-flex ">
+                      <!-- <i class="material-icons text-sm my-auto me-1">schedule</i>
+                      <p class="mb-0 text-sm"> updated 4 min ago </p> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 mt-4 mb-3">
+                <div class="card z-index-2 ">
+                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                    <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
+                      <div class="chart">
+                        <canvas id="chart-line-tasks" class="chart-canvas" height="170"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <h6 class="mb-0 ">Monthly Occupant</h6>
+                    <!-- <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p> -->
+                    <p class="text-sm "> Overall occupants </p>
+
+                    <hr class="dark horizontal">
+                    <div class="d-flex ">
+                      <!-- <i class="material-icons text-sm my-auto me-1">schedule</i>
+                      <p class="mb-0 text-sm">just updated</p> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <h6 class="mb-0">Occupant Payment</h6>
+                <p class="text-md">Out of <b class="text-dark">30</b> occupant <b style="color: #FF4200;">20</b> are <b style="color: #FF4200;">paid</b>, 
+                  <b style="color: #FF9001;">{{current_month_occupant}}</b> are <b style="color: #FF9001;">partially paid</b>, and
+                  <b style="color: #4b4b4b;">3</b> are <b style="color: #4b4b4b;">unpaid</b>.
+                </p>
+                <hr class="dark horizontal">
+                <div class="d-flex ">
+                  <i class="material-icons text-sm my-auto me-1">leaderboard</i>
+                  <p class="mb-0 text-sm">30% paid, 70% unpaid </p>
+                </div>
+              </div>
+            </div> 
+<!-- 
+            <div class="row mt-4">
+              <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                <div class="card z-index-2 ">
+                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                    <div class="shadow-primary border-radius-lg py-3 pe-1" style="background-color: #FF9001;">
+                      <div class="chart">
+                        <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <h6 class="mb-0 ">Occupant Payment</h6>
+                    <p class="text-sm ">Occupants for every months</p>
+                    <hr class="dark horizontal">
+                    <div class="d-flex ">
+                      <i class="material-icons text-sm my-auto me-1">schedule</i>
+                      <p class="mb-0 text-sm"> updated 5 hours ago </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8 mt-4 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="mb-0">Occupant Payment</h6>
+                    <p class="text-md">Out of <b class="text-dark">30</b> occupant <b style="color: #FF4200;">20</b> are <b style="color: #FF4200;">paid</b>, 
+                      <b style="color: #FF9001;">{{current_month_occupant}}</b> are <b style="color: #FF9001;">partially paid</b>, and
+                      <b style="color: #4b4b4b;">3</b> are <b style="color: #4b4b4b;">unpaid</b>.
+                    </p>
+                    <hr class="dark horizontal">
+                    <div class="d-flex ">
+                      <i class="material-icons text-sm my-auto me-1">leaderboard</i>
+                      <p class="mb-0 text-sm">30% paid, 70% unpaid </p>
+                    </div>
+                  </div>
+                </div>    
+              </div>
+            </div> -->
+            
+            <!-- Demerits and Maintenance -->
+            <!-- <div class="row mb-4">
+              <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+                <div class="card">
+                  <div class="card-header pb-0">
+                    <div class="row">
+                      <div class="col-lg-6 col-7">
+                        <h6>Occupants Demerits</h6>
+                        <p class="text-sm mb-0">
+                          <i class="fa fa-group" aria-hidden="true" style="color:#ff4200 ;"></i>
+                          <span class="font-weight-bold ms-1">6 occupants</span> this month
+                          {{current_month}}
+                        </p>
+                      </div>
+                      <div class="col-lg-6 col-5 my-auto text-end">
+                        <div class="dropdown float-lg-end pe-4">
+                          <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body px-0 pb-2">
+                    <div class="table-responsive">
+                      <table class="table align-items-center mb-0">
+                        <thead>
+                          <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Full Name</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Bed Code</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Boarder Type</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Demerit Points</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                  <h6 class="mb-0 text-sm">Escurel, Jhon Carlo</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="avatar-group mt-2">
+                                <span class="text-xs font-weight-bold"> MF1R1-D </span>
+                              </div>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <span class="text-xs font-weight-bold"> Local </span>
+                            </td>
+                            <td class="align-middle">
+                              <div class="progress-wrapper w-75 mx-auto">
+                                <div class="progress-info">
+                                  <div class="progress-percentage">
+                                    <span class="text-xs font-weight-bold">7.5</span>
+                                  </div>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                  style="background-color: #ff4200;"></div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                  <h6 class="mb-0 text-sm">Velasco, Carl Kobe</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="avatar-group mt-2">
+                                <span class="text-xs font-weight-bold"> MF1R1-E </span>
+                              </div>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <span class="text-xs font-weight-bold"> Local </span>
+                            </td>
+                            <td class="align-middle">
+                              <div class="progress-wrapper w-75 mx-auto">
+                                <div class="progress-info">
+                                  <div class="progress-percentage">
+                                    <span class="text-xs font-weight-bold">2</span>
+                                  </div>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar w-10" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+                                  style="background-color: #FF9001;"></div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                  <h6 class="mb-0 text-sm">Pascua, Shaira Gay</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="avatar-group mt-2">
+                                <span class="text-xs font-weight-bold"> FF1R3-A </span>
+                              </div>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <span class="text-xs font-weight-bold"> Local </span>
+                            </td>
+                            <td class="align-middle">
+                              <div class="progress-wrapper w-75 mx-auto">
+                                <div class="progress-info">
+                                  <div class="progress-percentage">
+                                    <span class="text-xs font-weight-bold">5.0</span>
+                                  </div>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar w-40" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                                  style="background-color: #FF9001;"></div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                  <h6 class="mb-0 text-sm">Recto, Queenie</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="avatar-group mt-2">
+                                <span class="text-xs font-weight-bold"> FRF1R1-C </span>
+                              </div>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <span class="text-xs font-weight-bold"> Foreign </span>
+                            </td>
+                            <td class="align-middle">
+                              <div class="progress-wrapper w-75 mx-auto">
+                                <div class="progress-info">
+                                  <div class="progress-percentage">
+                                    <span class="text-xs font-weight-bold">15</span>
+                                  </div>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                                  style="background-color: #4b4b4b;"></div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                  <h6 class="mb-0 text-sm">Mendoza, Mae Kristine</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="avatar-group mt-2">
+                                <span class="text-xs font-weight-bold"> FF2R16-B </span>
+                              </div>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <span class="text-xs font-weight-bold"> Local </span>
+                            </td>
+                            <td class="align-middle">
+                              <div class="progress-wrapper w-75 mx-auto">
+                                <div class="progress-info">
+                                  <div class="progress-percentage">
+                                    <span class="text-xs font-weight-bold">15</span>
+                                  </div>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                                  style="background-color: #4b4b4b;"></div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                  <h6 class="mb-0 text-sm">Martinez, Francis Ceasar</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="avatar-group mt-2">
+                                <span class="text-xs font-weight-bold"> MF2R20-A </span>
+                              </div>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <span class="text-xs font-weight-bold"> Local </span>
+                            </td>
+                            <td class="align-middle">
+                              <div class="progress-wrapper w-75 mx-auto">
+                                <div class="progress-info">
+                                  <div class="progress-percentage">
+                                    <span class="text-xs font-weight-bold">8.5</span>
+                                  </div>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar w-70" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+                                  style="background-color: #ff4200;"></div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                  <div class="card-header pb-0">
+                    <h6>Added Data</h6>
+                    <p class="text-sm">
+                      <i class="fa fa-arrow-up" aria-hidden="true" style="color:#FF9001;"></i>
+                      <span class="font-weight-bold">24 data</span> added this month
+                    </p>
+                  </div>
+                  <div class="card-body p-3">
+                    <div class="timeline timeline-one-side">
+                      <div class="timeline-block mb-3">
+                        <span class="timeline-step">
+                          <i class="material-icons" style="color:#ff4200;">person</i>
+                        </span>
+                        <div class="timeline-content">
+                          <h6 class="text-dark text-sm font-weight-bold mb-0">1 occupant added</h6>
+                          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Today 8:20 AM</p>
+                        </div>
+                      </div>
+                      <div class="timeline-block mb-3">
+                        <span class="timeline-step">
+                          <i class="material-icons" style="color:#4b4b4b;">table_view</i>
+                        </span>
+                        <div class="timeline-content">
+                          <h6 class="text-dark text-sm font-weight-bold mb-0">4 students registered</h6>
+                          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Yesterday 11:00 AM</p>
+                        </div>
+                      </div>
+                      <div class="timeline-block mb-3">
+                        <span class="timeline-step">
+                          <i class="material-icons" style="color:#ff4200;">shopping_cart</i>
+                        </span>
+                        <div class="timeline-content">
+                          <h6 class="text-dark text-sm font-weight-bold mb-0">3 services added</h6>
+                          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">17 OCT 9:34 PM</p>
+                        </div>
+                      </div>
+                      <div class="timeline-block mb-3">
+                        <span class="timeline-step">
+                          <i class="material-icons" style="color:#FF9001;">credit_card</i>
+                        </span>
+                        <div class="timeline-content">
+                          <h6 class="text-dark text-sm font-weight-bold mb-0">3 billings added to table</h6>
+                          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">12 OCT 9:00 AM</p>
+                        </div>
+                      </div>
+                      <div class="timeline-block mb-3">
+                        <span class="timeline-step">
+                          <i class="material-icons" style="color:#4b4b4b;">weekend</i>
+                        </span>
+                        <div class="timeline-content">
+                          <h6 class="text-dark text-sm font-weight-bold mb-0">5 beds added to occupy</h6>
+                          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">06 OCT 4:54 PM</p>
+                        </div>
+                      </div>
+                      <div class="timeline-block">
+                        <span class="timeline-step">
+                          <i class="material-icons" style="color:#ff4200;">today</i>
+                        </span>
+                        <div class="timeline-content">
+                          <h6 class="text-dark text-sm font-weight-bold mb-0">2 rooms added to male dorm</h6>
+                          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">01 OCT 10:45 AM</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <br>
+            <div class="copyright text-center text-sm text-muted text-lg-start">
+              © <script>
+                document.write(new Date().getFullYear())
+              </script>,
+              made with <i class="fa fa-heart"></i> by
+              <span href="#" class="font-weight-bold text-dark" target="_blank">Dormies</span>
+              for PSU Beloved.
+            </div>
+        </div>
+  </main>
+
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+  <script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: [{% for gender in gender_list %} '{{ gender }}', {% endfor %}],
+        datasets: [{
+          label: "Students",
+          tension: 0.4,
+          borderWidth: 0,
+          borderRadius: 4,
+          borderSkipped: false,
+          backgroundColor: "rgba(255, 255, 255, .8)",
+          data: [{% for number in gender_number %} '{{ number }}', {% endfor %}],
+          maxBarThickness: 6
+        }, ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 500,
+              beginAtZero: true,
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+              color: "#fff"
+            },
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 13,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+    new Chart(ctx2, {
+      type: "line",
+      data: {
+        labels: [{% for month in monthly_list %} '{{ month }}', {% endfor %}],
+        datasets: [{
+          label: "Total",
+          tension: 0,
+          borderWidth: 0,
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+          pointBorderColor: "transparent",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          backgroundColor: "transparent",
+          fill: true,
+          data: [{% for number in monthly_number %} '{{ number }}', {% endfor %}],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+    var ctx2 = document.getElementById("chart-line-tasks").getContext("2d");
+
+    new Chart(ctx2, {
+      type: "line",
+      data: {
+        labels: [{% for month in occ_monthly_list %} '{{ month }}', {% endfor %}],
+        datasets: [{
+          label: "Total",
+          tension: 0,
+          borderWidth: 0,
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+          pointBorderColor: "transparent",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          backgroundColor: "transparent",
+          fill: true,
+          data: [{% for number in occ_monthly_number %} '{{ number }}', {% endfor %}],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+  </script>
+  {% endblock content%}

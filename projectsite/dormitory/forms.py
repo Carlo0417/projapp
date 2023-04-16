@@ -97,7 +97,7 @@ class BillingForm(ModelForm):
     def __init__(self, *args, **kwargs):
         bill = kwargs.pop('bill', None)
         super(BillingForm, self).__init__(*args, **kwargs)
-        self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Others').order_by('-created_at')
+        # self.fields['service'].queryset = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Advance').exclude(service_name__iexact='Others').order_by('-created_at')
         self.fields['occupant'].queryset = Occupant.objects.exclude(end_date__lte=datetime.now().date()).order_by('-created_at')
 
 

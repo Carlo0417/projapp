@@ -1,0 +1,139 @@
+{% extends 'dormmanager/dm_base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+    <!-- Navbar -->
+    {% include 'includes/user_topbar.html' %}
+    <!-- End Navbar -->
+    <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
+
+    <!-- Account Information -->
+    {% csrf_token %}
+    {% for x in acc %}
+    <div class="row my-1">
+        <div class="col-sm-8 col-8 col-md-8 my-4">
+            <h6 class="mb-0 font-weight-bold" style="font-size: 25px;">Profile Account</h6>
+            <p class="text-xs text-secondary mb-0">Your login credentials and account informations is here.</p>
+        </div>
+        <div class="col-sm-4 col-4 col-md-4 my-4 text-end">
+          <a href="dm_admin_profile/{{ x.id }}">
+            <i class="fas fa-user-edit text-sm opacity-9" data-bs-toggle="tooltip" 
+            data-bs-placement="top" title="Edit" style="color: rgba(255, 66, 0, 0.8);"></i>
+          </a>
+        </div>
+    </div>
+
+    <!-- messages & alerts -->
+    {% if messages %}
+      {% for message in messages %}
+          {% if 'success' in message.tags %}
+            <p style="margin-top: 5px;" id="fadeout" class="text-success font-weight-bold text-xs">
+                {{ message }}
+            </p>
+          {% else %}
+            <p style="margin-top: 5px;" id="fadeout" class="text-danger font-weight-bold text-xs">
+                {{ message }}
+            </p>
+          {% endif %}
+      {% endfor%}
+    {% endif %}
+    <!-- /messages & alerts -->
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Full Name</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.firstname }} {{ x.lastname }}</label> 
+    </div>  
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+    
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Username</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.username }}</label> 
+    </div>  
+    
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Password</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark" id="password">{{ x.password }}</label> 
+    </div>
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">  
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Admin Class</label>
+    <div class="input-group input-group-outline">
+        <label class="text-sm font-weight-bold mb-0 text-dark">{{ x.admin_class }}</label> 
+    </div>
+    
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">  
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Security Question</label>
+    <div class="input-group input-group-outline">
+        {% if x.security_question == "" %}
+        <label class="text-sm font-weight-bold mb-0 text-dark">None</label>
+        {% else %}
+        <label class="text-sm font-weight-bold mb-0 text-dark" id="security_question">{{ x.security_question }}</label>
+        {% endif %}
+    </div>  
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Security Answer</label>
+    <div class="input-group input-group-outline">
+      {% if x.security_answer == "" %}
+      <label class="text-sm font-weight-bold mb-0 text-dark">None</label>
+      {% else %}
+      <label class="text-sm font-weight-bold mb-0 text-dark" id="security_answer">{{ x.security_answer }}</label>
+      {% endif %}
+    </div> 
+
+    <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">
+
+    <label class="text-uppercase text-xxs font-weight-bolder opacity-8" 
+    style="margin-bottom: 0px; color: #FF4200;">Recovery Email</label>
+    <div class="input-group input-group-outline">
+      {% if x.recovery_email == "" %}
+      <label class="text-sm font-weight-bold mb-0 text-dark">None</label>
+      {% else %}
+      <label class="text-sm font-weight-bold mb-0 text-dark" id="recovery_email">{{ x.recovery_email }}</label>
+      {% endif %}    </div>  
+    {% endfor %}
+    <!-- end of Account Information -->
+
+    </div>
+  </main>
+
+  <script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+
+      $( "#myselect option:selected" ).text();
+  </script>
+
+  <script>
+    var passwordEl = document.getElementById('password');
+    passwordEl.innerHTML = '*'.repeat(passwordEl.textContent.length);
+
+    var securityQuestionEl = document.getElementById('security_question');
+    securityQuestionEl.innerHTML = '*'.repeat(securityQuestionEl.textContent.length);
+
+    var securityAnswerEl = document.getElementById('security_answer');
+    securityAnswerEl.innerHTML = '*'.repeat(securityAnswerEl.textContent.length);
+
+    var recoveryEmailEl = document.getElementById('recovery_email');
+    recoveryEmailEl.innerHTML = '*'.repeat(recoveryEmailEl.textContent.length);
+  </script>
+
+  {% endblock content%}

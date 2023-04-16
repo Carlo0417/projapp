@@ -13,19 +13,37 @@
                         </div>
                         
                     </div>
+
+                    {% include 'includes/search_style.html' %}
+
                     <div class="card-body">
-                        <div class="col-sm-6">
-                            <div class="pull-right">
-                                <a href="{% url 'ServiceAdd' %}" class="btn text-white mt-4 w-30 shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);">Add Service</a>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="pull-right">
+                                    <a href="{% url 'ServiceAdd' %}" class="btn text-white mt-4 w-30 shadow-primary" style="background-color: rgba(255, 66, 0, 0.9);">Add Service</a>
+                                </div>
                             </div>
-                            <!-- messages & alerts -->
-                            {% for message in messages %}
-                                <p style="margin-top: 15px;" id="fadeout" class="text-success font-weight-bold text-xs">
-                                    {{ message }}
-                                </p>
-                            {% endfor%}
-                            <!-- /messages & alerts -->
+    
+                            <div class="col-sm-3"></div>
+                                
+                            <div class="col-sm-3">
+                                <form action="{% url 'ServiceList' %}" method="get"> 
+                                    <div class="input-group input-group-outline">
+                                        <label class="form-label">Search service...</label>
+                                        <input type="text" class="form-control" name="q">
+                                    </div>
+                                </form>
+                            </div>
                         </div>
+
+                        <!-- messages & alerts -->
+                        {% for message in messages %}
+                            <p style="margin-top: 15px;" id="fadeout" class="text-success font-weight-bold text-xs">
+                                {{ message }}
+                            </p>
+                        {% endfor%}
+                        <!-- /messages & alerts -->
+                    
                         <div class="table-responsive" style="padding: 0px 2px;">
                             <table class="table align-items-center mb-0">
                                 <thead>
@@ -42,7 +60,7 @@
                                 </thead>
                                 <tbody>
                                     {% load humanize %}
-                                    {% for object in services_limit %}
+                                    {% for object in object_list %}
                                     <tr>
                                         <td>
                                             <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service_name }}</p>
