@@ -17,6 +17,8 @@ from django.views.generic import TemplateView
 # from material import Field
 from django.db.models import Sum
 
+import os
+
 import xlwt
 
 from django.db.models.functions import TruncMonth, TruncYear
@@ -5971,6 +5973,8 @@ def DMAdminNotifications(request):
 
     return render(request, 'dormmanager/dm_notification_list.html', {'messages': messages})
 
+def UserRules(request):
+    return render(request, 'user/user_rules.html')
 # ===================================================
 # start of Due Date Email Notifications
 # ===================================================

@@ -34,6 +34,8 @@ from landingpage import views
 
 from django.contrib.auth import views as auth_views
 
+from django.views.generic import TemplateView
+
 urlpatterns = [
     url('^searchableselect/', include('searchableselect.urls')),
     path('admin/', admin.site.urls),
@@ -301,6 +303,8 @@ urlpatterns = [
     path('user_service_other/', views.user_other_add_billing, name='user_other_add'),
 
     path('OccupantNotifications/', views.OccupantNotifications, name='OccupantNotifications'),
+
+    path('user_rules/', views.UserRules, name='UserRules'),
     # end of User URL
 
 ]
