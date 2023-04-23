@@ -941,17 +941,18 @@ class RoomList(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(RoomList, self).get_queryset(*args, **kwargs)
-        qs = qs.annotate(
-            TotalBeds=Count('bed'), 
-            TotalVacant=Count('bed', filter=Q(bed__bed_status='Vacant')),)
-        qs = qs.order_by("created_at")
         query = self.request.GET.get('q')
         if query:
             qs = qs.filter(Q(room_name__iexact=query) | Q(floorlvl__icontains=query) 
-                | Q(dorm_name__icontains=query) | Q(description__icontains=query)
-                | Q(bed__bed_status__icontains=query))
+                | Q(dorm_name__icontains=query) | Q(description__icontains=query))
+        
+        # Annotate the queryset after the search filter has been applied
+        qs = qs.annotate(
+            TotalBeds=Count('bed'), 
+            TotalVacant=Count('bed', filter=Q(bed__bed_status='Vacant'))
+        ).order_by('created_at')
+        
         return qs
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -968,20 +969,22 @@ class RoomListCard(ListView):
     context_object_name = 'rooms'
     template_name = 'superadmin/room_list_card.html'
     paginate_by = 9
-
+    
     def get_queryset(self, *args, **kwargs):
         qs = super(RoomListCard, self).get_queryset(*args, **kwargs)
+        query = self.request.GET.get('q')
+        if query:
+            qs = qs.filter(Q(room_name__iexact=query) | Q(floorlvl__icontains=query) 
+                | Q(dorm_name__icontains=query) | Q(description__icontains=query))
+        
+        # Annotate the queryset after the search filter has been applied
         qs = qs.annotate(
             TotalBeds=Count('bed'), 
             TotalVacant=Count('bed', filter=Q(bed__bed_status='Vacant')),
             TotalOccupied=Count('bed', filter=Q(bed__bed_status='Occupied')),
-            TotalUnder=Count('bed', filter=Q(bed__bed_status='Under Maint.')),)
-        qs = qs.order_by("created_at")
-        query = self.request.GET.get('q')
-        if query:
-            qs = qs.filter(Q(room_name__iexact=query) | Q(floorlvl__icontains=query) 
-                | Q(dorm_name__icontains=query) | Q(description__icontains=query)
-                | Q(bed__bed_status__icontains=query))
+            TotalUnder=Count('bed', filter=Q(bed__bed_status='Under Maint.')),
+        ).order_by('created_at')
+        
         return qs
 
     def get_context_data(self, **kwargs):
@@ -1208,6 +1211,10 @@ class OccupantAccounts(ListView):
         context['accounts'] = User.objects.count()
         context['active'] = User.objects.filter(user_status__iexact="active").count()
         context['inactive'] = User.objects.filter(user_status__iexact="inactive").count()
+
+        # cursor = connections['default'].cursor()
+        # query = "DELETE FROM dormitory_user WHERE person_id NOT IN (SELECT person_id FROM dormitory_person)"
+        # cursor.execute(query)
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -2020,17 +2027,18 @@ class FDRoomList(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(FDRoomList, self).get_queryset(*args, **kwargs)
-        qs = qs.annotate(
-            TotalBeds=Count('bed'),
-            TotalVacant=Count('bed', filter=Q(bed__bed_status='Vacant')),)
-        qs = qs.order_by("created_at")
         query = self.request.GET.get('q')
         if query:
             qs = qs.filter(Q(room_name__iexact=query) | Q(floorlvl__icontains=query) 
-                | Q(dorm_name__icontains=query) | Q(description__icontains=query)
-                | Q(bed__bed_status__icontains=query))
+                | Q(dorm_name__icontains=query) | Q(description__icontains=query))
+        
+        # Annotate the queryset after the search filter has been applied
+        qs = qs.annotate(
+            TotalBeds=Count('bed'), 
+            TotalVacant=Count('bed', filter=Q(bed__bed_status='Vacant'))
+        ).order_by('created_at')
+        
         return qs
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2050,17 +2058,19 @@ class FDRoomListCard(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(FDRoomListCard, self).get_queryset(*args, **kwargs)
+        query = self.request.GET.get('q')
+        if query:
+            qs = qs.filter(Q(room_name__iexact=query) | Q(floorlvl__icontains=query) 
+                | Q(dorm_name__icontains=query) | Q(description__icontains=query))
+        
+        # Annotate the queryset after the search filter has been applied
         qs = qs.annotate(
             TotalBeds=Count('bed'), 
             TotalVacant=Count('bed', filter=Q(bed__bed_status='Vacant')),
             TotalOccupied=Count('bed', filter=Q(bed__bed_status='Occupied')),
-            TotalUnder=Count('bed', filter=Q(bed__bed_status='Under Maint.')),)
-        qs = qs.order_by("created_at")
-        query = self.request.GET.get('q')
-        if query:
-            qs = qs.filter(Q(room_name__iexact=query) | Q(floorlvl__icontains=query) 
-                | Q(dorm_name__icontains=query) | Q(description__icontains=query)
-                | Q(bed__bed_status__icontains=query))
+            TotalUnder=Count('bed', filter=Q(bed__bed_status='Under Maint.')),
+        ).order_by('created_at')
+        
         return qs
 
     def get_context_data(self, **kwargs):
@@ -2623,66 +2633,6 @@ class ASBillingList(ListView):
             | Q(occupant__person__first_name__icontains=query) | Q(service__service_name__icontains=query)
             | Q(description__icontains=query) | Q(amount__icontains=query))
         return qs
-
-# @method_decorator(login_required, name='dispatch')
-class ASBillingUpdateView(UpdateView):
-    model = Bill_Details
-    form_class = BillingForm
-    context_object_name = 'occupant'
-    template_name = 'accountingstaff/as_billing_update.html'
-    success_url = "/as_billing_list"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-    def form_valid(self, form):
-      messages.success(self.request, "Billing details was updated successfully!")
-      super().form_valid(form)
-
-      service = form.cleaned_data['service']
-      quantity = form.cleaned_data['quantity']
-      price = Service.objects.filter(service_name=service).first()
-      bill_id = form.instance.id
-      total_amount = price.base_amount * quantity
-            
-      cursor = connections['default'].cursor()
-      query = "UPDATE dormitory_bill_details SET amount = %s WHERE id = %s"
-      cursor.execute(query, (total_amount, bill_id))
-
-      return HttpResponseRedirect(self.get_success_url())
-
-# @method_decorator(login_required, name='dispatch')
-class ASOccupantViewBillingUpdate(UpdateView):
-    model = Bill_Details
-    # fields = "__all__"
-    form_class = BillingForm
-    context_object_name = 'occupant'
-    template_name = 'accountingstaff/as_billing_update.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # print(f"ID {self.object.occupant_id}")
-        return context
-
-    def get_success_url(self):
-        return reverse('ASOccupantView', kwargs={'pk': self.object.occupant_id})
-
-    def form_valid(self, form):
-      messages.success(self.request, "Occupant bill was updated successfully!")
-      super().form_valid(form)
-
-      service = form.cleaned_data['service']
-      quantity = form.cleaned_data['quantity']
-      price = Service.objects.filter(service_name=service).first()
-      bill_id = form.instance.id
-      total_amount = price.base_amount * quantity
-            
-      cursor = connections['default'].cursor()
-      query = "UPDATE dormitory_bill_details SET amount = %s WHERE id = %s"
-      cursor.execute(query, (total_amount, bill_id))
-      
-      return HttpResponseRedirect(self.get_success_url())
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -3290,15 +3240,17 @@ class DMRoomList(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(DMRoomList, self).get_queryset(*args, **kwargs)
-        qs = qs.annotate(
-            TotalBeds=Count('bed'), 
-            TotalVacant=Count('bed', filter=Q(bed__bed_status='Vacant')),)
-        qs = qs.order_by("created_at")
         query = self.request.GET.get('q')
         if query:
             qs = qs.filter(Q(room_name__iexact=query) | Q(floorlvl__icontains=query) 
-                | Q(dorm_name__icontains=query) | Q(description__icontains=query)
-                | Q(bed__bed_status__icontains=query))
+                | Q(dorm_name__icontains=query) | Q(description__icontains=query))
+        
+        # Annotate the queryset after the search filter has been applied
+        qs = qs.annotate(
+            TotalBeds=Count('bed'), 
+            TotalVacant=Count('bed', filter=Q(bed__bed_status='Vacant'))
+        ).order_by('created_at')
+        
         return qs
 
     def get_context_data(self, **kwargs):
@@ -3319,17 +3271,19 @@ class DMRoomListCard(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(DMRoomListCard, self).get_queryset(*args, **kwargs)
+        query = self.request.GET.get('q')
+        if query:
+            qs = qs.filter(Q(room_name__iexact=query) | Q(floorlvl__icontains=query) 
+                | Q(dorm_name__icontains=query) | Q(description__icontains=query))
+        
+        # Annotate the queryset after the search filter has been applied
         qs = qs.annotate(
             TotalBeds=Count('bed'), 
             TotalVacant=Count('bed', filter=Q(bed__bed_status='Vacant')),
             TotalOccupied=Count('bed', filter=Q(bed__bed_status='Occupied')),
-            TotalUnder=Count('bed', filter=Q(bed__bed_status='Under Maint.')),)
-        qs = qs.order_by("created_at")
-        query = self.request.GET.get('q')
-        if query:
-            qs = qs.filter(Q(room_name__iexact=query) | Q(floorlvl__icontains=query) 
-                | Q(dorm_name__icontains=query) | Q(description__icontains=query)
-                | Q(bed__bed_status__icontains=query))
+            TotalUnder=Count('bed', filter=Q(bed__bed_status='Under Maint.')),
+        ).order_by('created_at')
+        
         return qs
 
     def get_context_data(self, **kwargs):
@@ -3420,6 +3374,51 @@ class DMDemeritList(ListView):
 
 
 # @method_decorator(login_required, name='dispatch')
+class DMOccupantAccounts(ListView):
+    model = User
+    context_object_name = 'users'
+    template_name = "dormmanager/dm_users.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['accounts'] = User.objects.count()
+        context['active'] = User.objects.filter(user_status__iexact="active").count()
+        context['inactive'] = User.objects.filter(user_status__iexact="inactive").count()
+
+        # cursor = connections['default'].cursor()
+        # query = "DELETE FROM dormitory_user WHERE person_id NOT IN (SELECT person_id FROM dormitory_person)"
+        # cursor.execute(query)
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(DMOccupantAccounts, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("lastname")
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.order_by("lastname").filter(Q(last_name__icontains=query) | Q(first_name__icontains=query) 
+            | Q(username__icontains=query) | Q(user_status__iexact=query) | Q(recovery_email__icontains=query))
+        return qs
+
+# @method_decorator(login_required, name='dispatch')
+class DMOccupantAccountsUpdateView(UpdateView):
+    model = User
+    fields = ['username','password','security_question',
+              'security_answer','recovery_email','user_status']
+    context_object_name = 'user'
+    template_name = 'dormmanager/dm_users_update.html'
+    success_url = "/dm_users"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+      messages.success(self.request, "Occupant account was updated successfully!")
+      super().form_valid(form)
+      return HttpResponseRedirect(self.get_success_url())
+
+
+# @method_decorator(login_required, name='dispatch')
 class DMAdminProfile(ListView):
     model = Admin
     context_object_name = 'admin'
@@ -3458,25 +3457,23 @@ class DMAdminProfileUpdateView(UpdateView):
 # ===================================================
 def add_registration(request):
     if request.method == "POST":
-
-        email = request.POST['psu_email']
-
-        html_body = render_to_string("superadmin/reg_email.html")
-
-        message = EmailMultiAlternatives(
-            subject='Registered Successfully',
-            body="mail testing",
-            from_email='settings.EMAIL_HOST_USER',
-            to=[email]
-        )
-        message.attach_alternative(html_body, "text/html")
-        message.send(fail_silently=False)
-
-
         form = RegistrationForm(request.POST)
         # print(request.POST)
         if form.is_valid():
             form.save()
+            email = request.POST['psu_email']
+
+            html_body = render_to_string("superadmin/reg_email.html")
+
+            message = EmailMultiAlternatives(
+                subject='Registration confirmation email',
+                body="mail testing",
+                from_email='settings.EMAIL_HOST_USER',
+                to=[email]
+            )
+            message.attach_alternative(html_body, "text/html")
+            message.send(fail_silently=False)
+
             last_name = form.cleaned_data.get('last_name')
             first_name = form.cleaned_data.get('first_name')
             psu_email = form.cleaned_data.get('psu_email')
@@ -3739,7 +3736,7 @@ def add_occupant(request):
             html_body = render_to_string("superadmin/occ_email.html")
 
             message = EmailMultiAlternatives(
-                subject='Official Occupant of PSU Dormitory',
+                subject='Official Occupant confirmation email',
                 body="mail testing",
                 from_email='settings.EMAIL_HOST_USER',
                 to=[email]
@@ -3751,28 +3748,28 @@ def add_occupant(request):
 
             if boarder_type == "Local":
                 cursor = connections['default'].cursor()
-                query_deposit_local = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '1500', 1, now(), {occ_id}, '1')"
+                query_deposit_local = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '1500', 1, now(), {occ_id}, '1', 'None')"
                 cursor.execute(query_deposit_local)
 
                 cursor = connections['default'].cursor()
-                query_advance_local = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '1500', 2, now(), {occ_id}, '1')"
+                query_advance_local = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '1500', 2, now(), {occ_id}, '1', 'None')"
                 cursor.execute(query_advance_local)
 
                 cursor = connections['default'].cursor()
-                query_dorm_id = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '150', 3, now(), {occ_id}, '1')"
+                query_dorm_id = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '150', 3, now(), {occ_id}, '1', 'None')"
                 cursor.execute(query_dorm_id)
 
             elif boarder_type == "Foreign":
                 cursor = connections['default'].cursor()
-                query_deposit_foreign = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '4500', 4, now(), {occ_id}, '1')"
+                query_deposit_foreign = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '4500', 4, now(), {occ_id}, '1', 'None')"
                 cursor.execute(query_deposit_foreign)
 
                 cursor = connections['default'].cursor()
-                query_advance_foreign = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '4500', 5, now(), {occ_id}, '1')"
+                query_advance_foreign = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '4500', 5, now(), {occ_id}, '1', 'None')"
                 cursor.execute(query_advance_foreign)
 
                 cursor = connections['default'].cursor()
-                query_dorm_id = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '150', 3, now(), {occ_id}, '1')"
+                query_dorm_id = f"INSERT INTO dormitory_bill_details VALUES ('', now(), now(), 'None', '150', 3, now(), {occ_id}, '1', 'None')"
                 cursor.execute(query_dorm_id)
 
             return redirect('OccupantAdd')
@@ -3877,6 +3874,7 @@ def other_update_billing(request, billing_id):
         form.save()
         messages.success(request, 'Billing details was updated successfully!')
         return redirect('OccupantView', pk=billing.occupant_id)
+        # return redirect(request.META.get('HTTP_REFERER'))
     return render (request, 'superadmin/others_billing_update.html', {'billing': billing, 'form': form})
 
 def add_payment(request):
@@ -4481,15 +4479,6 @@ def as_other_add_billing(request):
 def as_other_add(request):
     return render(request, 'accountingstaff/as_billing_list/other_billing_add.html', {} )
 
-def as_other_update_billing(request, billing_id):
-    billing = Bill_Details.objects.get(pk=billing_id)
-    form = OtherBillingForm(request.POST or None, instance=billing)
-    if form.is_valid():
-        form.save()
-        messages.success(request, 'Billing details was updated successfully!')
-        return redirect('ASOccupantView', pk=billing.occupant_id)
-    return render (request, 'accountingstaff/as_others_billing_update.html', {'billing': billing, 'form': form})
-
 def as_add_payment(request):
     if request.method == "POST":
         form = PaymentForm(request.POST)
@@ -4566,7 +4555,7 @@ class User_Dashboard(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context ['per'] = Person.objects.filter(Q(psu_email=x)).values().order_by('-id')[:1]
-        context ['occ'] = Occupant.objects.filter(Q(person__psu_email=x)).values('person__boarder_type', 'bed__bed_code', 'bed__room__room_name', 'bed__room__dorm_name').order_by('-id')[:1]
+        context ['occ'] = Occupant.objects.filter(Q(person__psu_email=x)).values('bed__bed_description', 'bed__price', 'person__boarder_type', 'bed__bed_code', 'bed__room__room_name', 'bed__room__dorm_name').order_by('-id')[:1]
         return context
 
 # @method_decorator(login_required, name='dispatch')
@@ -4633,7 +4622,7 @@ class User_Contract_View(UpdateView):
         context = super().get_context_data(**kwargs)
         global x
         
-        context ['contract'] = Occupant.objects.filter(Q(person__psu_email=x, id=self.object.id)).values('id','bed__bed_code', 'person__boarder_type', 'bed__bed_description', 'bedPrice', 'bed__room__room_name', 'bed__room__floorlvl', 'bed__room__dorm_name', 'start_date', 'end_date').order_by('-created_at')
+        # context ['contract'] = Occupant.objects.filter(Q(person__psu_email=x, id=self.object.id)).values('id','bed__bed_code', 'person__boarder_type', 'bed__bed_description', 'bedPrice', 'bed__room__room_name', 'bed__room__floorlvl', 'bed__room__dorm_name', 'start_date', 'end_date').order_by('-created_at')
         context['fetch_first_three'] = Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).values('bill_date', 'service__service_name', 'amount')[0:3]
         context['billing_details'] = Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).values('bill_date', 'service__service_name', 'quantity', 'amount')[3:]
         context['total_bills_amount'] = Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).aggregate(Sum('amount'))['amount__sum'] or 0
@@ -5580,7 +5569,7 @@ def AdminNotifications(request):
             messages.append("The 28th or 29h of the month is coming up in one week! Occupant must pay for their monthly bills.")
 
     # Calculate the number of days before the due date
-    num_days_before_due_date = 8
+    num_days_before_due_date = 7
 
     # Calculate the due date by adding the number of days to the current date
     due_date = timezone.now() + timedelta(days=num_days_before_due_date)
@@ -6105,5 +6094,3 @@ for occupant in occupants:
 # ===================================================
 # end of End Date Email Notifications
 # ===================================================
-
-

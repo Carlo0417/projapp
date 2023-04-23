@@ -56,7 +56,7 @@
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Official Receipt Number</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Action</th>
+                                            Document Reference</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,19 +74,14 @@
                                         <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">{{ object.receipt_no }}</p>
                                         </td>
-
                                         <td class="text-center">
-                                            <a href="as_payment_list/{{ object.id }}"
-                                                class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
-                                                data-toggle="tooltip">
-                                                <i class="material-icons text-sm me-2">edit</i>Edit</a>
+                                            <p class="text-xs text-secondary mb-0">{{ object.pay_let_ref }}</p>
                                         </td>
                                     </tr>
 
                                     {% empty %}
                                     <td class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No data available in table.</td>
                                     {% endfor %}
-
 
                                 </tbody>
                             </table>

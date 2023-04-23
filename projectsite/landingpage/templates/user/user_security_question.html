@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/apple-icon.png'%}">
-    <link rel="icon" type="image/png" href="{% static 'img/icondorm.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/dormlogogrey.png' %}">
     <title>
       {% block title %} Account Recovery {% endblock %}
     </title>
@@ -34,7 +34,7 @@
     </div>
   </div>
   <main class="main-content  mt-0">
-    <div class="page-header align-items-start min-vh-100" style="background-color: white;">
+    <div class="page-header align-items-start min-vh-80" style="background-color: white;">
       <div class="container my-auto">
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
@@ -48,43 +48,25 @@
             {% endif %} -->
 
             <div class="card-body">
-                <form role="form" method="post" class="text-start">
-                    {% csrf_token %}
+              <form role="form" method="post" class="text-start" autocomplete="off">
+                {% csrf_token %}
+                <p class="text-xs px-2 font-weight-bold mb-0 text-uppercase"> Security Question: </p>
+                <h6 class="mb-0 px-2 font-weight-bold my-1 text-md"> {{ security_question }}</h6> <br>
+                <input type="text" class="form-control text-md" name="security_answer" placeholder="Security Answer" style="margin: 0px 10px 0px 10px;">
+                <hr style="border-top: 2px solid #FF4200; margin: 0px 10px 20px 10px; opacity: 100%;">
 
-                    <p class="text-xs px-2 font-weight-bold mb-0 text-uppercase"> Security Question: </p>
-                    <h6 class="mb-0 px-2 font-weight-bold my-1 text-md"> {{ security_question }}</h6> <br>
+                {% if messages %}
+                  {% for message in messages %}
+                    <p class="mb-0 text-xs font-weight-bold px-2" id="fadeout" style="color: red;">{{ message }}</p>
+                  {% endfor %}
+                {% endif %} <br>
 
-                    <input type="text" class="form-control text-md" name="security_answer" placeholder="Security Answer" 
-                    style="margin: 0px 10px 0px 10px;">
-                    <hr style="border-top: 2px solid #FF4200; margin: 0px 10px 20px 10px; opacity: 100%;">
-
-                    {% if messages %}
-                      {% for message in messages %}
-                        <p class="mb-0 text-xs font-weight-bold px-2" id="fadeout" style="color: red;">{{ message }}</p>
-                      {% endfor %}
-                    {% endif %}
-                    <br>
-
-                    <div class="row my-2">
-                        <div class="col-6">
-                        </div>
-                        <div class="col-3 text-end">
-                          <a href="{% url 'user_forgot_password' %}" class="btn mb-0 text-white text-xs" style="background-color: #4b4b4b;">Back</a>
-                        </div>
-                        <div class="col-3 text-end">
-                            <button type="submit" class="btn mb-0 text-white text-xs" 
-                            style="background-color: #FF4200;">Submit</button>
-                        </div>
-                    </div>
-
-                  <p class="mt-4 text-sm text-center">
-                  </p>
-                </form>
-                <br>
-              </div>
-                          
-              </div>
-            </div>
+                <div class="text-center">
+                  <button type="submit" class="btn mb-3 text-white text-sm w-95" style="background-color: #FF4200;">Submit</button>
+                  <a href="{% url 'user_forgot_password' %}" class="btn mb-3 text-white text-sm w-95" style="background-color: #4b4b4b;">Back</a>
+                </div>
+              </form> <br>
+            </div>  
           </div>
         </div>
       </div>

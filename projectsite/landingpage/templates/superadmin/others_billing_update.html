@@ -27,24 +27,52 @@
                         </div>
                         {% endif %}
 
-                        <div class="row"> 
+                        {% include 'includes/select2.html' %}
+
+                        <div class="row mb-3"> 
+                            <div class="col-6">
+                                <div class="form-check form-switch ps-0">
+                                    <input class="form-check-input ms-auto" type="checkbox" id="toggle_let_ref" style="margin-top: 22px;">
+                                    <label class="form-check-label text-body ms-3 mb-0 font-weight-bold w-70" 
+                                    for="toggle_let_ref" style="font-size: 14px; margin-top: 17px;"> 
+                                    The letter endorsed by the unit head as a supporting document is approved</label>
+                                    <p class="text-xs text-secondary mb-2 my-1 w-90 px-5">
+                                        <i>Note: It is mandated to have this document for the modification of 
+                                        any financial or money transcations in the system</i>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Document Reference Number</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.let_ref class="form-control" disabled="disabled" id="let_ref" %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 2px solid #FF9001; opacity: 0.2;" class="my-1">
+
+                        <div class="row my-2"> 
                             <div class="col-6">
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Occupant Name</label>
-                                <div class="input-group input-group-outline">
-                                    {% render_field form.occupant class="form-control"%}
-                                </div>
+                                <select class="form-control occupant-list" name="occupant" id="occupant" data-placeholder="" disabled>
+                                    {% for occupant in form.occupant %}
+                                        <option value="{{ occupant.id }}">{{ occupant }}</option>
+                                    {% endfor %}
+                                </select>
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.service class="form-control"%}
+                                    {% render_field form.service class="form-control" disabled="disabled" id="service"%}
                                 </div>
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Amount</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.amount class="form-control" %}
+                                    {% render_field form.amount class="form-control" disabled="disabled" id="amount"%}
                                 </div>
                             </div>
 
@@ -52,26 +80,26 @@
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Bill Date</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.bill_date class="form-control" type="datetime-local"%}
+                                    {% render_field form.bill_date class="form-control" type="datetime-local" disabled="disabled" id="bill_date"%}
                                 </div>
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Quantity</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.quantity class="form-control "%}
+                                    {% render_field form.quantity class="form-control" disabled="disabled" id="quantity" %}
                                 </div>
 
                                 <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                                 style="margin-bottom: 0px; margin-top: 17px;">Description</label>
                                 <div class="input-group input-group-outline">
-                                    {% render_field form.description class="form-control" %}
+                                    {% render_field form.description class="form-control" disabled="disabled" id="description" %}
                                 </div>
                             </div>
                         </div>
 
                         <div class="ln_solid">
                             <br />
-                            <div class="form-group">
+                            <div class="form-group my-1">
                                 <div class="col-md-12 col-sm-3">
                                     <button type='submit' class="btn text-white shadow-warning" style="background-color: #FF9001;">Update</button>
                                     &nbsp &nbsp &nbsp
@@ -86,5 +114,42 @@
         </div>
     </div>
 </main>
+
+<script>
+    $(document).ready(function() {
+        $('.occupant-list').select2();
+    });
+</script>
+
+<script>
+    const toggle_let_ref = document.getElementById('toggle_let_ref');
+    const let_ref = document.getElementById('let_ref');
+    const occupant = document.getElementById('occupant');
+    const bill_date = document.getElementById('bill_date');
+    const service = document.getElementById('service');
+    const quantity = document.getElementById('quantity');
+    const amount = document.getElementById('amount');
+    const description = document.getElementById('description');
+
+    toggle_let_ref.addEventListener('change', function() {
+        if(this.checked) {
+            let_ref.disabled = false;
+            occupant.disabled = false;
+            bill_date.disabled = false;
+            service.disabled = false;
+            quantity.disabled = false;
+            amount.disabled = false;
+            description.disabled = false;
+        } else {
+            let_ref.disabled = true;
+            occupant.disabled = true;
+            bill_date.disabled = true;
+            service.disabled = true;
+            quantity.disabled = true;
+            amount.disabled = true;
+            description.disabled = true;
+        }
+    });
+</script>
 
 {% endblock %}

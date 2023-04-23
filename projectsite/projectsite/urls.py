@@ -20,14 +20,15 @@ from landingpage.views import FDRoomList, FDRoomUpdateView, FDRoomListCard, FDRo
 from landingpage.views import FDServiceList, FDServiceUpdateView, FDDemeritList, FDDemeritUpdateView
 
 from landingpage.views import ASHomePageView, ASDashMaleVacantBed, ASDashFemaleVacantBed, ASDashForeignVacantBed
-from landingpage.views import ASOccupantList, ASOccupantView, ASOccMonthRep, ASOccYearRep, ASBillingList, ASBillingUpdateView
-from landingpage.views import ASOccupantList, ASOccupantView, ASOccupantViewBillingUpdate, ASOccMonthRep, ASOccYearRep
-from landingpage.views import ASPaymentList, ASPaymentUpdateView, ASOccupantViewPaymentUpdate, ASServiceList
+from landingpage.views import ASOccupantList, ASOccupantView, ASOccMonthRep, ASOccYearRep, ASBillingList
+from landingpage.views import ASOccupantList, ASOccupantView, ASOccMonthRep, ASOccYearRep
+from landingpage.views import ASPaymentList, ASServiceList
 
 from landingpage.views import DMHomePageView, DMDashMaleVacantBed, DMDashFemaleVacantBed, DMDashForeignVacantBed
 from landingpage.views import DMRegistrationList, DMRegistrationRegView, DMRegMonthRep, DMRegYearRep
 from landingpage.views import DMOccupantList, DMOccupantView, DMOccMonthRep, DMOccYearRep, DMBillingList, DMPaymentList
 from landingpage.views import DMOccupantDemeritList, DMRoomList, DMRoomListCard, DMBedList, DMServiceList, DMDemeritList
+from landingpage.views import DMOccupantAccounts, DMOccupantAccountsUpdateView
 
 
 from landingpage import views
@@ -208,18 +209,13 @@ urlpatterns = [
     path('as_occ_year_csv', views.as_occ_year_csv, name="as_occ_year_csv"),
     path('as_occ_month_rep/as_occupant_list', ASOccMonthRep.as_view(), name='ASOccMonthRep'),
     path('as_occ_year_rep/as_occupant_list', ASOccYearRep.as_view(), name='ASOccYearRep'),
-    path('as_occupant_view/as_billing_list/<pk>', ASOccupantViewBillingUpdate.as_view(), name="ASOccupantViewBillingUpdate"),
 
     path('as_billing_list', ASBillingList.as_view(), name='ASBillingList'),
     path('as_billing_list/add', views.as_add_billing, name='ASBillingAdd'),
-    path('as_billing_list/<pk>', ASBillingUpdateView.as_view(), name="ASBillingUpdate"),
     path('as_other_add/', views.as_other_add_billing, name='as_other-add'),
-    path('as_other_update/<billing_id>', views.as_other_update_billing, name='as_other-update'),
     
     path('as_payment_list', ASPaymentList.as_view(), name='ASPaymentList'),
     path('as_payment_list/add', views.as_add_payment, name='ASPaymentAdd'),
-    path('as_payment_list/<pk>', ASPaymentUpdateView.as_view(), name="ASPaymentUpdate"),
-    path('as_occupant_view/as_payment_list/<pk>', ASOccupantViewPaymentUpdate.as_view(), name="ASOccupantViewPaymentUpdate"),
 
     path('as_service_list', ASServiceList.as_view(), name='ASServiceList'),
 
@@ -265,6 +261,9 @@ urlpatterns = [
     path('dm_demerit_list', DMDemeritList.as_view(), name='DMDemeritList'),
 
     path('DMAdminNotifications/', views.DMAdminNotifications, name='DMAdminNotifications'),
+
+    path('dm_users', DMOccupantAccounts.as_view(), name='DMOccupantAccounts'),
+    path('dm_users/<pk>', DMOccupantAccountsUpdateView.as_view(), name="DMOccupantAccountsUpdate"),
 
     path('dm_admin_profile', views.DMAdminProfile.as_view(), name='DMAdminProfile'),
     path('dm_admin_profile/<pk>', views.DMAdminProfileUpdateView.as_view(), name='DMAdminProfileUpdateView'),

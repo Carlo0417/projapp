@@ -64,7 +64,7 @@
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Amount</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Action</th>
+                                            Document Reference</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -86,21 +86,7 @@
                                             <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
                                         </td>
                                         <td class="text-center">
-                                            {% if object.service.service_name == "Local Deposit" or object.service.service_name == "Local Advance" or object.service.service_name == "Foreign Deposit" or object.service.service_name == "Foreign Advance" or object.service.service_name == "Dorm ID"%}
-                                                <a href="#" class="px-3 mb-0 text-secondary text-xs"> No action needed</a>
-                                            {% else %}
-                                                {% if object.service.service_name == "Others" %}
-                                                    <a href="{% url 'as_other-update' object.id %}"
-                                                        class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
-                                                        data-toggle="tooltip">
-                                                        <i class="material-icons text-sm me-2">edit</i>Edit</a>
-                                                {% else %}
-                                                    <a href="as_billing_list/{{ object.id }}"
-                                                    class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
-                                                    data-toggle="tooltip">
-                                                    <i class="material-icons text-sm me-2">edit</i>Edit</a>
-                                                {% endif %}
-                                            {% endif %}
+                                            <p class="text-xs text-secondary mb-0">{{ object.let_ref }}</p>
                                         </td>
                                     </tr>
 

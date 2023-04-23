@@ -52,6 +52,8 @@
                                             Description</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Amount</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Document Reference</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,6 +73,9 @@
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="text-xs text-secondary mb-0">{{ object.let_ref }}</p>
                                         </td>
                                     </tr>
 

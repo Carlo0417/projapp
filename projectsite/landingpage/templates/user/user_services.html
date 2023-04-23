@@ -12,19 +12,19 @@
     <h6 class="mb-0 font-weight-bold my-4" style="font-size: 25px;">Services</h6>
     <p class="text-xs text-secondary mb-0">Here are the list of services you can avail.</p>
 
-    <div class="row my-2">
-        <div class="col-6">
+    <div class="row my-3 mb-4">
+        <div class="col-4">
         </div>
-        <div class="col-3 text-end">
+        <div class="col-3">
           <a href="{% url 'UserAvailService' %}" class="btn mb-0 text-white text-xs" style="background-color: #FF4200;">Avail</a>
         </div>
-        <div class="col-3 text-end">
+        <div class="col-1"></div>
+        <div class="col-3">
           <a href="{% url 'user_other_add' %}" class="btn mb-0 text-white text-xs" style="background-color: #FF4200;">Others</a>
         </div>
+        <div class="col-1"></div>
     </div>
 
-    <br>
-    
 
     {% csrf_token %}
 
@@ -37,18 +37,18 @@
     <div class="float-start col-md-6 col-6 col-sm-6">
       <div class="card mx-3 p-2 mb-4 align-items-center justify-content-center">
         <div class="card-header mx-4 p-3">
-          <div class="icon icon-shape icon-lg shadow text-center border-radius-lg" style="background-color: #FF4200;">
+          <div class="icon icon-shape icon-md shadow text-center border-radius-lg" style="background-color: #FF4200;">
             <i class="material-icons opacity-10">shopping_cart</i>
           </div>
         </div>
-        <div class="card-body pt-0 p-3 text-center">
-          <h6 class="text-center mb-0">{{ object.service_name }}</h6>
+        <div class="card-body pt-0 p-3 text-center flex-fill">
+          <h6 class="text-center mb-0" style="text-size-adjust: auto;">{{ object.service_name }}</h6>
           <hr class="horizontal dark my-3">
           <h5 class="mb-0 text-lg opacity-9">P {{ object.base_amount }}</h5>
         </div>
       </div>
     </div>
-          
+
     {% empty %}
     <p class="text-sm" style="color: rgba(163, 167, 185, 0.8);"> <br> No available services. </p>
     {% endfor %}

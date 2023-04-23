@@ -44,8 +44,16 @@
         <div class="card my-4">
           <a style="color: #7B809A;">
               <h6 class="text-xs font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" 
-              style="color: #FF4200;">Dorm Name</h6>
-              <h6 class="font-weight-bolder my-2 mb-3 px-3" style="font-size: 20px;">{{ x.bed__room__dorm_name}}</h6>
+              style="color: #FF4200;">Dormitory</h6>
+              <h6 class="font-weight-bolder my-2 mb-3 px-3 w-70" style="font-size: 20px;">
+                {% if x.bed__room__dorm_name == "Male Dorm"%}
+                  {{ x.bed__room__dorm_name|slice:":4"}}
+                {% elif x.bed__room__dorm_name == "Female Dorm"%}
+                  {{ x.bed__room__dorm_name|slice:":6"}}
+                {% elif x.bed__room__dorm_name == "Foreign Dorm"%}
+                  {{ x.bed__room__dorm_name|slice:":7"}}
+                {% endif %}
+              </h6>
           </a>
         </div>
 
@@ -57,10 +65,42 @@
           </a>
         </div>
       </div>
+    </div> 
+
+    <hr style="border-top: 2px solid #4b4b4b; opacity: 0.2; margin-bottom: 20px; margin-left: 15px;" class="my-2 mb-4 w-90">  
+
+    <div class="card mb-4">
+      <h6 class="font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" style="color: #FF4200; font-size: 11px;">Bed Description</h6>
+      <h6 class="font-weight-bolder my-1 mb-0 px-3 w-80" style="font-size: 15px;">{{ x.bed__bed_description }}</h6>
+      <hr class="horizontal dark my-2 mb-2">
+      <h6 class="text-xs font-weight-bolder my-1 mb-3 px-3 text-uppercase opacity-9">Bed Price : 
+      <span class="font-weight-bolder text-sm" style="font-style: italic;">P {{ x.bed__price }}</span>
+      </h6>
+    </div>
+
+    <div class="card">
+      <h6 class="font-weight-bolder my-3 mb-0 px-3 text-uppercase opacity-9" style="color: #FF4200; font-size: 11px;">Inclusions</h6>
+      <h6 class="font-weight-bolder my-1 mb-0 px-3" style="font-size: 14px;">Water and Electricity bills</h6>
+      <hr class="horizontal dark my-2 mb-2">
+      <h6 class="text-xs font-weight-bolder my-1 mb-0 px-3 text-uppercase opacity-9">Room Facilities</h6>
+      <h6 class="font-weight-bolder my-1 mb-1" style="font-size: 13px;">
+        <ul>
+          {% if x.person__boarder_type == "Local"%}
+          <li> <i>Common bathroom</i> with shower, sink, and toilet</li>
+          {% else %}
+          <li> <i>Personal bathroom</i> with shower, sink, and toilet</li>
+          {% endif %}
+          <li>1 Personal cabinet</li>
+          <li>Study Table</li>
+          <li>Chair</li>
+          <li>Celling fan</li>
+          <li>1 Bed/Mattress attached to a bunk bed</li>
+        </ul>
+      </h6>
     </div>
     {% endfor %}
 
-    <p class="text-sm text-secondary font-weight-bold mb-0 my-6 opacity-4 text-center">Other features are coming soon.</p>
+    <p class="text-sm text-secondary font-weight-bold mb-0 my-6 opacity-4 text-center mb-3">Other features are coming soon.</p>
     <!-- <div class="card">
       <div class="card-header pb-0">
         <div class="row">

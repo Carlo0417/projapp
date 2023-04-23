@@ -104,7 +104,13 @@
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
                             style="margin-bottom: 0px;">Middle Name</label>
                             <div class="input-group input-group-outline">
-                                <label class="text-sm font-weight-bold mb-0 text-dark">{{ object.middle_name }}</label> 
+                                <label class="text-sm font-weight-bold mb-0 text-dark">
+                                    {% if object.middle_name == "" %}
+                                        None
+                                    {% else %}
+                                        {{ object.middle_name }}
+                                    {% endif %}
+                                </label> 
                             </div>  
                         </div>
 

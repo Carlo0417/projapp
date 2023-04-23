@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/apple-icon.png'%}">
-    <link rel="icon" type="image/png" href="{% static 'img/icondorm.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/dormlogogrey.png' %}">
     <title>
       {% block title %}Admin Sign In{% endblock %}
     </title>
@@ -47,10 +47,8 @@
         
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
             <div class="card z-index-0 fadeIn3 fadeInBottom"> <br>
-                    <img src="{% static 'img/dormlogogrey.png' %}" width="40%" style="display: block; margin-left: auto; margin-right: auto;" class="my-1">
-                    <!-- <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Admin Log in</h4> -->
+              <img src="{% static 'img/dormlogogrey.png' %}" width="40%" style="display: block; margin-left: auto; margin-right: auto;" class="my-1">
               <div class="card-body">
-
                 {% if form.non_field_errors %}
                     {% for error in form.non_field_errors %}
                         <p {% if forloop.last %} class="mb-0 text-xs font-weight-bold" 
@@ -77,22 +75,24 @@
                     style="margin: 0px 10px 0px 10px;">
                     <hr style="border-top: 2px solid #FF4200; margin: 0px 10px 0px 10px; opacity: 80%;"> <br>
 
-                  <div class="text-center">
-                    <button type="submit" class="btn w-100 my-3 mb-2 text-white" style="background-color: #FF4200;" 
-                    href="{% url 'admin_login' %}">sign in</button>
-                  </div>
-                  <p class="mt-4 text-sm text-center">
-                  </p>
+                    <div class="text-center">
+                      <button type="submit" class="btn w-100 my-3 mb-2 text-white" style="background-color: #FF4200;" 
+                      href="{% url 'admin_login' %}">sign in</button>
+                    </div>
+                  <p class="mt-4 text-sm text-center"></p>
                 </form>
+
                 <style> label:hover {color: #FF4200; font-weight: bold;} </style>
                 <a href="{% url 'admin_forgot_password' %}">
                   <label class="form-check-label mb-0 text-xs" style="margin: 0; float: right; font-family: inherit;"> <u>Forgot Password?</u> </label>
                 </a>
+
                 <br>
+
                 <p class="mt-2 text-sm text-center">
                   <span class="text-xs">
-                    By proceeding you agree with <b> PSU-Dorm </b> <br>
-                    and <label class="text-xs font-weight-bold" id="myBtn"><u>Terms and Condition</u></label>.
+                    By proceeding you agree with<b> PSU-Dorm</b> <br>
+                    <label class="text-xs font-weight-bold" id="privacy"><u> Privacy Policy </u></label> and<label class="text-xs font-weight-bold" id="terms"><u> Terms & Condition </u></label>.
                   </span>
                 </p>
               </div>
@@ -124,15 +124,30 @@
                 }
                 
                 /* The Close Button */
-                .close {
+                .close1 {
                   color: #aaaaaa;
                   font-size: 28px;
                   font-weight: bold;
                   text-align: right;
                 }
                 
-                .close:hover,
-                .close:focus {
+                .close1:hover,
+                .close1:focus {
+                  color: #000;
+                  text-decoration: none;
+                  cursor: pointer;
+                }
+
+                  /* The Close Button */
+                  .close2 {
+                  color: #aaaaaa;
+                  font-size: 28px;
+                  font-weight: bold;
+                  text-align: right;
+                }
+                
+                .close2:hover,
+                .close2:focus {
                   color: #000;
                   text-decoration: none;
                   cursor: pointer;
@@ -140,10 +155,10 @@
               </style>
 
               <!-- The Modal -->
-              <div id="myModal" class="modal">
+              <div id="modalPrivacy" class="modal">
                 <!-- Modal content -->
                 <div class="modal-content">
-                  <span class="close">&times;</span>
+                  <span class="close1">&times;</span>
                   <p class="font-weight-bold opacity-7" style="color: #FF4200; text-align: left;">
                     PSU Web-based Dormitory Information Management Privacy Policy</p>
                   <p style="text-align: justify; margin: 0px 70px 20px 70px;">
@@ -496,13 +511,6 @@
 
                   <p style="margin: 8px 100px;"> 
                     <i>
-                      Agoda. (2023, February). Agoda Privacy Policy. agoda.com. Retrieved March 10, 2023, from 
-                      https://www.agoda.com/info/privacy.html
-                    </i>
-                  </p>
-
-                  <p style="margin: 8px 100px;"> 
-                    <i>
                       Creating a Privacy Manual. (2021, November 11). National Privacy Commission. 
                       https://www.privacy.gov.ph/creating-a-privacy-manual/
                     </i>
@@ -510,31 +518,286 @@
 
                 </div>
               </div>
+
+              <div id="modalTerms" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                  <span class="close2">&times;</span>
+                  <p class="font-weight-bold opacity-7 text-lg" style="color: #FF4200; text-align: left;">
+                    Terms of Use</p>
+                  <p style="text-align: justify; margin: 0px 40px 20px 40px; text-indent: 30px;">
+                    Welcome to Palawan State University Dormitory! These terms and conditions govern your access 
+                    to and use of the Dormitory Information Management System Web-application and any related services. 
+                    It is understood that upon your registration, you agree to be bound by the terms and conditions set 
+                    forth below. We reserve the right to change the terms of these terms and conditions from time to time 
+                    by changing them on the Website and such modifications shall be effective immediately upon posting 
+                    of the modified Agreement. You agree to review the Agreement periodically and your continued access 
+                    or use of the Service shall be deemed your conclusive acceptance of the modified Agreement.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">1. Your use of Web application</p>
+
+                  <p style="margin: 0px 40px 8px 40px;"> 
+                    1.1 Our web application is the property of Palawan State University. We grant you non-transferable, 
+                    limited and revocable access to the web application to enjoy personal use of our Services in accordance 
+                    to these Terms. You represent and warrant to us that your access to, and use of, our web application is 
+                    intended only for personal, non-commercial use.
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    1.2 You will not use the web application for any purpose that is unlawful or prohibited by these Terms,
+                    or for any other purpose not practically proposed by us. By way of example, and not as a limitation, 
+                    you agree not to use our web application and/or its content to:
+                  </p>
+
+                  <p style="margin: 8px 70px;"> 
+                    1.2.1 disclose all data that can be seen inside the web application;
+                  </p>
+
+                  <p style="margin: 8px 70px;"> 
+                    1.2.2 republish material from the PSU Dormitory Web Application;
+                  </p>
+
+                  <p style="margin: 8px 70px;"> 
+                    1.2.3 reproduce, duplicate or copy material from PSU Dormitory Web Application;
+                  </p>
+
+                  <p style="margin: 0px 70px 20px 70px;"> 
+                    1.2.4 redistribute content from the PSU Dormitory Web Application.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">2. Occupant Account</p>
+  
+                  <p style="margin: 0px 40px 8px 40px;"> 
+                    2.1 In the process of using our Web application, you may need to register and maintain a user 
+                    account with us (“Occupant Account”). You certify that the information you give us when registering 
+                    for an account is accurate, current, and complete. User Accounts: To access the System, you may be 
+                    required to create an account. 
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    2.2 You are responsible for maintaining the confidentiality of the information and password associated 
+                    with your Occupant Account, and for all activities occurring under your Account. To access the Web 
+                    Application, you may be required to create an account. You are responsible for maintaining the confidentiality 
+                    of your account login information, and for all activities that occur under your account. You agree to notify 
+                    us immediately if you become aware of any unauthorized use of your account.
+                  </p>
+
+                  <p style="margin: 0px 40px 20px 40px;"> 
+                    2.3 If you violate this section, we won't be responsible for any loss or damage that results. We reserve 
+                    the right, in our sole discretion, to decline the registration of an Occupant Account or to make an existing 
+                    Occupant Account inactive without prior notification or liability, to the fullest extent authorized by 
+                    applicable law.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">3. Data Privacy</p>
+  
+                  <p style="margin: 0px 40px 8px 40px;"> 
+                    3.1 We are committed to protecting your privacy and the privacy of your data. We will collect and process 
+                    your personal data in accordance with our Privacy Policy, which you should read and understand.
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    3.2 For information regarding our treatment of your personal data, please review our current Privacy Policy, 
+                    which is incorporated by reference into these Terms. To the extent required under applicable law, your 
+                    acceptance of these Terms constitutes acceptance and agreement to our collection, use and disclosure of 
+                    your personal data in accordance with our Privacy Policy.
+                  </p>
+
+                  <p style="margin: 0px 40px 20px 40px;"> 
+                    3.3 Use of your personal information submitted to us via (Web Application or System) is governed by our 
+                    Privacy Policy. Additionally, by using them, you acknowledge that internet transmissions are never completely 
+                    private or secure and that it is always possible that any message or information you send using any Application 
+                    or Service may be read or intercepted by others. Moreover, be mindful of your online activities and the sites 
+                    you visit.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">4. User Conduct</p>
+  
+                  <p style="margin: 0px 40px 8px 40px;"> 
+                    You agree to comply with all applicable laws, rules, and regulations in connection with your use of the Web
+                    Application. You also agree to use the Web Application in a responsible and professional manner and to treat 
+                    other users with respect and courtesy.
+                  </p>
+
+                  <p style="margin: 0px 40px 20px 40px;"> 
+                    As a condition of your use of the Web Application, you warrant to PSU Dormitory that you will not use this 
+                    for any purpose that is unlawful or prohibited by these terms, conditions, and notices. The Web Application 
+                    is provided to occupants only and for personal use within their stay in the dormitory only.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">5. User Obligation</p>
+  
+                  <p style="margin: 0px 40px 8px 40px;"> 
+                    5.1 Responsible Use: You must use the web application responsibly and in accordance with the terms 
+                    and conditions of use. This includes avoiding any actions that may disrupt the application's 
+                    functionality or compromise the security of the system.
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    5.2 Eligibility: You should be at least 18 years of age or older fir it is intended only for college
+                    students. Any access to or use of the Web application by anyone under 18 is expressly prohibited. 
+                    By accessing or using the Web application represent and warrant that you are at least 18 years of age.
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    5.3 Accurate Information: You must provide accurate and up-to-date information upon registration for 
+                    the application. This includes your personal information, contacts, and any other relevant information.
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    5.4 Payment: You must pay all your mandatory and other fees that are associated within your stay and
+                    the use of the occupant web application on time and in full to avoid account inactivation and other 
+                    possible conflicts.
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    5.5 Privacy: You must respect the privacy of other occupants and refrain from accessing or sharing 
+                    their personal information without their consent.
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    5.6 Compliance: You must comply with all applicable laws, regulations, and policies governing 
+                    the use of the web application.
+                  </p>
+
+                  <p style="margin: 0px 40px 20px 40px;"> 
+                    Failure to comply with these obligations may result in disciplinary action, including the 
+                    inactivation of your access to the web application.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">6. Disclaimer of Warranties</p>
+  
+                  <p style="margin: 0px 40px 20px 40px;"> 
+                    The Web Application is provided on an "as is" and "as available" basis. We make no warranties, 
+                    express or implied, regarding the operation or availability of the Web Application, or the 
+                    accuracy or completeness of any information provided through the Application.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">7. Modification and Account Inactivation</p>
+  
+                  <p style="margin: 0px 40px 8px 40px;"> 
+                    7.1 We reserve the right to modify or terminate these terms and conditions at any time, without notice to 
+                    you. Your continued use of our web application following any such modification constitutes your agreement 
+                    to be bound by the modified terms and conditions.
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    7.2 If you do not agree with any modifications to these terms and conditions, your only remedy is to 
+                    stop using our web application.
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    7.3 We may inactivate your access to our web application at any time, without notice to you, if we
+                    believe that you have violated these terms and conditions or any applicable law or regulation.
+                  </p>
+
+                  <p style="margin: 0px 40px 20px 40px;"> 
+                    7.4 We reserve the right to perform inactivation on your Occupant Account in the Web application 
+                    when you failed to settle your mandatory and other fees after 2 months period of no payment. 
+                    To avoid conflict in the future, you are responsible in monitoring your fees.
+                  </p>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">Contact Us</p>
+  
+                  <p style="margin: 0px 40px 20px 40px;"> 
+                    If you have any questions about the terms and conditions, our policies and other dormitory 
+                    related inquiries, please contact us at: <br>
+                    PALAWAN STATE UNIVERSITY DORMITORY, Tiniguiban Heights, Barangay Tiniguiban, <br>
+                    Puerto Princesa City, Palawan, Philippines or send an email to: <br>
+                    <a href="mailto:psu.dormitory@psu.palawan.edu.ph">psu.dormitory@psu.palawan.edu.ph</a>             
+                  </p>
+
+                  <style>
+                    a:hover {
+                      color: #FF4200;
+                    }
+                  </style>
+
+                  <hr style="border-top: 2px solid #FF4200; opacity: 20%;" class="my-1"> <br>
+                  <p class="font-weight-bold opacity-7" style="color: #FF4200;">References:</p>
+  
+                  <p style="margin: 0px 40px 8px 40px;"> 
+                    <i>
+                      Terms of Use of Web Applications and Terms of Service - BaseStone. (2020, July 17). BaseStone. https://basestone.io/terms-of-use/
+                    </i>
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    <i>
+                      Globe Website Terms and Conditions. (2023). Globe. Retrieved April 20, 2023, from https://www.globe.com.ph/website-terms-conditions.html
+                    </i>
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    <i>
+                      RedDoorz Terms and Conditions. (2023). RedDoorz. Retrieved April 20, 2023, from https://www.reddoorz.com/en-ph/terms
+                    </i>
+                  </p>
+
+                  <p style="margin: 8px 40px;"> 
+                    <i>
+                      Administrator, A. (n.d.). Terms and Condition | McDonald’s Philippines. https://www.mcdonalds.com.ph/terms-and-conditions                    </i>
+                  </p>
+                </div>
+              </div>
               
               <script>
               // Get the modal
-              var modal = document.getElementById("myModal");
+              var modalPrivacy = document.getElementById("modalPrivacy");
               
               // Get the button that opens the modal
-              var btn = document.getElementById("myBtn");
+              var privacy = document.getElementById("privacy");
+
+              // Get the modal
+              var modalTerms = document.getElementById("modalTerms");
+              
+              // Get the button that opens the modal
+              var terms = document.getElementById("terms");
               
               // Get the <span> element that closes the modal
-              var span = document.getElementsByClassName("close")[0];
+              var span1 = document.getElementsByClassName("close1")[0];
+
+              // Get the <span> element that closes the modal
+              var span2 = document.getElementsByClassName("close2")[0];
               
               // When the user clicks the button, open the modal 
-              btn.onclick = function() {
-                modal.style.display = "block";
+              privacy.onclick = function() {
+                modalPrivacy.style.display = "block";
+              }
+
+              // When the user clicks the button, open the modal 
+              terms.onclick = function() {
+                modalTerms.style.display = "block";
               }
               
               // When the user clicks on <span> (x), close the modal
-              span.onclick = function() {
-                modal.style.display = "none";
+              span1.onclick = function() {
+                modalPrivacy.style.display = "none";
+              }
+
+              // When the user clicks on <span> (x), close the modal
+              span2.onclick = function() {
+                modalTerms.style.display = "none";
               }
               
               // When the user clicks anywhere outside of the modal, close it
               window.onclick = function(event) {
-                if (event.target == modal) {
-                  modal.style.display = "none";
+                if (event.target == modalPrivacy) {
+                  modalPrivacy.style.display = "none";
+                }
+
+                if (event.target == modalTerms) {
+                  modalTerms.style.display = "none";
                 }
               }
               </script>

@@ -130,4 +130,12 @@
       passwordEl.innerHTML = '*'.repeat(passwordEl.textContent.length);
     }
 </script>
+
+<script>
+    var milliseconds = 3000;
+
+    setTimeout(function() {
+      document.getElementById('fadeout').remove();
+      }, milliseconds);
+</script>
 {% endblock content%}

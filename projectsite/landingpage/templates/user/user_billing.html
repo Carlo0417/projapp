@@ -38,33 +38,56 @@
 
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-6">
-                            <span class="mb-2 text-xs">Bed Price: <span class="text-dark font-weight-bold ms-sm-2">P {{ object.bedPrice|intcomma }}</span></span> <br>
-                            <span class="mb-2 text-xs">Room Name: <span class="text-dark font-weight-bold ms-sm-2">{{ object.bed__room__room_name }}</span></span> <br>
+                            <p class="mb-1 text-xs my-1">Bed Price</p>
+                            <p class="text-dark font-weight-bold ms-sm-2 text-xs">P {{ object.bedPrice|intcomma }}</p>
+
+                            <p class="mb-1 text-xs">Room Name</p>
+                            <p class="text-dark font-weight-bold ms-sm-2 text-xs mb-1">{{ object.bed__room__room_name }}</p>
                         </div>
 
                         <div class="col-sm-6 col-md-6 col-6">
-                            <span class="mb-2 text-xs">Floor Level: <span class="text-dark font-weight-bold ms-sm-2">{{ object.bed__room__floorlvl }}</span></span> <br>
-                            <span class="mb-2 text-xs">Dorm Name: <span class="text-dark ms-sm-2 font-weight-bold">{{ object.bed__room__dorm_name }}</span></span> <br>
+                            <p class="mb-1 text-xs my-1">Floor Level</p>
+                            <p class="text-dark font-weight-bold ms-sm-2 text-xs">
+                                {% if object.bed__room__floorlvl == '1' %}
+                                    {{ object.bed__room__floorlvl }}st floor
+                                {% elif object.bed__room__floorlvl == '2' %}
+                                    {{ object.bed__room__floorlvl }}nd floor
+                                {% elif object.bed__room__floorlvl == '3' %}
+                                    {{ object.bed__room__floorlvl }}rd floor
+                                {% endif %}
+                            </p>
+
+                            <p class="mb-1 text-xs">Dorm Name </p>
+                            <p class="text-dark ms-sm-2 font-weight-bold text-xs mb-1">{{ object.bed__room__dorm_name }}</p>
                         </div>
                     </div>
 
                     <hr style="border-top: 1px solid #FF4200; opacity: 0.3;" class="my-3">  
 
+
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-6">
+                        <div class="col-4">
                             <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                            style="margin-bottom: 0px;">Start Date</label> <br>
-                            <span class="badge badge-sm" style="background-color: #FF4200;
-                            margin-bottom: 15px;">{{ object.start_date }}</span>
+                            style="margin-bottom: 0px;">Start Date : </label>
                         </div>
 
-                        <div class="col-sm-6 col-md-6 col-6">
-                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                            style="margin-bottom: 0px;">End Date</label> <br>
-                            <span class="badge badge-sm" style="background-color: #FF4200;
-                            margin-bottom: 15px;">{{ object.end_date }}</span>
+                        <div class="col-8">
+                            <span class="badge badge-sm" style="background-color: #FF4200; margin-bottom: 15px;"> 
+                            {{ object.start_date }}</span>
                         </div>
-                    </div> 
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                            style="margin-bottom: 0px;">End Date : </label>
+                        </div>
+
+                        <div class="col-8">
+                            <span class="badge badge-sm" style="background-color: #FF4200; margin-bottom: 15px;">
+                            {{ object.end_date }}</span>
+                        </div>
+                    </div>
 
                 </div>
             </div>

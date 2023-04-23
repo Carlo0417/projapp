@@ -201,7 +201,7 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Amount</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Action</th>
+                                        Document Reference</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -220,17 +220,7 @@
                                         <p class="text-xs text-secondary font-weight-bold mb-0">P {{ object.amount|intcomma }}</p>
                                     </td>
                                     <td class="text-center">
-                                        {% if object.service.service_name == "Others" %}
-                                            <a href="{% url 'as_other-update' object.id %}"
-                                                class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
-                                                data-toggle="tooltip">
-                                                <i class="material-icons text-sm me-2">edit</i>Edit</a>
-                                        {% else %}
-                                            <a href="as_billing_list/{{ object.id }}"
-                                            class="btn btn-link px-3 mb-0" style="color: #FF9001; font-size: 10px;" 
-                                            data-toggle="tooltip">
-                                            <i class="material-icons text-sm me-2">edit</i>Edit</a>
-                                        {% endif %}
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.let_ref }}</p>
                                     </td>
                                 </tr>
                                 {% empty %}
@@ -243,19 +233,6 @@
                     <hr style="border-top: 1px solid #FF4200; opacity: 0.5;">
                     <div class="table-responsive my-4" style="padding: 0px 20px;">
                         <table class="table align-items-center mb-0">
-                            <!-- <div class="row my-3">
-                                <div class="col-3">
-                                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                    style="margin-bottom: 0px; margin-top: 3px;"> Recorded Date <br>
-                                    <b class="mb-0 text-xs" style="color: #FF4200;"> {{ object.created_at }}</b> </label>
-                                </div>
-                                <div class="col-6"></div>
-                                <div class="col-3">
-                                    <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
-                                    style="margin-bottom: 0px; margin-top: 3px;"> Updated Date <br>
-                                    <b class="mb-0 text-xs" style="color: #FF4200;"> {{ object.updated_at }}</b> </label>
-                                </div>
-                            </div> -->
                             <thead>
                                 <tr class="headings">
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -265,7 +242,7 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Official Receipt Number</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Action</th>
+                                        Document Reference</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -281,9 +258,7 @@
                                         <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.receipt_no }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <a href="as_payment_list/{{ object.id }}" class="text-uppercase font-weight-bolder mb-0" 
-                                        style="color: #FF9001; font-size: 10px;" 
-                                            data-toggle="tooltip">Edit</a>
+                                        <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.pay_let_ref }}</p>
                                     </td>
                                 </tr>
                                 {% empty %}

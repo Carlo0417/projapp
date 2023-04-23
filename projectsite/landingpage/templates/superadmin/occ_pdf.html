@@ -72,7 +72,17 @@
                     <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;">Occupant Name</td>
                   </tr>
                   <tr>
-                    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:400; font-size:14px;">{{ occ_person.person.first_name }} {{ occ_person.person.middle_name }} {{ occ_person.person.last_name }}</td>
+                    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:400; font-size:14px;">
+                      {{ occ_person.person.last_name }},
+
+                      {{ occ_person.person.first_name }}
+
+                      {% if occ_person.person.middle_name == "" %}
+
+                      {% else %}
+                        {{ occ_person.person.middle_name }} 
+                      {% endif %}
+                    </td>
                   </tr>
                   <tr>
                     <td style="font-size:13px;">{{ occ_person.person.boarder_type }} Occupant</td>

@@ -102,7 +102,16 @@
 	<h4> {{ reg_person.psu_email }} </h4>
 
 	<h3> FULL NAME </h3>
-	<h4> {{ reg_person.first_name }} {{ reg_person.middle_name }} {{ reg_person.last_name }}</h4>
+	<h4> {{ reg_person.last_name }},
+	
+		{{ reg_person.first_name }}
+
+		{% if reg_person.middle_name == "" %}
+
+		{% else %}
+			{{ reg_person.middle_name }}
+		{% endif %}
+	</h4>
 
 	<h3> GENDER </h3>
 	<h4> {{ reg_person.gender }} </h4>

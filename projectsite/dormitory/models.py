@@ -34,7 +34,7 @@ class Room(BaseModel):
 
 class Service(BaseModel):
     STATUS_CHOICES = (('Available','Available'), ('Not Available','Not Available'))
-    service_name = models.CharField(max_length=100)
+    service_name = models.CharField(max_length=300)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES)
     base_amount = models.DecimalField(default=0, max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
 
@@ -188,6 +188,7 @@ class Person(BaseModel):
     guardian_email_address = models.EmailField(max_length=250, default="", verbose_name="Guardian's Email")
     guardian_present_address = models.CharField(max_length=250, default="", verbose_name="Guardian's Address")
     guardian_contact_no = PhoneNumberField()
+    
 
     #Admission Requiremnets
     Field1 = models.BooleanField(default=False, verbose_name='Two pieces 2"x2" coloured ID pictures taken not more than six months prior to the signing of the contract')
@@ -205,6 +206,11 @@ class Person(BaseModel):
 
     def __str__(self):
         return f"{self.last_name}, {self.first_name}"
+    
+    def save(self, *args, **kwargs):
+        if not self.middle_name:
+            self.middle_name = ""
+        super().save(*args, **kwargs)
 
 
 class BedPriceHistory(BaseModel):
@@ -261,7 +267,7 @@ class Bill_Details(BaseModel):
     quantity = models.PositiveIntegerField(default=1)
     description = models.CharField(max_length=250,  default="None")
     amount = models.DecimalField(default=0, max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=True, blank=True,)
-
+    let_ref = models.CharField(max_length=250,  default="None")
     class Meta:
         verbose_name_plural = "Bill Details"
 
@@ -274,6 +280,7 @@ class Payment(BaseModel):
     payment_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
     amount = models.DecimalField(default=0, max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     receipt_no = models.CharField(max_length=250)
+    pay_let_ref = models.CharField(max_length=250,  default="None")
 
     class Meta:
         verbose_name_plural = "Payment"
