@@ -35,6 +35,9 @@ class Room(BaseModel):
 class Service(BaseModel):
     STATUS_CHOICES = (('Available','Available'), ('Not Available','Not Available'))
     service_name = models.CharField(max_length=300)
+    title = models.CharField(default="None", max_length=300, verbose_name="Title")
+    description = models.CharField(default="None", max_length=300, verbose_name="Description")
+    provider = models.CharField(default="None", max_length=250, verbose_name="Provider")
     status = models.CharField(max_length=25, choices=STATUS_CHOICES)
     base_amount = models.DecimalField(default=0, max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
 
@@ -42,7 +45,7 @@ class Service(BaseModel):
         verbose_name_plural = "Services"
 
     def __str__(self):
-        return f"{self.service_name}"
+        return f"{self.service_name}: {self.title}"
 
 
 class Bed(BaseModel):

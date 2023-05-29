@@ -10,7 +10,7 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
-                            <h6 class="text-white text-capitalize ps-3">New Service Details</h6>
+                            <h6 class="text-white text-capitalize ps-3">New Incidental Details</h6>
                         </div>
                     </div>
 
@@ -51,6 +51,30 @@
                                 style="margin-bottom: 0px; margin-top: 17px;">Service Name</label>
                                 <div class="input-group input-group-outline">
                                     {% render_field form.service_name class="form-control" %}
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Title</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.title class="form-control" %}
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Description</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.description class="form-control" %}
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <label class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-9" 
+                                style="margin-bottom: 0px; margin-top: 17px;">Provider</label>
+                                <div class="input-group input-group-outline">
+                                    {% render_field form.provider class="form-control" %}
                                 </div>
                             </div>
 

@@ -13,7 +13,7 @@ from django.urls import reverse
 
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView   
 # from material import Field
 from django.db.models import Sum
 
@@ -78,34 +78,16 @@ class HomePageView(ListView):
         end_of_month = start_of_month.replace(month=start_of_month.month+1) - timezone.timedelta(microseconds=1)
 
         context['current_month_occupant'] = Occupant.objects.filter(created_at__range=(start_of_month, end_of_month)).count()
-
-        
-        # SELECT YEAR(dormitory_person.created_at), MONTH(dormitory_person.created_at),
-        # COUNT(id) AS total_orders FROM dormitory_person GROUP BY MONTH(dormitory_person.created_at);
-
-        # from django.db.models.functions import ExtractMonth, ExtractYear
-        # from django.db.models import Count
-
-        # total_orders = (
-        #     Person.objects.annotate(month=ExtractMonth('created_at'))
-        #     .annotate(year=ExtractYear('created_at'))
-        #     .values('year', 'month')
-        #     .annotate(total_orders=Count('id'))
-        # )
-        # print(total_orders)
-        
+            
         # Students Gender Charts
         male_no = Person.objects.filter(gender="Male").count()
         male_no = int(male_no)
-        # print('Male:', male_no)
 
         female_no = Person.objects.filter(gender="Female").count()
         female_no = int(female_no)
-        # print('Female:', female_no)
 
         lgbt_no = Person.objects.filter(gender="LGBTQIA+").count()
         lgbt_no = int(lgbt_no)
-        # print('LGBTQIA+:', lgbt_no)
 
         gender_list = ['Male', 'Female', 'LGBTQIA+']
         gender_number = [male_no, female_no, lgbt_no]
@@ -115,56 +97,44 @@ class HomePageView(ListView):
 
                 
         # Monthly Registration Charts
-        Jan = Person.objects.filter(created_at__icontains="2023-01").count()
-        Jan = int(Jan)
-        print('Jan:', Jan)
+        Jan_Reg = Person.objects.filter(created_at__icontains="2023-01").count()
+        Jan_Reg = int(Jan_Reg)
 
-        Feb = Person.objects.filter(created_at__icontains="2023-02").count()
-        Feb = int(Feb)
-        print('Feb:', Feb)
+        Feb_Reg = Person.objects.filter(created_at__icontains="2023-02").count()
+        Feb_Reg = int(Feb_Reg)
 
-        Mar = Person.objects.filter(created_at__icontains="2023-03").count()
-        Mar = int(Mar)
-        print('Mar:', Mar)
+        Mar_Reg = Person.objects.filter(created_at__icontains="2023-03").count()
+        Mar_Reg = int(Mar_Reg)
 
-        Apr = Person.objects.filter(created_at__icontains="2023-04").count()
-        Apr = int(Apr)
-        print('Apr:', Apr)
+        Apr_Reg = Person.objects.filter(created_at__icontains="2023-04").count()
+        Apr_Reg = int(Apr_Reg)
 
-        May = Person.objects.filter(created_at__icontains="2023-05").count()
-        May = int(May)
-        print('May:', May)
+        May_Reg = Person.objects.filter(created_at__icontains="2023-05").count()
+        May_Reg = int(May_Reg)
 
-        Jun = Person.objects.filter(created_at__icontains="2023-06").count()
-        Jun = int(Jun)
-        print('Jun:', Jun)
+        Jun_Reg = Person.objects.filter(created_at__icontains="2023-06").count()
+        Jun_Reg = int(Jun_Reg)
 
-        Jul = Person.objects.filter(created_at__icontains="2023-07").count()
-        Jul = int(Jul)
-        print('Jul:', Jul)
+        Jul_Reg = Person.objects.filter(created_at__icontains="2023-07").count()
+        Jul_Reg = int(Jul_Reg)
 
-        Aug = Person.objects.filter(created_at__icontains="2023-08").count()
-        Aug = int(Aug)
-        print('Aug:', Aug)
+        Aug_Reg = Person.objects.filter(created_at__icontains="2023-08").count()
+        Aug_Reg = int(Aug_Reg)
 
-        Sep = Person.objects.filter(created_at__icontains="2023-09").count()
-        Sep = int(Sep)
-        print('Sep:', Sep)
+        Sep_Reg = Person.objects.filter(created_at__icontains="2023-09").count()
+        Sep_Reg = int(Sep_Reg)
 
-        Oct = Person.objects.filter(created_at__icontains="2023-10").count()
-        Oct = int(Oct)
-        print('Oct:', Oct)
+        Oct_Reg = Person.objects.filter(created_at__icontains="2023-10").count()
+        Oct_Reg = int(Oct_Reg)
 
-        Nov = Person.objects.filter(created_at__icontains="2023-11").count()
-        Nov = int(Nov)
-        print('Nov:', Nov)
+        Nov_Reg = Person.objects.filter(created_at__icontains="2023-11").count()
+        Nov_Reg = int(Nov_Reg)
 
-        Dec = Person.objects.filter(created_at__icontains="2023-12").count()
-        Dec = int(Dec)
-        print('Dec:', Dec)
+        Dec_Reg = Person.objects.filter(created_at__icontains="2023-12").count()
+        Dec_Reg = int(Dec_Reg)
 
         monthly_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        monthly_number = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+        monthly_number = [Jan_Reg, Feb_Reg, Mar_Reg, Apr_Reg, May_Reg, Jun_Reg, Jul_Reg, Aug_Reg, Sep_Reg, Oct_Reg, Nov_Reg, Dec_Reg]
 
         context['monthly_list'] = monthly_list
         context['monthly_number'] = monthly_number
@@ -173,58 +143,692 @@ class HomePageView(ListView):
         # Monthly Occupant Charts
         Jan = Occupant.objects.filter(created_at__icontains="2023-01").count()
         Jan = int(Jan)
-        print('Jan:', Jan)
 
         Feb = Occupant.objects.filter(created_at__icontains="2023-02").count()
         Feb = int(Feb)
-        print('Feb:', Feb)
 
         Mar = Occupant.objects.filter(created_at__icontains="2023-03").count()
         Mar = int(Mar)
-        print('Mar:', Mar)
 
         Apr = Occupant.objects.filter(created_at__icontains="2023-04").count()
         Apr = int(Apr)
-        print('Apr:', Apr)
 
         May = Occupant.objects.filter(created_at__icontains="2023-05").count()
         May = int(May)
-        print('May:', May)
 
         Jun = Occupant.objects.filter(created_at__icontains="2023-06").count()
         Jun = int(Jun)
-        print('Jun:', Jun)
 
         Jul = Occupant.objects.filter(created_at__icontains="2023-07").count()
         Jul = int(Jul)
-        print('Jul:', Jul)
 
         Aug = Occupant.objects.filter(created_at__icontains="2023-08").count()
         Aug = int(Aug)
-        print('Aug:', Aug)
 
         Sep = Occupant.objects.filter(created_at__icontains="2023-09").count()
         Sep = int(Sep)
-        print('Sep:', Sep)
 
         Oct = Occupant.objects.filter(created_at__icontains="2023-10").count()
         Oct = int(Oct)
-        print('Oct:', Oct)
 
         Nov = Occupant.objects.filter(created_at__icontains="2023-11").count()
         Nov = int(Nov)
-        print('Nov:', Nov)
 
         Dec = Occupant.objects.filter(created_at__icontains="2023-12").count()
         Dec = int(Dec)
-        print('Dec:', Dec)
 
         occ_monthly_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         occ_monthly_number = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
 
         context['occ_monthly_list'] = occ_monthly_list
         context['occ_monthly_number'] = occ_monthly_number
+
+
+        # Monthly Male Charts
+        Jan_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="Male").count()
+        Jan_Male_Per = (Jan_Tot_Male / Jan) * 100 if Jan != 0 else 0
+        Jan_Male_Per = int(round(Jan_Male_Per))
+
+        Feb_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="Male").count()
+        Feb_Male_Per = (Feb_Tot_Male / Feb) * 100 if Feb != 0 else 0
+        Feb_Male_Per = int(round(Feb_Male_Per))
+
+        Mar_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="Male").count()
+        Mar_Male_Per = (Mar_Tot_Male / Mar) * 100 if Mar != 0 else 0
+        Mar_Male_Per = int(round(Mar_Male_Per))
+
+        Apr_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="Male").count()
+        Apr_Male_Per = (Apr_Tot_Male / Apr) * 100 if Apr != 0 else 0
+        Apr_Male_Per = int(round(Apr_Male_Per))
+
+        May_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="Male").count()
+        May_Male_Per = (May_Tot_Male / May) * 100 if May != 0 else 0
+        May_Male_Per = int(round(May_Male_Per))
+
+        Jun_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="Male").count()
+        Jun_Male_Per = (Jun_Tot_Male / Jun) * 100 if Jun != 0 else 0
+        Jun_Male_Per = int(round(Jun_Male_Per))
+
+        Jul_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="Male").count()
+        Jul_Male_Per = (Jul_Tot_Male / Jul) * 100 if Jul != 0 else 0
+        Jul_Male_Per = int(round(Jul_Male_Per))
+
+        Aug_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="Male").count()
+        Aug_Male_Per = (Aug_Tot_Male / Aug) * 100 if Aug != 0 else 0
+        Aug_Male_Per = int(round(Aug_Male_Per))
+
+        Sep_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="Male").count()
+        Sep_Male_Per = (Sep_Tot_Male / Sep) * 100 if Sep != 0 else 0
+        Sep_Male_Per = int(round(Sep_Male_Per))
+
+        Oct_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="Male").count()
+        Oct_Male_Per = (Oct_Tot_Male / Oct) * 100 if Oct != 0 else 0
+        Oct_Male_Per = int(round(Oct_Male_Per))
+
+        Nov_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="Male").count()
+        Nov_Male_Per = (Nov_Tot_Male / Nov) * 100 if Nov != 0 else 0
+        Nov_Male_Per = int(round(Nov_Male_Per))
+
+        Dec_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="Male").count()
+        Dec_Male_Per = (Dec_Tot_Male / Dec) * 100 if Dec != 0 else 0
+        Dec_Male_Per = int(round(Dec_Male_Per))
+
+        male_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        male_monthly_occ_per = [Jan_Male_Per, Feb_Male_Per, Mar_Male_Per, Apr_Male_Per, May_Male_Per, Jun_Male_Per, 
+                                Jul_Male_Per, Aug_Male_Per, Sep_Male_Per, Oct_Male_Per, Nov_Male_Per, Dec_Male_Per]
         
+        context['male_monthly_occ_per_list'] = male_monthly_occ_per_list
+        context['male_monthly_occ_per'] = male_monthly_occ_per
+        
+
+        # Monthly Female Charts
+        Jan_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="Female").count()
+        Jan_Female_Per = (Jan_Tot_Female / Jan) * 100 if Jan != 0 else 0
+        Jan_Female_Per = int(round(Jan_Female_Per))
+
+        Feb_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="Female").count()
+        Feb_Female_Per = (Feb_Tot_Female / Feb) * 100 if Feb != 0 else 0
+        Feb_Female_Per = int(round(Feb_Female_Per))
+
+        Mar_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="Female").count()
+        Mar_Female_Per = (Mar_Tot_Female / Mar) * 100 if Mar != 0 else 0
+        Mar_Female_Per = int(round(Mar_Female_Per))
+
+        Apr_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="Female").count()
+        Apr_Female_Per = (Apr_Tot_Female / Apr) * 100 if Apr != 0 else 0
+        Apr_Female_Per = int(round(Apr_Female_Per))
+
+        May_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="Female").count()
+        May_Female_Per = (May_Tot_Female / May) * 100 if May != 0 else 0
+        May_Female_Per = int(round(May_Female_Per))
+
+        Jun_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="Female").count()
+        Jun_Female_Per = (Jun_Tot_Female / Jun) * 100 if Jun != 0 else 0
+        Jun_Female_Per = int(round(Jun_Female_Per))
+
+        Jul_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="Female").count()
+        Jul_Female_Per = (Jul_Tot_Female / Jul) * 100 if Jul != 0 else 0
+        Jul_Female_Per = int(round(Jul_Female_Per))
+
+        Aug_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="Female").count()
+        Aug_Female_Per = (Aug_Tot_Female / Aug) * 100 if Aug != 0 else 0
+        Aug_Female_Per = int(round(Aug_Female_Per))
+
+        Sep_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="Female").count()
+        Sep_Female_Per = (Sep_Tot_Female / Sep) * 100 if Sep != 0 else 0
+        Sep_Female_Per = int(round(Sep_Female_Per))
+
+        Oct_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="Female").count()
+        Oct_Female_Per = (Oct_Tot_Female/ Oct) * 100 if Oct != 0 else 0
+        Oct_Female_Per = int(round(Oct_Female_Per))
+
+        Nov_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="Female").count()
+        Nov_Female_Per = (Nov_Tot_Female / Nov) * 100 if Nov != 0 else 0
+        Nov_Female_Per = int(round(Nov_Female_Per))
+
+        Dec_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="Female").count()
+        Dec_Female_Per = (Dec_Tot_Female / Dec) * 100 if Dec != 0 else 0
+        Dec_Female_Per = int(round(Dec_Female_Per))
+
+        female_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        female_monthly_occ_per = [Jan_Female_Per, Feb_Female_Per, Mar_Female_Per, Apr_Female_Per, May_Female_Per, Jun_Female_Per, 
+                                Jul_Female_Per, Aug_Female_Per, Sep_Female_Per, Oct_Female_Per, Nov_Female_Per, Dec_Female_Per]
+        
+        context['female_monthly_occ_per_list'] = female_monthly_occ_per_list
+        context['female_monthly_occ_per'] = female_monthly_occ_per
+
+
+        # Monthly LGBTQIA+ Charts
+        Jan_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="LGBTQIA+").count()
+        Jan_LGBTQIA_Per = (Jan_Tot_LGBTQIA / Jan) * 100 if Jan != 0 else 0
+        Jan_LGBTQIA_Per = int(round(Jan_LGBTQIA_Per))
+
+        Feb_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="LGBTQIA+").count()
+        Feb_LGBTQIA_Per = (Feb_Tot_LGBTQIA / Feb) * 100 if Feb != 0 else 0
+        Feb_LGBTQIA_Per = int(round(Feb_LGBTQIA_Per))
+
+        Mar_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="LGBTQIA+").count()
+        Mar_LGBTQIA_Per = (Mar_Tot_LGBTQIA / Mar) * 100 if Mar != 0 else 0
+        Mar_LGBTQIA_Per = int(round(Mar_LGBTQIA_Per))
+
+        Apr_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="LGBTQIA+").count()
+        Apr_LGBTQIA_Per = (Apr_Tot_LGBTQIA / Apr) * 100 if Apr != 0 else 0
+        Apr_LGBTQIA_Per = int(round(Apr_LGBTQIA_Per))
+
+        May_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="LGBTQIA+").count()
+        May_LGBTQIA_Per = (May_Tot_LGBTQIA / May) * 100 if May != 0 else 0
+        May_LGBTQIA_Per = int(round(May_LGBTQIA_Per))
+
+        Jun_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="LGBTQIA+").count()
+        Jun_LGBTQIA_Per = (Jun_Tot_LGBTQIA / Jun) * 100 if Jun != 0 else 0
+        Jun_LGBTQIA_Per = int(round(Jun_LGBTQIA_Per))
+
+        Jul_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="LGBTQIA+").count()
+        Jul_LGBTQIA_Per = (Jul_Tot_LGBTQIA / Jul) * 100 if Jul != 0 else 0
+        Jul_LGBTQIA_Per = int(round(Jul_LGBTQIA_Per))
+
+        Aug_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="LGBTQIA+").count()
+        Aug_LGBTQIA_Per = (Aug_Tot_LGBTQIA / Aug) * 100 if Aug != 0 else 0
+        Aug_LGBTQIA_Per = int(round(Aug_LGBTQIA_Per))
+
+        Sep_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="LGBTQIA+").count()
+        Sep_LGBTQIA_Per = (Sep_Tot_LGBTQIA / Sep) * 100 if Sep != 0 else 0
+        Sep_LGBTQIA_Per = int(round(Sep_LGBTQIA_Per))
+
+        Oct_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="LGBTQIA+").count()
+        Oct_LGBTQIA_Per = (Oct_Tot_LGBTQIA/ Oct) * 100 if Oct != 0 else 0
+        Oct_LGBTQIA_Per = int(round(Oct_LGBTQIA_Per))
+
+        Nov_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="LGBTQIA+").count()
+        Nov_LGBTQIA_Per = (Nov_Tot_LGBTQIA / Nov) * 100 if Nov != 0 else 0
+        Nov_LGBTQIA_Per = int(round(Nov_LGBTQIA_Per))
+
+        Dec_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="LGBTQIA+").count()
+        Dec_LGBTQIA_Per = (Dec_Tot_LGBTQIA / Dec) * 100 if Dec != 0 else 0
+        Dec_LGBTQIA_Per = int(round(Dec_LGBTQIA_Per))
+
+        LGBTQIA_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        LGBTQIA_monthly_occ_per = [Jan_LGBTQIA_Per, Feb_LGBTQIA_Per, Mar_LGBTQIA_Per, Apr_LGBTQIA_Per, May_LGBTQIA_Per, Jun_LGBTQIA_Per, 
+                                    Jul_LGBTQIA_Per, Aug_LGBTQIA_Per, Sep_LGBTQIA_Per, Oct_LGBTQIA_Per, Nov_LGBTQIA_Per, Dec_LGBTQIA_Per]
+        
+        context['LGBTQIA_monthly_occ_per_list'] = LGBTQIA_monthly_occ_per_list
+        context['LGBTQIA_monthly_occ_per'] = LGBTQIA_monthly_occ_per
+
+        
+        # Monthly Unpaid Charts
+        Jan_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-01", payment__isnull=False).distinct().count()
+        Jan_Unpaid_Per = (Jan_Unpaid_Occ / Jan) * 100 if Jan != 0 else 0
+        Jan_Unpaid_Per = int(round(Jan_Unpaid_Per))
+
+        Feb_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-02", payment__isnull=False).distinct().count()
+        Feb_Unpaid_Per = (Feb_Unpaid_Occ / Feb) * 100 if Feb != 0 else 0
+        Feb_Unpaid_Per = int(round(Feb_Unpaid_Per))
+
+        Mar_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-03", payment__isnull=False).distinct().count()
+        Mar_Unpaid_Per = (Mar_Unpaid_Occ / Mar) * 100 if Mar != 0 else 0
+        Mar_Unpaid_Per = int(round(Mar_Unpaid_Per))
+
+        Apr_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-04", payment__isnull=False).distinct().count()
+        Apr_Unpaid_Per = (Apr_Unpaid_Occ / Apr) * 100 if Apr != 0 else 0
+        Apr_Unpaid_Per = int(round(Apr_Unpaid_Per))
+
+        May_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-05", payment__isnull=False).distinct().count()
+        May_Unpaid_Per = (May_Unpaid_Occ / May) * 100 if May != 0 else 0
+        May_Unpaid_Per = int(round(May_Unpaid_Per))
+
+        Jun_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-06", payment__isnull=False).distinct().count()
+        Jun_Unpaid_Per = (Jun_Unpaid_Occ / Jun) * 100 if Jun != 0 else 0
+        Jun_Unpaid_Per = int(round(Jun_Unpaid_Per))
+
+        Jul_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-07", payment__isnull=False).distinct().count()
+        Jul_Unpaid_Per = (Jul_Unpaid_Occ / Jul) * 100 if Jul != 0 else 0
+        Jul_Unpaid_Per = int(round(Jul_Unpaid_Per))
+
+        Aug_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-08", payment__isnull=False).distinct().count()
+        Aug_Unpaid_Per = (Aug_Unpaid_Occ / Aug) * 100 if Aug != 0 else 0
+        Aug_Unpaid_Per = int(round(Aug_Unpaid_Per))
+
+        Sep_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-09", payment__isnull=False).distinct().count()
+        Sep_Unpaid_Per = (Sep_Unpaid_Occ / Sep) * 100 if Sep != 0 else 0
+        Sep_Unpaid_Per = int(round(Sep_Unpaid_Per))
+
+        Oct_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-10", payment__isnull=False).distinct().count()
+        Oct_Unpaid_Per = (Oct_Unpaid_Occ / Oct) * 100 if Oct != 0 else 0
+        Oct_Unpaid_Per = int(round(Oct_Unpaid_Per))
+
+        Nov_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-11", payment__isnull=False).distinct().count()
+        Nov_Unpaid_Per = (Nov_Unpaid_Occ / Nov) * 100 if Nov != 0 else 0
+        Nov_Unpaid_Per = int(round(Nov_Unpaid_Per))
+
+        Dec_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-12", payment__isnull=False).distinct().count()
+        Dec_Unpaid_Per = (Dec_Unpaid_Occ / Dec) * 100 if Dec != 0 else 0
+        Dec_Unpaid_Per = int(round(Dec_Unpaid_Per))
+
+
+        unpaid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        unpaid_monthly_occ_per = [Jan_Unpaid_Per, Feb_Unpaid_Per, Mar_Unpaid_Per, Apr_Unpaid_Per, May_Unpaid_Per, Jun_Unpaid_Per, 
+                                Jul_Unpaid_Per, Aug_Unpaid_Per, Sep_Unpaid_Per, Oct_Unpaid_Per, Nov_Unpaid_Per, Dec_Unpaid_Per]
+        
+        context['unpaid_monthly_occ_per_list'] = unpaid_monthly_occ_per_list
+        context['unpaid_monthly_occ_per'] = unpaid_monthly_occ_per
+
+
+        # Monthly Paid Charts
+
+        # Partially Paid and Paid in January
+        occupant_bills_jan = Occupant.objects.filter(bill_details__created_at__icontains="2023-01")\
+            .annotate(total_bills_jan=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jan')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jan = Occupant.objects.filter(payment__created_at__icontains="2023-01")\
+            .annotate(total_payments_jan=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jan')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jan = 0
+        occupants_with_zero_or_negative_balance_jan = 0
+
+        for occupant_bill_jan in occupant_bills_jan:
+            total_payments_jan = 0
+            for occupant_payment_jan in occupant_payments_jan:
+                if occupant_payment_jan['id'] == occupant_bill_jan['id']:
+                    total_payments_jan = occupant_payment_jan['total_payments_jan']
+                    break
+            remaining_balance_jan = occupant_bill_jan['total_bills_jan'] - total_payments_jan
+            if remaining_balance_jan > 0 and total_payments_jan > 0:
+                occupants_with_balance_jan += 1
+            if remaining_balance_jan <= 0:
+                occupants_with_zero_or_negative_balance_jan += 1
+
+        Jan_PatiallyPaid_Per = (occupants_with_balance_jan / Jan) * 100 if Jan != 0 else 0
+        Jan_PatiallyPaid_Per = int(round(Jan_PatiallyPaid_Per))
+
+        Jan_Paid_Per = (occupants_with_zero_or_negative_balance_jan / Jan) * 100 if Jan != 0 else 0
+        Jan_Paid_Per = int(round(Jan_Paid_Per))
+
+
+        # Partially Paid and Paid in February
+        occupant_bills_feb = Occupant.objects.filter(bill_details__created_at__icontains="2023-02")\
+            .annotate(total_bills_feb=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_feb')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_feb = Occupant.objects.filter(payment__created_at__icontains="2023-02")\
+            .annotate(total_payments_feb=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_feb')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_feb = 0
+        occupants_with_zero_or_negative_balance_feb = 0
+
+        for occupant_bill_feb in occupant_bills_feb:
+            total_payments_feb = 0
+            for occupant_payment_feb in occupant_payments_feb:
+                if occupant_payment_feb['id'] == occupant_bill_feb['id']:
+                    total_payments_feb = occupant_payment_feb['total_payments_feb']
+                    break
+            remaining_balance_feb = occupant_bill_feb['total_bills_feb'] - total_payments_feb
+            if remaining_balance_feb > 0 and total_payments_feb  > 0:
+                occupants_with_balance_feb += 1
+            if remaining_balance_feb <= 0:
+                occupants_with_zero_or_negative_balance_feb += 1
+
+        Feb_PatiallyPaid_Per = (occupants_with_balance_feb / Feb) * 100 if Feb != 0 else 0
+        Feb_PatiallyPaid_Per = int(round(Feb_PatiallyPaid_Per))
+
+        Feb_Paid_Per = (occupants_with_zero_or_negative_balance_feb / Feb) * 100 if Feb != 0 else 0
+        Feb_Paid_Per = int(round(Feb_Paid_Per))
+
+
+        # Partially Paid and Paid in March
+        occupant_bills_mar = Occupant.objects.filter(bill_details__created_at__icontains="2023-03")\
+            .annotate(total_bills_mar=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_mar')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_mar = Occupant.objects.filter(payment__created_at__icontains="2023-03")\
+            .annotate(total_payments_mar=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_mar')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_mar = 0
+        occupants_with_zero_or_negative_balance_mar = 0
+
+        for occupant_bill_mar in occupant_bills_mar:
+            total_payments_mar = 0
+            for occupant_payment_mar in occupant_payments_mar:
+                if occupant_payment_mar['id'] == occupant_bill_mar['id']:
+                    total_payments_mar = occupant_payment_mar['total_payments_mar']
+                    break
+            remaining_balance_mar = occupant_bill_mar['total_bills_mar'] - total_payments_mar
+            if remaining_balance_mar > 0 and total_payments_mar > 0:
+                occupants_with_balance_mar += 1
+            if remaining_balance_mar <= 0:
+                occupants_with_zero_or_negative_balance_mar += 1
+
+        Mar_PatiallyPaid_Per = (occupants_with_balance_mar / Mar) * 100 if Mar != 0 else 0
+        Mar_PatiallyPaid_Per = int(round(Mar_PatiallyPaid_Per))
+
+        Mar_Paid_Per = (occupants_with_zero_or_negative_balance_mar / Mar) * 100 if Mar != 0 else 0
+        Mar_Paid_Per = int(round(Mar_Paid_Per))
+
+
+        # Partially Paid and Paid in April
+        occupant_bills_apr = Occupant.objects.filter(bill_details__created_at__icontains="2023-04")\
+            .annotate(total_bills_apr=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_apr')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_apr = Occupant.objects.filter(payment__created_at__icontains="2023-04")\
+            .annotate(total_payments_apr=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_apr')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_apr = 0
+        occupants_with_zero_or_negative_balance_apr = 0
+
+        for occupant_bill_apr in occupant_bills_apr:
+            total_payments_apr = 0
+            for occupant_payment_apr in occupant_payments_apr:
+                if occupant_payment_apr['id'] == occupant_bill_apr['id']:
+                    total_payments_apr = occupant_payment_apr['total_payments_apr']
+                    break
+            remaining_balance_apr = occupant_bill_apr['total_bills_apr'] - total_payments_apr
+            if remaining_balance_apr > 0 and total_payments_apr > 0:
+                occupants_with_balance_apr += 1
+            if remaining_balance_apr <= 0:
+                occupants_with_zero_or_negative_balance_apr += 1
+
+        Apr_PatiallyPaid_Per = (occupants_with_balance_apr / Apr) * 100 if Apr != 0 else 0
+        Apr_PatiallyPaid_Per = int(round(Apr_PatiallyPaid_Per))
+
+        Apr_Paid_Per = (occupants_with_zero_or_negative_balance_apr / Apr) * 100 if Apr != 0 else 0
+        Apr_Paid_Per = int(round(Apr_Paid_Per))
+
+
+        # Partially Paid and Paid in May
+        occupant_bills_may = Occupant.objects.filter(bill_details__created_at__icontains="2023-05")\
+            .annotate(total_bills_may=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_may')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_may = Occupant.objects.filter(payment__created_at__icontains="2023-05")\
+            .annotate(total_payments_may=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_may')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_may = 0
+        occupants_with_zero_or_negative_balance_may = 0
+        
+        for occupant_bill_may in occupant_bills_may:
+            total_payments_may = 0
+            for occupant_payment_may in occupant_payments_may:
+                if occupant_payment_may['id'] == occupant_bill_may['id']:
+                    total_payments_may = occupant_payment_may['total_payments_may']
+                    break
+            remaining_balance_may = occupant_bill_may['total_bills_may'] - total_payments_may
+            if remaining_balance_may > 0 and total_payments_may > 0:
+                occupants_with_balance_may += 1
+            if remaining_balance_may <= 0:
+                occupants_with_zero_or_negative_balance_may += 1
+
+        May_PatiallyPaid_Per = (occupants_with_balance_may / May) * 100 if May != 0 else 0
+        May_PatiallyPaid_Per = int(round(May_PatiallyPaid_Per))
+
+        May_Paid_Per = (occupants_with_zero_or_negative_balance_may / May) * 100 if May != 0 else 0
+        May_Paid_Per = int(round(May_Paid_Per))
+
+        
+        # Partially Paid and Paid in June
+        occupant_bills_jun = Occupant.objects.filter(bill_details__created_at__icontains="2023-06")\
+            .annotate(total_bills_jun=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jun')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jun = Occupant.objects.filter(payment__created_at__icontains="2023-06")\
+            .annotate(total_payments_jun=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jun')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jun = 0
+        occupants_with_zero_or_negative_balance_jun = 0
+        
+        for occupant_bill_jun in occupant_bills_jun:
+            total_payments_jun = 0
+            for occupant_payment_jun in occupant_payments_jun:
+                if occupant_payment_jun['id'] == occupant_bill_jun['id']:
+                    total_payments_jun = occupant_payment_jun['total_payments_jun']
+                    break
+            remaining_balance_jun = occupant_bill_jun['total_bills_jun'] - total_payments_jun
+            if remaining_balance_jun > 0 and total_payments_jun > 0:
+                occupants_with_balance_jun += 1
+            if remaining_balance_jun <= 0:
+                occupants_with_zero_or_negative_balance_jun += 1
+
+        Jun_PatiallyPaid_Per = (occupants_with_balance_jun / Jun) * 100 if Jun != 0 else 0
+        Jun_PatiallyPaid_Per = int(round(Jun_PatiallyPaid_Per))
+
+        Jun_Paid_Per = (occupants_with_zero_or_negative_balance_jun / Jun) * 100 if Jun != 0 else 0
+        Jun_Paid_Per = int(round(Jun_Paid_Per))
+
+
+        # Partially Paid and Paid in July
+        occupant_bills_jul = Occupant.objects.filter(bill_details__created_at__icontains="2023-07")\
+            .annotate(total_bills_jul=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jul')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jul = Occupant.objects.filter(payment__created_at__icontains="2023-07")\
+            .annotate(total_payments_jul=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jul')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jul = 0
+        occupants_with_zero_or_negative_balance_jul = 0
+        
+        for occupant_bill_jul in occupant_bills_jul:
+            total_payments_jul = 0
+            for occupant_payment_jul in occupant_payments_jul:
+                if occupant_payment_jul['id'] == occupant_bill_jul['id']:
+                    total_payments_jul = occupant_payment_jul['total_payments_jul']
+                    break
+            remaining_balance_jul = occupant_bill_jul['total_bills_jul'] - total_payments_jul
+            if remaining_balance_jul > 0 and total_payments_jul > 0:
+                occupants_with_balance_jul += 1
+            if remaining_balance_jul <= 0:
+                occupants_with_zero_or_negative_balance_jul += 1
+
+        Jul_PatiallyPaid_Per = (occupants_with_balance_jul / Jul) * 100 if Jul != 0 else 0
+        Jul_PatiallyPaid_Per = int(round(Jul_PatiallyPaid_Per))
+
+        Jul_Paid_Per = (occupants_with_zero_or_negative_balance_jul / Jul) * 100 if Jul != 0 else 0
+        Jul_Paid_Per = int(round(Jul_Paid_Per))
+
+
+        # Partially Paid and Paid in August
+        occupant_bills_aug = Occupant.objects.filter(bill_details__created_at__icontains="2023-08")\
+            .annotate(total_bills_aug=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_aug')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_aug = Occupant.objects.filter(payment__created_at__icontains="2023-08")\
+            .annotate(total_payments_aug=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_aug')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_aug = 0
+        occupants_with_zero_or_negative_balance_aug = 0
+
+        for occupant_bill_aug in occupant_bills_aug:
+            total_payments_aug = 0
+            for occupant_payment_aug in occupant_payments_aug:
+                if occupant_payment_aug['id'] == occupant_bill_aug['id']:
+                    total_payments_aug = occupant_payment_aug['total_payments_aug']
+                    break
+            remaining_balance_aug = occupant_bill_aug['total_bills_aug'] - total_payments_aug
+            if remaining_balance_aug > 0 and total_payments_aug > 0:
+                occupants_with_balance_aug += 1
+            if remaining_balance_aug <= 0:
+                occupants_with_zero_or_negative_balance_aug += 1
+
+        Aug_PatiallyPaid_Per = (occupants_with_balance_aug / Aug) * 100 if Aug != 0 else 0
+        Aug_PatiallyPaid_Per = int(round(Aug_PatiallyPaid_Per))
+
+        Aug_Paid_Per = (occupants_with_zero_or_negative_balance_aug / Aug) * 100 if Aug != 0 else 0
+        Aug_Paid_Per = int(round(Aug_Paid_Per))
+
+
+        # Partially Paid and Paid in September
+        occupant_bills_sep = Occupant.objects.filter(bill_details__created_at__icontains="2023-09")\
+            .annotate(total_bills_sep=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_sep')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_sep = Occupant.objects.filter(payment__created_at__icontains="2023-09")\
+            .annotate(total_payments_sep=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_sep')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_sep = 0
+        occupants_with_zero_or_negative_balance_sep = 0
+        
+        for occupant_bill_sep in occupant_bills_sep:
+            total_payments_sep = 0
+            for occupant_payment_sep in occupant_payments_sep:
+                if occupant_payment_sep['id'] == occupant_bill_sep['id']:
+                    total_payments_sep = occupant_payment_sep['total_payments_sep']
+                    break
+            remaining_balance_sep = occupant_bill_sep['total_bills_aug'] - total_payments_sep
+            if remaining_balance_sep > 0 and total_payments_sep > 0:
+                occupants_with_balance_sep += 1
+            if remaining_balance_sep <= 0:
+                occupants_with_zero_or_negative_balance_sep += 1
+
+        Sep_PatiallyPaid_Per = (occupants_with_balance_sep / Sep) * 100 if Sep != 0 else 0
+        Sep_PatiallyPaid_Per = int(round(Sep_PatiallyPaid_Per))
+
+        Sep_Paid_Per = (occupants_with_zero_or_negative_balance_sep / Sep) * 100 if Sep != 0 else 0
+        Sep_Paid_Per = int(round(Sep_Paid_Per))
+
+
+        # Partially Paid and Paid in October
+        occupant_bills_oct = Occupant.objects.filter(bill_details__created_at__icontains="2023-10")\
+            .annotate(total_bills_oct=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_oct')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_oct = Occupant.objects.filter(payment__created_at__icontains="2023-10")\
+            .annotate(total_payments_oct=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_oct')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_oct = 0
+        occupants_with_zero_or_negative_balance_oct = 0
+        
+        for occupant_bill_oct in occupant_bills_oct:
+            total_payments_oct = 0
+            for occupant_payment_oct in occupant_payments_oct:
+                if occupant_payment_oct['id'] == occupant_bill_oct['id']:
+                    total_payments_oct = occupant_payment_oct['total_payments_oct']
+                    break
+            remaining_balance_oct = occupant_bill_oct['total_bills_oct'] - total_payments_oct
+            if remaining_balance_oct > 0 and total_payments_oct > 0:
+                occupants_with_balance_oct += 1
+            if remaining_balance_oct <= 0:
+                occupants_with_zero_or_negative_balance_oct += 1
+
+        Oct_PatiallyPaid_Per = (occupants_with_balance_oct / Oct) * 100 if Oct != 0 else 0
+        Oct_PatiallyPaid_Per = int(round(Oct_PatiallyPaid_Per))
+
+        Oct_Paid_Per = (occupants_with_zero_or_negative_balance_oct / Oct) * 100 if Oct != 0 else 0
+        Oct_Paid_Per = int(round(Oct_Paid_Per))
+
+
+        # Partially Paid and Paid in November
+        occupant_bills_nov = Occupant.objects.filter(bill_details__created_at__icontains="2023-11")\
+            .annotate(total_bills_nov=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_nov')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_nov = Occupant.objects.filter(payment__created_at__icontains="2023-11")\
+            .annotate(total_payments_nov=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_nov')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_nov = 0
+        occupants_with_zero_or_negative_balance_nov = 0
+
+        for occupant_bill_nov in occupant_bills_nov:
+            total_payments_nov = 0
+            for occupant_payment_nov in occupant_payments_nov:
+                if occupant_payment_nov['id'] == occupant_bill_nov['id']:
+                    total_payments_nov = occupant_payment_nov['total_payments_nov']
+                    break
+            remaining_balance_nov = occupant_bill_nov['total_bills_nov'] - total_payments_nov
+            if remaining_balance_nov > 0 and total_payments_nov > 0:
+                occupants_with_balance_nov += 1
+            if remaining_balance_nov <= 0:
+                occupants_with_zero_or_negative_balance_nov += 1
+
+        Nov_PatiallyPaid_Per = (occupants_with_balance_nov / Nov) * 100 if Nov != 0 else 0
+        Nov_PatiallyPaid_Per = int(round(Nov_PatiallyPaid_Per))
+
+        Nov_Paid_Per = (occupants_with_zero_or_negative_balance_nov / Nov) * 100 if Nov != 0 else 0
+        Nov_Paid_Per = int(round(Nov_Paid_Per))
+
+
+        # Partially Paid and Paid in December
+        occupant_bills_dec = Occupant.objects.filter(bill_details__created_at__icontains="2023-12")\
+            .annotate(total_bills_dec=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_dec')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_dec = Occupant.objects.filter(payment__created_at__icontains="2023-12")\
+            .annotate(total_payments_dec=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_dec')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_dec = 0
+        occupants_with_zero_or_negative_balance_dec = 0
+        
+        for occupant_bill_dec in occupant_bills_dec:
+            total_payments_dec = 0
+            for occupant_payment_dec in occupant_payments_dec:
+                if occupant_payment_dec['id'] == occupant_bill_dec['id']:
+                    total_payments_dec = occupant_payment_dec['total_payments_dec']
+                    break
+            remaining_balance_dec = occupant_bill_dec['total_bills_dec'] - total_payments_dec
+            if remaining_balance_dec > 0 and total_payments_dec > 0:
+                occupants_with_balance_dec += 1
+            if remaining_balance_dec <= 0:
+                occupants_with_zero_or_negative_balance_dec += 1
+
+        Dec_PatiallyPaid_Per = (occupants_with_balance_dec / Dec) * 100 if Dec != 0 else 0
+        Dec_PatiallyPaid_Per = int(round(Dec_PatiallyPaid_Per))
+
+        Dec_Paid_Per = (occupants_with_zero_or_negative_balance_dec / Dec) * 100 if Dec != 0 else 0
+        Dec_Paid_Per = int(round(Dec_Paid_Per))
+
+
+        partiallypaid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        partiallypaid_monthly_occ_per = [Jan_PatiallyPaid_Per, Feb_PatiallyPaid_Per, Mar_PatiallyPaid_Per, Apr_PatiallyPaid_Per,
+                                          May_PatiallyPaid_Per, Jun_PatiallyPaid_Per, Jul_PatiallyPaid_Per, Aug_PatiallyPaid_Per, 
+                                          Sep_PatiallyPaid_Per, Oct_PatiallyPaid_Per, Nov_PatiallyPaid_Per, Dec_PatiallyPaid_Per]
+        
+        context['partiallypaid_monthly_occ_per_list'] = partiallypaid_monthly_occ_per_list
+        context['partiallypaid_monthly_occ_per'] = partiallypaid_monthly_occ_per
+
+
+        paid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        paid_monthly_occ_per = [Jan_Paid_Per, Feb_Paid_Per, Mar_Paid_Per, Apr_Paid_Per,
+                                May_Paid_Per, Jun_Paid_Per, Jul_Paid_Per, Aug_Paid_Per, 
+                                Sep_Paid_Per, Oct_Paid_Per, Nov_Paid_Per, Dec_Paid_Per]
+        
+        context['paid_monthly_occ_per_list'] = paid_monthly_occ_per_list
+        context['paid_monthly_occ_per'] = paid_monthly_occ_per
+
+
         return context
 
 # @method_decorator(login_required, name='dispatch')
@@ -1086,10 +1690,10 @@ class ServiceList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['services']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').count()
-        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').count()
+        context['services']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others').count()
+        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others').count()
         context['notavailable'] = Service.objects.filter(status__iexact="Not Available").count()
-        # context['services_limit']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID')
+        context['services_limit'] = Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others')
     
         return context
 
@@ -1307,34 +1911,16 @@ class FDHomePageView(ListView):
         end_of_month = start_of_month.replace(month=start_of_month.month+1) - timezone.timedelta(microseconds=1)
 
         context['current_month_occupant'] = Occupant.objects.filter(created_at__range=(start_of_month, end_of_month)).count()
-
-        
-        # SELECT YEAR(dormitory_person.created_at), MONTH(dormitory_person.created_at),
-        # COUNT(id) AS total_orders FROM dormitory_person GROUP BY MONTH(dormitory_person.created_at);
-
-        # from django.db.models.functions import ExtractMonth, ExtractYear
-        # from django.db.models import Count
-
-        # total_orders = (
-        #     Person.objects.annotate(month=ExtractMonth('created_at'))
-        #     .annotate(year=ExtractYear('created_at'))
-        #     .values('year', 'month')
-        #     .annotate(total_orders=Count('id'))
-        # )
-        # print(total_orders)
-        
+            
         # Students Gender Charts
         male_no = Person.objects.filter(gender="Male").count()
         male_no = int(male_no)
-        # print('Male:', male_no)
 
         female_no = Person.objects.filter(gender="Female").count()
         female_no = int(female_no)
-        # print('Female:', female_no)
 
         lgbt_no = Person.objects.filter(gender="LGBTQIA+").count()
         lgbt_no = int(lgbt_no)
-        # print('LGBTQIA+:', lgbt_no)
 
         gender_list = ['Male', 'Female', 'LGBTQIA+']
         gender_number = [male_no, female_no, lgbt_no]
@@ -1344,56 +1930,44 @@ class FDHomePageView(ListView):
 
                 
         # Monthly Registration Charts
-        Jan = Person.objects.filter(created_at__icontains="2023-01").count()
-        Jan = int(Jan)
-        print('Jan:', Jan)
+        Jan_Reg = Person.objects.filter(created_at__icontains="2023-01").count()
+        Jan_Reg = int(Jan_Reg)
 
-        Feb = Person.objects.filter(created_at__icontains="2023-02").count()
-        Feb = int(Feb)
-        print('Feb:', Feb)
+        Feb_Reg = Person.objects.filter(created_at__icontains="2023-02").count()
+        Feb_Reg = int(Feb_Reg)
 
-        Mar = Person.objects.filter(created_at__icontains="2023-03").count()
-        Mar = int(Mar)
-        print('Mar:', Mar)
+        Mar_Reg = Person.objects.filter(created_at__icontains="2023-03").count()
+        Mar_Reg = int(Mar_Reg)
 
-        Apr = Person.objects.filter(created_at__icontains="2023-04").count()
-        Apr = int(Apr)
-        print('Apr:', Apr)
+        Apr_Reg = Person.objects.filter(created_at__icontains="2023-04").count()
+        Apr_Reg = int(Apr_Reg)
 
-        May = Person.objects.filter(created_at__icontains="2023-05").count()
-        May = int(May)
-        print('May:', May)
+        May_Reg = Person.objects.filter(created_at__icontains="2023-05").count()
+        May_Reg = int(May_Reg)
 
-        Jun = Person.objects.filter(created_at__icontains="2023-06").count()
-        Jun = int(Jun)
-        print('Jun:', Jun)
+        Jun_Reg = Person.objects.filter(created_at__icontains="2023-06").count()
+        Jun_Reg = int(Jun_Reg)
 
-        Jul = Person.objects.filter(created_at__icontains="2023-07").count()
-        Jul = int(Jul)
-        print('Jul:', Jul)
+        Jul_Reg = Person.objects.filter(created_at__icontains="2023-07").count()
+        Jul_Reg = int(Jul_Reg)
 
-        Aug = Person.objects.filter(created_at__icontains="2023-08").count()
-        Aug = int(Aug)
-        print('Aug:', Aug)
+        Aug_Reg = Person.objects.filter(created_at__icontains="2023-08").count()
+        Aug_Reg = int(Aug_Reg)
 
-        Sep = Person.objects.filter(created_at__icontains="2023-09").count()
-        Sep = int(Sep)
-        print('Sep:', Sep)
+        Sep_Reg = Person.objects.filter(created_at__icontains="2023-09").count()
+        Sep_Reg = int(Sep_Reg)
 
-        Oct = Person.objects.filter(created_at__icontains="2023-10").count()
-        Oct = int(Oct)
-        print('Oct:', Oct)
+        Oct_Reg = Person.objects.filter(created_at__icontains="2023-10").count()
+        Oct_Reg = int(Oct_Reg)
 
-        Nov = Person.objects.filter(created_at__icontains="2023-11").count()
-        Nov = int(Nov)
-        print('Nov:', Nov)
+        Nov_Reg = Person.objects.filter(created_at__icontains="2023-11").count()
+        Nov_Reg = int(Nov_Reg)
 
-        Dec = Person.objects.filter(created_at__icontains="2023-12").count()
-        Dec = int(Dec)
-        print('Dec:', Dec)
+        Dec_Reg = Person.objects.filter(created_at__icontains="2023-12").count()
+        Dec_Reg = int(Dec_Reg)
 
         monthly_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        monthly_number = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+        monthly_number = [Jan_Reg, Feb_Reg, Mar_Reg, Apr_Reg, May_Reg, Jun_Reg, Jul_Reg, Aug_Reg, Sep_Reg, Oct_Reg, Nov_Reg, Dec_Reg]
 
         context['monthly_list'] = monthly_list
         context['monthly_number'] = monthly_number
@@ -1402,58 +1976,692 @@ class FDHomePageView(ListView):
         # Monthly Occupant Charts
         Jan = Occupant.objects.filter(created_at__icontains="2023-01").count()
         Jan = int(Jan)
-        print('Jan:', Jan)
 
         Feb = Occupant.objects.filter(created_at__icontains="2023-02").count()
         Feb = int(Feb)
-        print('Feb:', Feb)
 
         Mar = Occupant.objects.filter(created_at__icontains="2023-03").count()
         Mar = int(Mar)
-        print('Mar:', Mar)
 
         Apr = Occupant.objects.filter(created_at__icontains="2023-04").count()
         Apr = int(Apr)
-        print('Apr:', Apr)
 
         May = Occupant.objects.filter(created_at__icontains="2023-05").count()
         May = int(May)
-        print('May:', May)
 
         Jun = Occupant.objects.filter(created_at__icontains="2023-06").count()
         Jun = int(Jun)
-        print('Jun:', Jun)
 
         Jul = Occupant.objects.filter(created_at__icontains="2023-07").count()
         Jul = int(Jul)
-        print('Jul:', Jul)
 
         Aug = Occupant.objects.filter(created_at__icontains="2023-08").count()
         Aug = int(Aug)
-        print('Aug:', Aug)
 
         Sep = Occupant.objects.filter(created_at__icontains="2023-09").count()
         Sep = int(Sep)
-        print('Sep:', Sep)
 
         Oct = Occupant.objects.filter(created_at__icontains="2023-10").count()
         Oct = int(Oct)
-        print('Oct:', Oct)
 
         Nov = Occupant.objects.filter(created_at__icontains="2023-11").count()
         Nov = int(Nov)
-        print('Nov:', Nov)
 
         Dec = Occupant.objects.filter(created_at__icontains="2023-12").count()
         Dec = int(Dec)
-        print('Dec:', Dec)
 
         occ_monthly_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         occ_monthly_number = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
 
         context['occ_monthly_list'] = occ_monthly_list
         context['occ_monthly_number'] = occ_monthly_number
+
+
+        # Monthly Male Charts
+        Jan_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="Male").count()
+        Jan_Male_Per = (Jan_Tot_Male / Jan) * 100 if Jan != 0 else 0
+        Jan_Male_Per = int(round(Jan_Male_Per))
+
+        Feb_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="Male").count()
+        Feb_Male_Per = (Feb_Tot_Male / Feb) * 100 if Feb != 0 else 0
+        Feb_Male_Per = int(round(Feb_Male_Per))
+
+        Mar_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="Male").count()
+        Mar_Male_Per = (Mar_Tot_Male / Mar) * 100 if Mar != 0 else 0
+        Mar_Male_Per = int(round(Mar_Male_Per))
+
+        Apr_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="Male").count()
+        Apr_Male_Per = (Apr_Tot_Male / Apr) * 100 if Apr != 0 else 0
+        Apr_Male_Per = int(round(Apr_Male_Per))
+
+        May_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="Male").count()
+        May_Male_Per = (May_Tot_Male / May) * 100 if May != 0 else 0
+        May_Male_Per = int(round(May_Male_Per))
+
+        Jun_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="Male").count()
+        Jun_Male_Per = (Jun_Tot_Male / Jun) * 100 if Jun != 0 else 0
+        Jun_Male_Per = int(round(Jun_Male_Per))
+
+        Jul_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="Male").count()
+        Jul_Male_Per = (Jul_Tot_Male / Jul) * 100 if Jul != 0 else 0
+        Jul_Male_Per = int(round(Jul_Male_Per))
+
+        Aug_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="Male").count()
+        Aug_Male_Per = (Aug_Tot_Male / Aug) * 100 if Aug != 0 else 0
+        Aug_Male_Per = int(round(Aug_Male_Per))
+
+        Sep_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="Male").count()
+        Sep_Male_Per = (Sep_Tot_Male / Sep) * 100 if Sep != 0 else 0
+        Sep_Male_Per = int(round(Sep_Male_Per))
+
+        Oct_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="Male").count()
+        Oct_Male_Per = (Oct_Tot_Male / Oct) * 100 if Oct != 0 else 0
+        Oct_Male_Per = int(round(Oct_Male_Per))
+
+        Nov_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="Male").count()
+        Nov_Male_Per = (Nov_Tot_Male / Nov) * 100 if Nov != 0 else 0
+        Nov_Male_Per = int(round(Nov_Male_Per))
+
+        Dec_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="Male").count()
+        Dec_Male_Per = (Dec_Tot_Male / Dec) * 100 if Dec != 0 else 0
+        Dec_Male_Per = int(round(Dec_Male_Per))
+
+        male_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        male_monthly_occ_per = [Jan_Male_Per, Feb_Male_Per, Mar_Male_Per, Apr_Male_Per, May_Male_Per, Jun_Male_Per, 
+                                Jul_Male_Per, Aug_Male_Per, Sep_Male_Per, Oct_Male_Per, Nov_Male_Per, Dec_Male_Per]
         
+        context['male_monthly_occ_per_list'] = male_monthly_occ_per_list
+        context['male_monthly_occ_per'] = male_monthly_occ_per
+        
+
+        # Monthly Female Charts
+        Jan_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="Female").count()
+        Jan_Female_Per = (Jan_Tot_Female / Jan) * 100 if Jan != 0 else 0
+        Jan_Female_Per = int(round(Jan_Female_Per))
+
+        Feb_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="Female").count()
+        Feb_Female_Per = (Feb_Tot_Female / Feb) * 100 if Feb != 0 else 0
+        Feb_Female_Per = int(round(Feb_Female_Per))
+
+        Mar_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="Female").count()
+        Mar_Female_Per = (Mar_Tot_Female / Mar) * 100 if Mar != 0 else 0
+        Mar_Female_Per = int(round(Mar_Female_Per))
+
+        Apr_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="Female").count()
+        Apr_Female_Per = (Apr_Tot_Female / Apr) * 100 if Apr != 0 else 0
+        Apr_Female_Per = int(round(Apr_Female_Per))
+
+        May_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="Female").count()
+        May_Female_Per = (May_Tot_Female / May) * 100 if May != 0 else 0
+        May_Female_Per = int(round(May_Female_Per))
+
+        Jun_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="Female").count()
+        Jun_Female_Per = (Jun_Tot_Female / Jun) * 100 if Jun != 0 else 0
+        Jun_Female_Per = int(round(Jun_Female_Per))
+
+        Jul_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="Female").count()
+        Jul_Female_Per = (Jul_Tot_Female / Jul) * 100 if Jul != 0 else 0
+        Jul_Female_Per = int(round(Jul_Female_Per))
+
+        Aug_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="Female").count()
+        Aug_Female_Per = (Aug_Tot_Female / Aug) * 100 if Aug != 0 else 0
+        Aug_Female_Per = int(round(Aug_Female_Per))
+
+        Sep_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="Female").count()
+        Sep_Female_Per = (Sep_Tot_Female / Sep) * 100 if Sep != 0 else 0
+        Sep_Female_Per = int(round(Sep_Female_Per))
+
+        Oct_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="Female").count()
+        Oct_Female_Per = (Oct_Tot_Female/ Oct) * 100 if Oct != 0 else 0
+        Oct_Female_Per = int(round(Oct_Female_Per))
+
+        Nov_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="Female").count()
+        Nov_Female_Per = (Nov_Tot_Female / Nov) * 100 if Nov != 0 else 0
+        Nov_Female_Per = int(round(Nov_Female_Per))
+
+        Dec_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="Female").count()
+        Dec_Female_Per = (Dec_Tot_Female / Dec) * 100 if Dec != 0 else 0
+        Dec_Female_Per = int(round(Dec_Female_Per))
+
+        female_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        female_monthly_occ_per = [Jan_Female_Per, Feb_Female_Per, Mar_Female_Per, Apr_Female_Per, May_Female_Per, Jun_Female_Per, 
+                                Jul_Female_Per, Aug_Female_Per, Sep_Female_Per, Oct_Female_Per, Nov_Female_Per, Dec_Female_Per]
+        
+        context['female_monthly_occ_per_list'] = female_monthly_occ_per_list
+        context['female_monthly_occ_per'] = female_monthly_occ_per
+
+
+        # Monthly LGBTQIA+ Charts
+        Jan_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="LGBTQIA+").count()
+        Jan_LGBTQIA_Per = (Jan_Tot_LGBTQIA / Jan) * 100 if Jan != 0 else 0
+        Jan_LGBTQIA_Per = int(round(Jan_LGBTQIA_Per))
+
+        Feb_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="LGBTQIA+").count()
+        Feb_LGBTQIA_Per = (Feb_Tot_LGBTQIA / Feb) * 100 if Feb != 0 else 0
+        Feb_LGBTQIA_Per = int(round(Feb_LGBTQIA_Per))
+
+        Mar_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="LGBTQIA+").count()
+        Mar_LGBTQIA_Per = (Mar_Tot_Female / Mar) * 100 if Mar != 0 else 0
+        Mar_LGBTQIA_Per = int(round(Mar_LGBTQIA_Per))
+
+        Apr_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="LGBTQIA+").count()
+        Apr_LGBTQIA_Per = (Apr_Tot_LGBTQIA / Apr) * 100 if Apr != 0 else 0
+        Apr_LGBTQIA_Per = int(round(Apr_LGBTQIA_Per))
+
+        May_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="LGBTQIA+").count()
+        May_LGBTQIA_Per = (May_Tot_LGBTQIA / May) * 100 if May != 0 else 0
+        May_LGBTQIA_Per = int(round(May_LGBTQIA_Per))
+
+        Jun_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="LGBTQIA+").count()
+        Jun_LGBTQIA_Per = (Jun_Tot_LGBTQIA / Jun) * 100 if Jun != 0 else 0
+        Jun_LGBTQIA_Per = int(round(Jun_LGBTQIA_Per))
+
+        Jul_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="LGBTQIA+").count()
+        Jul_LGBTQIA_Per = (Jul_Tot_LGBTQIA / Jul) * 100 if Jul != 0 else 0
+        Jul_LGBTQIA_Per = int(round(Jul_LGBTQIA_Per))
+
+        Aug_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="LGBTQIA+").count()
+        Aug_LGBTQIA_Per = (Aug_Tot_LGBTQIA / Aug) * 100 if Aug != 0 else 0
+        Aug_LGBTQIA_Per = int(round(Aug_LGBTQIA_Per))
+
+        Sep_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="LGBTQIA+").count()
+        Sep_LGBTQIA_Per = (Sep_Tot_LGBTQIA / Sep) * 100 if Sep != 0 else 0
+        Sep_LGBTQIA_Per = int(round(Sep_LGBTQIA_Per))
+
+        Oct_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="LGBTQIA+").count()
+        Oct_LGBTQIA_Per = (Oct_Tot_LGBTQIA/ Oct) * 100 if Oct != 0 else 0
+        Oct_LGBTQIA_Per = int(round(Oct_LGBTQIA_Per))
+
+        Nov_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="LGBTQIA+").count()
+        Nov_LGBTQIA_Per = (Nov_Tot_LGBTQIA / Nov) * 100 if Nov != 0 else 0
+        Nov_LGBTQIA_Per = int(round(Nov_LGBTQIA_Per))
+
+        Dec_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="LGBTQIA+").count()
+        Dec_LGBTQIA_Per = (Dec_Tot_LGBTQIA / Dec) * 100 if Dec != 0 else 0
+        Dec_LGBTQIA_Per = int(round(Dec_LGBTQIA_Per))
+
+        LGBTQIA_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        LGBTQIA_monthly_occ_per = [Jan_LGBTQIA_Per, Feb_LGBTQIA_Per, Mar_LGBTQIA_Per, Apr_LGBTQIA_Per, May_LGBTQIA_Per, Jun_LGBTQIA_Per, 
+                                    Jul_LGBTQIA_Per, Aug_LGBTQIA_Per, Sep_LGBTQIA_Per, Oct_LGBTQIA_Per, Nov_LGBTQIA_Per, Dec_LGBTQIA_Per]
+        
+        context['LGBTQIA_monthly_occ_per_list'] = LGBTQIA_monthly_occ_per_list
+        context['LGBTQIA_monthly_occ_per'] = LGBTQIA_monthly_occ_per
+
+        
+        # Monthly Unpaid Charts
+        Jan_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-01", payment__isnull=False).distinct().count()
+        Jan_Unpaid_Per = (Jan_Unpaid_Occ / Jan) * 100 if Jan != 0 else 0
+        Jan_Unpaid_Per = int(round(Jan_Unpaid_Per))
+
+        Feb_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-02", payment__isnull=False).distinct().count()
+        Feb_Unpaid_Per = (Feb_Unpaid_Occ / Feb) * 100 if Feb != 0 else 0
+        Feb_Unpaid_Per = int(round(Feb_Unpaid_Per))
+
+        Mar_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-03", payment__isnull=False).distinct().count()
+        Mar_Unpaid_Per = (Mar_Unpaid_Occ / Mar) * 100 if Mar != 0 else 0
+        Mar_Unpaid_Per = int(round(Mar_Unpaid_Per))
+
+        Apr_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-04", payment__isnull=False).distinct().count()
+        Apr_Unpaid_Per = (Apr_Unpaid_Occ / Apr) * 100 if Apr != 0 else 0
+        Apr_Unpaid_Per = int(round(Apr_Unpaid_Per))
+
+        May_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-05", payment__isnull=False).distinct().count()
+        May_Unpaid_Per = (May_Unpaid_Occ / May) * 100 if May != 0 else 0
+        May_Unpaid_Per = int(round(May_Unpaid_Per))
+
+        Jun_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-06", payment__isnull=False).distinct().count()
+        Jun_Unpaid_Per = (Jun_Unpaid_Occ / Jun) * 100 if Jun != 0 else 0
+        Jun_Unpaid_Per = int(round(Jun_Unpaid_Per))
+
+        Jul_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-07", payment__isnull=False).distinct().count()
+        Jul_Unpaid_Per = (Jul_Unpaid_Occ / Jul) * 100 if Jul != 0 else 0
+        Jul_Unpaid_Per = int(round(Jul_Unpaid_Per))
+
+        Aug_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-08", payment__isnull=False).distinct().count()
+        Aug_Unpaid_Per = (Aug_Unpaid_Occ / Aug) * 100 if Aug != 0 else 0
+        Aug_Unpaid_Per = int(round(Aug_Unpaid_Per))
+
+        Sep_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-09", payment__isnull=False).distinct().count()
+        Sep_Unpaid_Per = (Sep_Unpaid_Occ / Sep) * 100 if Sep != 0 else 0
+        Sep_Unpaid_Per = int(round(Sep_Unpaid_Per))
+
+        Oct_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-10", payment__isnull=False).distinct().count()
+        Oct_Unpaid_Per = (Oct_Unpaid_Occ / Oct) * 100 if Oct != 0 else 0
+        Oct_Unpaid_Per = int(round(Oct_Unpaid_Per))
+
+        Nov_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-11", payment__isnull=False).distinct().count()
+        Nov_Unpaid_Per = (Nov_Unpaid_Occ / Nov) * 100 if Nov != 0 else 0
+        Nov_Unpaid_Per = int(round(Nov_Unpaid_Per))
+
+        Dec_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-12", payment__isnull=False).distinct().count()
+        Dec_Unpaid_Per = (Dec_Unpaid_Occ / Dec) * 100 if Dec != 0 else 0
+        Dec_Unpaid_Per = int(round(Dec_Unpaid_Per))
+
+
+        unpaid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        unpaid_monthly_occ_per = [Jan_Unpaid_Per, Feb_Unpaid_Per, Mar_Unpaid_Per, Apr_Unpaid_Per, May_Unpaid_Per, Jun_Unpaid_Per, 
+                                Jul_Unpaid_Per, Aug_Unpaid_Per, Sep_Unpaid_Per, Oct_Unpaid_Per, Nov_Unpaid_Per, Dec_Unpaid_Per]
+        
+        context['unpaid_monthly_occ_per_list'] = unpaid_monthly_occ_per_list
+        context['unpaid_monthly_occ_per'] = unpaid_monthly_occ_per
+
+
+        # Monthly Paid Charts
+
+        # Partially Paid and Paid in January
+        occupant_bills_jan = Occupant.objects.filter(bill_details__created_at__icontains="2023-01")\
+            .annotate(total_bills_jan=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jan')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jan = Occupant.objects.filter(payment__created_at__icontains="2023-01")\
+            .annotate(total_payments_jan=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jan')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jan = 0
+        occupants_with_zero_or_negative_balance_jan = 0
+
+        for occupant_bill_jan in occupant_bills_jan:
+            total_payments_jan = 0
+            for occupant_payment_jan in occupant_payments_jan:
+                if occupant_payment_jan['id'] == occupant_bill_jan['id']:
+                    total_payments_jan = occupant_payment_jan['total_payments_jan']
+                    break
+            remaining_balance_jan = occupant_bill_jan['total_bills_jan'] - total_payments_jan
+            if remaining_balance_jan > 0:
+                occupants_with_balance_jan += 1
+            else:
+                occupants_with_zero_or_negative_balance_jan += 1
+
+        Jan_PatiallyPaid_Per = (occupants_with_balance_jan / Jan) * 100 if Jan != 0 else 0
+        Jan_PatiallyPaid_Per = int(round(Jan_PatiallyPaid_Per))
+
+        Jan_Paid_Per = (occupants_with_zero_or_negative_balance_jan / Jan) * 100 if Jan != 0 else 0
+        Jan_Paid_Per = int(round(Jan_Paid_Per))
+
+
+        # Partially Paid and Paid in February
+        occupant_bills_feb = Occupant.objects.filter(bill_details__created_at__icontains="2023-02")\
+            .annotate(total_bills_feb=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_feb')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_feb = Occupant.objects.filter(payment__created_at__icontains="2023-02")\
+            .annotate(total_payments_feb=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_feb')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_feb = 0
+        occupants_with_zero_or_negative_balance_feb = 0
+
+        for occupant_bill_feb in occupant_bills_feb:
+            total_payments_feb = 0
+            for occupant_payment_feb in occupant_payments_feb:
+                if occupant_payment_feb['id'] == occupant_bill_feb['id']:
+                    total_payments_feb = occupant_payment_feb['total_payments_feb']
+                    break
+            remaining_balance_feb = occupant_bill_feb['total_bills_feb'] - total_payments_feb
+            if remaining_balance_feb > 0:
+                occupants_with_balance_feb += 1
+            else:
+                occupants_with_zero_or_negative_balance_feb += 1
+
+        Feb_PatiallyPaid_Per = (occupants_with_balance_feb / Feb) * 100 if Feb != 0 else 0
+        Feb_PatiallyPaid_Per = int(round(Feb_PatiallyPaid_Per))
+
+        Feb_Paid_Per = (occupants_with_zero_or_negative_balance_feb / Feb) * 100 if Feb != 0 else 0
+        Feb_Paid_Per = int(round(Feb_Paid_Per))
+
+
+        # Partially Paid and Paid in March
+        occupant_bills_mar = Occupant.objects.filter(bill_details__created_at__icontains="2023-03")\
+            .annotate(total_bills_mar=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_mar')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_mar = Occupant.objects.filter(payment__created_at__icontains="2023-03")\
+            .annotate(total_payments_mar=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_mar')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_mar = 0
+        occupants_with_zero_or_negative_balance_mar = 0
+
+        for occupant_bill_mar in occupant_bills_mar:
+            total_payments_mar = 0
+            for occupant_payment_mar in occupant_payments_mar:
+                if occupant_payment_mar['id'] == occupant_bill_mar['id']:
+                    total_payments_mar = occupant_payment_mar['total_payments_mar']
+                    break
+            remaining_balance_mar = occupant_bill_mar['total_bills_mar'] - total_payments_mar
+            if remaining_balance_mar > 0:
+                occupants_with_balance_mar += 1
+            else:
+                occupants_with_zero_or_negative_balance_mar += 1
+
+        Mar_PatiallyPaid_Per = (occupants_with_balance_mar / Mar) * 100 if Mar != 0 else 0
+        Mar_PatiallyPaid_Per = int(round(Mar_PatiallyPaid_Per))
+
+        Mar_Paid_Per = (occupants_with_zero_or_negative_balance_mar / Mar) * 100 if Mar != 0 else 0
+        Mar_Paid_Per = int(round(Mar_Paid_Per))
+
+
+        # Partially Paid and Paid in April
+        occupant_bills_apr = Occupant.objects.filter(bill_details__created_at__icontains="2023-04")\
+            .annotate(total_bills_apr=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_apr')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_apr = Occupant.objects.filter(payment__created_at__icontains="2023-04")\
+            .annotate(total_payments_apr=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_apr')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_apr = 0
+        occupants_with_zero_or_negative_balance_apr = 0
+
+        for occupant_bill_apr in occupant_bills_apr:
+            total_payments_apr = 0
+            for occupant_payment_apr in occupant_payments_apr:
+                if occupant_payment_apr['id'] == occupant_bill_apr['id']:
+                    total_payments_apr = occupant_payment_apr['total_payments_apr']
+                    break
+            remaining_balance_apr = occupant_bill_apr['total_bills_apr'] - total_payments_apr
+            if remaining_balance_apr > 0:
+                occupants_with_balance_apr += 1
+            else:
+                occupants_with_zero_or_negative_balance_apr += 1
+
+        Apr_PatiallyPaid_Per = (occupants_with_balance_apr / Apr) * 100 if Apr != 0 else 0
+        Apr_PatiallyPaid_Per = int(round(Apr_PatiallyPaid_Per))
+
+        Apr_Paid_Per = (occupants_with_zero_or_negative_balance_apr / Apr) * 100 if Apr != 0 else 0
+        Apr_Paid_Per = int(round(Apr_Paid_Per))
+
+
+        # Partially Paid and Paid in May
+        occupant_bills_may = Occupant.objects.filter(bill_details__created_at__icontains="2023-05")\
+            .annotate(total_bills_may=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_may')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_may = Occupant.objects.filter(payment__created_at__icontains="2023-05")\
+            .annotate(total_payments_may=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_may')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_may = 0
+        occupants_with_zero_or_negative_balance_may = 0
+        
+        for occupant_bill_may in occupant_bills_may:
+            total_payments_may = 0
+            for occupant_payment_may in occupant_payments_may:
+                if occupant_payment_may['id'] == occupant_bill_may['id']:
+                    total_payments_may = occupant_payment_may['total_payments_may']
+                    break
+            remaining_balance_may = occupant_bill_may['total_bills_may'] - total_payments_may
+            if remaining_balance_may > 0:
+                occupants_with_balance_may += 1
+            else:
+                occupants_with_zero_or_negative_balance_may += 1
+
+        May_PatiallyPaid_Per = (occupants_with_balance_may / May) * 100 if May != 0 else 0
+        May_PatiallyPaid_Per = int(round(May_PatiallyPaid_Per))
+
+        May_Paid_Per = (occupants_with_zero_or_negative_balance_may / May) * 100 if May != 0 else 0
+        May_Paid_Per = int(round(May_Paid_Per))
+
+        
+        # Partially Paid and Paid in June
+        occupant_bills_jun = Occupant.objects.filter(bill_details__created_at__icontains="2023-06")\
+            .annotate(total_bills_jun=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jun')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jun = Occupant.objects.filter(payment__created_at__icontains="2023-06")\
+            .annotate(total_payments_jun=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jun')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jun = 0
+        occupants_with_zero_or_negative_balance_jun = 0
+        
+        for occupant_bill_jun in occupant_bills_jun:
+            total_payments_jun = 0
+            for occupant_payment_jun in occupant_payments_jun:
+                if occupant_payment_jun['id'] == occupant_bill_jun['id']:
+                    total_payments_jun = occupant_payment_jun['total_payments_jun']
+                    break
+            remaining_balance_jun = occupant_bill_jun['total_bills_jun'] - total_payments_jun
+            if remaining_balance_jun > 0:
+                occupants_with_balance_jun += 1
+            else:
+                occupants_with_zero_or_negative_balance_jun += 1
+
+        Jun_PatiallyPaid_Per = (occupants_with_balance_jun / Jun) * 100 if Jun != 0 else 0
+        Jun_PatiallyPaid_Per = int(round(Jun_PatiallyPaid_Per))
+
+        Jun_Paid_Per = (occupants_with_zero_or_negative_balance_jun / Jun) * 100 if Jun != 0 else 0
+        Jun_Paid_Per = int(round(Jun_Paid_Per))
+
+
+        # Partially Paid and Paid in July
+        occupant_bills_jul = Occupant.objects.filter(bill_details__created_at__icontains="2023-07")\
+            .annotate(total_bills_jul=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jul')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jul = Occupant.objects.filter(payment__created_at__icontains="2023-07")\
+            .annotate(total_payments_jul=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jul')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jul = 0
+        occupants_with_zero_or_negative_balance_jul = 0
+        
+        for occupant_bill_jul in occupant_bills_jul:
+            total_payments_jul = 0
+            for occupant_payment_jul in occupant_payments_jul:
+                if occupant_payment_jul['id'] == occupant_bill_jul['id']:
+                    total_payments_jul = occupant_payment_jul['total_payments_jul']
+                    break
+            remaining_balance_jul = occupant_bill_jul['total_bills_jul'] - total_payments_jul
+            if remaining_balance_jul > 0:
+                occupants_with_balance_jul += 1
+            else:
+                occupants_with_zero_or_negative_balance_jul += 1
+
+        Jul_PatiallyPaid_Per = (occupants_with_balance_jul / Jul) * 100 if Jul != 0 else 0
+        Jul_PatiallyPaid_Per = int(round(Jul_PatiallyPaid_Per))
+
+        Jul_Paid_Per = (occupants_with_zero_or_negative_balance_jul / Jul) * 100 if Jul != 0 else 0
+        Jul_Paid_Per = int(round(Jul_Paid_Per))
+
+
+        # Partially Paid and Paid in August
+        occupant_bills_aug = Occupant.objects.filter(bill_details__created_at__icontains="2023-08")\
+            .annotate(total_bills_aug=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_aug')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_aug = Occupant.objects.filter(payment__created_at__icontains="2023-08")\
+            .annotate(total_payments_aug=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_aug')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_aug = 0
+        occupants_with_zero_or_negative_balance_aug = 0
+
+        for occupant_bill_aug in occupant_bills_aug:
+            total_payments_aug = 0
+            for occupant_payment_aug in occupant_payments_aug:
+                if occupant_payment_aug['id'] == occupant_bill_aug['id']:
+                    total_payments_aug = occupant_payment_aug['total_payments_aug']
+                    break
+            remaining_balance_aug = occupant_bill_aug['total_bills_aug'] - total_payments_aug
+            if remaining_balance_aug > 0:
+                occupants_with_balance_aug += 1
+            else:
+                occupants_with_zero_or_negative_balance_aug += 1
+
+        Aug_PatiallyPaid_Per = (occupants_with_balance_aug / Aug) * 100 if Aug != 0 else 0
+        Aug_PatiallyPaid_Per = int(round(Aug_PatiallyPaid_Per))
+
+        Aug_Paid_Per = (occupants_with_zero_or_negative_balance_aug / Aug) * 100 if Aug != 0 else 0
+        Aug_Paid_Per = int(round(Aug_Paid_Per))
+
+
+        # Partially Paid and Paid in September
+        occupant_bills_sep = Occupant.objects.filter(bill_details__created_at__icontains="2023-09")\
+            .annotate(total_bills_sep=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_sep')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_sep = Occupant.objects.filter(payment__created_at__icontains="2023-09")\
+            .annotate(total_payments_sep=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_sep')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_sep = 0
+        occupants_with_zero_or_negative_balance_sep = 0
+        
+        for occupant_bill_sep in occupant_bills_sep:
+            total_payments_sep = 0
+            for occupant_payment_sep in occupant_payments_sep:
+                if occupant_payment_sep['id'] == occupant_bill_sep['id']:
+                    total_payments_sep = occupant_payment_sep['total_payments_sep']
+                    break
+            remaining_balance_sep = occupant_bill_sep['total_bills_aug'] - total_payments_sep
+            if remaining_balance_sep > 0:
+                occupants_with_balance_sep += 1
+            else:
+                occupants_with_zero_or_negative_balance_sep += 1
+
+        Sep_PatiallyPaid_Per = (occupants_with_balance_sep / Sep) * 100 if Sep != 0 else 0
+        Sep_PatiallyPaid_Per = int(round(Sep_PatiallyPaid_Per))
+
+        Sep_Paid_Per = (occupants_with_zero_or_negative_balance_sep / Sep) * 100 if Sep != 0 else 0
+        Sep_Paid_Per = int(round(Sep_Paid_Per))
+
+
+        # Partially Paid and Paid in October
+        occupant_bills_oct = Occupant.objects.filter(bill_details__created_at__icontains="2023-10")\
+            .annotate(total_bills_oct=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_oct')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_oct = Occupant.objects.filter(payment__created_at__icontains="2023-10")\
+            .annotate(total_payments_oct=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_oct')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_oct = 0
+        occupants_with_zero_or_negative_balance_oct = 0
+        
+        for occupant_bill_oct in occupant_bills_oct:
+            total_payments_oct = 0
+            for occupant_payment_oct in occupant_payments_oct:
+                if occupant_payment_oct['id'] == occupant_bill_oct['id']:
+                    total_payments_oct = occupant_payment_oct['total_payments_oct']
+                    break
+            remaining_balance_oct = occupant_bill_oct['total_bills_oct'] - total_payments_oct
+            if remaining_balance_oct > 0:
+                occupants_with_balance_oct += 1
+            else:
+                occupants_with_zero_or_negative_balance_oct += 1
+
+        Oct_PatiallyPaid_Per = (occupants_with_balance_oct / Oct) * 100 if Oct != 0 else 0
+        Oct_PatiallyPaid_Per = int(round(Oct_PatiallyPaid_Per))
+
+        Oct_Paid_Per = (occupants_with_zero_or_negative_balance_oct / Oct) * 100 if Oct != 0 else 0
+        Oct_Paid_Per = int(round(Oct_Paid_Per))
+
+
+        # Partially Paid and Paid in November
+        occupant_bills_nov = Occupant.objects.filter(bill_details__created_at__icontains="2023-11")\
+            .annotate(total_bills_nov=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_nov')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_nov = Occupant.objects.filter(payment__created_at__icontains="2023-11")\
+            .annotate(total_payments_nov=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_nov')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_nov = 0
+        occupants_with_zero_or_negative_balance_nov = 0
+
+        for occupant_bill_nov in occupant_bills_nov:
+            total_payments_nov = 0
+            for occupant_payment_nov in occupant_payments_nov:
+                if occupant_payment_nov['id'] == occupant_bill_nov['id']:
+                    total_payments_nov = occupant_payment_nov['total_payments_nov']
+                    break
+            remaining_balance_nov = occupant_bill_nov['total_bills_nov'] - total_payments_nov
+            if remaining_balance_nov > 0:
+                occupants_with_balance_nov += 1
+            else:
+                occupants_with_zero_or_negative_balance_nov += 1
+
+        Nov_PatiallyPaid_Per = (occupants_with_balance_nov / Nov) * 100 if Nov != 0 else 0
+        Nov_PatiallyPaid_Per = int(round(Nov_PatiallyPaid_Per))
+
+        Nov_Paid_Per = (occupants_with_zero_or_negative_balance_nov / Nov) * 100 if Nov != 0 else 0
+        Nov_Paid_Per = int(round(Nov_Paid_Per))
+
+
+        # Partially Paid and Paid in December
+        occupant_bills_dec = Occupant.objects.filter(bill_details__created_at__icontains="2023-12")\
+            .annotate(total_bills_dec=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_dec')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_dec = Occupant.objects.filter(payment__created_at__icontains="2023-12")\
+            .annotate(total_payments_dec=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_dec')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_dec = 0
+        occupants_with_zero_or_negative_balance_dec = 0
+        
+        for occupant_bill_dec in occupant_bills_dec:
+            total_payments_dec = 0
+            for occupant_payment_dec in occupant_payments_dec:
+                if occupant_payment_dec['id'] == occupant_bill_dec['id']:
+                    total_payments_dec = occupant_payment_dec['total_payments_dec']
+                    break
+            remaining_balance_dec = occupant_bill_dec['total_bills_dec'] - total_payments_dec
+            if remaining_balance_dec > 0:
+                occupants_with_balance_dec += 1
+            else:
+                occupants_with_zero_or_negative_balance_nov += 1
+
+        Dec_PatiallyPaid_Per = (occupants_with_balance_dec / Dec) * 100 if Dec != 0 else 0
+        Dec_PatiallyPaid_Per = int(round(Dec_PatiallyPaid_Per))
+
+        Dec_Paid_Per = (occupants_with_zero_or_negative_balance_dec / Dec) * 100 if Dec != 0 else 0
+        Dec_Paid_Per = int(round(Dec_Paid_Per))
+
+
+        partiallypaid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        partiallypaid_monthly_occ_per = [Jan_PatiallyPaid_Per, Feb_PatiallyPaid_Per, Mar_PatiallyPaid_Per, Apr_PatiallyPaid_Per,
+                                          May_PatiallyPaid_Per, Jun_PatiallyPaid_Per, Jul_PatiallyPaid_Per, Aug_PatiallyPaid_Per, 
+                                          Sep_PatiallyPaid_Per, Oct_PatiallyPaid_Per, Nov_PatiallyPaid_Per, Dec_PatiallyPaid_Per]
+        
+        context['partiallypaid_monthly_occ_per_list'] = partiallypaid_monthly_occ_per_list
+        context['partiallypaid_monthly_occ_per'] = partiallypaid_monthly_occ_per
+
+
+        paid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        paid_monthly_occ_per = [Jan_Paid_Per, Feb_Paid_Per, Mar_Paid_Per, Apr_Paid_Per,
+                                May_Paid_Per, Jun_Paid_Per, Jul_Paid_Per, Aug_Paid_Per, 
+                                Sep_Paid_Per, Oct_Paid_Per, Nov_Paid_Per, Dec_Paid_Per]
+        
+        context['paid_monthly_occ_per_list'] = paid_monthly_occ_per_list
+        context['paid_monthly_occ_per'] = paid_monthly_occ_per
+
+
         return context
 
 # @method_decorator(login_required, name='dispatch')
@@ -2172,10 +3380,10 @@ class FDServiceList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['services']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').count()
-        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').count()
+        context['services']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others').count()
+        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others').count()
         context['notavailable'] = Service.objects.filter(status__iexact="Not Available").count()
-        # context['services_limit']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID')
+        context['services_limit']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others')
     
         return context
 
@@ -2307,34 +3515,16 @@ class ASHomePageView(ListView):
         end_of_month = start_of_month.replace(month=start_of_month.month+1) - timezone.timedelta(microseconds=1)
 
         context['current_month_occupant'] = Occupant.objects.filter(created_at__range=(start_of_month, end_of_month)).count()
-
-        
-        # SELECT YEAR(dormitory_person.created_at), MONTH(dormitory_person.created_at),
-        # COUNT(id) AS total_orders FROM dormitory_person GROUP BY MONTH(dormitory_person.created_at);
-
-        # from django.db.models.functions import ExtractMonth, ExtractYear
-        # from django.db.models import Count
-
-        # total_orders = (
-        #     Person.objects.annotate(month=ExtractMonth('created_at'))
-        #     .annotate(year=ExtractYear('created_at'))
-        #     .values('year', 'month')
-        #     .annotate(total_orders=Count('id'))
-        # )
-        # print(total_orders)
-        
+            
         # Students Gender Charts
         male_no = Person.objects.filter(gender="Male").count()
         male_no = int(male_no)
-        # print('Male:', male_no)
 
         female_no = Person.objects.filter(gender="Female").count()
         female_no = int(female_no)
-        # print('Female:', female_no)
 
         lgbt_no = Person.objects.filter(gender="LGBTQIA+").count()
         lgbt_no = int(lgbt_no)
-        # print('LGBTQIA+:', lgbt_no)
 
         gender_list = ['Male', 'Female', 'LGBTQIA+']
         gender_number = [male_no, female_no, lgbt_no]
@@ -2344,56 +3534,44 @@ class ASHomePageView(ListView):
 
                 
         # Monthly Registration Charts
-        Jan = Person.objects.filter(created_at__icontains="2023-01").count()
-        Jan = int(Jan)
-        print('Jan:', Jan)
+        Jan_Reg = Person.objects.filter(created_at__icontains="2023-01").count()
+        Jan_Reg = int(Jan_Reg)
 
-        Feb = Person.objects.filter(created_at__icontains="2023-02").count()
-        Feb = int(Feb)
-        print('Feb:', Feb)
+        Feb_Reg = Person.objects.filter(created_at__icontains="2023-02").count()
+        Feb_Reg = int(Feb_Reg)
 
-        Mar = Person.objects.filter(created_at__icontains="2023-03").count()
-        Mar = int(Mar)
-        print('Mar:', Mar)
+        Mar_Reg = Person.objects.filter(created_at__icontains="2023-03").count()
+        Mar_Reg = int(Mar_Reg)
 
-        Apr = Person.objects.filter(created_at__icontains="2023-04").count()
-        Apr = int(Apr)
-        print('Apr:', Apr)
+        Apr_Reg = Person.objects.filter(created_at__icontains="2023-04").count()
+        Apr_Reg = int(Apr_Reg)
 
-        May = Person.objects.filter(created_at__icontains="2023-05").count()
-        May = int(May)
-        print('May:', May)
+        May_Reg = Person.objects.filter(created_at__icontains="2023-05").count()
+        May_Reg = int(May_Reg)
 
-        Jun = Person.objects.filter(created_at__icontains="2023-06").count()
-        Jun = int(Jun)
-        print('Jun:', Jun)
+        Jun_Reg = Person.objects.filter(created_at__icontains="2023-06").count()
+        Jun_Reg = int(Jun_Reg)
 
-        Jul = Person.objects.filter(created_at__icontains="2023-07").count()
-        Jul = int(Jul)
-        print('Jul:', Jul)
+        Jul_Reg = Person.objects.filter(created_at__icontains="2023-07").count()
+        Jul_Reg = int(Jul_Reg)
 
-        Aug = Person.objects.filter(created_at__icontains="2023-08").count()
-        Aug = int(Aug)
-        print('Aug:', Aug)
+        Aug_Reg = Person.objects.filter(created_at__icontains="2023-08").count()
+        Aug_Reg = int(Aug_Reg)
 
-        Sep = Person.objects.filter(created_at__icontains="2023-09").count()
-        Sep = int(Sep)
-        print('Sep:', Sep)
+        Sep_Reg = Person.objects.filter(created_at__icontains="2023-09").count()
+        Sep_Reg = int(Sep_Reg)
 
-        Oct = Person.objects.filter(created_at__icontains="2023-10").count()
-        Oct = int(Oct)
-        print('Oct:', Oct)
+        Oct_Reg = Person.objects.filter(created_at__icontains="2023-10").count()
+        Oct_Reg = int(Oct_Reg)
 
-        Nov = Person.objects.filter(created_at__icontains="2023-11").count()
-        Nov = int(Nov)
-        print('Nov:', Nov)
+        Nov_Reg = Person.objects.filter(created_at__icontains="2023-11").count()
+        Nov_Reg = int(Nov_Reg)
 
-        Dec = Person.objects.filter(created_at__icontains="2023-12").count()
-        Dec = int(Dec)
-        print('Dec:', Dec)
+        Dec_Reg = Person.objects.filter(created_at__icontains="2023-12").count()
+        Dec_Reg = int(Dec_Reg)
 
         monthly_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        monthly_number = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+        monthly_number = [Jan_Reg, Feb_Reg, Mar_Reg, Apr_Reg, May_Reg, Jun_Reg, Jul_Reg, Aug_Reg, Sep_Reg, Oct_Reg, Nov_Reg, Dec_Reg]
 
         context['monthly_list'] = monthly_list
         context['monthly_number'] = monthly_number
@@ -2402,59 +3580,694 @@ class ASHomePageView(ListView):
         # Monthly Occupant Charts
         Jan = Occupant.objects.filter(created_at__icontains="2023-01").count()
         Jan = int(Jan)
-        print('Jan:', Jan)
 
         Feb = Occupant.objects.filter(created_at__icontains="2023-02").count()
         Feb = int(Feb)
-        print('Feb:', Feb)
 
         Mar = Occupant.objects.filter(created_at__icontains="2023-03").count()
         Mar = int(Mar)
-        print('Mar:', Mar)
 
         Apr = Occupant.objects.filter(created_at__icontains="2023-04").count()
         Apr = int(Apr)
-        print('Apr:', Apr)
 
         May = Occupant.objects.filter(created_at__icontains="2023-05").count()
         May = int(May)
-        print('May:', May)
 
         Jun = Occupant.objects.filter(created_at__icontains="2023-06").count()
         Jun = int(Jun)
-        print('Jun:', Jun)
 
         Jul = Occupant.objects.filter(created_at__icontains="2023-07").count()
         Jul = int(Jul)
-        print('Jul:', Jul)
 
         Aug = Occupant.objects.filter(created_at__icontains="2023-08").count()
         Aug = int(Aug)
-        print('Aug:', Aug)
 
         Sep = Occupant.objects.filter(created_at__icontains="2023-09").count()
         Sep = int(Sep)
-        print('Sep:', Sep)
 
         Oct = Occupant.objects.filter(created_at__icontains="2023-10").count()
         Oct = int(Oct)
-        print('Oct:', Oct)
 
         Nov = Occupant.objects.filter(created_at__icontains="2023-11").count()
         Nov = int(Nov)
-        print('Nov:', Nov)
 
         Dec = Occupant.objects.filter(created_at__icontains="2023-12").count()
         Dec = int(Dec)
-        print('Dec:', Dec)
 
         occ_monthly_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         occ_monthly_number = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
 
         context['occ_monthly_list'] = occ_monthly_list
         context['occ_monthly_number'] = occ_monthly_number
+
+
+        # Monthly Male Charts
+        Jan_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="Male").count()
+        Jan_Male_Per = (Jan_Tot_Male / Jan) * 100 if Jan != 0 else 0
+        Jan_Male_Per = int(round(Jan_Male_Per))
+
+        Feb_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="Male").count()
+        Feb_Male_Per = (Feb_Tot_Male / Feb) * 100 if Feb != 0 else 0
+        Feb_Male_Per = int(round(Feb_Male_Per))
+
+        Mar_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="Male").count()
+        Mar_Male_Per = (Mar_Tot_Male / Mar) * 100 if Mar != 0 else 0
+        Mar_Male_Per = int(round(Mar_Male_Per))
+
+        Apr_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="Male").count()
+        Apr_Male_Per = (Apr_Tot_Male / Apr) * 100 if Apr != 0 else 0
+        Apr_Male_Per = int(round(Apr_Male_Per))
+
+        May_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="Male").count()
+        May_Male_Per = (May_Tot_Male / May) * 100 if May != 0 else 0
+        May_Male_Per = int(round(May_Male_Per))
+
+        Jun_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="Male").count()
+        Jun_Male_Per = (Jun_Tot_Male / Jun) * 100 if Jun != 0 else 0
+        Jun_Male_Per = int(round(Jun_Male_Per))
+
+        Jul_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="Male").count()
+        Jul_Male_Per = (Jul_Tot_Male / Jul) * 100 if Jul != 0 else 0
+        Jul_Male_Per = int(round(Jul_Male_Per))
+
+        Aug_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="Male").count()
+        Aug_Male_Per = (Aug_Tot_Male / Aug) * 100 if Aug != 0 else 0
+        Aug_Male_Per = int(round(Aug_Male_Per))
+
+        Sep_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="Male").count()
+        Sep_Male_Per = (Sep_Tot_Male / Sep) * 100 if Sep != 0 else 0
+        Sep_Male_Per = int(round(Sep_Male_Per))
+
+        Oct_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="Male").count()
+        Oct_Male_Per = (Oct_Tot_Male / Oct) * 100 if Oct != 0 else 0
+        Oct_Male_Per = int(round(Oct_Male_Per))
+
+        Nov_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="Male").count()
+        Nov_Male_Per = (Nov_Tot_Male / Nov) * 100 if Nov != 0 else 0
+        Nov_Male_Per = int(round(Nov_Male_Per))
+
+        Dec_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="Male").count()
+        Dec_Male_Per = (Dec_Tot_Male / Dec) * 100 if Dec != 0 else 0
+        Dec_Male_Per = int(round(Dec_Male_Per))
+
+        male_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        male_monthly_occ_per = [Jan_Male_Per, Feb_Male_Per, Mar_Male_Per, Apr_Male_Per, May_Male_Per, Jun_Male_Per, 
+                                Jul_Male_Per, Aug_Male_Per, Sep_Male_Per, Oct_Male_Per, Nov_Male_Per, Dec_Male_Per]
         
+        context['male_monthly_occ_per_list'] = male_monthly_occ_per_list
+        context['male_monthly_occ_per'] = male_monthly_occ_per
+        
+
+        # Monthly Female Charts
+        Jan_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="Female").count()
+        Jan_Female_Per = (Jan_Tot_Female / Jan) * 100 if Jan != 0 else 0
+        Jan_Female_Per = int(round(Jan_Female_Per))
+
+        Feb_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="Female").count()
+        Feb_Female_Per = (Feb_Tot_Female / Feb) * 100 if Feb != 0 else 0
+        Feb_Female_Per = int(round(Feb_Female_Per))
+
+        Mar_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="Female").count()
+        Mar_Female_Per = (Mar_Tot_Female / Mar) * 100 if Mar != 0 else 0
+        Mar_Female_Per = int(round(Mar_Female_Per))
+
+        Apr_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="Female").count()
+        Apr_Female_Per = (Apr_Tot_Female / Apr) * 100 if Apr != 0 else 0
+        Apr_Female_Per = int(round(Apr_Female_Per))
+
+        May_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="Female").count()
+        May_Female_Per = (May_Tot_Female / May) * 100 if May != 0 else 0
+        May_Female_Per = int(round(May_Female_Per))
+
+        Jun_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="Female").count()
+        Jun_Female_Per = (Jun_Tot_Female / Jun) * 100 if Jun != 0 else 0
+        Jun_Female_Per = int(round(Jun_Female_Per))
+
+        Jul_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="Female").count()
+        Jul_Female_Per = (Jul_Tot_Female / Jul) * 100 if Jul != 0 else 0
+        Jul_Female_Per = int(round(Jul_Female_Per))
+
+        Aug_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="Female").count()
+        Aug_Female_Per = (Aug_Tot_Female / Aug) * 100 if Aug != 0 else 0
+        Aug_Female_Per = int(round(Aug_Female_Per))
+
+        Sep_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="Female").count()
+        Sep_Female_Per = (Sep_Tot_Female / Sep) * 100 if Sep != 0 else 0
+        Sep_Female_Per = int(round(Sep_Female_Per))
+
+        Oct_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="Female").count()
+        Oct_Female_Per = (Oct_Tot_Female/ Oct) * 100 if Oct != 0 else 0
+        Oct_Female_Per = int(round(Oct_Female_Per))
+
+        Nov_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="Female").count()
+        Nov_Female_Per = (Nov_Tot_Female / Nov) * 100 if Nov != 0 else 0
+        Nov_Female_Per = int(round(Nov_Female_Per))
+
+        Dec_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="Female").count()
+        Dec_Female_Per = (Dec_Tot_Female / Dec) * 100 if Dec != 0 else 0
+        Dec_Female_Per = int(round(Dec_Female_Per))
+
+        female_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        female_monthly_occ_per = [Jan_Female_Per, Feb_Female_Per, Mar_Female_Per, Apr_Female_Per, May_Female_Per, Jun_Female_Per, 
+                                Jul_Female_Per, Aug_Female_Per, Sep_Female_Per, Oct_Female_Per, Nov_Female_Per, Dec_Female_Per]
+        
+        context['female_monthly_occ_per_list'] = female_monthly_occ_per_list
+        context['female_monthly_occ_per'] = female_monthly_occ_per
+
+
+        # Monthly LGBTQIA+ Charts
+        Jan_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="LGBTQIA+").count()
+        Jan_LGBTQIA_Per = (Jan_Tot_LGBTQIA / Jan) * 100 if Jan != 0 else 0
+        Jan_LGBTQIA_Per = int(round(Jan_LGBTQIA_Per))
+
+        Feb_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="LGBTQIA+").count()
+        Feb_LGBTQIA_Per = (Feb_Tot_LGBTQIA / Feb) * 100 if Feb != 0 else 0
+        Feb_LGBTQIA_Per = int(round(Feb_LGBTQIA_Per))
+
+        Mar_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="LGBTQIA+").count()
+        Mar_LGBTQIA_Per = (Mar_Tot_Female / Mar) * 100 if Mar != 0 else 0
+        Mar_LGBTQIA_Per = int(round(Mar_LGBTQIA_Per))
+
+        Apr_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="LGBTQIA+").count()
+        Apr_LGBTQIA_Per = (Apr_Tot_LGBTQIA / Apr) * 100 if Apr != 0 else 0
+        Apr_LGBTQIA_Per = int(round(Apr_LGBTQIA_Per))
+
+        May_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="LGBTQIA+").count()
+        May_LGBTQIA_Per = (May_Tot_LGBTQIA / May) * 100 if May != 0 else 0
+        May_LGBTQIA_Per = int(round(May_LGBTQIA_Per))
+
+        Jun_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="LGBTQIA+").count()
+        Jun_LGBTQIA_Per = (Jun_Tot_LGBTQIA / Jun) * 100 if Jun != 0 else 0
+        Jun_LGBTQIA_Per = int(round(Jun_LGBTQIA_Per))
+
+        Jul_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="LGBTQIA+").count()
+        Jul_LGBTQIA_Per = (Jul_Tot_LGBTQIA / Jul) * 100 if Jul != 0 else 0
+        Jul_LGBTQIA_Per = int(round(Jul_LGBTQIA_Per))
+
+        Aug_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="LGBTQIA+").count()
+        Aug_LGBTQIA_Per = (Aug_Tot_LGBTQIA / Aug) * 100 if Aug != 0 else 0
+        Aug_LGBTQIA_Per = int(round(Aug_LGBTQIA_Per))
+
+        Sep_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="LGBTQIA+").count()
+        Sep_LGBTQIA_Per = (Sep_Tot_LGBTQIA / Sep) * 100 if Sep != 0 else 0
+        Sep_LGBTQIA_Per = int(round(Sep_LGBTQIA_Per))
+
+        Oct_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="LGBTQIA+").count()
+        Oct_LGBTQIA_Per = (Oct_Tot_LGBTQIA/ Oct) * 100 if Oct != 0 else 0
+        Oct_LGBTQIA_Per = int(round(Oct_LGBTQIA_Per))
+
+        Nov_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="LGBTQIA+").count()
+        Nov_LGBTQIA_Per = (Nov_Tot_LGBTQIA / Nov) * 100 if Nov != 0 else 0
+        Nov_LGBTQIA_Per = int(round(Nov_LGBTQIA_Per))
+
+        Dec_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="LGBTQIA+").count()
+        Dec_LGBTQIA_Per = (Dec_Tot_LGBTQIA / Dec) * 100 if Dec != 0 else 0
+        Dec_LGBTQIA_Per = int(round(Dec_LGBTQIA_Per))
+
+        LGBTQIA_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        LGBTQIA_monthly_occ_per = [Jan_LGBTQIA_Per, Feb_LGBTQIA_Per, Mar_LGBTQIA_Per, Apr_LGBTQIA_Per, May_LGBTQIA_Per, Jun_LGBTQIA_Per, 
+                                    Jul_LGBTQIA_Per, Aug_LGBTQIA_Per, Sep_LGBTQIA_Per, Oct_LGBTQIA_Per, Nov_LGBTQIA_Per, Dec_LGBTQIA_Per]
+        
+        context['LGBTQIA_monthly_occ_per_list'] = LGBTQIA_monthly_occ_per_list
+        context['LGBTQIA_monthly_occ_per'] = LGBTQIA_monthly_occ_per
+
+        
+        # Monthly Unpaid Charts
+        Jan_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-01", payment__isnull=False).distinct().count()
+        Jan_Unpaid_Per = (Jan_Unpaid_Occ / Jan) * 100 if Jan != 0 else 0
+        Jan_Unpaid_Per = int(round(Jan_Unpaid_Per))
+
+        Feb_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-02", payment__isnull=False).distinct().count()
+        Feb_Unpaid_Per = (Feb_Unpaid_Occ / Feb) * 100 if Feb != 0 else 0
+        Feb_Unpaid_Per = int(round(Feb_Unpaid_Per))
+
+        Mar_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-03", payment__isnull=False).distinct().count()
+        Mar_Unpaid_Per = (Mar_Unpaid_Occ / Mar) * 100 if Mar != 0 else 0
+        Mar_Unpaid_Per = int(round(Mar_Unpaid_Per))
+
+        Apr_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-04", payment__isnull=False).distinct().count()
+        Apr_Unpaid_Per = (Apr_Unpaid_Occ / Apr) * 100 if Apr != 0 else 0
+        Apr_Unpaid_Per = int(round(Apr_Unpaid_Per))
+
+        May_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-05", payment__isnull=False).distinct().count()
+        May_Unpaid_Per = (May_Unpaid_Occ / May) * 100 if May != 0 else 0
+        May_Unpaid_Per = int(round(May_Unpaid_Per))
+
+        Jun_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-06", payment__isnull=False).distinct().count()
+        Jun_Unpaid_Per = (Jun_Unpaid_Occ / Jun) * 100 if Jun != 0 else 0
+        Jun_Unpaid_Per = int(round(Jun_Unpaid_Per))
+
+        Jul_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-07", payment__isnull=False).distinct().count()
+        Jul_Unpaid_Per = (Jul_Unpaid_Occ / Jul) * 100 if Jul != 0 else 0
+        Jul_Unpaid_Per = int(round(Jul_Unpaid_Per))
+
+        Aug_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-08", payment__isnull=False).distinct().count()
+        Aug_Unpaid_Per = (Aug_Unpaid_Occ / Aug) * 100 if Aug != 0 else 0
+        Aug_Unpaid_Per = int(round(Aug_Unpaid_Per))
+
+        Sep_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-09", payment__isnull=False).distinct().count()
+        Sep_Unpaid_Per = (Sep_Unpaid_Occ / Sep) * 100 if Sep != 0 else 0
+        Sep_Unpaid_Per = int(round(Sep_Unpaid_Per))
+
+        Oct_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-10", payment__isnull=False).distinct().count()
+        Oct_Unpaid_Per = (Oct_Unpaid_Occ / Oct) * 100 if Oct != 0 else 0
+        Oct_Unpaid_Per = int(round(Oct_Unpaid_Per))
+
+        Nov_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-11", payment__isnull=False).distinct().count()
+        Nov_Unpaid_Per = (Nov_Unpaid_Occ / Nov) * 100 if Nov != 0 else 0
+        Nov_Unpaid_Per = int(round(Nov_Unpaid_Per))
+
+        Dec_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-12", payment__isnull=False).distinct().count()
+        Dec_Unpaid_Per = (Dec_Unpaid_Occ / Dec) * 100 if Dec != 0 else 0
+        Dec_Unpaid_Per = int(round(Dec_Unpaid_Per))
+
+
+        unpaid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        unpaid_monthly_occ_per = [Jan_Unpaid_Per, Feb_Unpaid_Per, Mar_Unpaid_Per, Apr_Unpaid_Per, May_Unpaid_Per, Jun_Unpaid_Per, 
+                                Jul_Unpaid_Per, Aug_Unpaid_Per, Sep_Unpaid_Per, Oct_Unpaid_Per, Nov_Unpaid_Per, Dec_Unpaid_Per]
+        
+        context['unpaid_monthly_occ_per_list'] = unpaid_monthly_occ_per_list
+        context['unpaid_monthly_occ_per'] = unpaid_monthly_occ_per
+
+
+        # Monthly Paid Charts
+
+        # Partially Paid and Paid in January
+        occupant_bills_jan = Occupant.objects.filter(bill_details__created_at__icontains="2023-01")\
+            .annotate(total_bills_jan=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jan')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jan = Occupant.objects.filter(payment__created_at__icontains="2023-01")\
+            .annotate(total_payments_jan=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jan')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jan = 0
+        occupants_with_zero_or_negative_balance_jan = 0
+
+        for occupant_bill_jan in occupant_bills_jan:
+            total_payments_jan = 0
+            for occupant_payment_jan in occupant_payments_jan:
+                if occupant_payment_jan['id'] == occupant_bill_jan['id']:
+                    total_payments_jan = occupant_payment_jan['total_payments_jan']
+                    break
+            remaining_balance_jan = occupant_bill_jan['total_bills_jan'] - total_payments_jan
+            if remaining_balance_jan > 0:
+                occupants_with_balance_jan += 1
+            else:
+                occupants_with_zero_or_negative_balance_jan += 1
+
+        Jan_PatiallyPaid_Per = (occupants_with_balance_jan / Jan) * 100 if Jan != 0 else 0
+        Jan_PatiallyPaid_Per = int(round(Jan_PatiallyPaid_Per))
+
+        Jan_Paid_Per = (occupants_with_zero_or_negative_balance_jan / Jan) * 100 if Jan != 0 else 0
+        Jan_Paid_Per = int(round(Jan_Paid_Per))
+
+
+        # Partially Paid and Paid in February
+        occupant_bills_feb = Occupant.objects.filter(bill_details__created_at__icontains="2023-02")\
+            .annotate(total_bills_feb=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_feb')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_feb = Occupant.objects.filter(payment__created_at__icontains="2023-02")\
+            .annotate(total_payments_feb=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_feb')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_feb = 0
+        occupants_with_zero_or_negative_balance_feb = 0
+
+        for occupant_bill_feb in occupant_bills_feb:
+            total_payments_feb = 0
+            for occupant_payment_feb in occupant_payments_feb:
+                if occupant_payment_feb['id'] == occupant_bill_feb['id']:
+                    total_payments_feb = occupant_payment_feb['total_payments_feb']
+                    break
+            remaining_balance_feb = occupant_bill_feb['total_bills_feb'] - total_payments_feb
+            if remaining_balance_feb > 0:
+                occupants_with_balance_feb += 1
+            else:
+                occupants_with_zero_or_negative_balance_feb += 1
+
+        Feb_PatiallyPaid_Per = (occupants_with_balance_feb / Feb) * 100 if Feb != 0 else 0
+        Feb_PatiallyPaid_Per = int(round(Feb_PatiallyPaid_Per))
+
+        Feb_Paid_Per = (occupants_with_zero_or_negative_balance_feb / Feb) * 100 if Feb != 0 else 0
+        Feb_Paid_Per = int(round(Feb_Paid_Per))
+
+
+        # Partially Paid and Paid in March
+        occupant_bills_mar = Occupant.objects.filter(bill_details__created_at__icontains="2023-03")\
+            .annotate(total_bills_mar=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_mar')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_mar = Occupant.objects.filter(payment__created_at__icontains="2023-03")\
+            .annotate(total_payments_mar=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_mar')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_mar = 0
+        occupants_with_zero_or_negative_balance_mar = 0
+
+        for occupant_bill_mar in occupant_bills_mar:
+            total_payments_mar = 0
+            for occupant_payment_mar in occupant_payments_mar:
+                if occupant_payment_mar['id'] == occupant_bill_mar['id']:
+                    total_payments_mar = occupant_payment_mar['total_payments_mar']
+                    break
+            remaining_balance_mar = occupant_bill_mar['total_bills_mar'] - total_payments_mar
+            if remaining_balance_mar > 0:
+                occupants_with_balance_mar += 1
+            else:
+                occupants_with_zero_or_negative_balance_mar += 1
+
+        Mar_PatiallyPaid_Per = (occupants_with_balance_mar / Mar) * 100 if Mar != 0 else 0
+        Mar_PatiallyPaid_Per = int(round(Mar_PatiallyPaid_Per))
+
+        Mar_Paid_Per = (occupants_with_zero_or_negative_balance_mar / Mar) * 100 if Mar != 0 else 0
+        Mar_Paid_Per = int(round(Mar_Paid_Per))
+
+
+        # Partially Paid and Paid in April
+        occupant_bills_apr = Occupant.objects.filter(bill_details__created_at__icontains="2023-04")\
+            .annotate(total_bills_apr=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_apr')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_apr = Occupant.objects.filter(payment__created_at__icontains="2023-04")\
+            .annotate(total_payments_apr=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_apr')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_apr = 0
+        occupants_with_zero_or_negative_balance_apr = 0
+
+        for occupant_bill_apr in occupant_bills_apr:
+            total_payments_apr = 0
+            for occupant_payment_apr in occupant_payments_apr:
+                if occupant_payment_apr['id'] == occupant_bill_apr['id']:
+                    total_payments_apr = occupant_payment_apr['total_payments_apr']
+                    break
+            remaining_balance_apr = occupant_bill_apr['total_bills_apr'] - total_payments_apr
+            if remaining_balance_apr > 0:
+                occupants_with_balance_apr += 1
+            else:
+                occupants_with_zero_or_negative_balance_apr += 1
+
+        Apr_PatiallyPaid_Per = (occupants_with_balance_apr / Apr) * 100 if Apr != 0 else 0
+        Apr_PatiallyPaid_Per = int(round(Apr_PatiallyPaid_Per))
+
+        Apr_Paid_Per = (occupants_with_zero_or_negative_balance_apr / Apr) * 100 if Apr != 0 else 0
+        Apr_Paid_Per = int(round(Apr_Paid_Per))
+
+
+        # Partially Paid and Paid in May
+        occupant_bills_may = Occupant.objects.filter(bill_details__created_at__icontains="2023-05")\
+            .annotate(total_bills_may=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_may')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_may = Occupant.objects.filter(payment__created_at__icontains="2023-05")\
+            .annotate(total_payments_may=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_may')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_may = 0
+        occupants_with_zero_or_negative_balance_may = 0
+        
+        for occupant_bill_may in occupant_bills_may:
+            total_payments_may = 0
+            for occupant_payment_may in occupant_payments_may:
+                if occupant_payment_may['id'] == occupant_bill_may['id']:
+                    total_payments_may = occupant_payment_may['total_payments_may']
+                    break
+            remaining_balance_may = occupant_bill_may['total_bills_may'] - total_payments_may
+            if remaining_balance_may > 0:
+                occupants_with_balance_may += 1
+            else:
+                occupants_with_zero_or_negative_balance_may += 1
+
+        May_PatiallyPaid_Per = (occupants_with_balance_may / May) * 100 if May != 0 else 0
+        May_PatiallyPaid_Per = int(round(May_PatiallyPaid_Per))
+
+        May_Paid_Per = (occupants_with_zero_or_negative_balance_may / May) * 100 if May != 0 else 0
+        May_Paid_Per = int(round(May_Paid_Per))
+
+        
+        # Partially Paid and Paid in June
+        occupant_bills_jun = Occupant.objects.filter(bill_details__created_at__icontains="2023-06")\
+            .annotate(total_bills_jun=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jun')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jun = Occupant.objects.filter(payment__created_at__icontains="2023-06")\
+            .annotate(total_payments_jun=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jun')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jun = 0
+        occupants_with_zero_or_negative_balance_jun = 0
+        
+        for occupant_bill_jun in occupant_bills_jun:
+            total_payments_jun = 0
+            for occupant_payment_jun in occupant_payments_jun:
+                if occupant_payment_jun['id'] == occupant_bill_jun['id']:
+                    total_payments_jun = occupant_payment_jun['total_payments_jun']
+                    break
+            remaining_balance_jun = occupant_bill_jun['total_bills_jun'] - total_payments_jun
+            if remaining_balance_jun > 0:
+                occupants_with_balance_jun += 1
+            else:
+                occupants_with_zero_or_negative_balance_jun += 1
+
+        Jun_PatiallyPaid_Per = (occupants_with_balance_jun / Jun) * 100 if Jun != 0 else 0
+        Jun_PatiallyPaid_Per = int(round(Jun_PatiallyPaid_Per))
+
+        Jun_Paid_Per = (occupants_with_zero_or_negative_balance_jun / Jun) * 100 if Jun != 0 else 0
+        Jun_Paid_Per = int(round(Jun_Paid_Per))
+
+
+        # Partially Paid and Paid in July
+        occupant_bills_jul = Occupant.objects.filter(bill_details__created_at__icontains="2023-07")\
+            .annotate(total_bills_jul=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jul')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jul = Occupant.objects.filter(payment__created_at__icontains="2023-07")\
+            .annotate(total_payments_jul=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jul')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jul = 0
+        occupants_with_zero_or_negative_balance_jul = 0
+        
+        for occupant_bill_jul in occupant_bills_jul:
+            total_payments_jul = 0
+            for occupant_payment_jul in occupant_payments_jul:
+                if occupant_payment_jul['id'] == occupant_bill_jul['id']:
+                    total_payments_jul = occupant_payment_jul['total_payments_jul']
+                    break
+            remaining_balance_jul = occupant_bill_jul['total_bills_jul'] - total_payments_jul
+            if remaining_balance_jul > 0:
+                occupants_with_balance_jul += 1
+            else:
+                occupants_with_zero_or_negative_balance_jul += 1
+
+        Jul_PatiallyPaid_Per = (occupants_with_balance_jul / Jul) * 100 if Jul != 0 else 0
+        Jul_PatiallyPaid_Per = int(round(Jul_PatiallyPaid_Per))
+
+        Jul_Paid_Per = (occupants_with_zero_or_negative_balance_jul / Jul) * 100 if Jul != 0 else 0
+        Jul_Paid_Per = int(round(Jul_Paid_Per))
+
+
+        # Partially Paid and Paid in August
+        occupant_bills_aug = Occupant.objects.filter(bill_details__created_at__icontains="2023-08")\
+            .annotate(total_bills_aug=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_aug')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_aug = Occupant.objects.filter(payment__created_at__icontains="2023-08")\
+            .annotate(total_payments_aug=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_aug')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_aug = 0
+        occupants_with_zero_or_negative_balance_aug = 0
+
+        for occupant_bill_aug in occupant_bills_aug:
+            total_payments_aug = 0
+            for occupant_payment_aug in occupant_payments_aug:
+                if occupant_payment_aug['id'] == occupant_bill_aug['id']:
+                    total_payments_aug = occupant_payment_aug['total_payments_aug']
+                    break
+            remaining_balance_aug = occupant_bill_aug['total_bills_aug'] - total_payments_aug
+            if remaining_balance_aug > 0:
+                occupants_with_balance_aug += 1
+            else:
+                occupants_with_zero_or_negative_balance_aug += 1
+
+        Aug_PatiallyPaid_Per = (occupants_with_balance_aug / Aug) * 100 if Aug != 0 else 0
+        Aug_PatiallyPaid_Per = int(round(Aug_PatiallyPaid_Per))
+
+        Aug_Paid_Per = (occupants_with_zero_or_negative_balance_aug / Aug) * 100 if Aug != 0 else 0
+        Aug_Paid_Per = int(round(Aug_Paid_Per))
+
+
+        # Partially Paid and Paid in September
+        occupant_bills_sep = Occupant.objects.filter(bill_details__created_at__icontains="2023-09")\
+            .annotate(total_bills_sep=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_sep')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_sep = Occupant.objects.filter(payment__created_at__icontains="2023-09")\
+            .annotate(total_payments_sep=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_sep')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_sep = 0
+        occupants_with_zero_or_negative_balance_sep = 0
+        
+        for occupant_bill_sep in occupant_bills_sep:
+            total_payments_sep = 0
+            for occupant_payment_sep in occupant_payments_sep:
+                if occupant_payment_sep['id'] == occupant_bill_sep['id']:
+                    total_payments_sep = occupant_payment_sep['total_payments_sep']
+                    break
+            remaining_balance_sep = occupant_bill_sep['total_bills_aug'] - total_payments_sep
+            if remaining_balance_sep > 0:
+                occupants_with_balance_sep += 1
+            else:
+                occupants_with_zero_or_negative_balance_sep += 1
+
+        Sep_PatiallyPaid_Per = (occupants_with_balance_sep / Sep) * 100 if Sep != 0 else 0
+        Sep_PatiallyPaid_Per = int(round(Sep_PatiallyPaid_Per))
+
+        Sep_Paid_Per = (occupants_with_zero_or_negative_balance_sep / Sep) * 100 if Sep != 0 else 0
+        Sep_Paid_Per = int(round(Sep_Paid_Per))
+
+
+        # Partially Paid and Paid in October
+        occupant_bills_oct = Occupant.objects.filter(bill_details__created_at__icontains="2023-10")\
+            .annotate(total_bills_oct=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_oct')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_oct = Occupant.objects.filter(payment__created_at__icontains="2023-10")\
+            .annotate(total_payments_oct=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_oct')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_oct = 0
+        occupants_with_zero_or_negative_balance_oct = 0
+        
+        for occupant_bill_oct in occupant_bills_oct:
+            total_payments_oct = 0
+            for occupant_payment_oct in occupant_payments_oct:
+                if occupant_payment_oct['id'] == occupant_bill_oct['id']:
+                    total_payments_oct = occupant_payment_oct['total_payments_oct']
+                    break
+            remaining_balance_oct = occupant_bill_oct['total_bills_oct'] - total_payments_oct
+            if remaining_balance_oct > 0:
+                occupants_with_balance_oct += 1
+            else:
+                occupants_with_zero_or_negative_balance_oct += 1
+
+        Oct_PatiallyPaid_Per = (occupants_with_balance_oct / Oct) * 100 if Oct != 0 else 0
+        Oct_PatiallyPaid_Per = int(round(Oct_PatiallyPaid_Per))
+
+        Oct_Paid_Per = (occupants_with_zero_or_negative_balance_oct / Oct) * 100 if Oct != 0 else 0
+        Oct_Paid_Per = int(round(Oct_Paid_Per))
+
+
+        # Partially Paid and Paid in November
+        occupant_bills_nov = Occupant.objects.filter(bill_details__created_at__icontains="2023-11")\
+            .annotate(total_bills_nov=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_nov')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_nov = Occupant.objects.filter(payment__created_at__icontains="2023-11")\
+            .annotate(total_payments_nov=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_nov')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_nov = 0
+        occupants_with_zero_or_negative_balance_nov = 0
+
+        for occupant_bill_nov in occupant_bills_nov:
+            total_payments_nov = 0
+            for occupant_payment_nov in occupant_payments_nov:
+                if occupant_payment_nov['id'] == occupant_bill_nov['id']:
+                    total_payments_nov = occupant_payment_nov['total_payments_nov']
+                    break
+            remaining_balance_nov = occupant_bill_nov['total_bills_nov'] - total_payments_nov
+            if remaining_balance_nov > 0:
+                occupants_with_balance_nov += 1
+            else:
+                occupants_with_zero_or_negative_balance_nov += 1
+
+        Nov_PatiallyPaid_Per = (occupants_with_balance_nov / Nov) * 100 if Nov != 0 else 0
+        Nov_PatiallyPaid_Per = int(round(Nov_PatiallyPaid_Per))
+
+        Nov_Paid_Per = (occupants_with_zero_or_negative_balance_nov / Nov) * 100 if Nov != 0 else 0
+        Nov_Paid_Per = int(round(Nov_Paid_Per))
+
+
+        # Partially Paid and Paid in December
+        occupant_bills_dec = Occupant.objects.filter(bill_details__created_at__icontains="2023-12")\
+            .annotate(total_bills_dec=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_dec')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_dec = Occupant.objects.filter(payment__created_at__icontains="2023-12")\
+            .annotate(total_payments_dec=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_dec')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_dec = 0
+        occupants_with_zero_or_negative_balance_dec = 0
+        
+        for occupant_bill_dec in occupant_bills_dec:
+            total_payments_dec = 0
+            for occupant_payment_dec in occupant_payments_dec:
+                if occupant_payment_dec['id'] == occupant_bill_dec['id']:
+                    total_payments_dec = occupant_payment_dec['total_payments_dec']
+                    break
+            remaining_balance_dec = occupant_bill_dec['total_bills_dec'] - total_payments_dec
+            if remaining_balance_dec > 0:
+                occupants_with_balance_dec += 1
+            else:
+                occupants_with_zero_or_negative_balance_nov += 1
+
+        Dec_PatiallyPaid_Per = (occupants_with_balance_dec / Dec) * 100 if Dec != 0 else 0
+        Dec_PatiallyPaid_Per = int(round(Dec_PatiallyPaid_Per))
+
+        Dec_Paid_Per = (occupants_with_zero_or_negative_balance_dec / Dec) * 100 if Dec != 0 else 0
+        Dec_Paid_Per = int(round(Dec_Paid_Per))
+
+
+        partiallypaid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        partiallypaid_monthly_occ_per = [Jan_PatiallyPaid_Per, Feb_PatiallyPaid_Per, Mar_PatiallyPaid_Per, Apr_PatiallyPaid_Per,
+                                          May_PatiallyPaid_Per, Jun_PatiallyPaid_Per, Jul_PatiallyPaid_Per, Aug_PatiallyPaid_Per, 
+                                          Sep_PatiallyPaid_Per, Oct_PatiallyPaid_Per, Nov_PatiallyPaid_Per, Dec_PatiallyPaid_Per]
+        
+        context['partiallypaid_monthly_occ_per_list'] = partiallypaid_monthly_occ_per_list
+        context['partiallypaid_monthly_occ_per'] = partiallypaid_monthly_occ_per
+
+
+        paid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        paid_monthly_occ_per = [Jan_Paid_Per, Feb_Paid_Per, Mar_Paid_Per, Apr_Paid_Per,
+                                May_Paid_Per, Jun_Paid_Per, Jul_Paid_Per, Aug_Paid_Per, 
+                                Sep_Paid_Per, Oct_Paid_Per, Nov_Paid_Per, Dec_Paid_Per]
+        
+        context['paid_monthly_occ_per_list'] = paid_monthly_occ_per_list
+        context['paid_monthly_occ_per'] = paid_monthly_occ_per
+
+
         return context
+
 
 # @method_decorator(login_required, name='dispatch')
 class ASDashMaleVacantBed(ListView):
@@ -2704,10 +4517,10 @@ class ASServiceList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['services']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').count()
-        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').count()
+        context['services']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others').count()
+        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others').count()
         context['notavailable'] = Service.objects.filter(status__iexact="Not Available").count()
-        # context['services_limit']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID')
+        context['services_limit']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others')
     
         return context
 
@@ -2781,34 +4594,16 @@ class DMHomePageView(ListView):
         end_of_month = start_of_month.replace(month=start_of_month.month+1) - timezone.timedelta(microseconds=1)
 
         context['current_month_occupant'] = Occupant.objects.filter(created_at__range=(start_of_month, end_of_month)).count()
-
-        
-        # SELECT YEAR(dormitory_person.created_at), MONTH(dormitory_person.created_at),
-        # COUNT(id) AS total_orders FROM dormitory_person GROUP BY MONTH(dormitory_person.created_at);
-
-        # from django.db.models.functions import ExtractMonth, ExtractYear
-        # from django.db.models import Count
-
-        # total_orders = (
-        #     Person.objects.annotate(month=ExtractMonth('created_at'))
-        #     .annotate(year=ExtractYear('created_at'))
-        #     .values('year', 'month')
-        #     .annotate(total_orders=Count('id'))
-        # )
-        # print(total_orders)
-        
+            
         # Students Gender Charts
         male_no = Person.objects.filter(gender="Male").count()
         male_no = int(male_no)
-        # print('Male:', male_no)
 
         female_no = Person.objects.filter(gender="Female").count()
         female_no = int(female_no)
-        # print('Female:', female_no)
 
         lgbt_no = Person.objects.filter(gender="LGBTQIA+").count()
         lgbt_no = int(lgbt_no)
-        # print('LGBTQIA+:', lgbt_no)
 
         gender_list = ['Male', 'Female', 'LGBTQIA+']
         gender_number = [male_no, female_no, lgbt_no]
@@ -2818,56 +4613,44 @@ class DMHomePageView(ListView):
 
                 
         # Monthly Registration Charts
-        Jan = Person.objects.filter(created_at__icontains="2023-01").count()
-        Jan = int(Jan)
-        print('Jan:', Jan)
+        Jan_Reg = Person.objects.filter(created_at__icontains="2023-01").count()
+        Jan_Reg = int(Jan_Reg)
 
-        Feb = Person.objects.filter(created_at__icontains="2023-02").count()
-        Feb = int(Feb)
-        print('Feb:', Feb)
+        Feb_Reg = Person.objects.filter(created_at__icontains="2023-02").count()
+        Feb_Reg = int(Feb_Reg)
 
-        Mar = Person.objects.filter(created_at__icontains="2023-03").count()
-        Mar = int(Mar)
-        print('Mar:', Mar)
+        Mar_Reg = Person.objects.filter(created_at__icontains="2023-03").count()
+        Mar_Reg = int(Mar_Reg)
 
-        Apr = Person.objects.filter(created_at__icontains="2023-04").count()
-        Apr = int(Apr)
-        print('Apr:', Apr)
+        Apr_Reg = Person.objects.filter(created_at__icontains="2023-04").count()
+        Apr_Reg = int(Apr_Reg)
 
-        May = Person.objects.filter(created_at__icontains="2023-05").count()
-        May = int(May)
-        print('May:', May)
+        May_Reg = Person.objects.filter(created_at__icontains="2023-05").count()
+        May_Reg = int(May_Reg)
 
-        Jun = Person.objects.filter(created_at__icontains="2023-06").count()
-        Jun = int(Jun)
-        print('Jun:', Jun)
+        Jun_Reg = Person.objects.filter(created_at__icontains="2023-06").count()
+        Jun_Reg = int(Jun_Reg)
 
-        Jul = Person.objects.filter(created_at__icontains="2023-07").count()
-        Jul = int(Jul)
-        print('Jul:', Jul)
+        Jul_Reg = Person.objects.filter(created_at__icontains="2023-07").count()
+        Jul_Reg = int(Jul_Reg)
 
-        Aug = Person.objects.filter(created_at__icontains="2023-08").count()
-        Aug = int(Aug)
-        print('Aug:', Aug)
+        Aug_Reg = Person.objects.filter(created_at__icontains="2023-08").count()
+        Aug_Reg = int(Aug_Reg)
 
-        Sep = Person.objects.filter(created_at__icontains="2023-09").count()
-        Sep = int(Sep)
-        print('Sep:', Sep)
+        Sep_Reg = Person.objects.filter(created_at__icontains="2023-09").count()
+        Sep_Reg = int(Sep_Reg)
 
-        Oct = Person.objects.filter(created_at__icontains="2023-10").count()
-        Oct = int(Oct)
-        print('Oct:', Oct)
+        Oct_Reg = Person.objects.filter(created_at__icontains="2023-10").count()
+        Oct_Reg = int(Oct_Reg)
 
-        Nov = Person.objects.filter(created_at__icontains="2023-11").count()
-        Nov = int(Nov)
-        print('Nov:', Nov)
+        Nov_Reg = Person.objects.filter(created_at__icontains="2023-11").count()
+        Nov_Reg = int(Nov_Reg)
 
-        Dec = Person.objects.filter(created_at__icontains="2023-12").count()
-        Dec = int(Dec)
-        print('Dec:', Dec)
+        Dec_Reg = Person.objects.filter(created_at__icontains="2023-12").count()
+        Dec_Reg = int(Dec_Reg)
 
         monthly_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        monthly_number = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+        monthly_number = [Jan_Reg, Feb_Reg, Mar_Reg, Apr_Reg, May_Reg, Jun_Reg, Jul_Reg, Aug_Reg, Sep_Reg, Oct_Reg, Nov_Reg, Dec_Reg]
 
         context['monthly_list'] = monthly_list
         context['monthly_number'] = monthly_number
@@ -2876,58 +4659,692 @@ class DMHomePageView(ListView):
         # Monthly Occupant Charts
         Jan = Occupant.objects.filter(created_at__icontains="2023-01").count()
         Jan = int(Jan)
-        print('Jan:', Jan)
 
         Feb = Occupant.objects.filter(created_at__icontains="2023-02").count()
         Feb = int(Feb)
-        print('Feb:', Feb)
 
         Mar = Occupant.objects.filter(created_at__icontains="2023-03").count()
         Mar = int(Mar)
-        print('Mar:', Mar)
 
         Apr = Occupant.objects.filter(created_at__icontains="2023-04").count()
         Apr = int(Apr)
-        print('Apr:', Apr)
 
         May = Occupant.objects.filter(created_at__icontains="2023-05").count()
         May = int(May)
-        print('May:', May)
 
         Jun = Occupant.objects.filter(created_at__icontains="2023-06").count()
         Jun = int(Jun)
-        print('Jun:', Jun)
 
         Jul = Occupant.objects.filter(created_at__icontains="2023-07").count()
         Jul = int(Jul)
-        print('Jul:', Jul)
 
         Aug = Occupant.objects.filter(created_at__icontains="2023-08").count()
         Aug = int(Aug)
-        print('Aug:', Aug)
 
         Sep = Occupant.objects.filter(created_at__icontains="2023-09").count()
         Sep = int(Sep)
-        print('Sep:', Sep)
 
         Oct = Occupant.objects.filter(created_at__icontains="2023-10").count()
         Oct = int(Oct)
-        print('Oct:', Oct)
 
         Nov = Occupant.objects.filter(created_at__icontains="2023-11").count()
         Nov = int(Nov)
-        print('Nov:', Nov)
 
         Dec = Occupant.objects.filter(created_at__icontains="2023-12").count()
         Dec = int(Dec)
-        print('Dec:', Dec)
 
         occ_monthly_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         occ_monthly_number = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
 
         context['occ_monthly_list'] = occ_monthly_list
         context['occ_monthly_number'] = occ_monthly_number
+
+
+        # Monthly Male Charts
+        Jan_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="Male").count()
+        Jan_Male_Per = (Jan_Tot_Male / Jan) * 100 if Jan != 0 else 0
+        Jan_Male_Per = int(round(Jan_Male_Per))
+
+        Feb_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="Male").count()
+        Feb_Male_Per = (Feb_Tot_Male / Feb) * 100 if Feb != 0 else 0
+        Feb_Male_Per = int(round(Feb_Male_Per))
+
+        Mar_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="Male").count()
+        Mar_Male_Per = (Mar_Tot_Male / Mar) * 100 if Mar != 0 else 0
+        Mar_Male_Per = int(round(Mar_Male_Per))
+
+        Apr_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="Male").count()
+        Apr_Male_Per = (Apr_Tot_Male / Apr) * 100 if Apr != 0 else 0
+        Apr_Male_Per = int(round(Apr_Male_Per))
+
+        May_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="Male").count()
+        May_Male_Per = (May_Tot_Male / May) * 100 if May != 0 else 0
+        May_Male_Per = int(round(May_Male_Per))
+
+        Jun_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="Male").count()
+        Jun_Male_Per = (Jun_Tot_Male / Jun) * 100 if Jun != 0 else 0
+        Jun_Male_Per = int(round(Jun_Male_Per))
+
+        Jul_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="Male").count()
+        Jul_Male_Per = (Jul_Tot_Male / Jul) * 100 if Jul != 0 else 0
+        Jul_Male_Per = int(round(Jul_Male_Per))
+
+        Aug_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="Male").count()
+        Aug_Male_Per = (Aug_Tot_Male / Aug) * 100 if Aug != 0 else 0
+        Aug_Male_Per = int(round(Aug_Male_Per))
+
+        Sep_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="Male").count()
+        Sep_Male_Per = (Sep_Tot_Male / Sep) * 100 if Sep != 0 else 0
+        Sep_Male_Per = int(round(Sep_Male_Per))
+
+        Oct_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="Male").count()
+        Oct_Male_Per = (Oct_Tot_Male / Oct) * 100 if Oct != 0 else 0
+        Oct_Male_Per = int(round(Oct_Male_Per))
+
+        Nov_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="Male").count()
+        Nov_Male_Per = (Nov_Tot_Male / Nov) * 100 if Nov != 0 else 0
+        Nov_Male_Per = int(round(Nov_Male_Per))
+
+        Dec_Tot_Male = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="Male").count()
+        Dec_Male_Per = (Dec_Tot_Male / Dec) * 100 if Dec != 0 else 0
+        Dec_Male_Per = int(round(Dec_Male_Per))
+
+        male_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        male_monthly_occ_per = [Jan_Male_Per, Feb_Male_Per, Mar_Male_Per, Apr_Male_Per, May_Male_Per, Jun_Male_Per, 
+                                Jul_Male_Per, Aug_Male_Per, Sep_Male_Per, Oct_Male_Per, Nov_Male_Per, Dec_Male_Per]
         
+        context['male_monthly_occ_per_list'] = male_monthly_occ_per_list
+        context['male_monthly_occ_per'] = male_monthly_occ_per
+        
+
+        # Monthly Female Charts
+        Jan_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="Female").count()
+        Jan_Female_Per = (Jan_Tot_Female / Jan) * 100 if Jan != 0 else 0
+        Jan_Female_Per = int(round(Jan_Female_Per))
+
+        Feb_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="Female").count()
+        Feb_Female_Per = (Feb_Tot_Female / Feb) * 100 if Feb != 0 else 0
+        Feb_Female_Per = int(round(Feb_Female_Per))
+
+        Mar_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="Female").count()
+        Mar_Female_Per = (Mar_Tot_Female / Mar) * 100 if Mar != 0 else 0
+        Mar_Female_Per = int(round(Mar_Female_Per))
+
+        Apr_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="Female").count()
+        Apr_Female_Per = (Apr_Tot_Female / Apr) * 100 if Apr != 0 else 0
+        Apr_Female_Per = int(round(Apr_Female_Per))
+
+        May_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="Female").count()
+        May_Female_Per = (May_Tot_Female / May) * 100 if May != 0 else 0
+        May_Female_Per = int(round(May_Female_Per))
+
+        Jun_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="Female").count()
+        Jun_Female_Per = (Jun_Tot_Female / Jun) * 100 if Jun != 0 else 0
+        Jun_Female_Per = int(round(Jun_Female_Per))
+
+        Jul_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="Female").count()
+        Jul_Female_Per = (Jul_Tot_Female / Jul) * 100 if Jul != 0 else 0
+        Jul_Female_Per = int(round(Jul_Female_Per))
+
+        Aug_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="Female").count()
+        Aug_Female_Per = (Aug_Tot_Female / Aug) * 100 if Aug != 0 else 0
+        Aug_Female_Per = int(round(Aug_Female_Per))
+
+        Sep_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="Female").count()
+        Sep_Female_Per = (Sep_Tot_Female / Sep) * 100 if Sep != 0 else 0
+        Sep_Female_Per = int(round(Sep_Female_Per))
+
+        Oct_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="Female").count()
+        Oct_Female_Per = (Oct_Tot_Female/ Oct) * 100 if Oct != 0 else 0
+        Oct_Female_Per = int(round(Oct_Female_Per))
+
+        Nov_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="Female").count()
+        Nov_Female_Per = (Nov_Tot_Female / Nov) * 100 if Nov != 0 else 0
+        Nov_Female_Per = int(round(Nov_Female_Per))
+
+        Dec_Tot_Female = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="Female").count()
+        Dec_Female_Per = (Dec_Tot_Female / Dec) * 100 if Dec != 0 else 0
+        Dec_Female_Per = int(round(Dec_Female_Per))
+
+        female_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        female_monthly_occ_per = [Jan_Female_Per, Feb_Female_Per, Mar_Female_Per, Apr_Female_Per, May_Female_Per, Jun_Female_Per, 
+                                Jul_Female_Per, Aug_Female_Per, Sep_Female_Per, Oct_Female_Per, Nov_Female_Per, Dec_Female_Per]
+        
+        context['female_monthly_occ_per_list'] = female_monthly_occ_per_list
+        context['female_monthly_occ_per'] = female_monthly_occ_per
+
+
+        # Monthly LGBTQIA+ Charts
+        Jan_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-01", person__gender__iexact="LGBTQIA+").count()
+        Jan_LGBTQIA_Per = (Jan_Tot_LGBTQIA / Jan) * 100 if Jan != 0 else 0
+        Jan_LGBTQIA_Per = int(round(Jan_LGBTQIA_Per))
+
+        Feb_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-02", person__gender__iexact="LGBTQIA+").count()
+        Feb_LGBTQIA_Per = (Feb_Tot_LGBTQIA / Feb) * 100 if Feb != 0 else 0
+        Feb_LGBTQIA_Per = int(round(Feb_LGBTQIA_Per))
+
+        Mar_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-03", person__gender__iexact="LGBTQIA+").count()
+        Mar_LGBTQIA_Per = (Mar_Tot_Female / Mar) * 100 if Mar != 0 else 0
+        Mar_LGBTQIA_Per = int(round(Mar_LGBTQIA_Per))
+
+        Apr_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-04", person__gender__iexact="LGBTQIA+").count()
+        Apr_LGBTQIA_Per = (Apr_Tot_LGBTQIA / Apr) * 100 if Apr != 0 else 0
+        Apr_LGBTQIA_Per = int(round(Apr_LGBTQIA_Per))
+
+        May_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-05", person__gender__iexact="LGBTQIA+").count()
+        May_LGBTQIA_Per = (May_Tot_LGBTQIA / May) * 100 if May != 0 else 0
+        May_LGBTQIA_Per = int(round(May_LGBTQIA_Per))
+
+        Jun_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-06", person__gender__iexact="LGBTQIA+").count()
+        Jun_LGBTQIA_Per = (Jun_Tot_LGBTQIA / Jun) * 100 if Jun != 0 else 0
+        Jun_LGBTQIA_Per = int(round(Jun_LGBTQIA_Per))
+
+        Jul_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-07", person__gender__iexact="LGBTQIA+").count()
+        Jul_LGBTQIA_Per = (Jul_Tot_LGBTQIA / Jul) * 100 if Jul != 0 else 0
+        Jul_LGBTQIA_Per = int(round(Jul_LGBTQIA_Per))
+
+        Aug_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-08", person__gender__iexact="LGBTQIA+").count()
+        Aug_LGBTQIA_Per = (Aug_Tot_LGBTQIA / Aug) * 100 if Aug != 0 else 0
+        Aug_LGBTQIA_Per = int(round(Aug_LGBTQIA_Per))
+
+        Sep_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-09", person__gender__iexact="LGBTQIA+").count()
+        Sep_LGBTQIA_Per = (Sep_Tot_LGBTQIA / Sep) * 100 if Sep != 0 else 0
+        Sep_LGBTQIA_Per = int(round(Sep_LGBTQIA_Per))
+
+        Oct_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-10", person__gender__iexact="LGBTQIA+").count()
+        Oct_LGBTQIA_Per = (Oct_Tot_LGBTQIA/ Oct) * 100 if Oct != 0 else 0
+        Oct_LGBTQIA_Per = int(round(Oct_LGBTQIA_Per))
+
+        Nov_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-11", person__gender__iexact="LGBTQIA+").count()
+        Nov_LGBTQIA_Per = (Nov_Tot_LGBTQIA / Nov) * 100 if Nov != 0 else 0
+        Nov_LGBTQIA_Per = int(round(Nov_LGBTQIA_Per))
+
+        Dec_Tot_LGBTQIA = Occupant.objects.filter(start_date__icontains="2023-12", person__gender__iexact="LGBTQIA+").count()
+        Dec_LGBTQIA_Per = (Dec_Tot_LGBTQIA / Dec) * 100 if Dec != 0 else 0
+        Dec_LGBTQIA_Per = int(round(Dec_LGBTQIA_Per))
+
+        LGBTQIA_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        LGBTQIA_monthly_occ_per = [Jan_LGBTQIA_Per, Feb_LGBTQIA_Per, Mar_LGBTQIA_Per, Apr_LGBTQIA_Per, May_LGBTQIA_Per, Jun_LGBTQIA_Per, 
+                                    Jul_LGBTQIA_Per, Aug_LGBTQIA_Per, Sep_LGBTQIA_Per, Oct_LGBTQIA_Per, Nov_LGBTQIA_Per, Dec_LGBTQIA_Per]
+        
+        context['LGBTQIA_monthly_occ_per_list'] = LGBTQIA_monthly_occ_per_list
+        context['LGBTQIA_monthly_occ_per'] = LGBTQIA_monthly_occ_per
+
+        
+        # Monthly Unpaid Charts
+        Jan_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-01", payment__isnull=False).distinct().count()
+        Jan_Unpaid_Per = (Jan_Unpaid_Occ / Jan) * 100 if Jan != 0 else 0
+        Jan_Unpaid_Per = int(round(Jan_Unpaid_Per))
+
+        Feb_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-02", payment__isnull=False).distinct().count()
+        Feb_Unpaid_Per = (Feb_Unpaid_Occ / Feb) * 100 if Feb != 0 else 0
+        Feb_Unpaid_Per = int(round(Feb_Unpaid_Per))
+
+        Mar_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-03", payment__isnull=False).distinct().count()
+        Mar_Unpaid_Per = (Mar_Unpaid_Occ / Mar) * 100 if Mar != 0 else 0
+        Mar_Unpaid_Per = int(round(Mar_Unpaid_Per))
+
+        Apr_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-04", payment__isnull=False).distinct().count()
+        Apr_Unpaid_Per = (Apr_Unpaid_Occ / Apr) * 100 if Apr != 0 else 0
+        Apr_Unpaid_Per = int(round(Apr_Unpaid_Per))
+
+        May_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-05", payment__isnull=False).distinct().count()
+        May_Unpaid_Per = (May_Unpaid_Occ / May) * 100 if May != 0 else 0
+        May_Unpaid_Per = int(round(May_Unpaid_Per))
+
+        Jun_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-06", payment__isnull=False).distinct().count()
+        Jun_Unpaid_Per = (Jun_Unpaid_Occ / Jun) * 100 if Jun != 0 else 0
+        Jun_Unpaid_Per = int(round(Jun_Unpaid_Per))
+
+        Jul_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-07", payment__isnull=False).distinct().count()
+        Jul_Unpaid_Per = (Jul_Unpaid_Occ / Jul) * 100 if Jul != 0 else 0
+        Jul_Unpaid_Per = int(round(Jul_Unpaid_Per))
+
+        Aug_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-08", payment__isnull=False).distinct().count()
+        Aug_Unpaid_Per = (Aug_Unpaid_Occ / Aug) * 100 if Aug != 0 else 0
+        Aug_Unpaid_Per = int(round(Aug_Unpaid_Per))
+
+        Sep_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-09", payment__isnull=False).distinct().count()
+        Sep_Unpaid_Per = (Sep_Unpaid_Occ / Sep) * 100 if Sep != 0 else 0
+        Sep_Unpaid_Per = int(round(Sep_Unpaid_Per))
+
+        Oct_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-10", payment__isnull=False).distinct().count()
+        Oct_Unpaid_Per = (Oct_Unpaid_Occ / Oct) * 100 if Oct != 0 else 0
+        Oct_Unpaid_Per = int(round(Oct_Unpaid_Per))
+
+        Nov_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-11", payment__isnull=False).distinct().count()
+        Nov_Unpaid_Per = (Nov_Unpaid_Occ / Nov) * 100 if Nov != 0 else 0
+        Nov_Unpaid_Per = int(round(Nov_Unpaid_Per))
+
+        Dec_Unpaid_Occ = Occupant.objects.exclude(payment__created_at__icontains="2023-12", payment__isnull=False).distinct().count()
+        Dec_Unpaid_Per = (Dec_Unpaid_Occ / Dec) * 100 if Dec != 0 else 0
+        Dec_Unpaid_Per = int(round(Dec_Unpaid_Per))
+
+
+        unpaid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        unpaid_monthly_occ_per = [Jan_Unpaid_Per, Feb_Unpaid_Per, Mar_Unpaid_Per, Apr_Unpaid_Per, May_Unpaid_Per, Jun_Unpaid_Per, 
+                                Jul_Unpaid_Per, Aug_Unpaid_Per, Sep_Unpaid_Per, Oct_Unpaid_Per, Nov_Unpaid_Per, Dec_Unpaid_Per]
+        
+        context['unpaid_monthly_occ_per_list'] = unpaid_monthly_occ_per_list
+        context['unpaid_monthly_occ_per'] = unpaid_monthly_occ_per
+
+
+        # Monthly Paid Charts
+
+        # Partially Paid and Paid in January
+        occupant_bills_jan = Occupant.objects.filter(bill_details__created_at__icontains="2023-01")\
+            .annotate(total_bills_jan=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jan')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jan = Occupant.objects.filter(payment__created_at__icontains="2023-01")\
+            .annotate(total_payments_jan=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jan')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jan = 0
+        occupants_with_zero_or_negative_balance_jan = 0
+
+        for occupant_bill_jan in occupant_bills_jan:
+            total_payments_jan = 0
+            for occupant_payment_jan in occupant_payments_jan:
+                if occupant_payment_jan['id'] == occupant_bill_jan['id']:
+                    total_payments_jan = occupant_payment_jan['total_payments_jan']
+                    break
+            remaining_balance_jan = occupant_bill_jan['total_bills_jan'] - total_payments_jan
+            if remaining_balance_jan > 0:
+                occupants_with_balance_jan += 1
+            else:
+                occupants_with_zero_or_negative_balance_jan += 1
+
+        Jan_PatiallyPaid_Per = (occupants_with_balance_jan / Jan) * 100 if Jan != 0 else 0
+        Jan_PatiallyPaid_Per = int(round(Jan_PatiallyPaid_Per))
+
+        Jan_Paid_Per = (occupants_with_zero_or_negative_balance_jan / Jan) * 100 if Jan != 0 else 0
+        Jan_Paid_Per = int(round(Jan_Paid_Per))
+
+
+        # Partially Paid and Paid in February
+        occupant_bills_feb = Occupant.objects.filter(bill_details__created_at__icontains="2023-02")\
+            .annotate(total_bills_feb=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_feb')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_feb = Occupant.objects.filter(payment__created_at__icontains="2023-02")\
+            .annotate(total_payments_feb=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_feb')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_feb = 0
+        occupants_with_zero_or_negative_balance_feb = 0
+
+        for occupant_bill_feb in occupant_bills_feb:
+            total_payments_feb = 0
+            for occupant_payment_feb in occupant_payments_feb:
+                if occupant_payment_feb['id'] == occupant_bill_feb['id']:
+                    total_payments_feb = occupant_payment_feb['total_payments_feb']
+                    break
+            remaining_balance_feb = occupant_bill_feb['total_bills_feb'] - total_payments_feb
+            if remaining_balance_feb > 0:
+                occupants_with_balance_feb += 1
+            else:
+                occupants_with_zero_or_negative_balance_feb += 1
+
+        Feb_PatiallyPaid_Per = (occupants_with_balance_feb / Feb) * 100 if Feb != 0 else 0
+        Feb_PatiallyPaid_Per = int(round(Feb_PatiallyPaid_Per))
+
+        Feb_Paid_Per = (occupants_with_zero_or_negative_balance_feb / Feb) * 100 if Feb != 0 else 0
+        Feb_Paid_Per = int(round(Feb_Paid_Per))
+
+
+        # Partially Paid and Paid in March
+        occupant_bills_mar = Occupant.objects.filter(bill_details__created_at__icontains="2023-03")\
+            .annotate(total_bills_mar=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_mar')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_mar = Occupant.objects.filter(payment__created_at__icontains="2023-03")\
+            .annotate(total_payments_mar=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_mar')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_mar = 0
+        occupants_with_zero_or_negative_balance_mar = 0
+
+        for occupant_bill_mar in occupant_bills_mar:
+            total_payments_mar = 0
+            for occupant_payment_mar in occupant_payments_mar:
+                if occupant_payment_mar['id'] == occupant_bill_mar['id']:
+                    total_payments_mar = occupant_payment_mar['total_payments_mar']
+                    break
+            remaining_balance_mar = occupant_bill_mar['total_bills_mar'] - total_payments_mar
+            if remaining_balance_mar > 0:
+                occupants_with_balance_mar += 1
+            else:
+                occupants_with_zero_or_negative_balance_mar += 1
+
+        Mar_PatiallyPaid_Per = (occupants_with_balance_mar / Mar) * 100 if Mar != 0 else 0
+        Mar_PatiallyPaid_Per = int(round(Mar_PatiallyPaid_Per))
+
+        Mar_Paid_Per = (occupants_with_zero_or_negative_balance_mar / Mar) * 100 if Mar != 0 else 0
+        Mar_Paid_Per = int(round(Mar_Paid_Per))
+
+
+        # Partially Paid and Paid in April
+        occupant_bills_apr = Occupant.objects.filter(bill_details__created_at__icontains="2023-04")\
+            .annotate(total_bills_apr=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_apr')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_apr = Occupant.objects.filter(payment__created_at__icontains="2023-04")\
+            .annotate(total_payments_apr=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_apr')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_apr = 0
+        occupants_with_zero_or_negative_balance_apr = 0
+
+        for occupant_bill_apr in occupant_bills_apr:
+            total_payments_apr = 0
+            for occupant_payment_apr in occupant_payments_apr:
+                if occupant_payment_apr['id'] == occupant_bill_apr['id']:
+                    total_payments_apr = occupant_payment_apr['total_payments_apr']
+                    break
+            remaining_balance_apr = occupant_bill_apr['total_bills_apr'] - total_payments_apr
+            if remaining_balance_apr > 0:
+                occupants_with_balance_apr += 1
+            else:
+                occupants_with_zero_or_negative_balance_apr += 1
+
+        Apr_PatiallyPaid_Per = (occupants_with_balance_apr / Apr) * 100 if Apr != 0 else 0
+        Apr_PatiallyPaid_Per = int(round(Apr_PatiallyPaid_Per))
+
+        Apr_Paid_Per = (occupants_with_zero_or_negative_balance_apr / Apr) * 100 if Apr != 0 else 0
+        Apr_Paid_Per = int(round(Apr_Paid_Per))
+
+
+        # Partially Paid and Paid in May
+        occupant_bills_may = Occupant.objects.filter(bill_details__created_at__icontains="2023-05")\
+            .annotate(total_bills_may=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_may')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_may = Occupant.objects.filter(payment__created_at__icontains="2023-05")\
+            .annotate(total_payments_may=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_may')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_may = 0
+        occupants_with_zero_or_negative_balance_may = 0
+        
+        for occupant_bill_may in occupant_bills_may:
+            total_payments_may = 0
+            for occupant_payment_may in occupant_payments_may:
+                if occupant_payment_may['id'] == occupant_bill_may['id']:
+                    total_payments_may = occupant_payment_may['total_payments_may']
+                    break
+            remaining_balance_may = occupant_bill_may['total_bills_may'] - total_payments_may
+            if remaining_balance_may > 0:
+                occupants_with_balance_may += 1
+            else:
+                occupants_with_zero_or_negative_balance_may += 1
+
+        May_PatiallyPaid_Per = (occupants_with_balance_may / May) * 100 if May != 0 else 0
+        May_PatiallyPaid_Per = int(round(May_PatiallyPaid_Per))
+
+        May_Paid_Per = (occupants_with_zero_or_negative_balance_may / May) * 100 if May != 0 else 0
+        May_Paid_Per = int(round(May_Paid_Per))
+
+        
+        # Partially Paid and Paid in June
+        occupant_bills_jun = Occupant.objects.filter(bill_details__created_at__icontains="2023-06")\
+            .annotate(total_bills_jun=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jun')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jun = Occupant.objects.filter(payment__created_at__icontains="2023-06")\
+            .annotate(total_payments_jun=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jun')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jun = 0
+        occupants_with_zero_or_negative_balance_jun = 0
+        
+        for occupant_bill_jun in occupant_bills_jun:
+            total_payments_jun = 0
+            for occupant_payment_jun in occupant_payments_jun:
+                if occupant_payment_jun['id'] == occupant_bill_jun['id']:
+                    total_payments_jun = occupant_payment_jun['total_payments_jun']
+                    break
+            remaining_balance_jun = occupant_bill_jun['total_bills_jun'] - total_payments_jun
+            if remaining_balance_jun > 0:
+                occupants_with_balance_jun += 1
+            else:
+                occupants_with_zero_or_negative_balance_jun += 1
+
+        Jun_PatiallyPaid_Per = (occupants_with_balance_jun / Jun) * 100 if Jun != 0 else 0
+        Jun_PatiallyPaid_Per = int(round(Jun_PatiallyPaid_Per))
+
+        Jun_Paid_Per = (occupants_with_zero_or_negative_balance_jun / Jun) * 100 if Jun != 0 else 0
+        Jun_Paid_Per = int(round(Jun_Paid_Per))
+
+
+        # Partially Paid and Paid in July
+        occupant_bills_jul = Occupant.objects.filter(bill_details__created_at__icontains="2023-07")\
+            .annotate(total_bills_jul=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_jul')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_jul = Occupant.objects.filter(payment__created_at__icontains="2023-07")\
+            .annotate(total_payments_jul=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_jul')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_jul = 0
+        occupants_with_zero_or_negative_balance_jul = 0
+        
+        for occupant_bill_jul in occupant_bills_jul:
+            total_payments_jul = 0
+            for occupant_payment_jul in occupant_payments_jul:
+                if occupant_payment_jul['id'] == occupant_bill_jul['id']:
+                    total_payments_jul = occupant_payment_jul['total_payments_jul']
+                    break
+            remaining_balance_jul = occupant_bill_jul['total_bills_jul'] - total_payments_jul
+            if remaining_balance_jul > 0:
+                occupants_with_balance_jul += 1
+            else:
+                occupants_with_zero_or_negative_balance_jul += 1
+
+        Jul_PatiallyPaid_Per = (occupants_with_balance_jul / Jul) * 100 if Jul != 0 else 0
+        Jul_PatiallyPaid_Per = int(round(Jul_PatiallyPaid_Per))
+
+        Jul_Paid_Per = (occupants_with_zero_or_negative_balance_jul / Jul) * 100 if Jul != 0 else 0
+        Jul_Paid_Per = int(round(Jul_Paid_Per))
+
+
+        # Partially Paid and Paid in August
+        occupant_bills_aug = Occupant.objects.filter(bill_details__created_at__icontains="2023-08")\
+            .annotate(total_bills_aug=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_aug')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_aug = Occupant.objects.filter(payment__created_at__icontains="2023-08")\
+            .annotate(total_payments_aug=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_aug')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_aug = 0
+        occupants_with_zero_or_negative_balance_aug = 0
+
+        for occupant_bill_aug in occupant_bills_aug:
+            total_payments_aug = 0
+            for occupant_payment_aug in occupant_payments_aug:
+                if occupant_payment_aug['id'] == occupant_bill_aug['id']:
+                    total_payments_aug = occupant_payment_aug['total_payments_aug']
+                    break
+            remaining_balance_aug = occupant_bill_aug['total_bills_aug'] - total_payments_aug
+            if remaining_balance_aug > 0:
+                occupants_with_balance_aug += 1
+            else:
+                occupants_with_zero_or_negative_balance_aug += 1
+
+        Aug_PatiallyPaid_Per = (occupants_with_balance_aug / Aug) * 100 if Aug != 0 else 0
+        Aug_PatiallyPaid_Per = int(round(Aug_PatiallyPaid_Per))
+
+        Aug_Paid_Per = (occupants_with_zero_or_negative_balance_aug / Aug) * 100 if Aug != 0 else 0
+        Aug_Paid_Per = int(round(Aug_Paid_Per))
+
+
+        # Partially Paid and Paid in September
+        occupant_bills_sep = Occupant.objects.filter(bill_details__created_at__icontains="2023-09")\
+            .annotate(total_bills_sep=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_sep')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_sep = Occupant.objects.filter(payment__created_at__icontains="2023-09")\
+            .annotate(total_payments_sep=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_sep')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_sep = 0
+        occupants_with_zero_or_negative_balance_sep = 0
+        
+        for occupant_bill_sep in occupant_bills_sep:
+            total_payments_sep = 0
+            for occupant_payment_sep in occupant_payments_sep:
+                if occupant_payment_sep['id'] == occupant_bill_sep['id']:
+                    total_payments_sep = occupant_payment_sep['total_payments_sep']
+                    break
+            remaining_balance_sep = occupant_bill_sep['total_bills_aug'] - total_payments_sep
+            if remaining_balance_sep > 0:
+                occupants_with_balance_sep += 1
+            else:
+                occupants_with_zero_or_negative_balance_sep += 1
+
+        Sep_PatiallyPaid_Per = (occupants_with_balance_sep / Sep) * 100 if Sep != 0 else 0
+        Sep_PatiallyPaid_Per = int(round(Sep_PatiallyPaid_Per))
+
+        Sep_Paid_Per = (occupants_with_zero_or_negative_balance_sep / Sep) * 100 if Sep != 0 else 0
+        Sep_Paid_Per = int(round(Sep_Paid_Per))
+
+
+        # Partially Paid and Paid in October
+        occupant_bills_oct = Occupant.objects.filter(bill_details__created_at__icontains="2023-10")\
+            .annotate(total_bills_oct=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_oct')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_oct = Occupant.objects.filter(payment__created_at__icontains="2023-10")\
+            .annotate(total_payments_oct=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_oct')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_oct = 0
+        occupants_with_zero_or_negative_balance_oct = 0
+        
+        for occupant_bill_oct in occupant_bills_oct:
+            total_payments_oct = 0
+            for occupant_payment_oct in occupant_payments_oct:
+                if occupant_payment_oct['id'] == occupant_bill_oct['id']:
+                    total_payments_oct = occupant_payment_oct['total_payments_oct']
+                    break
+            remaining_balance_oct = occupant_bill_oct['total_bills_oct'] - total_payments_oct
+            if remaining_balance_oct > 0:
+                occupants_with_balance_oct += 1
+            else:
+                occupants_with_zero_or_negative_balance_oct += 1
+
+        Oct_PatiallyPaid_Per = (occupants_with_balance_oct / Oct) * 100 if Oct != 0 else 0
+        Oct_PatiallyPaid_Per = int(round(Oct_PatiallyPaid_Per))
+
+        Oct_Paid_Per = (occupants_with_zero_or_negative_balance_oct / Oct) * 100 if Oct != 0 else 0
+        Oct_Paid_Per = int(round(Oct_Paid_Per))
+
+
+        # Partially Paid and Paid in November
+        occupant_bills_nov = Occupant.objects.filter(bill_details__created_at__icontains="2023-11")\
+            .annotate(total_bills_nov=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_nov')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_nov = Occupant.objects.filter(payment__created_at__icontains="2023-11")\
+            .annotate(total_payments_nov=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_nov')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_nov = 0
+        occupants_with_zero_or_negative_balance_nov = 0
+
+        for occupant_bill_nov in occupant_bills_nov:
+            total_payments_nov = 0
+            for occupant_payment_nov in occupant_payments_nov:
+                if occupant_payment_nov['id'] == occupant_bill_nov['id']:
+                    total_payments_nov = occupant_payment_nov['total_payments_nov']
+                    break
+            remaining_balance_nov = occupant_bill_nov['total_bills_nov'] - total_payments_nov
+            if remaining_balance_nov > 0:
+                occupants_with_balance_nov += 1
+            else:
+                occupants_with_zero_or_negative_balance_nov += 1
+
+        Nov_PatiallyPaid_Per = (occupants_with_balance_nov / Nov) * 100 if Nov != 0 else 0
+        Nov_PatiallyPaid_Per = int(round(Nov_PatiallyPaid_Per))
+
+        Nov_Paid_Per = (occupants_with_zero_or_negative_balance_nov / Nov) * 100 if Nov != 0 else 0
+        Nov_Paid_Per = int(round(Nov_Paid_Per))
+
+
+        # Partially Paid and Paid in December
+        occupant_bills_dec = Occupant.objects.filter(bill_details__created_at__icontains="2023-12")\
+            .annotate(total_bills_dec=Sum('bill_details__amount'))\
+            .values('id', 'person__last_name', 'total_bills_dec')\
+            .distinct().order_by('person__last_name')
+
+        occupant_payments_dec = Occupant.objects.filter(payment__created_at__icontains="2023-12")\
+            .annotate(total_payments_dec=Sum('payment__amount'))\
+            .values('id', 'person__last_name', 'total_payments_dec')\
+            .distinct().order_by('person__last_name')
+
+        occupants_with_balance_dec = 0
+        occupants_with_zero_or_negative_balance_dec = 0
+        
+        for occupant_bill_dec in occupant_bills_dec:
+            total_payments_dec = 0
+            for occupant_payment_dec in occupant_payments_dec:
+                if occupant_payment_dec['id'] == occupant_bill_dec['id']:
+                    total_payments_dec = occupant_payment_dec['total_payments_dec']
+                    break
+            remaining_balance_dec = occupant_bill_dec['total_bills_dec'] - total_payments_dec
+            if remaining_balance_dec > 0:
+                occupants_with_balance_dec += 1
+            else:
+                occupants_with_zero_or_negative_balance_nov += 1
+
+        Dec_PatiallyPaid_Per = (occupants_with_balance_dec / Dec) * 100 if Dec != 0 else 0
+        Dec_PatiallyPaid_Per = int(round(Dec_PatiallyPaid_Per))
+
+        Dec_Paid_Per = (occupants_with_zero_or_negative_balance_dec / Dec) * 100 if Dec != 0 else 0
+        Dec_Paid_Per = int(round(Dec_Paid_Per))
+
+
+        partiallypaid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        partiallypaid_monthly_occ_per = [Jan_PatiallyPaid_Per, Feb_PatiallyPaid_Per, Mar_PatiallyPaid_Per, Apr_PatiallyPaid_Per,
+                                          May_PatiallyPaid_Per, Jun_PatiallyPaid_Per, Jul_PatiallyPaid_Per, Aug_PatiallyPaid_Per, 
+                                          Sep_PatiallyPaid_Per, Oct_PatiallyPaid_Per, Nov_PatiallyPaid_Per, Dec_PatiallyPaid_Per]
+        
+        context['partiallypaid_monthly_occ_per_list'] = partiallypaid_monthly_occ_per_list
+        context['partiallypaid_monthly_occ_per'] = partiallypaid_monthly_occ_per
+
+
+        paid_monthly_occ_per_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        paid_monthly_occ_per = [Jan_Paid_Per, Feb_Paid_Per, Mar_Paid_Per, Apr_Paid_Per,
+                                May_Paid_Per, Jun_Paid_Per, Jul_Paid_Per, Aug_Paid_Per, 
+                                Sep_Paid_Per, Oct_Paid_Per, Nov_Paid_Per, Dec_Paid_Per]
+        
+        context['paid_monthly_occ_per_list'] = paid_monthly_occ_per_list
+        context['paid_monthly_occ_per'] = paid_monthly_occ_per
+
+
         return context
 
 # @method_decorator(login_required, name='dispatch')
@@ -3334,10 +5751,10 @@ class DMServiceList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['services']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').count()
-        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').count()
+        context['services']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others').count()
+        context['available'] = Service.objects.filter(status__iexact="Available").exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others').count()
         context['notavailable'] = Service.objects.filter(status__iexact="Not Available").count()
-        # context['services_limit']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID')
+        context['services_limit']= Service.objects.all().exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others')
     
         return context
 
@@ -3822,10 +6239,11 @@ def add_billing(request):
             form.save()
 
             service = form.cleaned_data['service']
+            service_service_name = service.service_name 
             quantity = form.cleaned_data['quantity']
-            price = Service.objects.filter(service_name=service).first()
-            bill_id = form.instance.id
+            price = Service.objects.filter(service_name=service_service_name).first()
             total_amount = price.base_amount * quantity
+            bill_id = form.instance.id
             
             # print(f'service: {service}')
             # print(f'quantity: {quantity}')
@@ -4440,10 +6858,11 @@ def as_add_billing(request):
             form.save()
 
             service = form.cleaned_data['service']
+            service_service_name = service.service_name 
             quantity = form.cleaned_data['quantity']
-            price = Service.objects.filter(service_name=service).first()
-            bill_id = form.instance.id
+            price = Service.objects.filter(service_name=service_service_name).first()
             total_amount = price.base_amount * quantity
+            bill_id = form.instance.id
             
             cursor = connections['default'].cursor()
             query = "UPDATE dormitory_bill_details SET amount = %s WHERE id = %s"
@@ -4624,7 +7043,7 @@ class User_Contract_View(UpdateView):
         
         # context ['contract'] = Occupant.objects.filter(Q(person__psu_email=x, id=self.object.id)).values('id','bed__bed_code', 'person__boarder_type', 'bed__bed_description', 'bedPrice', 'bed__room__room_name', 'bed__room__floorlvl', 'bed__room__dorm_name', 'start_date', 'end_date').order_by('-created_at')
         context['fetch_first_three'] = Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).values('bill_date', 'service__service_name', 'amount')[0:3]
-        context['billing_details'] = Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).values('bill_date', 'service__service_name', 'quantity', 'amount')[3:]
+        context['billing_details'] = Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).values('bill_date', 'service__service_name', 'service__title', 'service__description', 'quantity', 'amount')[3:]
         context['total_bills_amount'] = Bill_Details.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).aggregate(Sum('amount'))['amount__sum'] or 0
         context['payment'] = Payment.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).values('payment_date', 'amount', 'receipt_no')
         context['total_payment_amount'] = Payment.objects.filter(Q(occupant__person__psu_email=x, occupant=self.object.id)).aggregate(Sum('amount'))['amount__sum'] or 0
@@ -4639,8 +7058,24 @@ class User_Services(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        global x
+        
+        # Get the current day
+        current_day = datetime.datetime.now()
+        final_y_m = current_day.strftime("%Y") + "-" + current_day.strftime("%m")
 
+        # Filter the Bill_Details queryset for the current month
+        bill_details_current_month = Bill_Details.objects.filter(
+            Q(occupant__person__psu_email=x), created_at__icontains=final_y_m
+        )[3:]
+
+        total_bills_current_month = (Bill_Details.objects.filter(Q(occupant__person__psu_email=x), created_at__icontains=final_y_m).aggregate(Sum('amount'))['amount__sum'] or 0) - (Payment.objects.filter(Q(occupant__person__psu_email=x), created_at__icontains=final_y_m).aggregate(Sum('amount'))['amount__sum'] or 0)
+
+        # Add the count to the context
+        context['total_availed_service'] = bill_details_current_month.count()
+        context['total_bills_current_month'] = total_bills_current_month
         context['services_limit'] = Service.objects.filter(status__iexact='Available').exclude(service_name__iexact='Local Deposit').exclude(service_name__iexact='Local Advance').exclude(service_name__iexact='Foreign Deposit').exclude(service_name__iexact='Foreign Advance').exclude(service_name__iexact='Dorm ID').exclude(service_name__iexact='Others')
+        
         return context
 
 
@@ -4661,10 +7096,9 @@ def user_add_billing(request):
             cursor1.execute(query1)
 
             service = form.cleaned_data['service']
+            service_service_name = service.service_name 
             quantity = form.cleaned_data['quantity']
-            
-            price = Service.objects.filter(service_name=service).first()
-
+            price = Service.objects.filter(service_name=service_service_name).first()
             total_amount = price.base_amount * quantity
 
             cursor = connections['default'].cursor()
@@ -5006,6 +7440,21 @@ def admin_show_password_form(request):
 #   occupant.delete()
 #   return HttpResponseRedirect(reverse('OccupantAccounts'))
 
+# def delete_bill(request, id):
+#   occupant = Bill_Details.objects.get(id=id)
+#   occupant.delete()
+#   return HttpResponseRedirect(reverse('BillingList'))
+
+# def delete_payment(request, id):
+#   occupant = Payment.objects.get(id=id)
+#   occupant.delete()
+#   return HttpResponseRedirect(reverse('PaymentList'))
+
+# def delete_service(request, id):
+#   occupant = Service.objects.get(id=id)
+#   occupant.delete()
+#   return HttpResponseRedirect(reverse('ServiceList'))
+
 # ===================================================
 # Functions for Exporting to PDF and EXCEL
 # ===================================================
@@ -5014,12 +7463,17 @@ from xhtml2pdf import pisa
 
 def RegPDF(request, pk):
     reg_person = Person.objects.get(id=pk)
+    reg_lastname = Person.objects.filter(id=pk).values_list('last_name', flat=True).first()
+    reg_firstname = Person.objects.filter(id=pk).values_list('first_name', flat=True).first()
+    reg_middlename = Person.objects.filter(id=pk).values_list('middle_name', flat=True).first()
+    reg_middleinitial = reg_middlename[0].upper() + '.' if reg_middlename else ''
     template_path = 'superadmin/reg_pdf.html'
+
     context = {
         'reg_person': reg_person,
     }
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="Registration Information.pdf"'
+    response['Content-Disposition'] = f'filename="{reg_lastname}, {reg_firstname} {reg_middleinitial} - Registration Details.pdf"'
     
     # find the template and render it.
     template = get_template(template_path)
@@ -5035,6 +7489,10 @@ def RegPDF(request, pk):
 
 def OccPDF(request, pk):
     occ_person = Occupant.objects.get(id=pk)
+    occ_lastname = Occupant.objects.filter(id=pk).values_list('person__last_name', flat=True).first()
+    occ_firstname = Occupant.objects.filter(id=pk).values_list('person__first_name', flat=True).first()
+    occ_middlename = Occupant.objects.filter(id=pk).values_list('person__middle_name', flat=True).first()
+    occ_middleinitial = occ_middlename[0].upper() + '.' if occ_middlename else ''
     table1 = Bill_Details.objects.filter(occupant=pk)[0:3]
     table2 = Bill_Details.objects.filter(occupant=pk)[3:]
     table3 = Payment.objects.filter(occupant=pk)
@@ -5058,7 +7516,7 @@ def OccPDF(request, pk):
     }
  
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="Occupant Information.pdf"'
+    response['Content-Disposition'] = f'filename="{occ_lastname}, {occ_firstname} {occ_middleinitial} - Statement of Account.pdf"'
     
     # find the template and render it.
     template = get_template(template_path)
@@ -5074,12 +7532,16 @@ def OccPDF(request, pk):
 
 def FDRegPDF(request, pk):
     reg_person = Person.objects.get(id=pk)
+    reg_lastname = Person.objects.filter(id=pk).values_list('last_name', flat=True).first()
+    reg_firstname = Person.objects.filter(id=pk).values_list('first_name', flat=True).first()
+    reg_middlename = Person.objects.filter(id=pk).values_list('middle_name', flat=True).first()
+    reg_middleinitial = reg_middlename[0].upper() + '.' if reg_middlename else ''
     template_path = 'frontdesk/fd_reg_pdf.html'
     context = {
         'reg_person': reg_person,
     }
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="Registration Information.pdf"'
+    response['Content-Disposition'] = f'filename="{reg_lastname}, {reg_firstname} {reg_middleinitial} - Registration Details.pdf"'
     
     # find the template and render it.
     template = get_template(template_path)
@@ -5095,6 +7557,10 @@ def FDRegPDF(request, pk):
 
 def FDOccPDF(request, pk):
     occ_person = Occupant.objects.get(id=pk)
+    occ_lastname = Occupant.objects.filter(id=pk).values_list('person__last_name', flat=True).first()
+    occ_firstname = Occupant.objects.filter(id=pk).values_list('person__first_name', flat=True).first()
+    occ_middlename = Occupant.objects.filter(id=pk).values_list('person__middle_name', flat=True).first()
+    occ_middleinitial = occ_middlename[0].upper() + '.' if occ_middlename else ''
     table1 = Bill_Details.objects.filter(occupant=pk)[0:3]
     table2 = Bill_Details.objects.filter(occupant=pk)[3:]
     table3 = Payment.objects.filter(occupant=pk)
@@ -5118,7 +7584,7 @@ def FDOccPDF(request, pk):
     }
  
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="Occupant Information.pdf"'
+    response['Content-Disposition'] = f'filename="{occ_lastname}, {occ_firstname} {occ_middleinitial} - Statement of Account.pdf"'
     
     # find the template and render it.
     template = get_template(template_path)
@@ -5134,6 +7600,10 @@ def FDOccPDF(request, pk):
 
 def ASOccPDF(request, pk):
     occ_person = Occupant.objects.get(id=pk)
+    occ_lastname = Occupant.objects.filter(id=pk).values_list('person__last_name', flat=True).first()
+    occ_firstname = Occupant.objects.filter(id=pk).values_list('person__first_name', flat=True).first()
+    occ_middlename = Occupant.objects.filter(id=pk).values_list('person__middle_name', flat=True).first()
+    occ_middleinitial = occ_middlename[0].upper() + '.' if occ_middlename else ''
     table1 = Bill_Details.objects.filter(occupant=pk)[0:3]
     table2 = Bill_Details.objects.filter(occupant=pk)[3:]
     table3 = Payment.objects.filter(occupant=pk)
@@ -5142,7 +7612,7 @@ def ASOccPDF(request, pk):
     total_payment_amount = Payment.objects.filter(occupant=pk).aggregate(Sum('amount'))['amount__sum'] or 0
     remaining_balance = (Bill_Details.objects.filter(occupant=pk).aggregate(Sum('amount'))['amount__sum'] or 0) - (Payment.objects.filter(occupant=pk).aggregate(Sum('amount'))['amount__sum'] or 0)
     table4 = OccupantDemerit.objects.filter(occupant=pk)
-    template_path = 'superadmin/occ_pdf.html'
+    template_path = 'accountingstaff/as_occ_pdf.html'
 
     context = {
         'occ_person': occ_person,
@@ -5157,7 +7627,7 @@ def ASOccPDF(request, pk):
     }
  
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="Occupant Information.pdf"'
+    response['Content-Disposition'] = f'filename="{occ_lastname}, {occ_firstname} {occ_middleinitial} - Statement of Account.pdf"'
     
     # find the template and render it.
     template = get_template(template_path)
@@ -5969,6 +8439,7 @@ def UserRules(request):
 # ===================================================
 # Get the current date and time
 now = datetime.datetime.now()
+from django.core.mail import EmailMultiAlternatives
 
 # Calculate the date that is 1 week before the 30th of the month
 if now.month == 2:  # February
@@ -5977,7 +8448,7 @@ if now.month == 2:  # February
     else:
         occ_date = datetime.date(now.year, 2, 30) - datetime.timedelta(days=7)
 else:
-    if now.day >= 23:
+    if now.day >= 25:
         next_month = now.replace(day=28) + datetime.timedelta(days=4)
         occ_date = next_month.replace(day=30) - datetime.timedelta(days=10)
     else:
@@ -5989,15 +8460,15 @@ if now >= occ_date:
     occupants = Occupant.objects.all()
 
     # Determine which email template to use based on the date
-    if now >= occ_date - datetime.timedelta(days=7):
+    if now >= occ_date - datetime.timedelta(days=4):
         template_name = "due_1week_email.html"
         subject = "Due in 1 week"
 
-    if now >= occ_date - datetime.timedelta(days=3):
+    if now >= occ_date - datetime.timedelta(days=4):
         template_name = "due_3days_email.html"
         subject = "Due in 3 days"
 
-    if now >= occ_date - datetime.timedelta(days=1):
+    if now >= occ_date - datetime.timedelta(days=4):
         template_name = "due_1day_email.html"
         subject = "Due tomorrow"
 
@@ -6022,6 +8493,97 @@ if now >= occ_date:
         )
         message.attach_alternative(html_body, "text/html")
         message.send(fail_silently=False)
+
+# Check if the current date is the 25th of the month
+# if now.day == 25:
+#     # Get all the occupants
+#     occupants = Occupant.objects.all()
+
+#     # Determine which email template to use based on the date
+#     template_name = "due_1week_email.html"
+#     subject = "Due in 1 week"
+
+#     # Loop through the occupants and send an email to each one
+#     for occupant in occupants:
+#         # Get the PSU email address of the occupant
+#         email = occupant.person.psu_email.strip()
+
+#         # Skip any invalid email addresses
+#         if not email:
+#             continue
+
+#         # Render the HTML email template with occupant-specific data
+#         html_body = render_to_string(template_name, {'occupant': occupant})
+
+#         # Create and send the email to the occupant
+#         message = EmailMultiAlternatives(
+#             subject=subject,
+#             body="mail testing",
+#             from_email='settings.EMAIL_HOST_USER',
+#             to=[email]
+#         )
+#         message.attach_alternative(html_body, "text/html")
+#         message.send(fail_silently=False)
+
+# if now.day == 25:
+#     # Get all the occupants
+#     occupants = Occupant.objects.all()
+
+#     # Determine which email template to use based on the date
+#     template_name = "due_3days_email.html"
+#     subject = "Due in 3 days"
+
+#     # Loop through the occupants and send an email to each one
+#     for occupant in occupants:
+#         # Get the PSU email address of the occupant
+#         email = occupant.person.psu_email.strip()
+
+#         # Skip any invalid email addresses
+#         if not email:
+#             continue
+
+#         # Render the HTML email template with occupant-specific data
+#         html_body = render_to_string(template_name, {'occupant': occupant})
+
+#         # Create and send the email to the occupant
+#         message = EmailMultiAlternatives(
+#             subject=subject,
+#             body="mail testing",
+#             from_email='settings.EMAIL_HOST_USER',
+#             to=[email]
+#         )
+#         message.attach_alternative(html_body, "text/html")
+#         message.send(fail_silently=False)
+
+# if now.day == 25:
+#     # Get all the occupants
+#     occupants = Occupant.objects.all()
+
+#     # Determine which email template to use based on the date
+#     template_name = "due_1day_email.html"
+#     subject = "Due in Tomorrow"
+
+#     # Loop through the occupants and send an email to each one
+#     for occupant in occupants:
+#         # Get the PSU email address of the occupant
+#         email = occupant.person.psu_email.strip()
+
+#         # Skip any invalid email addresses
+#         if not email:
+#             continue
+
+#         # Render the HTML email template with occupant-specific data
+#         html_body = render_to_string(template_name, {'occupant': occupant})
+
+#         # Create and send the email to the occupant
+#         message = EmailMultiAlternatives(
+#             subject=subject,
+#             body="mail testing",
+#             from_email='settings.EMAIL_HOST_USER',
+#             to=[email]
+#         )
+#         message.attach_alternative(html_body, "text/html")
+#         message.send(fail_silently=False)
 
 # ===================================================
 # end of Due Date Email Notifications

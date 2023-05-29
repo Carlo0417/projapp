@@ -3,46 +3,76 @@
 {% load static %}
 
 {% block content %}
+
+
+{% csrf_token %}
+
+{% load widget_tweaks %}
+
+{% load humanize %}
+
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <div class="container-fluid py-4">
     <!-- Navbar -->
     {% include 'includes/user_topbar.html' %}
     <!-- End Navbar -->
     <hr style="border-top: 2px solid #FF4200; margin: 0px; opacity: 70%;">
-    <h6 class="mb-0 font-weight-bold my-4" style="font-size: 25px;">Services</h6>
-    <p class="text-xs text-secondary mb-0">Here are the list of services you can avail.</p>
 
-    <div class="row my-3 mb-4">
-        <div class="col-4">
+    <div class="row">
+        <div class="col-8">
+          <h6 class="text-uppercase text-xxs font-weight-bolder opacity-8 mb-0 mt-3 text-start">Balance :
+          <span class="text-xs" style="color: #FF4200;">{% if total_bills_current_month != empty %} {{ total_bills_current_month|intcomma }} {% else %} 0 {% endif %}</span> <span class="text-xs"> / 20, 000.00</span></h6>
         </div>
+
+        <div class="col-4">
+          <h6 class="text-uppercase text-xxs font-weight-bolder opacity-8 mb-0 mt-3 text-end">Availed :
+          <span class="text-xs" style="color: #FF4200;">{% if total_availed_service != empty %} {{ total_availed_service }} {% else %} 0 {% endif %}</span> <span class="text-xs"> / 20</span></h6>  
+        </div>
+    </div>
+
+    <h6 class="mb-0 font-weight-bold" style="font-size: 25px;">Services</h6>
+
+
+    <p class="text-xs text-secondary mb-0">You can avail <b>20 services</b> or <b>incidentals</b> every month.</p>
+
+    {% if total_availed_service == 20 or  total_bills_current_month <= 20.000.00 %}
+    <div class="row my-4 mb-4">
+        <div class="col-4">
+        </div>  
         <div class="col-3">
-          <a href="{% url 'UserAvailService' %}" class="btn mb-0 text-white text-xs" style="background-color: #FF4200;">Avail</a>
+          <a href="{% url 'UserAvailService' %}" class="btn mb-0 text-white text-xs" hidden style="background-color: #FF4200;">Avail</a>
         </div>
         <div class="col-1"></div>
         <div class="col-3">
-          <a href="{% url 'user_other_add' %}" class="btn mb-0 text-white text-xs" style="background-color: #FF4200;">Others</a>
+          <a href="{% url 'user_other_add' %}" class="btn mb-0 text-white text-xs" hidden style="background-color: #FF4200;">Others</a>
         </div>
         <div class="col-1"></div>
     </div>
-
-
-    {% csrf_token %}
-
-    {% load widget_tweaks %}
-
-    {% load humanize %}
+    
+    {% else %}
+    <div class="row my-4 mb-4">
+      <div class="col-4">
+      </div>  
+      <div class="col-3">
+        <a href="{% url 'UserAvailService' %}" class="btn mb-0 text-white text-xs" style="background-color: #FF4200;">Avail</a>
+      </div>
+      <div class="col-1"></div>
+      <div class="col-3">
+        <a href="{% url 'user_other_add' %}" class="btn mb-0 text-white text-xs" style="background-color: #FF4200;">Others</a>
+      </div>
+      <div class="col-1"></div>
+    </div>
+    {% endif %}
 
     {% for object in services_limit %}
 
-    <div class="float-start col-md-6 col-6 col-sm-6">
-      <div class="card mx-3 p-2 mb-4 align-items-center justify-content-center">
-        <div class="card-header mx-4 p-3">
-          <div class="icon icon-shape icon-md shadow text-center border-radius-lg" style="background-color: #FF4200;">
-            <i class="material-icons opacity-10">shopping_cart</i>
-          </div>
-        </div>
-        <div class="card-body pt-0 p-3 text-center flex-fill">
-          <h6 class="text-center mb-0" style="text-size-adjust: auto;">{{ object.service_name }}</h6>
+    <div class="float-start col-md-12 col-12 col-sm-12">
+      <div class="card mx-3 p-2 mb-4">
+        <div class="card-body pt-0 p-3 flex-fill pt-3">
+          <span class="text-uppercase text-secondary text-xxs font-weight-bolder"> {{ object.service_name }} </span>
+          <h6 class="mb-0" style="text-size-adjust: auto; color: #FF4200;">{{ object.title }}</h6>
+          <span class="text-xs">{{ object.description }}</span> <br>
+          <span class="text-xs font-weight-bold mt-5"> Provider : <i>{{ object.provider }}</i></span>
           <hr class="horizontal dark my-3">
           <h5 class="mb-0 text-lg opacity-9">P {{ object.base_amount }}</h5>
         </div>

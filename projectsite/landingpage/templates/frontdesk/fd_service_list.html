@@ -9,7 +9,7 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="shadow-primary border-radius-lg pt-4 pb-3" style="background-color: rgba(255, 66, 0, 0.9);">
-                            <h6 class="text-white ps-3">List of Services</h6>
+                            <h6 class="text-white ps-3">List of Incidentals</h6>
                         </div>
                         
                     </div>
@@ -50,6 +50,12 @@
                                     <tr class="headings">
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Service Name</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Title</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Description</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Provider</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -60,13 +66,22 @@
                                 </thead>
                                 <tbody>
                                     {% load humanize %}
-                                    {% for object in object_list %}
+                                    {% for object in services_limit %}
                                     <tr>
                                         <td>
                                             <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.service_name }}</p>
                                         </td>
+                                        <td>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.title }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.description }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs text-secondary font-weight-bold mb-0">{{ object.provider }}</p>
+                                        </td>
                                         <td  class="align-middle text-sm text-center">
-                                            <span {% if object.status == 'Not Available' %} class="badge badge-sm bg-gradient-secondary shadow-secondary" {% else %} class="badge badge-sm bg-gradient-success shadow-success" {% endif %} "> {{ object.status }} </span>
+                                            <span {% if object.status == 'Not Available' %} class="badge badge-sm bg-gradient-danger shadow-secondary" {% else %} class="badge badge-sm bg-gradient-success shadow-success" {% endif %} "> {{ object.status }} </span>
                                         </td>
                                         <td class="text-center">
                                             <p class="text-xs text-secondary mb-0">P {{ object.base_amount|intcomma  }}</p>

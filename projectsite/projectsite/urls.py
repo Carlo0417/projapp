@@ -2,7 +2,6 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import include, path
 
-
 from landingpage.views import HomePageView, RoomList, RoomUpdateView, ServiceList, ServiceUpdateView, BedList 
 from landingpage.views import BedUpdateView, OccupantList, OccupantUpdateView, RegistrationList, RegistrationUpdateView
 from landingpage.views import RegistrationRegView, BillingList, BillingUpdateView, OccupantView, PaymentList
@@ -281,6 +280,9 @@ urlpatterns = [
     # path('delete_reg/<int:id>', views.delete_reg, name='delete_reg'),
     # path('delete_demerit/<int:id>', views.delete_demerit, name='delete_demerit'),
     # path('delete_user/<int:id>', views.delete_user, name='delete_user'),
+    # path('delete_bill/<int:id>', views.delete_bill, name='delete_bill'),
+    # path('delete_payment/<int:id>', views.delete_payment, name='delete_payment'),
+    # path('delete_service/<int:id>', views.delete_service, name='delete_service'),
 
     # start of User URL
     path('user_login/', user_login_view, name="user_login"),

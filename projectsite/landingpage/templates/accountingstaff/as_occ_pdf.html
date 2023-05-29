@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Occupant Information</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Statement of Account</title>
 
 	<style>
 		body{
@@ -39,8 +39,12 @@
 			font-size: 13px;
 			color: #101010;
 		}
-	
 
+    @media print {
+      table, tr, td {
+        page-break-after: avoid;
+      }
+    }
 	</style>
 </head>
 <!-- Body -->
@@ -63,11 +67,13 @@
     {% load humanize %}
 
     <h2 style="text-align: center; font-size: 15px;">STATEMENT OF ACCOUNT</h2> <br>
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td width="49%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="49%">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;">Occupant Name</td>
                   </tr>
@@ -78,7 +84,7 @@
                     <td style="font-size:13px;">{{ occ_person.person.boarder_type }} Occupant</td>
                   </tr>
                   <tr>
-                    <td>&nbsp;</td>
+                  <td>&nbsp;</td>
                   </tr>
                   <tr>
                     <td style="font-weight:600; font-size:15px;">PSU Email</td>
@@ -92,73 +98,79 @@
                   <tr>
                     <td>&nbsp;</td>
                   </tr>
-                  </table></td>
-              </tr>
-            </table></td>
-            <td width="51%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td style="font-size:13px;"  align="right">&nbsp;</td>
-              </tr>   
-              <tr>
-                <td style="font-size:13px;" align="right"></td>
-              </tr>
-              <tr>
-                <td style="font-size:13px;" align="right">Start Date: <b> {{ occ_person.start_date }} </b> </td>
-              </tr>
-              <tr>
-                <td style="font-size:13px;" align="right">End Date: <b> {{ occ_person.end_date }} </b> </td>
-              </tr>
-              <tr>
-                <td style="font-size:13px;"align="right"></td>
-              </tr>
-              <tr>
-                <td style="font-size:13px;" align="right">&nbsp;</td>
-              </tr>
-              <tr>
-                <td style="font-size:13px;"align="right"></td>
-              </tr>
-              <tr>
-                <td style="font-size:13px;"align="right"></td>
-              </tr>
-              <tr>
-                <td style="font-weight:600; font-size:15px;" align="right">Bed Information</td>
-              </tr>
-              <tr>
-                <td style="font-weight:400; font-size:14px;" align="right">{{ occ_person.bed.bed_code }}</td>
-              </tr>
-                <td style="font-size:13px;" align="right">{{ occ_person.bed.bed_description }}</td>
-              </tr>   
-            </table></td>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+
+        <td width="51%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td style="font-size:13px;"  align="right">&nbsp;</td>
+          </tr>   
+          <tr>
+            <td style="font-size:13px;" align="right"></td>
           </tr>
+          <tr>
+            <td style="font-size:13px;" align="right">Start Date: <b> {{ occ_person.start_date }} </b> </td>
+          </tr>
+          <tr>
+            <td style="font-size:13px;" align="right">End Date: <b> {{ occ_person.end_date }} </b> </td>
+          </tr>
+          <tr>
+            <td style="font-size:13px;"align="right"></td>
+          </tr>
+          <tr>
+            <td style="font-size:13px;" align="right">&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="font-size:13px;"align="right"></td>
+          </tr>
+          <tr>
+            <td style="font-size:13px;"align="right"></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600; font-size:15px;" align="right">Bed Information</td>
+          </tr>
+          <tr>
+            <td style="font-weight:400; font-size:14px;" align="right">{{ occ_person.bed.bed_code }}</td>
+          </tr>
+          <tr>
+            <td style="font-size:13px;" align="right">{{ occ_person.bed.bed_description }}</td>
+          </tr>   
+      </tr>
+    </table>
+
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr>
-            <tr>
-            <td style="font-weight:600; font-size:11px; padding-bottom: 3px;">MANDATORY FEES</td>
-            </tr>
+          <tr>
+          <td style="font-weight:600; font-size:11px; padding-bottom: 3px;">MANDATORY FEES</td>
+          </tr>
           <tr>
             <td colspan="2"> 
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
-                border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="34%" 
-                height="32" align="center">Bill Date</td>
-                <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
-                border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Service Name</td>
-                <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
-                border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Amount</td>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                    border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="34%" 
+                    height="32" align="center">Bill Date</td>
+                    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                    border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Service Name</td>
+                    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                    border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Amount</td>
                 </tr>
-            {% for object in table1 %}
-              <tr>
-                <td style="font-size:13px; border-bottom:1px solid #333; 
-                border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" height="32" align="center">{{ object.bill_date }}</td>
-                <td style="font-size:13px; border-bottom:1px solid #333; 
-                border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.service.service_name }}</td>
-                <td style="font-size:13px; border-bottom:1px solid #333; 
-                border-right:1px solid #333; padding-top: 5px;" align="center">P {{ object.amount|intcomma }}</td>
-            </tr>
-            {% endfor %}
-            </table>
+                
+                {% for object in table1 %}
+                  <tr>
+                    <td style="font-size:13px; border-bottom:1px solid #333; 
+                    border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" height="32" align="center">{{ object.bill_date }}</td>
+                    <td style="font-size:13px; border-bottom:1px solid #333; 
+                    border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.service.service_name }}</td>
+                    <td style="font-size:13px; border-bottom:1px solid #333; 
+                    border-right:1px solid #333; padding-top: 5px;" align="center">P {{ object.amount|intcomma }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
             </td>
           </tr>
 
@@ -169,41 +181,46 @@
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr>
-            <tr>
-            <td style="font-weight:600; font-size:11px; padding-bottom: 3px;">OTHER FEES</td>
-            </tr>
+
           <tr>
             <td colspan="2"> 
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
-                border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="34%" 
-                height="32" align="center">Bill Date</td>
-                <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
-                border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Service Name</td>
-                <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
-                border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Quantity</td>
-               <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
-                border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Amount</td>
-                </tr>
-            {% for object in table2 %}
-              <tr>
-                <td style="font-size:13px; border-bottom:1px solid #333; 
-                border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" height="32" align="center">{{ object.bill_date }}</td>
-                <td style="font-size:13px; border-bottom:1px solid #333; 
-                border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.service.service_name }}</td>
-                <td style="font-size:13px; border-bottom:1px solid #333; 
-                border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.quantity }}</td>
-                <td style="font-size:13px; border-bottom:1px solid #333; 
-                border-right:1px solid #333; padding-top: 5px;" align="center">P {{ object.amount|intcomma }}</td>
-              </tr>
-              {% empty %}
-              <tr>
-              <td style="font-size:11px; padding-top: 10px;">No data available in table </td>
-              </tr>
-            {% endfor %}
-            </table>
+              <p style="font-weight:600; font-size:11px; padding-bottom: 3px;">OTHER FEES</p>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                  <tr>
+                    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                    border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="40%" 
+                    height="32" align="center">Bill Date</td>
+                    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                    border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Service Name</td>
+                    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                    border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="35%" align="center">Title</td>
+                    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                    border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="15%" align="center">Quantity</td>
+                    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                    border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="25%" align="center">Amount</td>
+                  </tr>
+                </thead>
 
+                <tbody>
+                  {% for object in table2 %}
+                  <tr>
+                    <td style="font-size:13px; border-bottom:1px solid #333; 
+                    border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" height="32" align="center">{{ object.bill_date }}</td>
+                    <td style="font-size:13px; border-bottom:1px solid #333; 
+                    border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.service.service_name }}</td>
+                    <td style="font-size:13px; border-bottom:1px solid #333; 
+                    border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.service.title }}</td>
+                    <td style="font-size:13px; border-bottom:1px solid #333; 
+                    border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.quantity }}</td>
+                    <td style="font-size:13px; border-bottom:1px solid #333; 
+                    border-right:1px solid #333; padding-top: 5px;" align="center">P {{ object.amount|intcomma }}</td>
+                    {% empty %}
+                    <td style="font-size:11px; padding-top: 10px;">No data available in table </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </td>
           </tr>
 
@@ -214,47 +231,48 @@
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr>
-            <tr>
-            <td style="font-weight:600; font-size:11px; padding-bottom: 3px;">PAYMENT</td>
-            </tr>
+
           <tr>
             <td colspan="2"> 
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
-                border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="34%" 
-                height="32" align="center">Payment Date</td>
-                <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
-                border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Payment Amount</td>
-                <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
-                border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Official Receipt Number</td>
+              <p style="font-weight:600; font-size:11px; padding-bottom: 3px;">PAYMENT</p>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                  border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="34%" 
+                  height="32" align="center">Payment Date</td>
+                  <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                  border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Payment Amount</td>
+                  <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; 
+                  border-bottom:1px solid #333; border-right:1px solid #333; padding-top: 5px;" width="30%" align="center">Official Receipt Number</td>
                 </tr>
-            {% for object in table3 %}
-              <tr>
-                <td style="font-size:13px; border-bottom:1px solid #333; 
-                border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" height="32" align="center">{{ object.payment_date }}</td>
-                <td style="font-size:13px; border-bottom:1px solid #333; 
-                border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.amount|intcomma }}</td>
-                <td style="font-size:13px; border-bottom:1px solid #333; 
-                border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.receipt_no }}</td>
-              </tr>
-              {% empty %}
-              <tr>
-              <td style="font-size:11px; padding-top: 10px;">No data available in table </td>
-              </tr>
-            {% endfor %}
-            </table>
 
+                {% for object in table3 %}
+                <tr>
+                  <td style="font-size:13px; border-bottom:1px solid #333; 
+                  border-left:1px solid #333; border-right:1px solid #333; padding-top: 5px;" height="32" align="center">{{ object.payment_date }}</td>
+                  <td style="font-size:13px; border-bottom:1px solid #333; 
+                  border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.amount|intcomma }}</td>
+                  <td style="font-size:13px; border-bottom:1px solid #333; 
+                  border-right:1px solid #333; padding-top: 5px;" align="center">{{ object.receipt_no }}</td>
+                </tr>
+                {% empty %}
+
+                <tr>
+                <td style="font-size:11px; padding-top: 10px;">No data available in table </td>
+                </tr>
+                {% endfor %}
+              </table>
             </td>
           </tr>
 
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr> 
+
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr>
-
+          
           <tr>
             <td colspan="2"><hr></td>
           </tr>
@@ -293,14 +311,19 @@
           <tr>
             <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;" colspan="2">Thank you for staying to our dormitory</td>
           </tr>
-            <td colspan="2">&nbsp;</td>
-          </tr>
+          
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr>
+
+          <tr>
+            <td colspan="2">&nbsp;</td>
+          </tr>
+
           <tr>
             <td style="font-size:13px;" colspan="2" align="center">(This is computer generated receipt and does not require physical signature.) </td>
           </tr>
+          
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr>
